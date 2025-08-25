@@ -12,12 +12,15 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     return res.status(200).end()
   }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
   try {
     const { priceId, userId, customerEmail, successUrl, cancelUrl } = req.body
+
+    console.log('Received request:', { priceId, userId, customerEmail, successUrl, cancelUrl })
 
     if (!priceId || !userId || !customerEmail) {
       return res.status(400).json({ error: 'Missing required parameters' })
@@ -40,6 +43,8 @@ export default async function handler(req, res) {
         }
       })
     }
+
+    console.log('Customer:', customer.id)
 
     // Criar checkout session
     const session = await stripe.checkout.sessions.create({
@@ -64,9 +69,10 @@ export default async function handler(req, res) {
       }
     })
 
+    console.log('Session created:', session.id)
     res.status(200).json({ id: session.id })
   } catch (error) {
     console.error('Error creating checkout session:', error)
-    res.status(500).json({ error: 'Internal server error' })
+    res.status(500).json({ error: error.message || 'Internal server error' })
   }
 }
