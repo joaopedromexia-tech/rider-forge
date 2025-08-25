@@ -67,6 +67,7 @@ export const AuthProvider = ({ children }) => {
     profile,
     subscription,
     loading,
+    hasAccount: !!profile, // Se tem perfil, tem conta
     isPro: isPro(),
     signInWithProvider,
     signOut,

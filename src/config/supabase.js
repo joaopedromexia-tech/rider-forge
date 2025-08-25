@@ -3,7 +3,36 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Se não tiver configuração do Supabase, criar um cliente mock
+let supabase = null
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey)
+} else {
+  console.warn('⚠️ Supabase não configurado. Usando modo local.')
+  // Cliente mock para desenvolvimento local
+  supabase = {
+    auth: {
+      signInWithOAuth: () => Promise.resolve({ data: null, error: { message: 'Supabase não configurado' } }),
+      signOut: () => Promise.resolve({ error: null }),
+      getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } })
+    },
+    from: () => ({
+      select: () => ({ eq: () => ({ order: () => Promise.resolve({ data: [], error: null }) }) }),
+      insert: () => ({ select: () => Promise.resolve({ data: [], error: null }) }),
+      update: () => ({ eq: () => ({ select: () => Promise.resolve({ data: [], error: null }) }) }),
+      delete: () => ({ eq: () => Promise.resolve({ error: null }) })
+    }),
+    storage: {
+      from: () => ({
+        upload: () => Promise.resolve({ data: null, error: null }),
+        getPublicUrl: () => ({ data: { publicUrl: '' } })
+      })
+    }
+  }
+}
+
+export { supabase }
 
 // Configurações de autenticação
 export const AUTH_CONFIG = {
