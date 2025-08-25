@@ -1,4 +1,4 @@
-console.log('main.jsx starting...')
+console.log('main.jsx starting... - Redeploy triggered')
 
 // Test React import
 import React from 'react'
