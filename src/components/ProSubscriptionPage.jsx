@@ -6,12 +6,17 @@ import LoginModal from './auth/LoginModal'
 import ProStatusBadge from './ProStatusBadge'
 
 const ProSubscriptionPage = ({ onBack }) => {
-  const { user, isPro, subscription } = useAuth()
+  const { user, isPro, subscription, loading: authLoading } = useAuth()
   const { redirectToCheckout } = useStripeCheckout()
   const { showSuccess, showError } = useFeedback()
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [loading, setLoading] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState('annual')
+
+  // Verificações de segurança para evitar erros durante carregamento
+  const isProUser = Boolean(isPro)
+  const hasUser = Boolean(user)
+  const hasSubscription = Boolean(subscription)
 
   const plans = {
     annual: {
@@ -36,7 +41,7 @@ const ProSubscriptionPage = ({ onBack }) => {
   }
 
   const handleUpgrade = async () => {
-    if (!user) {
+    if (!hasUser) {
       setShowLoginModal(true)
       return
     }
@@ -57,7 +62,7 @@ const ProSubscriptionPage = ({ onBack }) => {
   }
 
   const handleManageSubscription = async () => {
-    if (subscription?.customer_id) {
+    if (hasSubscription && subscription?.customer_id) {
       try {
         window.open(`/api/create-portal-session?customer_id=${subscription.customer_id}`, '_blank')
       } catch (error) {
@@ -65,6 +70,15 @@ const ProSubscriptionPage = ({ onBack }) => {
         showError('Erro ao abrir portal de gestão.')
       }
     }
+  }
+
+  // Loading state durante carregamento da autenticação
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent-blue"></div>
+      </div>
+    )
   }
 
   return (
@@ -90,7 +104,7 @@ const ProSubscriptionPage = ({ onBack }) => {
               Voltar
             </button>
             
-            {isPro && (
+            {isProUser && (
               <ProStatusBadge />
             )}
           </div>
@@ -106,7 +120,7 @@ const ProSubscriptionPage = ({ onBack }) => {
               os seus documentos como nunca antes.
             </p>
             
-            {isPro && (
+            {isProUser && (
               <div className="inline-flex items-center gap-2 px-6 py-3 bg-accent-green/20 border border-accent-green/30 rounded-full text-accent-green">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -221,7 +235,7 @@ const ProSubscriptionPage = ({ onBack }) => {
                   ))}
                 </ul>
 
-                {isPro ? (
+                {isProUser ? (
                   <button
                     onClick={handleManageSubscription}
                     className="w-full btn-primary"
