@@ -17,7 +17,12 @@ function AppContent() {
   const [editingRiderId, setEditingRiderId] = useState(null)
   const [showLoginModal, setShowLoginModal] = useState(false)
   
-  const { user, hasAccount, loading: authLoading } = useAuth()
+  const { user, hasAccount, isPro, loading: authLoading } = useAuth()
+
+  // Verificações de segurança para evitar erros durante carregamento
+  const isProUser = Boolean(isPro)
+  const hasUser = Boolean(user)
+  const hasUserAccount = Boolean(hasAccount)
 
   const handleNavigateToForm = (riderId = null) => {
     setEditingRiderId(riderId)
@@ -31,12 +36,12 @@ function AppContent() {
 
   const handleNavigateToMyRiders = () => {
     // Verificar se o utilizador tem conta criada
-    if (!user) {
+    if (!hasUser) {
       setShowLoginModal(true)
       return
     }
     
-    if (!hasAccount) {
+    if (!hasUserAccount) {
       setShowLoginModal(true)
       return
     }
@@ -77,7 +82,7 @@ function AppContent() {
               </p>
               
               {/* Botão de Upgrade para Pro na página inicial */}
-              {user && hasAccount && !isPro && (
+              {hasUser && hasUserAccount && !isProUser && (
                 <div className="mt-8">
                   <button
                     onClick={handleNavigateToProSubscription}
@@ -117,17 +122,17 @@ function AppContent() {
 
               {/* Os Meus Riders */}
               <div className={`card transition-all duration-300 ${
-                user && hasAccount 
+                hasUser && hasUserAccount 
                   ? 'hover:scale-105 hover:shadow-2xl hover:shadow-accent-green/20' 
                   : 'opacity-80 cursor-pointer hover:scale-102 hover:shadow-xl hover:shadow-yellow-500/10'
               }`}>
                 <div className="text-center p-8">
                   <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg ${
-                    user && hasAccount 
+                    hasUser && hasUserAccount 
                       ? 'bg-gradient-to-r from-accent-green to-green-500' 
                       : 'bg-gradient-to-r from-yellow-500 to-orange-500'
                   }`}>
-                    {user && hasAccount ? (
+                    {hasUser && hasUserAccount ? (
                       <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                       </svg>
@@ -139,12 +144,12 @@ function AppContent() {
                   </div>
                   <h3 className="text-2xl font-bold text-gray-100 mb-4">Dashboard</h3>
                   <p className="text-gray-400 mb-6 leading-relaxed">
-                    {user && hasAccount 
+                    {hasUser && hasUserAccount 
                       ? 'Aceda ao seu dashboard para gerir riders e ver estatísticas'
                       : 'Guarde e organize todos os seus riders numa conta gratuita'
                     }
                   </p>
-                  {user && hasAccount ? (
+                  {hasUser && hasUserAccount ? (
                     <button
                       onClick={handleNavigateToMyRiders}
                       className="w-full text-lg py-4 btn-secondary"
@@ -169,7 +174,7 @@ function AppContent() {
                   )}
                   
                   {/* Mensagem de incentivo */}
-                  {(!user || !hasAccount) && (
+                  {(!hasUser || !hasUserAccount) && (
                     <div className="mt-4 p-3 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-lg">
                       <p className="text-sm text-yellow-200 font-medium">
                         ✨ Conta gratuita • Riders ilimitados • Sincronização automática
