@@ -12,13 +12,11 @@ import LoginModal from './components/auth/LoginModal'
 
 // Componente interno que usa o contexto de autenticação
 function AppContent() {
-  console.log('🔍 AppContent: Componente iniciado')
   const [currentView, setCurrentView] = useState('home')
   const [editingRiderId, setEditingRiderId] = useState(null)
   const [showLoginModal, setShowLoginModal] = useState(false)
   
   const { user, hasAccount, loading: authLoading } = useAuth()
-  console.log('🔍 AppContent: Auth state:', { user: !!user, hasAccount, authLoading })
 
   const handleNavigateToForm = (riderId = null) => {
     setEditingRiderId(riderId)

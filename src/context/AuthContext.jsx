@@ -148,13 +148,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    console.log('🔍 AuthContext: Iniciando setup...')
-    
     // Listen to auth changes
-    console.log('🔍 AuthContext: Configurando auth state change listener...')
     const { data: { subscription: authSubscription } } = auth.onAuthStateChange(
       async (event, session) => {
-        console.log('🔍 AuthContext: Auth state change event:', event, session ? 'session exists' : 'no session')
         if (session?.user) {
           setUser(session.user)
           await loadUserProfile(session.user.id)
@@ -164,30 +160,22 @@ export const AuthProvider = ({ children }) => {
           setProfile(null)
           setSubscription(null)
         }
-        console.log('🔍 AuthContext: Setting loading to false')
         setLoading(false)
       }
     )
 
     // Check current user on mount
     const checkCurrentUser = async () => {
-      console.log('🔍 AuthContext: Checking current user...')
       try {
         const { user: currentUser } = await auth.getCurrentUser()
-        console.log('🔍 AuthContext: Current user result:', currentUser ? 'user found' : 'no user')
         if (currentUser) {
           setUser(currentUser)
           await loadUserProfile(currentUser.id)
           await loadUserSubscription(currentUser.id)
         }
       } catch (error) {
-        console.error('🔍 AuthContext: Error checking current user:', error)
-        // Em caso de erro, definir como não autenticado mas continuar
-        setUser(null)
-        setProfile(null)
-        setSubscription(null)
+        console.error('Error checking current user:', error)
       } finally {
-        console.log('🔍 AuthContext: Setting loading to false (finally)')
         setLoading(false)
       }
     }
@@ -196,12 +184,10 @@ export const AuthProvider = ({ children }) => {
 
     // Timeout de segurança para garantir que o loading não fica preso
     const safetyTimeout = setTimeout(() => {
-      console.log('🔍 AuthContext: Safety timeout triggered - forcing loading to false')
       setLoading(false)
     }, 3000) // 3 segundos
 
     return () => {
-      console.log('🔍 AuthContext: Cleaning up...')
       clearTimeout(safetyTimeout)
       authSubscription?.unsubscribe()
     }
