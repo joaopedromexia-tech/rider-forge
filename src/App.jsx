@@ -162,6 +162,7 @@ function AppContent() {
                           setShowLoginModal(true)
                         }}
                         className="w-full text-lg py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200"
+                        style={{ position: 'relative', zIndex: 10 }}
                       >
                         <span>🔑 Fazer Login</span>
                       </button>
@@ -171,6 +172,7 @@ function AppContent() {
                           setShowLoginModal(true)
                         }}
                         className="w-full text-lg py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all duration-200"
+                        style={{ position: 'relative', zIndex: 10 }}
                       >
                         <span>✨ Criar Conta Grátis</span>
                       </button>
