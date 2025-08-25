@@ -26,7 +26,7 @@ import { kvGet, kvSet } from '../utils/storage'
 
 function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription }) {
   const { isPro, setIsPro } = useRider()
-  const { saveRider, updateRider, getRiderById, saveDemoRiderAsPermanent } = useRider()
+  const { saveRider, updateRider, getRiderById } = useRider()
   const { showSuccess, showError } = useFeedback()
   const { user, hasAccount } = useAuth()
   
@@ -252,34 +252,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     setShowSaveModal(true)
   }
 
-  // Função especial para guardar rider demo como permanente
-  const handleSaveDemoAsPermanent = async () => {
-    if (!user || !hasAccount) {
-      setShowLoginModal(true)
-      return
-    }
 
-    if (!editingRider?.isDemo) {
-      console.error('Tentativa de guardar rider não-demo como permanente')
-      return
-    }
-
-    try {
-      const savedRider = await saveDemoRiderAsPermanent(editingRiderId, `${editingRider.name} (Guardado)`)
-      
-      // Mostrar feedback de sucesso
-      showSuccess('Rider demo guardado permanentemente com sucesso!')
-      
-      // Navegar para o rider guardado
-      setTimeout(() => {
-        onBack() // Voltar ao dashboard onde o novo rider aparecerá
-      }, 1500)
-      
-    } catch (error) {
-      console.error('Erro ao guardar rider demo:', error)
-      showError('Erro ao guardar rider demo: ' + error.message)
-    }
-  }
 
   const handleCreateAccountClick = () => {
     setShowLoginModal(true)
@@ -449,14 +422,6 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
                 >
                   <span className="hidden sm:inline">🔐 Criar Conta</span>
                   <span className="sm:hidden">🔐</span>
-                </button>
-              ) : editingRider?.isDemo ? (
-                <button
-                  onClick={handleSaveDemoAsPermanent}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-lg text-sm"
-                >
-                  <span className="hidden sm:inline">✨ Guardar Demo</span>
-                  <span className="sm:hidden">✨</span>
                 </button>
               ) : (
                 <button
