@@ -423,7 +423,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
                   <span className="hidden sm:inline">🔐 Criar Conta</span>
                   <span className="sm:hidden">🔐</span>
                 </button>
-              ) : (
+              ) : !editingRider?.isDemo ? (
                 <button
                   onClick={handleSaveClick}
                   className="btn-primary px-4 py-2 text-sm"
@@ -431,7 +431,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
                   <span className="hidden sm:inline">{editingRider ? 'Atualizar' : 'Salvar'}</span>
                   <span className="sm:hidden">💾</span>
                 </button>
-              )}
+              ) : null}
             </div>
           </div>
         </div>
