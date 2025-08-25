@@ -124,21 +124,29 @@ function AppContent() {
                       : 'Guarde e organize todos os seus riders numa conta gratuita'
                     }
                   </p>
-                  <button
-                    onClick={handleNavigateToMyRiders}
-                    className={`w-full text-lg py-4 ${
-                      user && hasAccount 
-                        ? 'btn-secondary' 
-                        : 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-xl hover:from-yellow-600 hover:to-orange-600 transition-all duration-200'
-                    }`}
-                  >
-                    <span>
-                      {user && hasAccount 
-                        ? 'Abrir Dashboard' 
-                        : '🔐 Criar Conta Grátis'
-                      }
-                    </span>
-                  </button>
+                  {user && hasAccount ? (
+                    <button
+                      onClick={handleNavigateToMyRiders}
+                      className="w-full text-lg py-4 btn-secondary"
+                    >
+                      <span>Abrir Dashboard</span>
+                    </button>
+                  ) : (
+                    <div className="space-y-3">
+                      <button
+                        onClick={() => setShowLoginModal(true)}
+                        className="w-full text-lg py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200"
+                      >
+                        <span>🔑 Fazer Login</span>
+                      </button>
+                      <button
+                        onClick={() => setShowLoginModal(true)}
+                        className="w-full text-lg py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all duration-200"
+                      >
+                        <span>✨ Criar Conta Grátis</span>
+                      </button>
+                    </div>
+                  )}
                   
                   {/* Mensagem de incentivo */}
                   {(!user || !hasAccount) && (

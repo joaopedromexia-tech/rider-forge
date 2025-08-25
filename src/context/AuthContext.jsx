@@ -153,8 +153,13 @@ export const AuthProvider = ({ children }) => {
       async (event, session) => {
         if (session?.user) {
           setUser(session.user)
-          await loadUserProfile(session.user.id)
-          await loadUserSubscription(session.user.id)
+          // Carregar dados em paralelo para melhor performance
+          Promise.all([
+            loadUserProfile(session.user.id),
+            loadUserSubscription(session.user.id)
+          ]).catch(error => {
+            console.error('Error loading user data on auth change:', error)
+          })
         } else {
           setUser(null)
           setProfile(null)
@@ -170,8 +175,13 @@ export const AuthProvider = ({ children }) => {
         const { user: currentUser } = await auth.getCurrentUser()
         if (currentUser) {
           setUser(currentUser)
-          await loadUserProfile(currentUser.id)
-          await loadUserSubscription(currentUser.id)
+          // Carregar perfil e subscrição em paralelo para melhor performance
+          Promise.all([
+            loadUserProfile(currentUser.id),
+            loadUserSubscription(currentUser.id)
+          ]).catch(error => {
+            console.error('Error loading user data:', error)
+          })
         }
       } catch (error) {
         console.error('Error checking current user:', error)
@@ -185,7 +195,7 @@ export const AuthProvider = ({ children }) => {
     // Timeout de segurança para garantir que o loading não fica preso
     const safetyTimeout = setTimeout(() => {
       setLoading(false)
-    }, 3000) // 3 segundos
+    }, 2000) // Reduzido para 2 segundos para melhor UX
 
     return () => {
       clearTimeout(safetyTimeout)
