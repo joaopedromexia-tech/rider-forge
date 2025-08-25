@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { pdf } from '@react-pdf/renderer'
 import RiderPDF from '../pdf/RiderPDF'
-import { useProFeatures } from '../hooks/useProFeatures'
-import ProUpgradeModal from './ProUpgradeModal'
 
 function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onExport }) {
   const [pdfUrl, setPdfUrl] = useState(null)
@@ -11,21 +9,12 @@ function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onEx
   const [pdfInfo, setPdfInfo] = useState(null)
   const [isRegenerating, setIsRegenerating] = useState(false)
 
-  const {
-    isPro,
-    showUpgradeModal,
-    currentFeature,
-    closeUpgradeModal,
-    useProFeature,
-    PRO_FEATURES
-  } = useProFeatures()
-
   // Gerar preview do PDF quando o modal abrir
   useEffect(() => {
     if (isOpen && riderData) {
       generatePreview()
     }
-  }, [isOpen, riderData, exportOptions?.colorTheme, exportOptions?.includeStagePlot, exportOptions?.customFooter])
+  }, [isOpen, riderData, exportOptions?.includeStagePlot, exportOptions?.customFooter])
 
   // Cleanup PDF URL when modal closes
   useEffect(() => {
@@ -49,7 +38,7 @@ function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onEx
         <RiderPDF 
           rider={sanitizedRiderData} 
           language="pt" 
-          proBranding={isPro ? { hasPro: true } : {}} 
+          proBranding={{}} 
           options={exportOptions || {}} 
         />
       )
@@ -82,29 +71,11 @@ function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onEx
     setError(null)
     
     try {
-      // Verificar se o tema selecionado requer Pro
-      const colorThemes = [
-        { value: 'default', label: 'Padrão', description: 'Tema clássico preto e branco' },
-        { value: 'professional', label: 'Profissional', description: 'Azul e cinza elegante', pro: true },
-        { value: 'modern', label: 'Moderno', description: 'Azul ciano contemporâneo', pro: true },
-        { value: 'elegant', label: 'Elegante', description: 'Roxo e cinza sofisticado', pro: true },
-        { value: 'dark', label: 'Escuro', description: 'Tema escuro para ecrãs', pro: true }
-      ]
-      
-      const selectedTheme = colorThemes.find(theme => theme.value === exportOptions?.colorTheme)
-      if (selectedTheme?.pro && !isPro) {
-        // Bloquear preview de temas PRO para usuários gratuitos
-        setError('Este tema está disponível apenas para usuários PRO. Faça upgrade para visualizar.')
-        setIsLoading(false)
-        setIsRegenerating(false)
-        return
-      } else {
-        generatePDFBlob()
-      }
+      generatePDFBlob()
     } catch (err) {
       setError(err.message || 'Erro ao gerar preview do PDF')
     }
-  }, [pdfUrl, exportOptions, isPro, generatePDFBlob])
+  }, [pdfUrl, exportOptions, generatePDFBlob])
 
   const handleExport = () => {
     if (onExport) {
@@ -231,12 +202,6 @@ function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onEx
         </div>
       </div>
 
-      {/* Pro Upgrade Modal */}
-      <ProUpgradeModal
-        isOpen={showUpgradeModal}
-        onClose={closeUpgradeModal}
-        feature={currentFeature}
-      />
     </>
   )
 }

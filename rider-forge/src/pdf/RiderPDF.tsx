@@ -259,14 +259,8 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
     // Ensure rider data is properly structured
     const safeRider = rider || {}
     
-    // Verificar se o tema selecionado requer Pro
-    const proThemes = ['professional', 'modern', 'elegant', 'dark']
-    const requestedTheme = options?.colorTheme || 'default'
-    const isProTheme = proThemes.includes(requestedTheme)
-    
-    // Se for tema PRO, verificar se o usuário tem acesso (via proBranding)
-    const hasProAccess = proBranding && proBranding.hasPro
-    const colorTheme = (isProTheme && !hasProAccess) ? 'default' : requestedTheme
+    // Sempre usar tema padrão
+    const colorTheme = 'default'
     
     // Criar estilos dinâmicos baseados no tema
     const styles = createStyles(colorTheme)

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { pdf } from '@react-pdf/renderer'
 import RiderPDF from '../pdf/RiderPDF'
-import { useProFeatures } from '../hooks/useProFeatures'
-import ProUpgradeModal from './ProUpgradeModal'
 import PDFPreview from './PDFPreview'
 
 function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
@@ -10,21 +8,8 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
   const [showPreview, setShowPreview] = useState(false)
   const [exportOptions, setExportOptions] = useState({ 
     includeStagePlot: true, 
-    customFooter: '',
-    colorTheme: 'default'
+    customFooter: ''
   })
-
-  const {
-    isPro,
-    showUpgradeModal,
-    currentFeature,
-    closeUpgradeModal,
-    useProFeature,
-    PRO_FEATURES
-  } = useProFeatures()
-
-  // Debug log
-  console.log('NewPDFExport - isPro:', isPro)
 
   // Load/export options like old modal
   useEffect(() => {
@@ -32,24 +17,12 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
       const stored = localStorage.getItem('riderForge_exportOptions_new')
       if (stored) {
         const parsedOptions = JSON.parse(stored)
-        // Verificar se o tema selecionado requer Pro e o usuário não é Pro
-        if (isThemePro(parsedOptions.colorTheme) && !isPro) {
-          // Reset para tema padrão se usuário não é Pro
-          console.log(`Resetando tema PRO ${parsedOptions.colorTheme} para default (isPro=${isPro})`)
-          setExportOptions(prev => ({ 
-            ...prev, 
-            ...parsedOptions, 
-            colorTheme: 'default' 
-          }))
-        } else {
-          console.log(`Mantendo tema ${parsedOptions.colorTheme} (isPro=${isPro})`)
-          setExportOptions(prev => ({ ...prev, ...parsedOptions }))
-        }
+        setExportOptions(prev => ({ ...prev, ...parsedOptions }))
       }
     } catch {
       // Ignore errors
     }
-  }, [isPro])
+  }, [])
 
   useEffect(() => {
     try {
@@ -62,22 +35,7 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
   if (!isOpen) return null
   const filename = `${(riderName || 'rider_tecnico').replace(/[^a-z0-9]/gi, '_').toLowerCase()}_novo.pdf`
 
-  // Temas de cores disponíveis
-  const colorThemes = [
-    { value: 'default', label: 'Padrão', description: 'Tema clássico preto e branco' },
-    { value: 'professional', label: 'Profissional', description: 'Azul e cinza elegante', pro: true },
-    { value: 'modern', label: 'Moderno', description: 'Azul ciano contemporâneo', pro: true },
-    { value: 'elegant', label: 'Elegante', description: 'Roxo e cinza sofisticado', pro: true },
-    { value: 'dark', label: 'Escuro', description: 'Tema escuro para ecrãs', pro: true }
-  ]
 
-  // Função para verificar se um tema requer Pro
-  const isThemePro = (themeValue) => {
-    const theme = colorThemes.find(t => t.value === themeValue)
-    const result = theme?.pro || false
-    console.log(`isThemePro(${themeValue}): theme=${theme?.value}, pro=${theme?.pro}, result=${result}`)
-    return result
-  }
 
   const handlePreview = () => {
     setShowPreview(true)
@@ -85,18 +43,7 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
 
   const handleGenerateAndDownload = async () => {
     if (isPreparing) return
-    
-    // Verificar se o tema selecionado requer Pro
-    if (isThemePro(exportOptions.colorTheme) && !isPro) {
-      // Mostrar modal de upgrade Pro
-      const success = useProFeature(PRO_FEATURES.CUSTOM_PDF.id, () => {
-        generatePDF()
-        return true
-      })
-      if (!success) return
-    } else {
-      generatePDF()
-    }
+    generatePDF()
   }
 
   const generatePDF = async () => {
@@ -114,7 +61,7 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
         <RiderPDF 
           rider={sanitizedRiderData} 
           language="pt" 
-          proBranding={isPro ? { hasPro: true } : {}} 
+          proBranding={{}} 
           options={exportOptions} 
         />
       )
@@ -172,67 +119,7 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
               </div>
             </div>
 
-            {/* Seletor de Tema de Cores */}
-            <div className="bg-dark-700 rounded-lg p-4 space-y-3">
-              <h4 className="text-sm font-medium text-gray-300">Tema de Cores</h4>
-              <div className="space-y-2">
-                {colorThemes.map((theme) => {
-                  // Um tema está desabilitado se é PRO e o usuário NÃO é PRO
-                  const isDisabled = theme.pro && !isPro
-                  
-                  // Debug log
-                  console.log(`Theme ${theme.value}: pro=${theme.pro}, isPro=${isPro}, isDisabled=${isDisabled}`)
-                  
-                  return (
-                    <label 
-                      key={theme.value} 
-                      className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer ${
-                        isDisabled 
-                          ? 'opacity-50 cursor-not-allowed' 
-                          : 'hover:bg-dark-600'
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        name="colorTheme"
-                        value={theme.value}
-                        checked={exportOptions.colorTheme === theme.value}
-                        onChange={(e) => {
-                          if (!isDisabled) {
-                            setExportOptions(o => ({ ...o, colorTheme: e.target.value }))
-                          }
-                        }}
-                        disabled={isDisabled}
-                        className="w-4 h-4"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
-                          <span className={`text-sm ${isDisabled ? 'text-gray-500' : 'text-gray-300'}`}>
-                            {theme.label}
-                          </span>
-                          {theme.pro && (
-                            <div className="inline-flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-accent-green to-accent-blue rounded-full text-white text-xs font-medium">
-                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                              </svg>
-                              <span>PRO</span>
-                            </div>
-                          )}
-                        </div>
-                        <p className={`text-xs ${isDisabled ? 'text-gray-500' : 'text-gray-400'}`}>
-                          {theme.description}
-                          {isDisabled && (
-                            <span className="block text-accent-blue mt-1">
-                              🔒 Disponível apenas para usuários PRO
-                            </span>
-                          )}
-                        </p>
-                      </div>
-                    </label>
-                  )
-                })}
-              </div>
-            </div>
+
           </div>
 
           <div className="flex gap-3">
@@ -267,13 +154,6 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
           </div>
         </div>
       </div>
-
-      {/* Pro Upgrade Modal */}
-      <ProUpgradeModal
-        isOpen={showUpgradeModal}
-        onClose={closeUpgradeModal}
-        feature={currentFeature}
-      />
 
       {/* PDF Preview Modal */}
       <PDFPreview
