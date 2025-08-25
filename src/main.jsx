@@ -9,8 +9,8 @@ import { createRoot } from 'react-dom/client'
 console.log('createRoot imported:', typeof createRoot)
 
 import './index.css'
-import App from './App.jsx'
-console.log('App imported:', typeof App)
+import AppSimple from './AppSimple.jsx'
+console.log('AppSimple imported:', typeof AppSimple)
 
 console.log('main.jsx is loading...')
 console.log('Root element:', document.getElementById('root'))
@@ -18,8 +18,8 @@ console.log('Root element:', document.getElementById('root'))
 try {
   const root = createRoot(document.getElementById('root'))
   console.log('Root created successfully')
-  root.render(React.createElement(App))
-  console.log('App rendered')
+  root.render(React.createElement(AppSimple))
+  console.log('AppSimple rendered')
 } catch (error) {
   console.error('Error in main.jsx:', error)
 }
