@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [profile, setProfile] = useState(null)
   const [subscription, setSubscription] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [hasAccount, setHasAccount] = useState(false)
 
   // Carregar perfil do utilizador
   const loadUserProfile = async (userId) => {
@@ -23,8 +24,11 @@ export const AuthProvider = ({ children }) => {
       const { data, error } = await database.profiles.getUserProfile(userId)
       if (error) throw error
       setProfile(data)
+      // Se tem perfil, tem conta criada
+      setHasAccount(!!data)
     } catch (error) {
       console.error('Error loading user profile:', error)
+      setHasAccount(false)
     }
   }
 
@@ -41,7 +45,14 @@ export const AuthProvider = ({ children }) => {
 
   // Verificar se o utilizador é Pro
   const isPro = () => {
-    return subscription && subscription.status === 'active'
+    // Verificar se tem subscrição ativa OU se o perfil indica que é pro
+    return (subscription && subscription.status === 'active') || 
+           (profile && profile.account_type === 'pro')
+  }
+
+  // Verificar se o utilizador tem conta criada
+  const userHasAccount = () => {
+    return hasAccount && profile !== null
   }
 
   // Sign in com provider
@@ -63,6 +74,7 @@ export const AuthProvider = ({ children }) => {
       setUser(null)
       setProfile(null)
       setSubscription(null)
+      setHasAccount(false)
     } catch (error) {
       console.error('Error signing out:', error)
       throw error
@@ -87,6 +99,21 @@ export const AuthProvider = ({ children }) => {
     setSubscription(newSubscription)
   }
 
+  // Atualizar tipo de conta
+  const updateAccountType = async (accountType) => {
+    try {
+      const { data, error } = await database.profiles.updateUserProfile(user.id, {
+        account_type: accountType
+      })
+      if (error) throw error
+      setProfile(data)
+      return { data, error: null }
+    } catch (error) {
+      console.error('Error updating account type:', error)
+      return { data: null, error }
+    }
+  }
+
   useEffect(() => {
     // Listen to auth changes
     const { data: { subscription: authSubscription } } = auth.onAuthStateChange(
@@ -99,6 +126,7 @@ export const AuthProvider = ({ children }) => {
           setUser(null)
           setProfile(null)
           setSubscription(null)
+          setHasAccount(false)
         }
         setLoading(false)
       }
@@ -132,11 +160,13 @@ export const AuthProvider = ({ children }) => {
     profile,
     subscription,
     loading,
+    hasAccount: userHasAccount(),
     isPro: isPro(),
     signInWithProvider,
     signOut,
     updateProfile,
-    updateSubscription
+    updateSubscription,
+    updateAccountType
   }
 
   return (

@@ -1,10 +1,12 @@
 import { useState, useRef } from 'react'
 import { useRider } from '../context/RiderContext'
+import { useAuth } from '../context/AuthContext'
 import { useProFeatures } from '../hooks/useProFeatures'
 import { useFeedback } from '../hooks/useFeedback'
 import ProUpgradeModal from './ProUpgradeModal'
 import ProToggle from './ProToggle'
 import NewPDFExport from './NewPDFExport'
+import LoginModal from './auth/LoginModal'
 import { encodeObjectToBase64 } from '../utils/base64'
 
 function MyRiders({ onBack, onEditRider }) {
@@ -20,6 +22,7 @@ function MyRiders({ onBack, onEditRider }) {
     setIsPro
   } = useRider()
   
+  const { user, hasAccount, loading: authLoading } = useAuth()
   const { showSuccess, showError } = useFeedback()
   
   const {
@@ -37,6 +40,7 @@ function MyRiders({ onBack, onEditRider }) {
   const [showNewPDFModal, setShowNewPDFModal] = useState(false)
   const [exportRiderPayload, setExportRiderPayload] = useState({ name: '', data: {} })
   const [shareLink, setShareLink] = useState('')
+  const [showLoginModal, setShowLoginModal] = useState(false)
   const fileInputRef = useRef(null)
   
   const stats = getStats()
@@ -72,54 +76,111 @@ function MyRiders({ onBack, onEditRider }) {
         showError('Rider não encontrado')
         return
       }
-      setExportRiderPayload({ name: rider.name, data: rider.data || {} })
+
+      // Gerar link de partilha
+      const riderData = encodeObjectToBase64(rider.data)
+      const shareUrl = `${window.location.origin}/rider/${rider.id}?data=${riderData}`
+      setShareLink(shareUrl)
+      setExportRiderPayload({ name: rider.name, data: rider.data })
       setShowNewPDFModal(true)
     } catch (error) {
-      showError('Erro ao preparar exportação: ' + error.message)
+      showError('Erro ao exportar rider: ' + error.message)
     }
-  }
-
-  const handleShare = (id) => {
-    try {
-      const rider = getRiderById(id)
-      if (!rider) return
-      const payload = { name: rider.name, data: rider.data }
-      const token = encodeObjectToBase64(payload)
-      const url = `${window.location.origin}${window.location.pathname}?view=share&data=${encodeURIComponent(token)}`
-      setShareLink(url)
-      navigator.clipboard?.writeText(url).catch(() => {})
-    } catch (e) {}
   }
 
   const handleImport = async (event) => {
     const file = event.target.files[0]
     if (!file) return
 
-    // Importar JSON
-    const success = useProFeature(PRO_FEATURES.UNLIMITED_RIDERS.id, async () => {
-      try {
-        setImportError('')
-        setImportSuccess('')
-        await importRider(file)
-        showSuccess('Rider importado com sucesso!')
-        setShowImportModal(false)
-        if (fileInputRef.current) {
-          fileInputRef.current.value = ''
-        }
-        return true
-      } catch (error) {
-        showError('Erro ao importar rider: ' + error.message)
-        return false
+    setImportError('')
+    setImportSuccess('')
+
+    try {
+      await importRider(file)
+      setImportSuccess('Rider importado com sucesso!')
+      setShowImportModal(false)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
       }
-    })
+    } catch (error) {
+      setImportError(error.message)
+    }
+  }
+
+  const handleNavigateToMyRiders = () => {
+    if (!user) {
+      setShowLoginModal(true)
+      return
+    }
     
-    if (!success) {
-      // Modal já foi mostrado pelo hook
+    if (!hasAccount) {
+      setShowLoginModal(true)
       return
     }
   }
 
+  // Se ainda está a carregar, mostrar loading
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    )
+  }
 
+  // Se o utilizador não tem conta, mostrar tela de criação de conta
+  if (!user || !hasAccount) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800 p-4">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="text-center py-12 mb-8">
+            <h1 className="text-5xl sm:text-7xl font-bold text-gradient mb-6">
+              Os Meus Riders
+            </h1>
+            <p className="text-xl sm:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              {!user 
+                ? 'Faça login para aceder aos seus riders guardados'
+                : 'Crie uma conta para aceder aos seus riders guardados'
+              }
+            </p>
+          </div>
+          
+          {/* Call to Action */}
+          <div className="max-w-md mx-auto">
+            <div className="card text-center p-8">
+              <div className="w-16 h-16 bg-gradient-to-r from-accent-green to-green-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-100 mb-4">
+                {!user ? 'Login Necessário' : 'Conta Necessária'}
+              </h3>
+              <p className="text-gray-400 mb-6">
+                {!user 
+                  ? 'Para aceder aos seus riders, precisa de fazer login na sua conta'
+                  : 'Para aceder aos seus riders, precisa de criar uma conta'
+                }
+              </p>
+              <button
+                onClick={() => setShowLoginModal(true)}
+                className="btn-primary w-full text-lg py-4"
+              >
+                <span>{!user ? 'Fazer Login' : 'Criar Conta'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Login Modal */}
+        <LoginModal 
+          isOpen={showLoginModal} 
+          onClose={() => setShowLoginModal(false)} 
+        />
+      </div>
+    )
+  }
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('pt-PT', {
@@ -298,16 +359,6 @@ function MyRiders({ onBack, onEditRider }) {
                   </button>
 
                   <button
-                    onClick={() => handleShare(rider.id)}
-                    className="btn-action text-sm py-3 flex items-center justify-center gap-2"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 8a3 3 0 11-6 0 3 3 0 016 0zM19 14a4 4 0 10-8 0 4 4 0 008 0zM7 14a4 4 0 100 8 4 4 0 000-8z" />
-                    </svg>
-                    <span className="hidden sm:inline">Partilhar</span>
-                  </button>
-                  
-                  <button
                     onClick={() => handleDuplicate(rider.id)}
                     className="btn-action text-sm py-3 flex items-center justify-center gap-2"
                   >
@@ -319,7 +370,7 @@ function MyRiders({ onBack, onEditRider }) {
                   
                   <button
                     onClick={() => setShowDeleteConfirm(rider.id)}
-                    className="btn-action text-sm py-3 flex items-center justify-center gap-2 text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                    className="btn-action text-sm py-3 flex items-center justify-center gap-2 text-red-400 hover:text-red-300"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -336,24 +387,28 @@ function MyRiders({ onBack, onEditRider }) {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="card max-w-md w-full">
-            <h3 className="text-xl font-semibold text-gray-100 mb-4">Confirmar Eliminação</h3>
-            <p className="text-gray-400 mb-6">
-              Tem a certeza que deseja eliminar este rider? Esta ação não pode ser desfeita.
-            </p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowDeleteConfirm(null)}
-                className="flex-1 btn-secondary"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={() => handleDelete(showDeleteConfirm)}
-                className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200"
-              >
-                Eliminar
-              </button>
+          <div className="bg-dark-800 rounded-lg shadow-xl max-w-md w-full border border-dark-700">
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-gray-100 mb-4">
+                Confirmar Eliminação
+              </h3>
+              <p className="text-gray-400 mb-6">
+                Tem a certeza que quer eliminar este rider? Esta ação não pode ser desfeita.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => handleDelete(showDeleteConfirm)}
+                  className="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-red-700 transition-colors"
+                >
+                  Eliminar
+                </button>
+                <button
+                  onClick={() => setShowDeleteConfirm(null)}
+                  className="flex-1 btn-secondary"
+                >
+                  Cancelar
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -362,61 +417,60 @@ function MyRiders({ onBack, onEditRider }) {
       {/* Import Modal */}
       {showImportModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="card max-w-md w-full">
-            <h3 className="text-xl font-semibold text-gray-100 mb-4">Importar Rider</h3>
-            
-            {importError && (
-              <div className="mb-4 p-3 bg-red-900/20 border border-red-600 rounded-lg text-red-300 text-sm">
-                {importError}
+          <div className="bg-dark-800 rounded-lg shadow-xl max-w-md w-full border border-dark-700">
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-gray-100 mb-4">
+                Importar Rider
+              </h3>
+              
+              {importError && (
+                <div className="mb-4 p-3 bg-red-900/50 border border-red-700 rounded-lg text-red-300 text-sm">
+                  {importError}
+                </div>
+              )}
+              
+              {importSuccess && (
+                <div className="mb-4 p-3 bg-green-900/50 border border-green-700 rounded-lg text-green-300 text-sm">
+                  {importSuccess}
+                </div>
+              )}
+              
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Selecionar arquivo JSON
+                </label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".json"
+                  onChange={handleImport}
+                  className="w-full p-3 border border-dark-600 rounded-lg bg-dark-700 text-gray-100 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-accent-blue file:text-white hover:file:bg-accent-blue/80"
+                />
               </div>
-            )}
-            
-            {importSuccess && (
-              <div className="mb-4 p-3 bg-green-900/20 border border-green-600 rounded-lg text-green-300 text-sm">
-                {importSuccess}
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowImportModal(false)
+                    setImportError('')
+                    setImportSuccess('')
+                    if (fileInputRef.current) {
+                      fileInputRef.current.value = ''
+                    }
+                  }}
+                  className="flex-1 btn-secondary"
+                >
+                  Cancelar
+                </button>
               </div>
-            )}
-            
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Selecionar arquivo JSON
-              </label>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".json"
-                onChange={handleImport}
-                className="w-full px-3 py-2 bg-dark-800 border border-dark-600 rounded-lg text-gray-100 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent-blue file:text-white hover:file:bg-accent-blue/80"
-              />
-              <p className="text-xs text-gray-400 mt-2">
-                Suporta apenas arquivos JSON exportados do RiderForge
-              </p>
-            </div>
-            
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  setShowImportModal(false)
-                  setImportError('')
-                  setImportSuccess('')
-                  if (fileInputRef.current) {
-                    fileInputRef.current.value = ''
-                  }
-                }}
-                className="flex-1 btn-secondary"
-              >
-                Cancelar
-              </button>
             </div>
           </div>
         </div>
       )}
 
-
-
       {/* Pro Upgrade Modal */}
-      <ProUpgradeModal
-        isOpen={showUpgradeModal}
+      <ProUpgradeModal 
+        isOpen={showUpgradeModal} 
         onClose={closeUpgradeModal}
         feature={currentFeature}
       />
@@ -425,23 +479,10 @@ function MyRiders({ onBack, onEditRider }) {
       <NewPDFExport
         isOpen={showNewPDFModal}
         onClose={() => setShowNewPDFModal(false)}
-        riderData={exportRiderPayload.data}
         riderName={exportRiderPayload.name}
+        riderData={exportRiderPayload.data}
+        shareLink={shareLink}
       />
-
-      {/* Share Link Modal */}
-      {shareLink && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="card max-w-lg w-full">
-            <h3 className="text-xl font-semibold text-gray-100 mb-3">Ligação gerada</h3>
-            <p className="text-gray-400 text-sm mb-3">Copiámos a ligação para a área de transferência. Qualquer pessoa com esta ligação pode ver o rider no modo "Só leitura" nesta máquina.</p>
-            <div className="bg-dark-800 border border-dark-700 rounded p-3 text-sm text-gray-300 break-all mb-4">{shareLink}</div>
-            <div className="flex gap-2 justify-end">
-              <button onClick={() => setShareLink('')} className="btn-secondary">Fechar</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

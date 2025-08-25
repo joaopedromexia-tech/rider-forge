@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { PRO_CONFIG } from '../config/proConfig'
 import { backgroundSyncRiders, saveRiderVersion, getRiderVersions, kvGet, kvSet } from '../utils/storage'
+import { useAuth } from './AuthContext'
+import { database } from '../config/supabase'
 
 const RiderContext = createContext()
 
@@ -23,6 +25,7 @@ const loadInitialRiders = () => {
 export function RiderProvider({ children }) {
   const [savedRiders, setSavedRiders] = useState(() => loadInitialRiders()) // Carrega imediatamente
   const [isPro, setIsPro] = useState(false) // Começa como Free
+  const { user, isPro: userIsPro, hasAccount } = useAuth()
 
   // Sincronizar com localStorage se existir
   useEffect(() => {
@@ -32,14 +35,54 @@ export function RiderProvider({ children }) {
     }
   }, [])
 
+  // Atualizar estado Pro baseado no utilizador autenticado
+  useEffect(() => {
+    if (user && hasAccount) {
+      setIsPro(userIsPro)
+    }
+  }, [user, userIsPro, hasAccount])
+
   // Salvar estado Pro no localStorage
   useEffect(() => {
     localStorage.setItem('riderForge_isPro', JSON.stringify(isPro))
   }, [isPro])
 
-  // Adicionar rider de teste se não existir nenhum (apenas uma vez)
+  // Carregar riders da base de dados quando o utilizador estiver autenticado
   useEffect(() => {
-    if (savedRiders.length === 0) {
+    const loadRidersFromDatabase = async () => {
+      if (!user || !hasAccount) return
+
+      try {
+        const { data, error } = await database.riders.getUserRiders(user.id)
+        if (error) throw error
+        
+        // Converter dados da base de dados para o formato local
+        const convertedRiders = (data || []).map(rider => ({
+          id: rider.id,
+          name: rider.title,
+          data: rider.data,
+          createdAt: rider.created_at,
+          updatedAt: rider.updated_at,
+          thumbnail: {
+            artista: rider.data?.dadosGerais?.artista || 'Sem artista',
+            data: new Date(rider.updated_at).toLocaleDateString('pt-PT'),
+            equipmentCount: Object.keys(rider.data || {}).length,
+            cardName: rider.title
+          }
+        }))
+        
+        setSavedRiders(convertedRiders)
+      } catch (error) {
+        console.error('Error loading riders from database:', error)
+      }
+    }
+
+    loadRidersFromDatabase()
+  }, [user, hasAccount])
+
+  // Adicionar rider de teste se não existir nenhum (apenas para utilizadores não autenticados)
+  useEffect(() => {
+    if (!user && savedRiders.length === 0) {
       const testRider = {
         id: Date.now().toString() + '_test',
         name: 'Banda de Teste v1 2026',
@@ -63,18 +106,20 @@ export function RiderProvider({ children }) {
       }
       setSavedRiders([testRider])
     }
-  }, [])
+  }, [user, savedRiders.length])
 
-  // Salvar riders no localStorage sempre que mudar
+  // Salvar riders no localStorage sempre que mudar (apenas para utilizadores não autenticados)
   useEffect(() => {
-    try {
-      localStorage.setItem('riderForge_riders', JSON.stringify(savedRiders))
-    } catch (error) {
-      console.error('❌ Erro ao salvar riders:', error)
+    if (!user) {
+      try {
+        localStorage.setItem('riderForge_riders', JSON.stringify(savedRiders))
+      } catch (error) {
+        console.error('❌ Erro ao salvar riders:', error)
+      }
+      // Sincronização em background com IndexedDB (best-effort)
+      backgroundSyncRiders(savedRiders)
     }
-    // Sincronização em background com IndexedDB (best-effort)
-    backgroundSyncRiders(savedRiders)
-  }, [savedRiders])
+  }, [savedRiders, user])
 
   // Verificar se pode salvar mais riders (versão Free)
   const canSaveMoreRiders = useCallback(() => {
@@ -127,7 +172,7 @@ export function RiderProvider({ children }) {
   }, [savedRiders, isPro, calculateStorageSize])
 
   // Salvar um novo rider
-  const saveRider = useCallback((riderData, name) => {
+  const saveRider = useCallback(async (riderData, name) => {
     if (!canSaveMoreRiders()) {
       throw new Error(`Limite da versão Free atingido. Máximo ${FREE_LIMITS.maxRiders} riders.`)
     }
@@ -137,39 +182,106 @@ export function RiderProvider({ children }) {
     }
 
     const thumbnail = generateThumbnail(riderData || {})
-    const newRider = {
-      id: Date.now().toString() + '_' + Math.random().toString(36).substr(2, 9),
-      name: name || thumbnail.cardName || `Rider ${savedRiders.length + 1}`,
-      data: riderData || {},
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      thumbnail: thumbnail
-    }
+    const riderName = name || thumbnail.cardName || `Rider ${savedRiders.length + 1}`
 
-    setSavedRiders(prev => [...prev, newRider])
-    // Guardar versão inicial
-    try { saveRiderVersion(newRider.id, newRider.data) } catch (_) {}
-    return newRider
-  }, [savedRiders, canSaveMoreRiders, canSaveBySize, generateThumbnail])
+    // Se o utilizador está autenticado, salvar na base de dados
+    if (user && hasAccount) {
+      try {
+        const newRider = {
+          title: riderName,
+          data: riderData || {},
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }
+
+        const { data, error } = await database.riders.createRider(newRider, user.id)
+        if (error) throw error
+
+        const convertedRider = {
+          id: data.id,
+          name: data.title,
+          data: data.data,
+          createdAt: data.created_at,
+          updatedAt: data.updated_at,
+          thumbnail: thumbnail
+        }
+
+        setSavedRiders(prev => [...prev, convertedRider])
+        return convertedRider
+      } catch (error) {
+        console.error('Error saving rider to database:', error)
+        throw error
+      }
+    } else {
+      // Salvar localmente para utilizadores não autenticados
+      const newRider = {
+        id: Date.now().toString() + '_' + Math.random().toString(36).substr(2, 9),
+        name: riderName,
+        data: riderData || {},
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        thumbnail: thumbnail
+      }
+
+      setSavedRiders(prev => [...prev, newRider])
+      // Guardar versão inicial
+      try { saveRiderVersion(newRider.id, newRider.data) } catch (_) {}
+      return newRider
+    }
+  }, [savedRiders, canSaveMoreRiders, canSaveBySize, generateThumbnail, user, hasAccount])
 
   // Atualizar um rider existente
-  const updateRider = useCallback((id, riderData, name) => {
-    setSavedRiders(prev => prev.map(rider => 
-      rider.id === id 
-        ? {
-            ...rider,
-            data: riderData,
-            name: name || generateThumbnail(riderData).cardName || rider.name,
-            updatedAt: new Date().toISOString(),
-            thumbnail: generateThumbnail(riderData)
-          }
-        : rider
-    ))
-    try { saveRiderVersion(id, riderData) } catch (_) {}
-  }, [generateThumbnail])
+  const updateRider = useCallback(async (id, riderData, name) => {
+    const thumbnail = generateThumbnail(riderData)
+    const riderName = name || thumbnail.cardName
+
+    // Se o utilizador está autenticado, atualizar na base de dados
+    if (user && hasAccount) {
+      try {
+        const updates = {
+          title: riderName,
+          data: riderData,
+          updated_at: new Date().toISOString()
+        }
+
+        const { data, error } = await database.riders.updateRider(id, updates, user.id)
+        if (error) throw error
+
+        const updatedRider = {
+          id: data.id,
+          name: data.title,
+          data: data.data,
+          createdAt: data.created_at,
+          updatedAt: data.updated_at,
+          thumbnail: thumbnail
+        }
+
+        setSavedRiders(prev => prev.map(rider => 
+          rider.id === id ? updatedRider : rider
+        ))
+      } catch (error) {
+        console.error('Error updating rider in database:', error)
+        throw error
+      }
+    } else {
+      // Atualizar localmente para utilizadores não autenticados
+      setSavedRiders(prev => prev.map(rider => 
+        rider.id === id 
+          ? {
+              ...rider,
+              data: riderData,
+              name: riderName,
+              updatedAt: new Date().toISOString(),
+              thumbnail: thumbnail
+            }
+          : rider
+      ))
+      try { saveRiderVersion(id, riderData) } catch (_) {}
+    }
+  }, [generateThumbnail, user, hasAccount])
 
   // Duplicar um rider
-  const duplicateRider = useCallback((id) => {
+  const duplicateRider = useCallback(async (id) => {
     const originalRider = savedRiders.find(rider => rider.id === id)
     if (!originalRider) return null
 
@@ -179,21 +291,63 @@ export function RiderProvider({ children }) {
 
     const duplicatedRider = {
       ...originalRider,
-      id: Date.now().toString(),
       name: `${originalRider.name} (Cópia)`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     }
 
-    setSavedRiders(prev => [...prev, duplicatedRider])
-    try { saveRiderVersion(duplicatedRider.id, duplicatedRider.data) } catch (_) {}
-    return duplicatedRider
-  }, [savedRiders, canSaveMoreRiders])
+    // Se o utilizador está autenticado, salvar na base de dados
+    if (user && hasAccount) {
+      try {
+        const newRider = {
+          title: duplicatedRider.name,
+          data: duplicatedRider.data,
+          created_at: duplicatedRider.createdAt,
+          updated_at: duplicatedRider.updatedAt
+        }
+
+        const { data, error } = await database.riders.createRider(newRider, user.id)
+        if (error) throw error
+
+        const convertedRider = {
+          id: data.id,
+          name: data.title,
+          data: data.data,
+          createdAt: data.created_at,
+          updatedAt: data.updated_at,
+          thumbnail: duplicatedRider.thumbnail
+        }
+
+        setSavedRiders(prev => [...prev, convertedRider])
+        return convertedRider
+      } catch (error) {
+        console.error('Error duplicating rider in database:', error)
+        throw error
+      }
+    } else {
+      // Duplicar localmente para utilizadores não autenticados
+      duplicatedRider.id = Date.now().toString()
+      setSavedRiders(prev => [...prev, duplicatedRider])
+      try { saveRiderVersion(duplicatedRider.id, duplicatedRider.data) } catch (_) {}
+      return duplicatedRider
+    }
+  }, [savedRiders, canSaveMoreRiders, user, hasAccount])
 
   // Apagar um rider
-  const deleteRider = useCallback((id) => {
+  const deleteRider = useCallback(async (id) => {
+    // Se o utilizador está autenticado, apagar da base de dados
+    if (user && hasAccount) {
+      try {
+        const { error } = await database.riders.deleteRider(id, user.id)
+        if (error) throw error
+      } catch (error) {
+        console.error('Error deleting rider from database:', error)
+        throw error
+      }
+    }
+
     setSavedRiders(prev => prev.filter(rider => rider.id !== id))
-  }, [])
+  }, [user, hasAccount])
 
   // Obter um rider por ID
   const getRiderById = useCallback((id) => {
@@ -228,81 +382,44 @@ export function RiderProvider({ children }) {
 
   // Importar rider de JSON
   const importRider = useCallback(async (file) => {
-    try {
-      let importedData
-
-      // Verificar tipo de arquivo
-      if (file.type === 'application/json' || file.name.endsWith('.json')) {
-        // Processar JSON
-        importedData = await new Promise((resolve, reject) => {
-          const reader = new FileReader()
-          reader.onload = (e) => {
-            try {
-              const data = JSON.parse(e.target.result)
-              resolve({
-                name: data.name || 'Rider Importado',
-                data: data.data || data
-              })
-            } catch (error) {
-              reject(new Error('Formato de ficheiro JSON inválido'))
-            }
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      
+      reader.onload = async (e) => {
+        try {
+          const importedData = JSON.parse(e.target.result)
+          
+          // Validar estrutura básica
+          if (!importedData.data || !importedData.name) {
+            throw new Error('Formato de arquivo inválido')
           }
-          reader.onerror = () => reject(new Error('Erro ao ler arquivo'))
-          reader.readAsText(file)
-        })
-      } else {
-        throw new Error('Formato de ficheiro não suportado. Use apenas JSON.')
-      }
 
-      if (!canSaveMoreRiders()) {
-        throw new Error(`Limite da versão Free atingido. Máximo ${FREE_LIMITS.maxRiders} riders.`)
+          // Salvar o rider importado
+          const savedRider = await saveRider(importedData.data, importedData.name)
+          resolve(savedRider)
+        } catch (error) {
+          reject(error)
+        }
       }
-
-      if (!canSaveBySize(importedData.data)) {
-        throw new Error(`Limite de armazenamento da versão Free atingido. Máximo ${FREE_LIMITS.maxStorageMB}MB.`)
-      }
-
-      const importedRider = {
-        id: Date.now().toString(),
-        name: importedData.name || 'Rider Importado',
-        data: importedData.data || importedData,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        thumbnail: generateThumbnail(importedData.data || importedData)
-      }
-
-      setSavedRiders(prev => [...prev, importedRider])
-      try { saveRiderVersion(importedRider.id, importedRider.data) } catch (_) {}
-      return importedRider
-    } catch (error) {
-      throw error
-    }
-  }, [canSaveMoreRiders, canSaveBySize, generateThumbnail])
+      
+      reader.onerror = () => reject(new Error('Erro ao ler arquivo'))
+      reader.readAsText(file)
+    })
+  }, [saveRider])
 
   // Obter estatísticas
   const getStats = useCallback(() => {
-    try {
-      const totalSize = savedRiders.reduce((total, rider) => {
-        return total + calculateStorageSize(rider.data || {})
-      }, 0)
+    const totalSize = savedRiders.reduce((total, rider) => {
+      return total + calculateStorageSize(rider.data || {})
+    }, 0)
 
-      return {
-        totalRiders: savedRiders.length,
-        totalSize: totalSize.toFixed(2),
-        maxRiders: isPro ? 'Ilimitado' : FREE_LIMITS.maxRiders,
-        maxStorage: isPro ? 'Ilimitado' : `${FREE_LIMITS.maxStorageMB}MB`,
-        canSaveMore: canSaveMoreRiders()
-      }
-    } catch (error) {
-      return {
-        totalRiders: savedRiders.length,
-        totalSize: '0.00',
-        maxRiders: isPro ? 'Ilimitado' : FREE_LIMITS.maxRiders,
-        maxStorage: isPro ? 'Ilimitado' : `${FREE_LIMITS.maxStorageMB}MB`,
-        canSaveMore: canSaveMoreRiders()
-      }
+    return {
+      totalRiders: savedRiders.length,
+      totalSize: totalSize.toFixed(2),
+      maxRiders: isPro ? '∞' : FREE_LIMITS.maxRiders,
+      maxStorage: isPro ? '∞' : FREE_LIMITS.maxStorageMB
     }
-  }, [savedRiders, isPro, calculateStorageSize, canSaveMoreRiders])
+  }, [savedRiders, isPro, calculateStorageSize])
 
   const value = {
     savedRiders,
@@ -315,9 +432,9 @@ export function RiderProvider({ children }) {
     getRiderById,
     exportRider,
     importRider,
+    getStats,
     canSaveMoreRiders,
     canSaveBySize,
-    getStats,
     FREE_LIMITS
   }
 
@@ -328,7 +445,7 @@ export function RiderProvider({ children }) {
   )
 }
 
-export function useRider() {
+export const useRider = () => {
   const context = useContext(RiderContext)
   if (!context) {
     throw new Error('useRider must be used within a RiderProvider')

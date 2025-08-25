@@ -6,7 +6,7 @@ import LoginModal from '../auth/LoginModal'
 import ProUpgradeModal from '../ProUpgradeModal'
 
 const Dashboard = () => {
-  const { user, isPro, loading: authLoading } = useAuth()
+  const { user, isPro, hasAccount, loading: authLoading } = useAuth()
   const [riders, setRiders] = useState([])
   const [loading, setLoading] = useState(true)
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -15,7 +15,7 @@ const Dashboard = () => {
 
   // Carregar riders do utilizador
   const loadRiders = async () => {
-    if (!user) return
+    if (!user || !hasAccount) return
 
     try {
       const { data, error } = await database.riders.getUserRiders(user.id)
@@ -31,6 +31,12 @@ const Dashboard = () => {
   // Criar novo rider
   const createNewRider = async () => {
     if (!user) {
+      setShowLoginModal(true)
+      return
+    }
+
+    if (!hasAccount) {
+      // Redirecionar para criar conta
       setShowLoginModal(true)
       return
     }
@@ -93,7 +99,7 @@ const Dashboard = () => {
     if (!authLoading) {
       loadRiders()
     }
-  }, [user, authLoading])
+  }, [user, hasAccount, authLoading])
 
   if (authLoading) {
     return (
@@ -118,6 +124,32 @@ const Dashboard = () => {
             className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
           >
             Entrar para Começar
+          </button>
+        </div>
+        <LoginModal 
+          isOpen={showLoginModal} 
+          onClose={() => setShowLoginModal(false)} 
+        />
+      </div>
+    )
+  }
+
+  // Se o utilizador não tem conta criada, mostrar tela de criação de conta
+  if (!hasAccount) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+        <div className="max-w-md w-full text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            Criar Conta
+          </h1>
+          <p className="text-gray-600 mb-8">
+            Para aceder aos seus riders, precisa de criar uma conta
+          </p>
+          <button
+            onClick={() => setShowLoginModal(true)}
+            className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+          >
+            Criar Conta
           </button>
         </div>
         <LoginModal 
