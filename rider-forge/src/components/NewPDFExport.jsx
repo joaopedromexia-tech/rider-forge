@@ -74,7 +74,9 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
   // Função para verificar se um tema requer Pro
   const isThemePro = (themeValue) => {
     const theme = colorThemes.find(t => t.value === themeValue)
-    return theme?.pro || false
+    const result = theme?.pro || false
+    console.log(`isThemePro(${themeValue}): theme=${theme?.value}, pro=${theme?.pro}, result=${result}`)
+    return result
   }
 
   const handlePreview = () => {
@@ -175,8 +177,8 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
               <h4 className="text-sm font-medium text-gray-300">Tema de Cores</h4>
               <div className="space-y-2">
                 {colorThemes.map((theme) => {
-                  const isThemePro = theme.pro && !isPro
-                  const isDisabled = isThemePro
+                  // Um tema está desabilitado se é PRO e o usuário NÃO é PRO
+                  const isDisabled = theme.pro && !isPro
                   
                   // Debug log
                   console.log(`Theme ${theme.value}: pro=${theme.pro}, isPro=${isPro}, isDisabled=${isDisabled}`)
@@ -219,7 +221,7 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
                         </div>
                         <p className={`text-xs ${isDisabled ? 'text-gray-500' : 'text-gray-400'}`}>
                           {theme.description}
-                          {isThemePro && (
+                          {isDisabled && (
                             <span className="block text-accent-blue mt-1">
                               🔒 Disponível apenas para usuários PRO
                             </span>
