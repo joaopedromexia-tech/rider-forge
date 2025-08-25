@@ -23,9 +23,6 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
     try { localStorage.setItem('riderForge_exportOptions_new', JSON.stringify(exportOptions)) } catch {}
   }, [exportOptions])
 
-  if (!isOpen) return null
-  const filename = `${(riderName || 'rider_tecnico').replace(/[^a-z0-9]/gi, '_').toLowerCase()}_novo.pdf`
-
   // Apenas o tema padrão
   const colorThemes = [
     { value: 'default', label: 'Padrão', description: 'Tema clássico preto e branco' }
@@ -38,6 +35,11 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
       setExportOptions(o => ({ ...o, colorTheme: 'default' }))
     }
   }, [exportOptions.colorTheme])
+
+  // Garantir ordem consistente de hooks: só agora podemos retornar
+  if (!isOpen) return null
+
+  const filename = `${(riderName || 'rider_tecnico').replace(/[^a-z0-9]/gi, '_').toLowerCase()}_novo.pdf`
 
   const handlePreview = () => setShowPreview(true)
 
