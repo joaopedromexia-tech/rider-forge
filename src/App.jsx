@@ -1,62 +1,101 @@
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
+import { useState } from 'react'
 import { I18nProvider } from './context/I18nContext'
 import { EquipmentProvider } from './context/EquipmentContext'
 import { UnitsProvider } from './context/UnitsContext'
 import { RiderProvider } from './context/RiderContext'
-import Dashboard from './components/dashboard/Dashboard'
-import PricingPage from './components/pricing/PricingPage'
-import ErrorBoundary from './components/ErrorBoundary'
-import { useAuth } from './context/AuthContext'
+import RiderForm from './components/RiderForm'
+import MyRiders from './components/MyRiders'
+import PDFPreview from './components/PDFPreview'
+import DemoButton from './components/DemoButton'
 
-// Componente para rotas protegidas
-const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth()
-  
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    )
+function App() {
+  const [currentView, setCurrentView] = useState('home')
+  const [editingRiderId, setEditingRiderId] = useState(null)
+
+  const handleNavigateToForm = (riderId = null) => {
+    setEditingRiderId(riderId)
+    setCurrentView('form')
   }
-  
-  return user ? children : <Navigate to="/dashboard" replace />
-}
 
-// Componente principal da aplicação
-const App = () => {
+  const handleBackToHome = () => {
+    setCurrentView('home')
+    setEditingRiderId(null)
+  }
+
+  const handleNavigateToMyRiders = () => {
+    setCurrentView('riders')
+  }
+
+  const handleNavigateToPreview = (riderId) => {
+    setEditingRiderId(riderId)
+    setCurrentView('preview')
+  }
+
   return (
-    <ErrorBoundary>
-      <Router>
-        <AuthProvider>
-          <I18nProvider>
-            <EquipmentProvider>
-              <UnitsProvider>
-                <RiderProvider>
-                  <div className="App">
-                    <Routes>
-                      {/* Rota principal - redireciona para dashboard */}
-                      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+    <I18nProvider>
+      <EquipmentProvider>
+        <UnitsProvider>
+          <RiderProvider>
+            <div className="App">
+              {currentView === 'home' && (
+                <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800 flex items-center justify-center p-4">
+                  <div className="max-w-4xl mx-auto text-center">
+                    <h1 className="text-4xl sm:text-6xl font-bold text-gradient mb-4">
+                      Rider Forge
+                    </h1>
+                    <p className="text-xl text-gray-300 mb-12">
+                      Crie riders técnicos profissionais com facilidade
+                    </p>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                      <button
+                        onClick={() => handleNavigateToForm()}
+                        className="btn-primary text-lg py-4 px-6"
+                      >
+                        <span>📝 Criar Novo Rider</span>
+                      </button>
                       
-                      {/* Dashboard */}
-                      <Route path="/dashboard" element={<Dashboard />} />
+                      <button
+                        onClick={handleNavigateToMyRiders}
+                        className="btn-secondary text-lg py-4 px-6"
+                      >
+                        <span>📁 Os Meus Riders</span>
+                      </button>
                       
-                      {/* Pricing */}
-                      <Route path="/pricing" element={<PricingPage />} />
-                      
-                      {/* Rota 404 */}
-                      <Route path="*" element={<Navigate to="/dashboard" replace />} />
-                    </Routes>
+                      <div className="flex justify-center">
+                        <DemoButton onNavigateToForm={handleNavigateToForm} />
+                      </div>
+                    </div>
                   </div>
-                </RiderProvider>
-              </UnitsProvider>
-            </EquipmentProvider>
-          </I18nProvider>
-        </AuthProvider>
-      </Router>
-    </ErrorBoundary>
+                </div>
+              )}
+              
+              {currentView === 'form' && (
+                <RiderForm 
+                  onBack={handleBackToHome}
+                  editingRiderId={editingRiderId}
+                />
+              )}
+              
+              {currentView === 'riders' && (
+                <MyRiders 
+                  onBack={handleBackToHome}
+                  onEdit={handleNavigateToForm}
+                  onPreview={handleNavigateToPreview}
+                />
+              )}
+              
+              {currentView === 'preview' && (
+                <PDFPreview 
+                  riderId={editingRiderId}
+                  onBack={() => setCurrentView('riders')}
+                />
+              )}
+            </div>
+          </RiderProvider>
+        </UnitsProvider>
+      </EquipmentProvider>
+    </I18nProvider>
   )
 }
 
