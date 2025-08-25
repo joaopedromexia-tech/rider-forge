@@ -60,14 +60,14 @@ function DadosGerais({ data, onChange }) {
   // Função para validar tipo de arquivo
   const validateImageFile = (file) => {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png']
-    const maxSize = 5 * 1024 * 1024 // 5MB
+    const maxSize = 2 * 1024 * 1024 // 2MB
 
     if (!allowedTypes.includes(file.type)) {
       return { valid: false, error: 'Apenas ficheiros PNG e JPG são permitidos.' }
     }
 
     if (file.size > maxSize) {
-      return { valid: false, error: 'O ficheiro deve ter menos de 5MB.' }
+      return { valid: false, error: 'O ficheiro deve ter menos de 2MB.' }
     }
 
     return { valid: true }
@@ -484,9 +484,9 @@ function DadosGerais({ data, onChange }) {
                     className="w-full h-48 object-cover rounded-lg border border-dark-600"
                   />
                   <button
-                    onClick={() => setShowStagePlotEditor(true)}
-                    className="absolute top-2 left-2 bg-dark-700 hover:bg-dark-600 text-gray-200 rounded-full p-2 transition-colors duration-200"
-                    title="Editar stage plot"
+                    disabled
+                    className="absolute top-2 left-2 bg-gray-600 text-gray-400 rounded-full p-2 cursor-not-allowed opacity-50"
+                    title="Editor de Stage Plot - Disponível em breve"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4h2M4 20h16M4 8h16M4 12h16M4 16h7" />
@@ -526,16 +526,21 @@ function DadosGerais({ data, onChange }) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
                   <p className="text-gray-300 font-medium">Carregar Stage Plot</p>
-                  <p className="text-gray-500 text-sm mt-1">PNG ou JPG, máximo 5MB</p>
+                  <p className="text-gray-500 text-sm mt-1">PNG ou JPG, máximo 2MB</p>
+                  <p className="text-gray-500 text-xs mt-1">Editor visual disponível em breve</p>
                 </label>
                 <div className="mt-3">
                   <button
                     type="button"
                     disabled
-                    className="px-4 py-2 bg-gray-500 text-gray-300 rounded-lg cursor-not-allowed opacity-50"
-                    title="Funcionalidade temporariamente indisponível"
+                    className="px-4 py-2 bg-gray-600 text-gray-400 rounded-lg cursor-not-allowed opacity-50 flex items-center gap-2 mx-auto"
+                    title="Editor de Stage Plot - Disponível em breve"
                   >
-                    Criar com Editor (em breve)
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    Criar com Editor
+                    <span className="text-xs bg-yellow-500 text-black px-1.5 py-0.5 rounded-full">Em breve</span>
                   </button>
                 </div>
               </div>
@@ -544,7 +549,8 @@ function DadosGerais({ data, onChange }) {
         </div>
       </div>
 
-      {showStagePlotEditor && (
+      {/* Stage Plot Editor temporariamente desabilitado */}
+      {/* {showStagePlotEditor && (
         <StagePlotEditor
           initialLayout={formData.stagePlot?.layout || null}
           onClose={() => setShowStagePlotEditor(false)}
@@ -558,7 +564,7 @@ function DadosGerais({ data, onChange }) {
             setShowStagePlotEditor(false)
           }}
         />
-      )}
+      )} */}
 
       {/* Contactos */}
       <div className="bg-dark-800/50 rounded-lg p-6 border border-dark-700/50">

@@ -56,14 +56,14 @@ function DadosGerais({ data, onChange }) {
   // Função para validar tipo de arquivo
   const validateImageFile = (file) => {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png']
-    const maxSize = 5 * 1024 * 1024 // 5MB
+    const maxSize = 2 * 1024 * 1024 // 2MB
 
     if (!allowedTypes.includes(file.type)) {
       return { valid: false, error: 'Apenas ficheiros PNG e JPG são permitidos.' }
     }
 
     if (file.size > maxSize) {
-      return { valid: false, error: 'O ficheiro deve ter menos de 5MB.' }
+      return { valid: false, error: 'O ficheiro deve ter menos de 2MB.' }
     }
 
     return { valid: true }

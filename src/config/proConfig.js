@@ -3,7 +3,7 @@ export const PRO_CONFIG = {
   // Limites da versão Free
   FREE_LIMITS: {
     maxRiders: 2,
-    maxStorageMB: 5
+    maxStorageMB: 10
   },
 
   // Funcionalidades Pro

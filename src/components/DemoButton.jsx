@@ -8,6 +8,10 @@ function DemoButton({ onNavigateToForm }) {
   const createCompleteDemoRider = async () => {
     console.log('🚀 Iniciando criação do rider demo...')
     
+    // Verificar se o usuário é Pro
+    const isPro = localStorage.getItem('riderForge_isPro') === 'true'
+    console.log('🔍 Status Pro:', isPro)
+    
     // Função para carregar imagem e converter para base64
     const loadImageAsBase64 = async (imagePath) => {
       try {
@@ -26,9 +30,20 @@ function DemoButton({ onNavigateToForm }) {
       }
     }
     
-    // Carregar imagens do demo
-    const pngCapa = await loadImageAsBase64('/images/capa_demo.png')
-    const pngStagePlot = await loadImageAsBase64('/images/stageplot_demo.png')
+    // Carregar imagens do demo (sempre tentar carregar, mas não falhar se não conseguir)
+    let pngCapa = null
+    let pngStagePlot = null
+    
+    try {
+      console.log('🖼️ Carregando imagens do demo...')
+      pngCapa = await loadImageAsBase64('/images/capa_demo.png')
+      pngStagePlot = await loadImageAsBase64('/images/stageplot_demo.png')
+      console.log('✅ Imagens do demo carregadas com sucesso')
+    } catch (error) {
+      console.warn('⚠️ Não foi possível carregar imagens do demo, usando placeholders:', error.message)
+      pngCapa = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
+      pngStagePlot = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
+    }
     
     // Criar dados mais simples para evitar problemas
     const completeDemoData = {
@@ -55,13 +70,13 @@ function DemoButton({ onNavigateToForm }) {
           data: pngCapa,
           type: 'image/png',
           name: 'capa_demo.png',
-          size: pngCapa.length
+          size: pngCapa ? pngCapa.length : 0
         },
         stagePlot: {
           data: pngStagePlot,
           type: 'image/png',
           name: 'stageplot_demo.png',
-          size: pngStagePlot.length
+          size: pngStagePlot ? pngStagePlot.length : 0
         }
       },
       'pa': {
@@ -439,16 +454,19 @@ function DemoButton({ onNavigateToForm }) {
 
       console.log('✅ Rider demo temporário criado:', tempDemoRider.id)
       
-      // Guardar temporariamente no localStorage para a sessão
+      // Tentar guardar temporariamente no localStorage (incluindo imagens)
       try {
         localStorage.setItem('riderForge_temp_demo', JSON.stringify(tempDemoRider))
+        console.log('✅ Demo guardado temporariamente no localStorage com imagens')
       } catch (storageError) {
-        console.warn('⚠️ Não foi possível guardar demo no localStorage:', storageError)
+        console.warn('⚠️ Não foi possível guardar demo no localStorage (continua sem armazenamento):', storageError.message)
+        // Não falhar - continuar sem armazenamento
       }
       
       // Navegar para o formulário com o rider demo temporário
       console.log('🚀 Navegando para o formulário demo com ID:', tempDemoRider.id)
-      onNavigateToForm(tempDemoRider.id)
+      // Passar os dados do demo diretamente para evitar problemas de localStorage
+      onNavigateToForm(tempDemoRider.id, tempDemoRider)
       
     } catch (error) {
       console.error('❌ Erro ao criar rider demo:', error)
@@ -465,6 +483,18 @@ function DemoButton({ onNavigateToForm }) {
               nome: 'Alex Johnson',
               telefone: '+1 555 123 4567',
               email: 'alex.johnson@thunderroad.com'
+            },
+            imagemCapa: {
+              data: pngCapa,
+              type: 'image/png',
+              name: 'capa_demo.png',
+              size: pngCapa ? pngCapa.length : 0
+            },
+            stagePlot: {
+              data: pngStagePlot,
+              type: 'image/png',
+              name: 'stageplot_demo.png',
+              size: pngStagePlot ? pngStagePlot.length : 0
             }
           }
         }
@@ -485,9 +515,16 @@ function DemoButton({ onNavigateToForm }) {
           isTemporary: true
         }
         
-        localStorage.setItem('riderForge_temp_demo', JSON.stringify(simpleTempRider))
+        // Tentar guardar no localStorage (incluindo imagens)
+        try {
+          localStorage.setItem('riderForge_temp_demo', JSON.stringify(simpleTempRider))
+          console.log('✅ Rider demo simples guardado no localStorage com imagens')
+        } catch (storageError) {
+          console.warn('⚠️ Não foi possível guardar demo simples no localStorage (continua sem armazenamento):', storageError.message)
+        }
+        
         console.log('✅ Rider demo simples criado:', simpleTempRider.id)
-        onNavigateToForm(simpleTempRider.id)
+        onNavigateToForm(simpleTempRider.id, simpleTempRider)
         
       } catch (fallbackError) {
         console.error('❌ Erro no fallback:', fallbackError)
