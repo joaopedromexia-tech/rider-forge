@@ -1,0 +1,458 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800 text-gray-100;
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+
+  /* Melhorar a seleção de texto */
+  ::selection {
+    @apply bg-accent-blue/30 text-white;
+  }
+
+  ::-moz-selection {
+    @apply bg-accent-blue/30 text-white;
+  }
+}
+
+@layer components {
+  /* Botões principais com design mais elegante */
+  .btn-primary {
+    @apply bg-gradient-to-r from-accent-blue via-blue-500 to-accent-green text-white font-semibold px-6 py-3 rounded-xl 
+           transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-accent-blue/30
+           focus:outline-none focus:ring-4 focus:ring-accent-blue/50 focus:ring-offset-2 focus:ring-offset-dark-950
+           transform hover:-translate-y-1 active:scale-95 active:translate-y-0
+           relative overflow-hidden min-h-[44px] flex items-center justify-center;
+  }
+
+  .btn-primary::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-accent-green to-accent-blue opacity-0 transition-opacity duration-300;
+  }
+
+  .btn-primary:hover::before {
+    @apply opacity-100;
+  }
+
+  .btn-primary span {
+    @apply relative z-10;
+  }
+  
+  /* Botões secundários */
+  .btn-secondary {
+    @apply bg-dark-800/80 backdrop-blur-sm text-gray-300 border border-dark-600/50 font-semibold px-6 py-3 rounded-xl
+           transition-all duration-300 ease-out hover:scale-105 hover:bg-dark-700/90 hover:border-dark-500/70
+           focus:outline-none focus:ring-4 focus:ring-accent-blue/30 focus:ring-offset-2 focus:ring-offset-dark-950
+           transform hover:-translate-y-1 active:scale-95 active:translate-y-0
+           min-h-[44px] flex items-center justify-center;
+  }
+
+  /* Botões de ação rápida */
+  .btn-action {
+    @apply bg-dark-800/60 backdrop-blur-sm text-gray-300 border border-dark-600/30 font-medium px-6 py-3 rounded-xl
+           transition-all duration-200 ease-out hover:scale-102 hover:bg-dark-700/80 hover:border-dark-500/50
+           focus:outline-none focus:ring-2 focus:ring-accent-blue/30 focus:ring-offset-1 focus:ring-offset-dark-950
+           active:scale-98 min-h-[48px] flex items-center justify-center;
+  }
+
+  /* Cartões com design mais elegante */
+  .card {
+    @apply bg-dark-900/80 backdrop-blur-md border border-dark-800/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl
+           transition-all duration-300 ease-out hover:border-dark-600/70 hover:shadow-3xl hover:shadow-accent-blue/10
+           hover:bg-dark-900/90;
+  }
+
+  .card-hover {
+    @apply bg-dark-900/80 backdrop-blur-md border border-dark-800/50 rounded-2xl p-6 shadow-2xl
+           transition-all duration-300 ease-out hover:border-dark-600/70 hover:shadow-3xl hover:shadow-accent-blue/10
+           hover:bg-dark-900/90 hover:scale-102 hover:-translate-y-1;
+  }
+
+  /* Cartões de destaque */
+  .card-featured {
+    @apply bg-gradient-to-br from-dark-900/90 to-dark-800/90 backdrop-blur-md border border-accent-blue/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl
+           transition-all duration-300 ease-out hover:border-accent-blue/40 hover:shadow-3xl hover:shadow-accent-blue/20
+           hover:scale-102 hover:-translate-y-1;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-accent-blue via-blue-400 to-accent-green bg-clip-text text-transparent;
+  }
+
+  /* Tabelas responsivas */
+  .table-container {
+    @apply w-full overflow-x-auto rounded-xl border border-dark-700/50 bg-dark-900/50 backdrop-blur-sm;
+  }
+
+  .table {
+    @apply w-full min-w-full border-collapse;
+  }
+
+  .table th {
+    @apply bg-dark-800/80 text-gray-200 font-semibold text-left px-4 py-3 border-b border-dark-700/50
+           sticky top-0 backdrop-blur-sm;
+  }
+
+  .table td {
+    @apply px-4 py-3 border-b border-dark-700/30 text-gray-300;
+  }
+
+  .table tr:hover {
+    @apply bg-dark-800/30 transition-colors duration-200;
+  }
+
+  /* Tabs com design melhorado */
+  .tab-button {
+    @apply flex items-center gap-3 px-6 py-4 text-gray-400 font-medium rounded-xl transition-all duration-200
+           hover:text-gray-200 hover:bg-dark-800/50 focus:outline-none focus:ring-2 focus:ring-accent-blue/30
+           min-h-[56px] whitespace-nowrap;
+  }
+
+  .tab-button.active {
+    @apply text-accent-blue bg-accent-blue/10 border border-accent-blue/20 shadow-lg shadow-accent-blue/10;
+  }
+
+  /* Inputs com design melhorado */
+  .input-field {
+    @apply w-full px-4 py-3 bg-dark-800/50 border border-dark-600/50 rounded-xl text-gray-100
+           placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue/50 focus:border-accent-blue/50
+           transition-all duration-200 backdrop-blur-sm;
+  }
+
+  .input-field:focus {
+    @apply bg-dark-800/70;
+  }
+
+  /* Feedback visual para ações */
+  .success-feedback {
+    @apply fixed top-4 right-4 bg-green-600/90 backdrop-blur-sm text-white px-6 py-4 rounded-xl shadow-2xl
+           transform translate-x-full transition-transform duration-300 ease-out z-50;
+  }
+
+  .success-feedback.show {
+    @apply translate-x-0;
+  }
+
+  .error-feedback {
+    @apply fixed top-4 right-4 bg-red-600/90 backdrop-blur-sm text-white px-6 py-4 rounded-xl shadow-2xl
+           transform translate-x-full transition-transform duration-300 ease-out z-50;
+  }
+
+  .error-feedback.show {
+    @apply translate-x-0;
+  }
+
+  /* Loading states */
+  .loading-spinner {
+    @apply inline-block w-5 h-5 border-2 border-gray-300 border-t-accent-blue rounded-full animate-spin;
+  }
+
+  .btn-loading {
+    @apply opacity-75 cursor-not-allowed;
+  }
+
+  .btn-loading:hover {
+    @apply scale-100 translate-y-0;
+  }
+}
+
+/* Animações melhoradas - Removidas duplicatas para evitar conflitos */
+/* As animações agora são definidas apenas no tailwind.config.js */
+
+/* Apenas animações específicas que não estão no Tailwind */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Melhorias para evitar flicker nas animações */
+.animate-fade-in,
+.animate-slide-in,
+.animate-scale-in,
+.animate-slide-in-right {
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  /* Garantir que as animações sejam suaves */
+  animation-fill-mode: both;
+  /* Evitar flicker durante a animação */
+  transform: translateZ(0);
+  /* Melhorar o rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Classe adicional para elementos que fazem transições */
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Estilos para os dropdowns melhorados */
+.searchable-dropdown {
+  @apply relative;
+}
+
+.searchable-dropdown-menu {
+  @apply bg-dark-800 border border-dark-600 rounded-lg shadow-xl backdrop-blur-sm;
+}
+
+.searchable-dropdown-option {
+  @apply w-full px-3 py-2 text-left hover:bg-dark-700 focus:bg-dark-700 focus:outline-none transition-colors duration-200 flex items-start gap-3;
+}
+
+.searchable-dropdown-option.highlighted {
+  @apply bg-dark-700;
+}
+
+.searchable-dropdown-option.selected {
+  @apply bg-accent-blue/20 border-l-2 border-accent-blue;
+}
+
+.searchable-dropdown-option.pro-locked {
+  @apply opacity-60 cursor-not-allowed hover:bg-transparent;
+}
+
+.searchable-dropdown-option.pro-locked:hover {
+  @apply bg-transparent;
+}
+
+.searchable-dropdown-text {
+  @apply text-gray-100 font-medium;
+}
+
+.searchable-dropdown-notes {
+  @apply text-gray-400 text-sm;
+}
+
+/* Scrollbar personalizada melhorada */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-800/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-dark-600/70 rounded-full transition-colors duration-200;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-dark-500/80;
+}
+
+::-webkit-scrollbar-corner {
+  @apply bg-transparent;
+}
+
+/* Estilos para checkboxes personalizados */
+.custom-checkbox {
+  @apply relative inline-flex items-center justify-center w-6 h-6 border-2 rounded-lg transition-all duration-200 cursor-pointer
+         hover:border-accent-blue/50 focus:outline-none focus:ring-2 focus:ring-accent-blue/30;
+}
+
+.custom-checkbox:checked {
+  @apply bg-accent-blue border-accent-blue shadow-lg shadow-accent-blue/25;
+}
+
+.custom-checkbox:not(:checked) {
+  @apply bg-dark-700/50 border-dark-600 hover:border-accent-blue/50;
+}
+
+/* Estilos para tooltips melhorados */
+.tooltip {
+  @apply relative;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  @apply absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 text-sm text-white 
+         bg-dark-800/95 backdrop-blur-sm rounded-lg opacity-0 pointer-events-none transition-all duration-200 
+         whitespace-nowrap z-50 shadow-xl border border-dark-700/50;
+}
+
+.tooltip:hover::after {
+  @apply opacity-100 translate-y-0;
+}
+
+/* Melhorias para tabelas responsivas */
+.table-responsive {
+  @apply overflow-x-auto;
+  scrollbar-width: thin;
+  scrollbar-color: theme('colors.dark.600') theme('colors.dark.800');
+}
+
+.table-responsive::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  @apply bg-dark-800/30 rounded-full;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  @apply bg-dark-600/70 rounded-full;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  @apply bg-dark-500/80;
+}
+
+/* Responsividade para dropdowns */
+@media (max-width: 768px) {
+  .searchable-dropdown-menu {
+    min-width: 280px;
+    max-width: 90vw;
+  }
+  
+  .table-cell-dropdown .searchable-dropdown-menu {
+    min-width: 260px;
+    max-width: 85vw;
+  }
+
+  .btn-primary, .btn-secondary {
+    @apply px-6 py-3 text-base min-h-[48px];
+  }
+
+  .card {
+    @apply p-4;
+  }
+}
+
+/* Animações para dropdowns */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.searchable-dropdown-menu {
+  animation: dropdownFadeIn 0.25s ease-out;
+}
+
+/* Estilos para o preview do PDF */
+.pdf-page {
+  width: 210mm;
+  height: 297mm;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+@media print {
+  .pdf-page {
+    box-shadow: none;
+    border-radius: 0;
+  }
+}
+
+/* Estilos para navegação do preview */
+.preview-navigation {
+  @apply flex items-center justify-between bg-dark-800/80 backdrop-blur-sm border-b border-dark-600/50 px-6 py-4;
+}
+
+.preview-page-button {
+  @apply w-10 h-10 rounded-lg text-sm font-medium transition-all duration-200;
+}
+
+.preview-page-button.active {
+  @apply bg-accent-blue text-white shadow-lg shadow-accent-blue/25;
+}
+
+.preview-page-button:not(.active) {
+  @apply bg-dark-700/50 text-gray-300 hover:bg-dark-600/70 hover:text-white;
+}
+
+/* Estados de loading e feedback */
+.loading-overlay {
+  @apply fixed inset-0 bg-dark-950/80 backdrop-blur-sm flex items-center justify-center z-50;
+}
+
+.loading-content {
+  @apply bg-dark-900/90 backdrop-blur-md border border-dark-700/50 rounded-2xl p-8 shadow-2xl
+         flex flex-col items-center gap-4;
+}
+
+/* Melhorias para mobile */
+@media (max-width: 640px) {
+  .btn-primary, .btn-secondary {
+    @apply w-full max-w-sm mx-auto;
+  }
+
+  .card {
+    @apply mx-2;
+  }
+
+  .table-container {
+    @apply mx-2;
+  }
+}
+
+/* Estilos para botões de tab mais compactos */
+.tab-button {
+  @apply flex items-center justify-center gap-1 px-2 py-2 rounded-lg font-medium transition-all duration-200 text-gray-400 hover:text-gray-200 hover:bg-dark-800 text-xs mx-1;
+}
+
+.tab-button.active {
+  @apply bg-accent-blue text-white shadow-lg;
+}
+
+/* Animações de entrada para componentes */
+.component-enter {
+  @apply opacity-0 transform translate-y-4;
+}
+
+.component-enter-active {
+  @apply opacity-100 transform translate-y-0 transition-all duration-300 ease-out;
+}
+
+.component-exit {
+  @apply opacity-100 transform translate-y-0;
+}
+
+.component-exit-active {
+  @apply opacity-0 transform translate-y-4 transition-all duration-200 ease-in;
+}

@@ -1,0 +1,146 @@
+import React from 'react'
+import { View, Text, Image, StyleSheet, Link } from '@react-pdf/renderer'
+
+export interface ContactInfo {
+  nome?: string
+  telefone?: string
+  email?: string
+}
+
+export interface CoverProps {
+  logoDataUrl?: string
+  title: string
+  subtitle?: string
+  imageDataUrl?: string
+  contacts?: {
+    roadManager?: ContactInfo
+    foh?: ContactInfo
+    mon?: ContactInfo
+  }
+  titleSize?: number // default 36 (within 32–40pt requested)
+  version?: string
+  tourYear?: string | number
+}
+
+const TOKENS = {
+  spacing: { xs: 4, sm: 8, md: 12, lg: 16 },
+  colors: { header: '#111111' },
+}
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    minHeight: '100%',
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: TOKENS.spacing.lg,
+  },
+  logo: {
+    height: 40,
+    width: 'auto',
+    marginBottom: TOKENS.spacing.lg,
+  },
+  title: {
+    fontWeight: 'bold',
+    color: TOKENS.colors.header,
+    marginBottom: TOKENS.spacing.lg,
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontSize: 12,
+    marginBottom: TOKENS.spacing.lg,
+    textAlign: 'center',
+  },
+  version: {
+    fontSize: 12,
+    color: '#444444',
+    marginTop: -8,
+    marginBottom: TOKENS.spacing.lg,
+    textAlign: 'center',
+  },
+  tourYear: {
+    fontSize: 12,
+    color: '#444444',
+    marginTop: -10,
+    marginBottom: TOKENS.spacing.lg,
+    textAlign: 'center',
+  },
+  imageWrapper: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  coverImage: {
+    width: '100%',
+    height: 300,
+    objectFit: 'contain',
+    borderRadius: 6,
+  },
+  contactsBlock: {
+    marginTop: TOKENS.spacing.lg,
+    alignItems: 'center',
+  },
+  contactsTitle: {
+    fontWeight: 'bold',
+    marginBottom: TOKENS.spacing.sm,
+    textAlign: 'center',
+  },
+  contactLine: {
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+})
+
+const ContactLine: React.FC<{ label: string; info?: ContactInfo }> = ({ label, info }) => {
+  if (!info || !info.nome) return null
+  return (
+    <View style={styles.contactLine} wrap={false}>
+      <Text>
+        <Text style={{ fontWeight: 'bold' }}>{label}: </Text>
+        <Text>{info.nome}</Text>
+        {info.telefone ? <Text>  •  <Text style={{ fontWeight: 'bold' }}>Tel:</Text> {info.telefone}</Text> : null}
+        {info.email ? (
+          <Text>
+            {'  •  '}<Text style={{ fontWeight: 'bold' }}>Email:</Text> <Link src={`mailto:${info.email}`}>{info.email}</Link>
+          </Text>
+        ) : null}
+      </Text>
+    </View>
+  )
+}
+
+export const Cover: React.FC<CoverProps> = ({ logoDataUrl, title, subtitle, imageDataUrl, contacts, titleSize = 36, version, tourYear }) => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.header} wrap={false}>
+        {logoDataUrl ? (
+          <Image src={logoDataUrl} style={styles.logo} />
+        ) : null}
+        <Text style={[styles.title, { fontSize: titleSize }]}>{title}</Text>
+        {version ? <Text style={styles.version}>Rider v{version}</Text> : null}
+        {tourYear ? <Text style={styles.tourYear}>Tour {tourYear}</Text> : null}
+        {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+      </View>
+
+      {imageDataUrl ? (
+        <View style={styles.imageWrapper}>
+          <Image src={{ uri: imageDataUrl }} style={styles.coverImage} />
+        </View>
+      ) : null}
+
+      {contacts && (contacts.roadManager || contacts.foh || contacts.mon) ? (
+        <View style={styles.contactsBlock}>
+          <Text style={styles.contactsTitle}>Contactos</Text>
+          <ContactLine label="Road Manager" info={contacts.roadManager} />
+          <ContactLine label="FOH" info={contacts.foh} />
+          <ContactLine label="MON" info={contacts.mon} />
+        </View>
+      ) : null}
+    </View>
+  )
+}
+
+export default Cover
+
+
