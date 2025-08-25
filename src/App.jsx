@@ -86,7 +86,7 @@ function AppContent() {
             </div>
             
             {/* Main Action Buttons */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto mb-12 sm:mb-16">
+            <div className={`grid grid-cols-1 ${import.meta.env.VITE_SHOW_DEMO === 'true' ? 'lg:grid-cols-3' : 'lg:grid-cols-2'} gap-6 sm:gap-8 max-w-6xl mx-auto mb-12 sm:mb-16`}>
               {/* Criar Novo Rider */}
               <div className="card hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-accent-blue/20">
                 <div className="text-center p-6 sm:p-8">
