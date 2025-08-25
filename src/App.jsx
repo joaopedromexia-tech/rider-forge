@@ -25,17 +25,7 @@ function AppContent() {
   const hasUser = Boolean(user)
   const hasUserAccount = Boolean(hasAccount)
 
-  // Debug do estado do usuário
-  console.log('🔍 Estado do usuário:', {
-    user: !!user,
-    hasAccount: !!hasAccount,
-    isPro: !!isPro,
-    authLoading,
-    hasUser,
-    hasUserAccount,
-    isProUser,
-    showLoginModal
-  })
+
 
   const handleNavigateToForm = (riderId = null) => {
     setEditingRiderId(riderId)
@@ -83,30 +73,30 @@ function AppContent() {
   return (
     <div className="App">
       {currentView === 'home' && (
-        <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800 p-4">
-          <div className="max-w-6xl mx-auto">
+        <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
             {/* Header */}
-            <div className="text-center py-12 mb-8">
-              <h1 className="text-5xl sm:text-7xl font-bold text-gradient mb-6">
+            <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gradient mb-4 sm:mb-6 leading-tight">
                 Rider Forge
               </h1>
-              <p className="text-xl sm:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
                 Crie riders técnicos profissionais com facilidade e precisão
               </p>
             </div>
             
             {/* Main Action Buttons */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto mb-12 sm:mb-16">
               {/* Criar Novo Rider */}
               <div className="card hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-accent-blue/20">
-                <div className="text-center p-8">
-                  <div className="w-16 h-16 bg-gradient-to-r from-accent-blue to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <div className="text-center p-6 sm:p-8">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-accent-blue to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg">
                     <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-100 mb-4">Criar Novo Rider</h3>
-                  <p className="text-gray-400 mb-6 leading-relaxed">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-100 mb-3 sm:mb-4">Criar Novo Rider</h3>
+                  <p className="text-gray-400 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                     Comece do zero e crie um rider técnico personalizado para o seu evento
                   </p>
                   <button
@@ -124,8 +114,8 @@ function AppContent() {
                   ? 'hover:scale-105 hover:shadow-2xl hover:shadow-accent-green/20' 
                   : 'opacity-80 cursor-pointer hover:scale-102 hover:shadow-xl hover:shadow-yellow-500/10'
               }`}>
-                <div className="text-center p-8">
-                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg ${
+                <div className="text-center p-6 sm:p-8">
+                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg ${
                     hasUser && hasUserAccount 
                       ? 'bg-gradient-to-r from-accent-green to-green-500' 
                       : 'bg-gradient-to-r from-yellow-500 to-orange-500'
@@ -140,8 +130,8 @@ function AppContent() {
                       </svg>
                     )}
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-100 mb-4">Dashboard</h3>
-                  <p className="text-gray-400 mb-6 leading-relaxed">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-100 mb-3 sm:mb-4">Dashboard</h3>
+                  <p className="text-gray-400 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                     {hasUser && hasUserAccount 
                       ? 'Aceda ao seu dashboard para gerir riders e ver estatísticas'
                       : 'Guarde e organize todos os seus riders numa conta gratuita'
@@ -157,20 +147,14 @@ function AppContent() {
                   ) : (
                     <div className="space-y-3">
                       <button
-                        onClick={() => {
-                          console.log('🔑 Botão Login clicado!')
-                          setShowLoginModal(true)
-                        }}
+                        onClick={() => setShowLoginModal(true)}
                         className="w-full text-lg py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200"
                         style={{ position: 'relative', zIndex: 10 }}
                       >
                         <span>🔑 Fazer Login</span>
                       </button>
                       <button
-                        onClick={() => {
-                          console.log('✨ Botão Criar Conta clicado!')
-                          setShowLoginModal(true)
-                        }}
+                        onClick={() => setShowLoginModal(true)}
                         className="w-full text-lg py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all duration-200"
                         style={{ position: 'relative', zIndex: 10 }}
                       >
@@ -192,14 +176,14 @@ function AppContent() {
 
               {/* Demo */}
               <div className="card hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20">
-                <div className="text-center p-8">
-                  <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <div className="text-center p-6 sm:p-8">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg">
                     <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-100 mb-4">Rider Demo</h3>
-                  <p className="text-gray-400 mb-6 leading-relaxed">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-100 mb-3 sm:mb-4">Rider Demo</h3>
+                  <p className="text-gray-400 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                     Explore um exemplo completo de rider técnico profissional
                   </p>
                   <div className="w-full">
@@ -211,20 +195,17 @@ function AppContent() {
 
             {/* Botão de Upgrade para Pro no fundo da página */}
             {hasUser && hasUserAccount && !isProUser && (
-              <div className="mt-16 mb-8">
-                <div className="bg-gradient-to-r from-accent-green/10 to-accent-blue/10 border border-accent-green/30 rounded-2xl p-8 text-center">
+              <div className="mt-12 sm:mt-16 mb-8">
+                <div className="bg-gradient-to-r from-accent-green/10 to-accent-blue/10 border border-accent-green/30 rounded-2xl p-6 sm:p-8 text-center">
                   <div className="max-w-2xl mx-auto">
-                    <h2 className="text-3xl font-bold text-white mb-4">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">
                       Potencialize a criação de riders técnicos
                     </h2>
-                    <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                    <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">
                       Aceda a equipamentos profissionais, riders ilimitados e funcionalidades avançadas para criar riders técnicos de qualidade
                     </p>
                     <button
-                      onClick={() => {
-                        console.log('🚀 Botão Upgrade Pro clicado!')
-                        handleNavigateToProSubscription()
-                      }}
+                      onClick={handleNavigateToProSubscription}
                       className="bg-gradient-to-r from-accent-green to-accent-blue text-white font-semibold px-12 py-4 rounded-xl hover:from-accent-green/90 hover:to-accent-blue/90 transition-all duration-300 shadow-xl text-lg transform hover:scale-105"
                     >
                       <svg className="w-6 h-6 inline mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -241,7 +222,7 @@ function AppContent() {
             )}
 
             {/* Footer Info */}
-            <div className="text-center text-gray-500 text-sm">
+            <div className="text-center text-gray-500 text-sm mt-8 sm:mt-12">
               <p>Ferramenta profissional para criação de riders técnicos</p>
             </div>
           </div>
@@ -281,10 +262,7 @@ function AppContent() {
       {/* Login Modal */}
       <LoginModal 
         isOpen={showLoginModal} 
-        onClose={() => {
-          console.log('🔒 Fechando modal de login')
-          setShowLoginModal(false)
-        }} 
+        onClose={() => setShowLoginModal(false)} 
       />
       
       {/* Vercel Analytics */}
