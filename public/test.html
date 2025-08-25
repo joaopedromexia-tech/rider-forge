@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Vercel</title>
+    <style>
+        body {
+            background-color: #ff0000;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Teste Vercel</h1>
+        <p>Se vê isto, o Vercel está funcionando!</p>
+        <p>Timestamp: <span id="timestamp"></span></p>
+    </div>
+    
+    <script>
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        console.log('Test page loaded successfully!');
+    </script>
+</body>
+</html>

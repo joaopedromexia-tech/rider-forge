@@ -7,6 +7,14 @@
     <link rel="manifest" href="/manifest.webmanifest" type="application/manifest+json" />
     <meta name="description" content="Rider Forge - Crie riders técnicos profissionais com facilidade e precisão" />
     <title>Rider Forge - Criador de Riders Técnicos</title>
+    <script>
+      console.log('HTML loaded!');
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded!');
+        document.body.style.backgroundColor = 'green';
+        document.body.innerHTML = '<h1 style="color: white; text-align: center; padding: 50px;">HTML está funcionando!</h1>';
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>
