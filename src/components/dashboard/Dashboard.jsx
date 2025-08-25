@@ -1,16 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
-import { useRider } from '../../context/RiderContext'
-import { PRO_CONFIG } from '../../config/proConfig'
-import LoginModal from '../auth/LoginModal'
-import ProUpgradeModal from '../ProUpgradeModal'
 
 const Dashboard = () => {
   const { user, isPro, loading: authLoading } = useAuth()
-  const { savedRiders, deleteRider, canSaveMoreRiders } = useRider()
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+
+  // Mock riders para teste
+  const mockRiders = [
+    {
+      id: '1',
+      name: 'Banda de Teste v1 2026',
+      thumbnail: { artista: 'Banda de Teste' },
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    }
+  ]
 
   // Criar novo rider
   const createNewRider = () => {
@@ -20,23 +26,22 @@ const Dashboard = () => {
     }
 
     // Verificar limite de riders para utilizadores Free
-    if (!canSaveMoreRiders()) {
+    if (!isPro && mockRiders.length >= 3) {
       setShowUpgradeModal(true)
       return
     }
 
-    // Redirecionar para criar novo rider
-    window.location.href = '/rider/new'
+    alert('Funcionalidade de criar rider em desenvolvimento!')
   }
 
   // Eliminar rider
   const handleDeleteRider = (riderId) => {
     if (!confirm('Tem a certeza que quer eliminar este rider?')) return
-    deleteRider(riderId)
+    alert('Funcionalidade de eliminar rider em desenvolvimento!')
   }
 
   // Filtrar riders por pesquisa
-  const filteredRiders = savedRiders.filter(rider =>
+  const filteredRiders = mockRiders.filter(rider =>
     rider.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
@@ -62,7 +67,7 @@ const Dashboard = () => {
                     Olá, {user.user_metadata?.full_name || user.email}
                   </span>
                   <button
-                    onClick={() => window.location.href = '/pricing'}
+                    onClick={() => alert('Página de pricing em desenvolvimento!')}
                     className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                   >
                     {isPro ? 'Pro' : 'Upgrade'}
@@ -123,7 +128,7 @@ const Dashboard = () => {
               <div
                 key={rider.id}
                 className="bg-gray-800 rounded-lg p-6 hover:bg-gray-750 transition-colors cursor-pointer border border-gray-700"
-                onClick={() => window.location.href = `/rider/${rider.id}`}
+                onClick={() => alert('Editor de rider em desenvolvimento!')}
               >
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-lg font-semibold text-white truncate">
@@ -152,20 +157,66 @@ const Dashboard = () => {
 
       {/* Modals */}
       {showLoginModal && (
-        <LoginModal
-          onClose={() => setShowLoginModal(false)}
-          onSuccess={() => setShowLoginModal(false)}
-        />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                Entrar no Rider Forge
+              </h2>
+              <p className="text-gray-600">
+                Aceda à sua conta para continuar
+              </p>
+            </div>
+            <div className="space-y-4">
+              <button
+                onClick={() => setShowLoginModal(false)}
+                className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              >
+                Entrar (Mock)
+              </button>
+            </div>
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => setShowLoginModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-sm"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {showUpgradeModal && (
-        <ProUpgradeModal
-          onClose={() => setShowUpgradeModal(false)}
-          onUpgrade={() => {
-            setShowUpgradeModal(false)
-            window.location.href = '/pricing'
-          }}
-        />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                Upgrade para Pro
+              </h2>
+              <p className="text-gray-600">
+                Esta função está disponível no Rider Forge Pro
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowUpgradeModal(false)}
+                className="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-400 transition-colors"
+              >
+                Continuar Free
+              </button>
+              <button
+                onClick={() => {
+                  alert('Upgrade em desenvolvimento!')
+                  setShowUpgradeModal(false)
+                }}
+                className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              >
+                Upgrade para Pro
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )
