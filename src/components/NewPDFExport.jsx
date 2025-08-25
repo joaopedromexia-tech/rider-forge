@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { pdf } from '@react-pdf/renderer'
 import RiderPDF from '../pdf/RiderPDF'
-import { useProFeatures } from '../hooks/useProFeatures'
-import ProUpgradeModal from './ProUpgradeModal'
 import PDFPreview from './PDFPreview'
 
 function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
@@ -13,15 +11,6 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
     customFooter: '',
     colorTheme: 'default'
   })
-
-  const {
-    isPro,
-    showUpgradeModal,
-    currentFeature,
-    closeUpgradeModal,
-    useProFeature,
-    PRO_FEATURES
-  } = useProFeatures()
 
   useEffect(() => {
     try {
@@ -37,7 +26,7 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
   if (!isOpen) return null
   const filename = `${(riderName || 'rider_tecnico').replace(/[^a-z0-9]/gi, '_').toLowerCase()}_novo.pdf`
 
-  // Apenas o tema padrão para todos os utilizadores
+  // Apenas o tema padrão
   const colorThemes = [
     { value: 'default', label: 'Padrão', description: 'Tema clássico preto e branco' }
   ]
@@ -157,9 +146,6 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
           </div>
         </div>
       </div>
-
-      {/* Pro Upgrade Modal (mantido, mas não será aberto pois não há opções PRO) */}
-      <ProUpgradeModal isOpen={showUpgradeModal} onClose={closeUpgradeModal} feature={currentFeature} />
 
       {/* PDF Preview Modal */}
       <PDFPreview isOpen={showPreview} onClose={() => setShowPreview(false)} riderData={riderData} riderName={riderName} exportOptions={exportOptions} onExport={handleGenerateAndDownload} />
