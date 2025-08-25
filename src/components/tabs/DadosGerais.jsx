@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import StagePlotEditor from '../StagePlotEditor'
 
 function DadosGerais({ data, onChange }) {
 
@@ -28,10 +27,11 @@ function DadosGerais({ data, onChange }) {
     stagePlot: null
   })
 
-  // Estados para feedback de drag-and-drop
+  // Estados de arrastar/soltar para feedback visual
   const [isDraggingCapa, setIsDraggingCapa] = useState(false)
   const [isDraggingStagePlot, setIsDraggingStagePlot] = useState(false)
-  const [showStagePlotEditor, setShowStagePlotEditor] = useState(false)
+
+
 
   useEffect(() => {
     if (data) {
@@ -60,14 +60,14 @@ function DadosGerais({ data, onChange }) {
   // Função para validar tipo de arquivo
   const validateImageFile = (file) => {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png']
-    const maxSize = 2 * 1024 * 1024 // 2MB
+    const maxSize = 5 * 1024 * 1024 // 5MB
 
     if (!allowedTypes.includes(file.type)) {
       return { valid: false, error: 'Apenas ficheiros PNG e JPG são permitidos.' }
     }
 
     if (file.size > maxSize) {
-      return { valid: false, error: 'O ficheiro deve ter menos de 2MB.' }
+      return { valid: false, error: 'O ficheiro deve ter menos de 5MB.' }
     }
 
     return { valid: true }
@@ -97,7 +97,6 @@ function DadosGerais({ data, onChange }) {
 
     try {
       const base64 = await convertToBase64(file)
-
       const newData = {
         ...formData,
         imagemCapa: {
@@ -110,13 +109,12 @@ function DadosGerais({ data, onChange }) {
       setFormData(newData)
       onChange(newData)
     } catch (error) {
-
       alert('Erro ao processar a imagem. Tente novamente.')
       event.target.value = ''
     }
   }
 
-  // Handler para drop de imagem de capa (drag-and-drop)
+  // Drop de imagem de capa (drag-and-drop)
   const handleCapaDrop = async (event) => {
     event.preventDefault()
     setIsDraggingCapa(false)
@@ -147,6 +145,8 @@ function DadosGerais({ data, onChange }) {
     }
   }
 
+
+
   // Handler para upload de stage plot
   const handleStagePlotUpload = async (event) => {
     const file = event.target.files[0]
@@ -161,7 +161,6 @@ function DadosGerais({ data, onChange }) {
 
     try {
       const base64 = await convertToBase64(file)
-
       const newData = {
         ...formData,
         stagePlot: {
@@ -174,13 +173,12 @@ function DadosGerais({ data, onChange }) {
       setFormData(newData)
       onChange(newData)
     } catch (error) {
-
       alert('Erro ao processar a imagem. Tente novamente.')
       event.target.value = ''
     }
   }
 
-  // Handler para drop de stage plot (drag-and-drop)
+  // Drop de stage plot (drag-and-drop)
   const handleStagePlotDrop = async (event) => {
     event.preventDefault()
     setIsDraggingStagePlot(false)
@@ -210,6 +208,8 @@ function DadosGerais({ data, onChange }) {
       alert('Erro ao processar a imagem. Tente novamente.')
     }
   }
+
+
 
   // Função para remover imagem
   const removeImage = (type) => {
@@ -376,7 +376,9 @@ function DadosGerais({ data, onChange }) {
               type="text"
               value={formData.versaoRider}
               onChange={(e) => handleChange('versaoRider', e.target.value)}
-              className="w-full px-4 py-3 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+              className={`w-full px-4 py-3 bg-dark-700 border rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200 ${
+                formData.versaoRider.trim() ? 'border-green-500/50' : 'border-red-500/50'
+              }`}
               placeholder="Ex: 1.0, 2.1, etc."
             />
           </div>
@@ -389,7 +391,7 @@ function DadosGerais({ data, onChange }) {
               type="number"
               value={formData.anoTour}
               onChange={(e) => handleChange('anoTour', e.target.value)}
-              className="w-full px-4 py-3 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+              className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
               placeholder="Ex: 2024"
               min="2000"
               max="2030"
@@ -443,7 +445,7 @@ function DadosGerais({ data, onChange }) {
               </div>
             ) : (
               <div
-                className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors duration-200 ${isDraggingCapa ? 'border-accent-blue bg-dark-700/50' : 'border-dark-600 hover:border-accent-blue'}`}
+                className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${isDraggingCapa ? 'border-accent-blue bg-dark-700/50' : 'border-dark-600 hover:border-accent-blue'}`}
                 onDragOver={(e) => { e.preventDefault(); setIsDraggingCapa(true) }}
                 onDragLeave={() => setIsDraggingCapa(false)}
                 onDrop={handleCapaDrop}
@@ -455,13 +457,17 @@ function DadosGerais({ data, onChange }) {
                   className="hidden"
                   id="capa-upload"
                 />
-                <label htmlFor="capa-upload" className="cursor-pointer">
+                <button 
+                  onClick={() => document.getElementById('capa-upload').click()}
+                  className="w-full cursor-pointer block"
+                >
                   <svg className="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
                   <p className="text-gray-300 font-medium">Carregar Imagem de Capa</p>
                   <p className="text-gray-500 text-sm mt-1">PNG ou JPG, máximo 5MB</p>
-                </label>
+                  <p className="text-gray-500 text-xs mt-1">Também podes arrastar e largar aqui</p>
+                </button>
               </div>
             )}
           </div>
@@ -483,15 +489,7 @@ function DadosGerais({ data, onChange }) {
                     alt="Stage plot"
                     className="w-full h-48 object-cover rounded-lg border border-dark-600"
                   />
-                  <button
-                    disabled
-                    className="absolute top-2 left-2 bg-gray-600 text-gray-400 rounded-full p-2 cursor-not-allowed opacity-50"
-                    title="Editor de Stage Plot - Disponível em breve"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4h2M4 20h16M4 8h16M4 12h16M4 16h7" />
-                    </svg>
-                  </button>
+
                   <button
                     onClick={() => removeImage('stagePlot')}
                     className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition-colors duration-200"
@@ -509,7 +507,7 @@ function DadosGerais({ data, onChange }) {
               </div>
             ) : (
               <div
-                className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors duration-200 ${isDraggingStagePlot ? 'border-accent-green bg-dark-700/50' : 'border-dark-600 hover:border-accent-green'}`}
+                className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${isDraggingStagePlot ? 'border-accent-green bg-dark-700/50' : 'border-dark-600 hover:border-accent-green'}`}
                 onDragOver={(e) => { e.preventDefault(); setIsDraggingStagePlot(true) }}
                 onDragLeave={() => setIsDraggingStagePlot(false)}
                 onDrop={handleStagePlotDrop}
@@ -521,50 +519,22 @@ function DadosGerais({ data, onChange }) {
                   className="hidden"
                   id="stage-plot-upload"
                 />
-                <label htmlFor="stage-plot-upload" className="cursor-pointer">
+                <button 
+                  onClick={() => document.getElementById('stage-plot-upload').click()}
+                  className="w-full cursor-pointer block"
+                >
                   <svg className="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
                   <p className="text-gray-300 font-medium">Carregar Stage Plot</p>
-                  <p className="text-gray-500 text-sm mt-1">PNG ou JPG, máximo 2MB</p>
-                  <p className="text-gray-500 text-xs mt-1">Editor visual disponível em breve</p>
-                </label>
-                <div className="mt-3">
-                  <button
-                    type="button"
-                    disabled
-                    className="px-4 py-2 bg-gray-600 text-gray-400 rounded-lg cursor-not-allowed opacity-50 flex items-center gap-2 mx-auto"
-                    title="Editor de Stage Plot - Disponível em breve"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    Criar com Editor
-                    <span className="text-xs bg-yellow-500 text-black px-1.5 py-0.5 rounded-full">Em breve</span>
-                  </button>
-                </div>
+                  <p className="text-gray-500 text-sm mt-1">PNG ou JPG, máximo 5MB</p>
+                  <p className="text-gray-500 text-xs mt-1">Também podes arrastar e largar aqui</p>
+                </button>
               </div>
             )}
           </div>
         </div>
       </div>
-
-      {/* Stage Plot Editor temporariamente desabilitado */}
-      {/* {showStagePlotEditor && (
-        <StagePlotEditor
-          initialLayout={formData.stagePlot?.layout || null}
-          onClose={() => setShowStagePlotEditor(false)}
-          onSave={({ png, layout }) => {
-            const newData = {
-              ...formData,
-              stagePlot: png ? { data: png, name: 'stageplot.png', type: 'image/png', size: png.length, layout } : formData.stagePlot
-            }
-            setFormData(newData)
-            onChange(newData)
-            setShowStagePlotEditor(false)
-          }}
-        />
-      )} */}
 
       {/* Contactos */}
       <div className="bg-dark-800/50 rounded-lg p-6 border border-dark-700/50">
@@ -587,33 +557,33 @@ function DadosGerais({ data, onChange }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
-                              <input
-                  type="text"
-                  value={formData.roadManager.nome}
-                  onChange={(e) => handleContactChange('roadManager', 'nome', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                  placeholder="Nome completo"
-                />
+              <input
+                type="text"
+                value={formData.roadManager.nome}
+                onChange={(e) => handleContactChange('roadManager', 'nome', e.target.value)}
+                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                placeholder="Nome completo"
+              />
             </div>
-                          <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
-                <input
-                  type="tel"
-                  value={formData.roadManager.telefone}
-                  onChange={(e) => handleContactChange('roadManager', 'telefone', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                  placeholder="+351 123 456 789"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                <input
-                  type="email"
-                  value={formData.roadManager.email}
-                  onChange={(e) => handleContactChange('roadManager', 'email', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                  placeholder="email@exemplo.com"
-                />
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
+              <input
+                type="tel"
+                value={formData.roadManager.telefone}
+                onChange={(e) => handleContactChange('roadManager', 'telefone', e.target.value)}
+                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                placeholder="+351 123 456 789"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+              <input
+                type="email"
+                value={formData.roadManager.email}
+                onChange={(e) => handleContactChange('roadManager', 'email', e.target.value)}
+                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                placeholder="email@exemplo.com"
+              />
             </div>
           </div>
         </div>
@@ -622,40 +592,40 @@ function DadosGerais({ data, onChange }) {
         <div className="bg-dark-800/30 rounded-lg p-4 border border-dark-700/30 mb-4">
           <h4 className="text-lg font-medium text-accent-green mb-4 flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
             </svg>
             FOH (Front of House)
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                          <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
-                <input
-                  type="text"
-                  value={formData.foh.nome}
-                  onChange={(e) => handleContactChange('foh', 'nome', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                  placeholder="Nome completo"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
-                <input
-                  type="tel"
-                  value={formData.foh.telefone}
-                  onChange={(e) => handleContactChange('foh', 'telefone', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                  placeholder="+351 123 456 789"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                <input
-                  type="email"
-                  value={formData.foh.email}
-                  onChange={(e) => handleContactChange('foh', 'email', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                  placeholder="email@exemplo.com"
-                />
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
+              <input
+                type="text"
+                value={formData.foh.nome}
+                onChange={(e) => handleContactChange('foh', 'nome', e.target.value)}
+                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                placeholder="Nome completo"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
+              <input
+                type="tel"
+                value={formData.foh.telefone}
+                onChange={(e) => handleContactChange('foh', 'telefone', e.target.value)}
+                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                placeholder="+351 123 456 789"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+              <input
+                type="email"
+                value={formData.foh.email}
+                onChange={(e) => handleContactChange('foh', 'email', e.target.value)}
+                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                placeholder="email@exemplo.com"
+              />
             </div>
           </div>
         </div>
@@ -664,43 +634,43 @@ function DadosGerais({ data, onChange }) {
         <div className="bg-dark-800/30 rounded-lg p-4 border border-dark-700/30">
           <h4 className="text-lg font-medium text-purple-400 mb-4 flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-            </svg>
-            MON (Monitor)
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                          <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
-                <input
-                  type="text"
-                  value={formData.mon.nome}
-                  onChange={(e) => handleContactChange('mon', 'nome', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                  placeholder="Nome completo"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
-                <input
-                  type="tel"
-                  value={formData.mon.telefone}
-                  onChange={(e) => handleContactChange('mon', 'telefone', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                  placeholder="+351 123 456 789"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                <input
-                  type="email"
-                  value={formData.mon.email}
-                  onChange={(e) => handleContactChange('mon', 'email', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                  placeholder="email@exemplo.com"
-                />
-            </div>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+          </svg>
+          MON (Monitor)
+        </h4>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
+            <input
+              type="text"
+              value={formData.mon.nome}
+              onChange={(e) => handleContactChange('mon', 'nome', e.target.value)}
+              className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+              placeholder="Nome completo"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
+            <input
+              type="tel"
+              value={formData.mon.telefone}
+              onChange={(e) => handleContactChange('mon', 'telefone', e.target.value)}
+              className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+              placeholder="+351 123 456 789"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+            <input
+              type="email"
+              value={formData.mon.email}
+              onChange={(e) => handleContactChange('mon', 'email', e.target.value)}
+              className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+              placeholder="email@exemplo.com"
+            />
           </div>
         </div>
+      </div>
       </div>
     </div>
   )

@@ -74,7 +74,7 @@
 
   .card::before {
     content: '';
-    @apply absolute inset-0 bg-gradient-to-br from-accent-blue/5 to-accent-green/5 opacity-0 transition-opacity duration-300;
+    @apply absolute inset-0 bg-gradient-to-br from-accent-blue/5 to-accent-green/5 opacity-0 transition-opacity duration-300 pointer-events-none;
   }
 
   .card:hover::before {

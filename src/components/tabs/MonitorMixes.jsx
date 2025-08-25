@@ -381,7 +381,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
                   type="text"
                   value={mix.instrumentoMusico || ''}
                   onChange={(e) => updateMix(index, 'instrumentoMusico', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
                   placeholder="ex: Vocalista, Guitarra, Bateria"
                 />
               </div>
@@ -395,7 +395,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
                 <select
                   value={mix.tipo || 'iem'}
                   onChange={(e) => updateMix(index, 'tipo', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
                 >
                   {tipoOptions.map(option => (
                     <option key={option.value} value={option.value}>
@@ -411,7 +411,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
                 <select
                   value={mix.formato || 'stereo'}
                   onChange={(e) => updateMix(index, 'formato', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
                 >
                   {formatoOptions.map(option => (
                     <option key={option.value} value={option.value}>

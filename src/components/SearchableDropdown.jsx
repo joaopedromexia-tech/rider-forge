@@ -156,8 +156,10 @@ function SearchableDropdown({
   }
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
+    if (isOpen) {
+      document.addEventListener('keydown', handleKeyDown)
+      return () => document.removeEventListener('keydown', handleKeyDown)
+    }
   }, [isOpen, highlightedIndex, filteredOptions, isPro])
 
   const handleSelect = (option) => {
