@@ -194,10 +194,10 @@ function AppContent() {
                 <div className="bg-gradient-to-r from-accent-green/10 to-accent-blue/10 border border-accent-green/30 rounded-2xl p-8 text-center">
                   <div className="max-w-2xl mx-auto">
                     <h2 className="text-3xl font-bold text-white mb-4">
-                      Potencialize a sua produção musical
+                      Potencialize a criação de riders técnicos
                     </h2>
                     <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                      Aceda a equipamentos profissionais, riders ilimitados e funcionalidades avançadas
+                      Aceda a equipamentos profissionais, riders ilimitados e funcionalidades avançadas para criar riders técnicos de qualidade
                     </p>
                     <button
                       onClick={handleNavigateToProSubscription}

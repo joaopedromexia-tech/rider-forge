@@ -48,9 +48,16 @@ export const stripe = {
         }),
       })
 
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error('API Error:', response.status, errorText)
+        throw new Error(`API Error: ${response.status} - ${errorText}`)
+      }
+
       const session = await response.json()
       return { session, error: null }
     } catch (error) {
+      console.error('Checkout session error:', error)
       return { session: null, error }
     }
   },
@@ -69,9 +76,16 @@ export const stripe = {
         }),
       })
 
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error('Portal API Error:', response.status, errorText)
+        throw new Error(`Portal API Error: ${response.status} - ${errorText}`)
+      }
+
       const session = await response.json()
       return { session, error: null }
     } catch (error) {
+      console.error('Portal session error:', error)
       return { session: null, error }
     }
   },
