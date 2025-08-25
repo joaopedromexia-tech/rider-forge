@@ -25,9 +25,9 @@ import { kvGet, kvSet } from '../utils/storage'
 
 function RiderForm({ onBack, editingRiderId = null }) {
   const { isPro, setIsPro } = useRider()
-  const { saveRider, updateRider, getRiderById } = useRider()
-  const { user, hasAccount } = useAuth()
+  const { saveRider, updateRider, getRiderById, saveDemoRiderAsPermanent } = useRider()
   const { showSuccess, showError } = useFeedback()
+  const { user, hasAccount } = useAuth()
   
   const {
     showUpgradeModal,
@@ -247,6 +247,35 @@ function RiderForm({ onBack, editingRiderId = null }) {
     setShowSaveModal(true)
   }
 
+  // Função especial para guardar rider demo como permanente
+  const handleSaveDemoAsPermanent = async () => {
+    if (!user || !hasAccount) {
+      setShowLoginModal(true)
+      return
+    }
+
+    if (!editingRider?.isDemo) {
+      console.error('Tentativa de guardar rider não-demo como permanente')
+      return
+    }
+
+    try {
+      const savedRider = await saveDemoRiderAsPermanent(editingRiderId, `${editingRider.name} (Guardado)`)
+      
+      // Mostrar feedback de sucesso
+      showSuccess('Rider demo guardado permanentemente com sucesso!')
+      
+      // Navegar para o rider guardado
+      setTimeout(() => {
+        onBack() // Voltar ao dashboard onde o novo rider aparecerá
+      }, 1500)
+      
+    } catch (error) {
+      console.error('Erro ao guardar rider demo:', error)
+      showError('Erro ao guardar rider demo: ' + error.message)
+    }
+  }
+
   const handleCreateAccountClick = () => {
     setShowLoginModal(true)
   }
@@ -341,7 +370,17 @@ function RiderForm({ onBack, editingRiderId = null }) {
           </button>
           
           <div className="flex flex-col items-center gap-2">
-            <h1 className="text-4xl font-bold text-gradient animate-fade-in">Criar Rider Técnico</h1>
+            <h1 className="text-4xl font-bold text-gradient animate-fade-in">
+              {editingRider?.isDemo ? 'Rider Demo - Thunder Road' : (editingRiderId ? 'Editar Rider Técnico' : 'Criar Rider Técnico')}
+            </h1>
+            {/* Aviso para Rider Demo */}
+            {editingRider?.isDemo && (
+              <div className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded-lg px-4 py-2 max-w-2xl">
+                <p className="text-sm text-purple-200 text-center">
+                  ✨ Este é um <strong>rider demo</strong> para exploração. Para guardar permanentemente, clique em "Guardar Rider" no final da página.
+                </p>
+              </div>
+            )}
             {/* Progresso Geral */}
             <div className="w-64 md:w-96">
               <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
@@ -375,6 +414,13 @@ function RiderForm({ onBack, editingRiderId = null }) {
                 className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold px-8 py-3 rounded-xl hover:from-yellow-600 hover:to-orange-600 transition-all duration-200"
               >
                 🔐 Criar Conta para Gravar
+              </button>
+            ) : editingRider?.isDemo ? (
+              <button
+                onClick={handleSaveDemoAsPermanent}
+                className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold px-8 py-3 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-lg"
+              >
+                ✨ Guardar Rider Demo Permanentemente
               </button>
             ) : (
               <button

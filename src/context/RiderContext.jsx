@@ -349,11 +349,50 @@ export function RiderProvider({ children }) {
     setSavedRiders(prev => prev.filter(rider => rider.id !== id))
   }, [user, hasAccount])
 
-  // Obter um rider por ID
+  // Obter um rider por ID (incluindo demos temporários)
   const getRiderById = useCallback((id) => {
+    // Primeiro procurar nos riders salvos
     const rider = savedRiders.find(rider => rider.id === id)
-    return rider
+    if (rider) return rider
+    
+    // Se não encontrar e o ID indica que é um demo temporário, procurar no localStorage
+    if (id.startsWith('demo_temp_')) {
+      try {
+        const tempDemo = localStorage.getItem('riderForge_temp_demo')
+        if (tempDemo) {
+          const demoRider = JSON.parse(tempDemo)
+          if (demoRider.id === id) {
+            return demoRider
+          }
+        }
+      } catch (error) {
+        console.warn('Erro ao carregar demo temporário:', error)
+      }
+    }
+    
+    return null
   }, [savedRiders])
+
+  // Converter rider demo temporário em permanente
+  const saveDemoRiderAsPermanent = useCallback(async (demoId, customName) => {
+    const demoRider = getRiderById(demoId)
+    if (!demoRider || !demoRider.isDemo) {
+      throw new Error('Rider demo não encontrado')
+    }
+
+    // Usar a função saveRider normal para guardar permanentemente
+    const permanentName = customName || demoRider.name.replace(' (Demo)', '')
+    const savedRider = await saveRider(demoRider.data, permanentName)
+    
+    // Limpar o demo temporário do localStorage
+    try {
+      localStorage.removeItem('riderForge_temp_demo')
+    } catch (error) {
+      console.warn('Erro ao limpar demo temporário:', error)
+    }
+    
+    return savedRider
+  }, [getRiderById, saveRider])
 
   // Exportar rider como JSON
   const exportRider = useCallback((id) => {
@@ -417,7 +456,7 @@ export function RiderProvider({ children }) {
       totalRiders: savedRiders.length,
       totalSize: totalSize.toFixed(2),
       maxRiders: isPro ? '∞' : FREE_LIMITS.maxRiders,
-      maxStorage: isPro ? '∞' : FREE_LIMITS.maxStorageMB
+      maxStorage: isPro ? '∞' : `${FREE_LIMITS.maxStorageMB}MB`
     }
   }, [savedRiders, isPro, calculateStorageSize])
 
@@ -430,6 +469,7 @@ export function RiderProvider({ children }) {
     duplicateRider,
     deleteRider,
     getRiderById,
+    saveDemoRiderAsPermanent,
     exportRider,
     importRider,
     getStats,

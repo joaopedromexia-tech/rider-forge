@@ -37,7 +37,7 @@ export { supabase }
 // Configurações de autenticação
 export const AUTH_CONFIG = {
   providers: ['google', 'github'],
-  redirectTo: `${window.location.origin}/dashboard`,
+  redirectTo: `${window.location.origin}`,
   cookieOptions: {
     name: 'rider-forge-auth',
     lifetime: 60 * 60 * 8, // 8 hours
@@ -55,7 +55,8 @@ export const auth = {
       email,
       password,
       options: {
-        data: userData
+        data: userData,
+        emailRedirectTo: AUTH_CONFIG.redirectTo
       }
     })
     return { data, error }
@@ -84,7 +85,7 @@ export const auth = {
   // Reset password
   resetPassword: async (email) => {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`
+      redirectTo: AUTH_CONFIG.redirectTo
     })
     return { data, error }
   },

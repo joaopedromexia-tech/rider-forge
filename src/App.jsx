@@ -188,7 +188,7 @@ function AppContent() {
       {currentView === 'riders' && (
         <MyRiders 
           onBack={handleBackToHome}
-          onEdit={handleNavigateToForm}
+          onEditRider={handleNavigateToForm}
           onPreview={handleNavigateToPreview}
         />
       )}

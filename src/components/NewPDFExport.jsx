@@ -77,6 +77,9 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
   const generatePDF = async () => {
     setIsPreparing(true)
     try {
+      console.log('🔄 Iniciando geração de PDF...')
+      console.log('📊 Dados do rider:', riderData)
+      
       // Ensure riderData is properly structured and sanitized
       const sanitizedRiderData = JSON.parse(JSON.stringify(riderData || {}))
       
@@ -84,6 +87,9 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
       if (!sanitizedRiderData || Object.keys(sanitizedRiderData).length === 0) {
         throw new Error('Nenhum dado disponível para gerar o PDF')
       }
+
+      console.log('✅ Dados sanitizados:', sanitizedRiderData)
+      console.log('⚙️ Opções de exportação:', exportOptions)
       
       const instance = pdf(
         <RiderPDF 
@@ -94,7 +100,10 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
         />
       )
       
+      console.log('🏗️ PDF instance criada, gerando blob...')
       const blob = await instance.toBlob()
+      console.log('✅ Blob gerado com sucesso, tamanho:', blob.size, 'bytes')
+      
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
@@ -105,8 +114,11 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
       
+      console.log('✅ PDF exportado com sucesso:', filename)
+      
     } catch (e) {
-      console.error('Erro ao gerar PDF (novo):', e)
+      console.error('❌ Erro ao gerar PDF (novo):', e)
+      console.error('❌ Stack trace:', e.stack)
       // Show user-friendly error message
       alert(`Erro ao gerar PDF: ${e.message || 'Verifique se todos os dados estão preenchidos corretamente.'}`)
     } finally {

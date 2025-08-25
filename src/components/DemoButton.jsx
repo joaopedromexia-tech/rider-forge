@@ -421,18 +421,40 @@ function DemoButton({ onNavigateToForm }) {
       }
     }
 
-    console.log('🎯 Tentando salvar rider demo...')
+    console.log('🎯 Criando rider demo temporário...')
 
-    // Adicionar à lista de riders e abrir para edição
+    // Criar rider demo temporário (não guardado automaticamente)
     try {
-      const savedRider = await saveRider(completeDemoData, demoRider.name)
-      console.log('✅ Rider demo criado com sucesso:', savedRider.id)
-      // Navegar imediatamente para o formulário
-      console.log('🚀 Navegando para o formulário com ID:', savedRider.id)
-      onNavigateToForm(savedRider.id)
+      // Criar um rider temporário com ID especial que indica que é demo
+      const tempDemoRider = {
+        id: 'demo_temp_' + Date.now(),
+        name: demoRider.name,
+        data: completeDemoData,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        thumbnail: demoRider.thumbnail,
+        isDemo: true, // Flag para indicar que é um demo
+        isTemporary: true // Flag para indicar que é temporário
+      }
+
+      console.log('✅ Rider demo temporário criado:', tempDemoRider.id)
+      
+      // Guardar temporariamente no localStorage para a sessão
+      try {
+        localStorage.setItem('riderForge_temp_demo', JSON.stringify(tempDemoRider))
+      } catch (storageError) {
+        console.warn('⚠️ Não foi possível guardar demo no localStorage:', storageError)
+      }
+      
+      // Navegar para o formulário com o rider demo temporário
+      console.log('🚀 Navegando para o formulário demo com ID:', tempDemoRider.id)
+      onNavigateToForm(tempDemoRider.id)
+      
     } catch (error) {
       console.error('❌ Erro ao criar rider demo:', error)
-      // Em caso de erro, tentar criar um rider mais simples
+      console.error('❌ Detalhes do erro:', error.message)
+      
+      // Em caso de erro, tentar criar um rider demo mais simples
       try {
         const simpleDemoData = {
           'dados-gerais': {
@@ -446,12 +468,31 @@ function DemoButton({ onNavigateToForm }) {
             }
           }
         }
-        const simpleRider = await saveRider(simpleDemoData, 'Thunder Road - Demo Simples')
-        console.log('✅ Rider demo simples criado:', simpleRider.id)
-        onNavigateToForm(simpleRider.id)
+        
+        const simpleTempRider = {
+          id: 'demo_temp_simple_' + Date.now(),
+          name: 'Thunder Road - Demo Simples',
+          data: simpleDemoData,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          thumbnail: {
+            artista: 'Thunder Road',
+            data: new Date().toLocaleDateString('pt-PT'),
+            equipmentCount: 1,
+            cardName: 'Thunder Road - Demo Simples'
+          },
+          isDemo: true,
+          isTemporary: true
+        }
+        
+        localStorage.setItem('riderForge_temp_demo', JSON.stringify(simpleTempRider))
+        console.log('✅ Rider demo simples criado:', simpleTempRider.id)
+        onNavigateToForm(simpleTempRider.id)
+        
       } catch (fallbackError) {
         console.error('❌ Erro no fallback:', fallbackError)
-        alert('Erro ao criar rider demo. Tente novamente.')
+        console.error('❌ Detalhes do erro fallback:', fallbackError.message)
+        alert('Erro ao criar rider demo: ' + (fallbackError.message || 'Erro desconhecido'))
       }
     }
   }
