@@ -238,16 +238,25 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
   // Restaurar rascunho uma única vez por sessão de edição
   useEffect(() => {
     if (draftLoadedRef.current) return
+    // Não restaurar rascunho quando a criação é nova (sem editingRiderId)
+    if (!editingRiderId) return
     draftLoadedRef.current = true
     ;(async () => {
-              try {
-          const draft = await kvGet(draftKeyRef.current)
-          if (draft && typeof draft === 'object') {
-            setFormData(prev => ({ ...prev, ...draft }))
-          }
-        } catch (_) {}
+      try {
+        const draft = await kvGet(draftKeyRef.current)
+        if (draft && typeof draft === 'object') {
+          setFormData(prev => ({ ...prev, ...draft }))
+        }
+      } catch (_) {}
     })()
-  }, [])
+  }, [editingRiderId])
+
+  // Ao abrir um formulário novo, limpar qualquer rascunho antigo de "novo"
+  useEffect(() => {
+    if (!editingRiderId) {
+      try { kvSet('riderForge_draft_new', null) } catch (_) {}
+    }
+  }, [editingRiderId])
 
   // Autosave de rascunho com debounce
   useEffect(() => {
