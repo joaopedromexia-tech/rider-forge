@@ -201,8 +201,9 @@ function DemoButton({ onNavigateToForm }) {
         isTemporary: true
       }
 
-      // Guardar em memória global para evitar limites do localStorage
+      // Guardar em memória global e também localStorage (best effort)
       try { window.__riderForge_demo = demoRider } catch (_) {}
+      try { localStorage.setItem('riderForge_temp_demo', JSON.stringify(demoRider)) } catch (_) {}
 
       // Navegar
       onNavigateToForm(demoRider.id)

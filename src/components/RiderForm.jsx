@@ -166,8 +166,18 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
               }
             }
           } catch (error) {
-            console.warn('⚠️ Erro ao carregar demo do localStorage:', error)
+            // noop
           }
+
+          // Fallback: memória global (evita quota do localStorage)
+          try {
+            if (typeof window !== 'undefined' && window.__riderForge_demo && window.__riderForge_demo.id === editingRiderId) {
+              const demoRider = window.__riderForge_demo
+              setEditingRider(demoRider)
+              setFormData(demoRider.data || {})
+              return
+            }
+          } catch (_) {}
         }
         
         // Se ainda não encontrou, criar um demo básico
