@@ -9,6 +9,7 @@ import Dashboard from './components/dashboard/Dashboard'
 import PricingPage from './components/pricing/PricingPage'
 import RiderForm from './components/RiderForm'
 import PDFPreview from './components/PDFPreview'
+import ErrorBoundary from './components/ErrorBoundary'
 import './index.css'
 import { useAuth } from './context/AuthContext'
 
@@ -30,56 +31,58 @@ const ProtectedRoute = ({ children }) => {
 // Componente principal da aplicação
 const App = () => {
   return (
-    <Router>
-      <AuthProvider>
-        <I18nProvider>
-          <EquipmentProvider>
-            <UnitsProvider>
-              <RiderProvider>
-                <div className="App">
-                  <Routes>
-                    {/* Rota principal - redireciona para dashboard */}
-                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                    
-                    {/* Dashboard */}
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    
-                    {/* Pricing */}
-                    <Route path="/pricing" element={<PricingPage />} />
-                    
-                    {/* Editor de Rider - protegido */}
-                    <Route 
-                      path="/rider/:id" 
-                      element={
-                        <ProtectedRoute>
-                          <RiderForm />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    
-                    {/* Preview de PDF - protegido */}
-                    <Route 
-                      path="/rider/:id/preview" 
-                      element={
-                        <ProtectedRoute>
-                          <PDFPreview />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    
-                    {/* Rota para criar novo rider - redireciona para dashboard */}
-                    <Route path="/new" element={<Navigate to="/dashboard" replace />} />
-                    
-                    {/* Rota 404 */}
-                    <Route path="*" element={<Navigate to="/dashboard" replace />} />
-                  </Routes>
-                </div>
-              </RiderProvider>
-            </UnitsProvider>
-          </EquipmentProvider>
-        </I18nProvider>
-      </AuthProvider>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <AuthProvider>
+          <I18nProvider>
+            <EquipmentProvider>
+              <UnitsProvider>
+                <RiderProvider>
+                  <div className="App">
+                    <Routes>
+                      {/* Rota principal - redireciona para dashboard */}
+                      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                      
+                      {/* Dashboard */}
+                      <Route path="/dashboard" element={<Dashboard />} />
+                      
+                      {/* Pricing */}
+                      <Route path="/pricing" element={<PricingPage />} />
+                      
+                      {/* Editor de Rider - protegido */}
+                      <Route 
+                        path="/rider/:id" 
+                        element={
+                          <ProtectedRoute>
+                            <RiderForm />
+                          </ProtectedRoute>
+                        } 
+                      />
+                      
+                      {/* Preview de PDF - protegido */}
+                      <Route 
+                        path="/rider/:id/preview" 
+                        element={
+                          <ProtectedRoute>
+                            <PDFPreview />
+                          </ProtectedRoute>
+                        } 
+                      />
+                      
+                      {/* Rota para criar novo rider - redireciona para dashboard */}
+                      <Route path="/new" element={<Navigate to="/dashboard" replace />} />
+                      
+                      {/* Rota 404 */}
+                      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+                    </Routes>
+                  </div>
+                </RiderProvider>
+              </UnitsProvider>
+            </EquipmentProvider>
+          </I18nProvider>
+        </AuthProvider>
+      </Router>
+    </ErrorBoundary>
   )
 }
 
