@@ -1,11 +1,18 @@
 {
   "name": "Rider Forge",
   "short_name": "RiderForge",
-  "start_url": ".",
+  "description": "Criador de riders técnicos profissionais",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#0b1020",
   "theme_color": "#1e90ff",
-  "icons": []
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
 }
 
 

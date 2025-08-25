@@ -30,6 +30,9 @@ export default defineConfig({
           pdfjs: ['pdfjs-dist']
         }
       }
-    }
-  }
+    },
+    assetsInlineLimit: 0,
+    cssCodeSplit: true
+  },
+  assetsInclude: ['**/*.webmanifest']
 })
