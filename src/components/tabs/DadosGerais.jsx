@@ -233,27 +233,29 @@ function DadosGerais({ data, onChange }) {
   // Validação em tempo real
   const getValidationStatus = () => {
     const requiredFields = {
-      artista: formData.artista.trim(),
-      versaoRider: formData.versaoRider.trim(),
-      anoTour: formData.anoTour.trim()
+      artista: formData.artista?.trim() || '',
+      versaoRider: formData.versaoRider?.trim() || '',
+      anoTour: formData.anoTour?.trim() || ''
     }
     
     const completedRequired = Object.values(requiredFields).filter(field => field.length > 0).length
     const totalRequired = Object.keys(requiredFields).length
     
     const optionalFields = {
-      roadManager: Object.values(formData.roadManager).some(val => val.trim().length > 0),
-      foh: Object.values(formData.foh).some(val => val.trim().length > 0),
-      mon: Object.values(formData.mon).some(val => val.trim().length > 0)
+      roadManager: Object.values(formData.roadManager || {}).some(val => val?.trim().length > 0),
+      foh: Object.values(formData.foh || {}).some(val => val?.trim().length > 0),
+      mon: Object.values(formData.mon || {}).some(val => val?.trim().length > 0)
     }
     
     const completedOptional = Object.values(optionalFields).filter(Boolean).length
     const totalOptional = Object.keys(optionalFields).length
     
+    const progress = Math.round(((completedRequired + completedOptional) / (totalRequired + totalOptional)) * 100)
+    
     return {
       required: { completed: completedRequired, total: totalRequired },
       optional: { completed: completedOptional, total: totalOptional },
-      progress: Math.round(((completedRequired + completedOptional) / (totalRequired + totalOptional)) * 100)
+      progress: progress
     }
   }
 
@@ -262,13 +264,13 @@ function DadosGerais({ data, onChange }) {
   // Função para validar campo obrigatório
   const isFieldValid = (fieldName) => {
     const field = formData[fieldName]
-    return field && field.trim().length > 0
+    return field && field.trim && field.trim().length > 0
   }
 
   // Função para validar contacto
   const isContactValid = (contactType) => {
     const contact = formData[contactType]
-    return Object.values(contact).some(val => val.trim().length > 0)
+    return contact && Object.values(contact).some(val => val && val.trim && val.trim().length > 0)
   }
 
   return (

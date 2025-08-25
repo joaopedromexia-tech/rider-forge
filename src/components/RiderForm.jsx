@@ -152,6 +152,67 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
       if (rider) {
         setEditingRider(rider)
         setFormData(rider.data || {})
+      } else {
+        // Se é um demo temporário, tentar carregar do localStorage
+        if (editingRiderId.startsWith('demo_temp_')) {
+          try {
+            const tempDemo = localStorage.getItem('riderForge_temp_demo')
+            if (tempDemo) {
+              const demoRider = JSON.parse(tempDemo)
+              if (demoRider.id === editingRiderId) {
+                setEditingRider(demoRider)
+                setFormData(demoRider.data || {})
+                return
+              }
+            }
+          } catch (error) {
+            console.warn('⚠️ Erro ao carregar demo do localStorage:', error)
+          }
+        }
+        
+        // Se ainda não encontrou, criar um demo básico
+        if (editingRiderId.startsWith('demo_temp_')) {
+          const basicDemoData = {
+            'dados-gerais': {
+              artista: 'Thunder Road',
+              versaoRider: '3.0',
+              anoTour: '2026',
+              roadManager: {
+                nome: 'Alex Johnson',
+                telefone: '+1 555 123 4567',
+                email: 'alex.johnson@thunderroad.com'
+              },
+              foh: {
+                nome: 'Mike Rodriguez',
+                telefone: '+1 555 987 6543',
+                email: 'mike.rodriguez@thunderroad.com'
+              },
+              mon: {
+                nome: 'Sarah Chen',
+                telefone: '+1 555 456 7890',
+                email: 'sarah.chen@thunderroad.com'
+              }
+            },
+            'pa': {},
+            'consolas': {},
+            'sistemas-escuta': {},
+            'equipamento-auxiliar': {},
+            'input-list': { inputs: [] },
+            'monitor-mixes': { mixes: [] },
+            'observacoes-finais': {}
+          }
+          
+          const basicDemoRider = {
+            id: editingRiderId,
+            name: 'Thunder Road - Demo Básico',
+            data: basicDemoData,
+            isDemo: true,
+            isTemporary: true
+          }
+          
+          setEditingRider(basicDemoRider)
+          setFormData(basicDemoData)
+        }
       }
     } else {
       setEditingRider(null)
