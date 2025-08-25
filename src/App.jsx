@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { I18nProvider } from './context/I18nContext'
 import { EquipmentProvider } from './context/EquipmentContext'
 import { UnitsProvider } from './context/UnitsContext'
@@ -259,6 +260,9 @@ function AppContent() {
         isOpen={showLoginModal} 
         onClose={() => setShowLoginModal(false)} 
       />
+      
+      {/* Vercel Analytics */}
+      <Analytics />
     </div>
   )
 }
