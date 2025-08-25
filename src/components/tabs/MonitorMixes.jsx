@@ -221,14 +221,14 @@ function MonitorMixes({ data, onChange, allData = {} }) {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="text-center mb-8">
+    <div className="space-y-6">
+      <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-100 mb-2">Monitor Mixes</h2>
         <p className="text-gray-400">Configurações específicas de monitor para cada artista</p>
       </div>
 
       {/* Progresso e Validação */}
-      <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
+      <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
         <div className="flex items-start gap-3">
           <svg className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -265,7 +265,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
       </div>
 
       {/* Status e Sugestões */}
-      <div className="space-y-4 mb-6">
+      <div className="space-y-4 mb-4">
         {/* Status dos Mixes */}
         <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
           <div className="flex items-center justify-between mb-3">
@@ -355,9 +355,9 @@ function MonitorMixes({ data, onChange, allData = {} }) {
       />
 
       {/* Lista de Mixes */}
-      <div className="space-y-6">
+      <div className="space-y-4">
         {formData.mixes.map((mix, index) => (
-          <div key={mix.id} className="bg-dark-800 rounded-lg p-6 border border-dark-700">
+          <div key={mix.id} className="bg-dark-800/50 rounded-lg p-6 border border-dark-700/50">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-accent-blue">
                 Mix {getMixNumber(index, mix.formato)}
@@ -381,7 +381,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
                   type="text"
                   value={mix.instrumentoMusico || ''}
                   onChange={(e) => updateMix(index, 'instrumentoMusico', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
                   placeholder="ex: Vocalista, Guitarra, Bateria"
                 />
               </div>
@@ -395,7 +395,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
                 <select
                   value={mix.tipo || 'iem'}
                   onChange={(e) => updateMix(index, 'tipo', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
                 >
                   {tipoOptions.map(option => (
                     <option key={option.value} value={option.value}>
@@ -411,7 +411,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
                 <select
                   value={mix.formato || 'stereo'}
                   onChange={(e) => updateMix(index, 'formato', e.target.value)}
-                  className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
                 >
                   {formatoOptions.map(option => (
                     <option key={option.value} value={option.value}>

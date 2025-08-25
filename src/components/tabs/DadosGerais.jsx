@@ -272,16 +272,14 @@ function DadosGerais({ data, onChange }) {
   }
 
   return (
-    <div className="space-y-8">
-
-
-      <div className="text-center mb-8">
+    <div className="space-y-6">
+      <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-100 mb-2">Dados Gerais</h2>
         <p className="text-gray-400">Informações básicas do evento e contactos principais</p>
       </div>
 
       {/* Progresso e Validação */}
-      <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
+      <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-4">
         <div className="flex items-start gap-3">
           <svg className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -336,7 +334,7 @@ function DadosGerais({ data, onChange }) {
       </div>
 
       {/* Informações Básicas */}
-      <div className="bg-dark-800 rounded-lg p-6 border border-dark-700">
+      <div className="bg-dark-800/50 rounded-lg p-6 border border-dark-700/50">
         <h3 className="text-xl font-semibold text-accent-blue mb-6 flex items-center gap-2">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -378,7 +376,7 @@ function DadosGerais({ data, onChange }) {
               type="text"
               value={formData.versaoRider}
               onChange={(e) => handleChange('versaoRider', e.target.value)}
-              className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+              className="w-full px-4 py-3 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
               placeholder="Ex: 1.0, 2.1, etc."
             />
           </div>
@@ -391,7 +389,7 @@ function DadosGerais({ data, onChange }) {
               type="number"
               value={formData.anoTour}
               onChange={(e) => handleChange('anoTour', e.target.value)}
-              className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+              className="w-full px-4 py-3 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
               placeholder="Ex: 2024"
               min="2000"
               max="2030"
@@ -401,7 +399,7 @@ function DadosGerais({ data, onChange }) {
       </div>
 
       {/* Upload de Imagens */}
-      <div className="bg-dark-800 rounded-lg p-6 border border-dark-700">
+      <div className="bg-dark-800/50 rounded-lg p-6 border border-dark-700/50">
         <h3 className="text-xl font-semibold text-accent-green mb-6 flex items-center gap-2">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -412,7 +410,7 @@ function DadosGerais({ data, onChange }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Imagem de Capa */}
-          <div className="bg-dark-800 rounded-lg p-6 border border-dark-700">
+          <div className="bg-dark-800/30 rounded-lg p-4 border border-dark-700/30">
             <h4 className="text-lg font-medium text-accent-blue mb-4 flex items-center gap-2">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -469,7 +467,7 @@ function DadosGerais({ data, onChange }) {
           </div>
 
           {/* Stage Plot */}
-          <div className="bg-dark-800 rounded-lg p-6 border border-dark-700">
+          <div className="bg-dark-800/30 rounded-lg p-4 border border-dark-700/30">
             <h4 className="text-lg font-medium text-accent-green mb-4 flex items-center gap-2">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -563,7 +561,7 @@ function DadosGerais({ data, onChange }) {
       )}
 
       {/* Contactos */}
-      <div className="bg-dark-800 rounded-lg p-6 border border-dark-700">
+      <div className="bg-dark-800/50 rounded-lg p-6 border border-dark-700/50">
         <h3 className="text-xl font-semibold text-purple-400 mb-6 flex items-center gap-2">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -573,127 +571,127 @@ function DadosGerais({ data, onChange }) {
         </h3>
 
         {/* Road Manager */}
-        <div className="bg-dark-750 rounded-lg p-4 border border-dark-600">
+        <div className="bg-dark-800/30 rounded-lg p-4 border border-dark-700/30 mb-4">
           <h4 className="text-lg font-medium text-accent-blue mb-4 flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
             Road Manager
           </h4>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
-              <input
-                type="text"
-                value={formData.roadManager.nome}
-                onChange={(e) => handleContactChange('roadManager', 'nome', e.target.value)}
-                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="Nome completo"
-              />
+                              <input
+                  type="text"
+                  value={formData.roadManager.nome}
+                  onChange={(e) => handleContactChange('roadManager', 'nome', e.target.value)}
+                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  placeholder="Nome completo"
+                />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
-              <input
-                type="tel"
-                value={formData.roadManager.telefone}
-                onChange={(e) => handleContactChange('roadManager', 'telefone', e.target.value)}
-                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="+351 123 456 789"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-              <input
-                type="email"
-                value={formData.roadManager.email}
-                onChange={(e) => handleContactChange('roadManager', 'email', e.target.value)}
-                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="email@exemplo.com"
-              />
+                          <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
+                <input
+                  type="tel"
+                  value={formData.roadManager.telefone}
+                  onChange={(e) => handleContactChange('roadManager', 'telefone', e.target.value)}
+                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  placeholder="+351 123 456 789"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                <input
+                  type="email"
+                  value={formData.roadManager.email}
+                  onChange={(e) => handleContactChange('roadManager', 'email', e.target.value)}
+                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  placeholder="email@exemplo.com"
+                />
             </div>
           </div>
         </div>
 
         {/* FOH */}
-        <div className="bg-dark-750 rounded-lg p-4 border border-dark-600">
+        <div className="bg-dark-800/30 rounded-lg p-4 border border-dark-700/30 mb-4">
           <h4 className="text-lg font-medium text-accent-green mb-4 flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
             </svg>
             FOH (Front of House)
           </h4>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
-              <input
-                type="text"
-                value={formData.foh.nome}
-                onChange={(e) => handleContactChange('foh', 'nome', e.target.value)}
-                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="Nome completo"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
-              <input
-                type="tel"
-                value={formData.foh.telefone}
-                onChange={(e) => handleContactChange('foh', 'telefone', e.target.value)}
-                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="+351 123 456 789"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-              <input
-                type="email"
-                value={formData.foh.email}
-                onChange={(e) => handleContactChange('foh', 'email', e.target.value)}
-                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="email@exemplo.com"
-              />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                          <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
+                <input
+                  type="text"
+                  value={formData.foh.nome}
+                  onChange={(e) => handleContactChange('foh', 'nome', e.target.value)}
+                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  placeholder="Nome completo"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
+                <input
+                  type="tel"
+                  value={formData.foh.telefone}
+                  onChange={(e) => handleContactChange('foh', 'telefone', e.target.value)}
+                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  placeholder="+351 123 456 789"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                <input
+                  type="email"
+                  value={formData.foh.email}
+                  onChange={(e) => handleContactChange('foh', 'email', e.target.value)}
+                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  placeholder="email@exemplo.com"
+                />
             </div>
           </div>
         </div>
 
         {/* MON */}
-        <div className="bg-dark-750 rounded-lg p-4 border border-dark-600">
+        <div className="bg-dark-800/30 rounded-lg p-4 border border-dark-700/30">
           <h4 className="text-lg font-medium text-purple-400 mb-4 flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
             </svg>
             MON (Monitor)
           </h4>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
-              <input
-                type="text"
-                value={formData.mon.nome}
-                onChange={(e) => handleContactChange('mon', 'nome', e.target.value)}
-                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="Nome completo"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
-              <input
-                type="tel"
-                value={formData.mon.telefone}
-                onChange={(e) => handleContactChange('mon', 'telefone', e.target.value)}
-                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="+351 123 456 789"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-              <input
-                type="email"
-                value={formData.mon.email}
-                onChange={(e) => handleContactChange('mon', 'email', e.target.value)}
-                className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="email@exemplo.com"
-              />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                          <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
+                <input
+                  type="text"
+                  value={formData.mon.nome}
+                  onChange={(e) => handleContactChange('mon', 'nome', e.target.value)}
+                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  placeholder="Nome completo"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
+                <input
+                  type="tel"
+                  value={formData.mon.telefone}
+                  onChange={(e) => handleContactChange('mon', 'telefone', e.target.value)}
+                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  placeholder="+351 123 456 789"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                <input
+                  type="email"
+                  value={formData.mon.email}
+                  onChange={(e) => handleContactChange('mon', 'email', e.target.value)}
+                  className="w-full px-3 py-2 bg-dark-700/50 border border-dark-600/50 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+                  placeholder="email@exemplo.com"
+                />
             </div>
           </div>
         </div>
