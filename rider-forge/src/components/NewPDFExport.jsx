@@ -27,11 +27,24 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem('riderForge_exportOptions_new')
-      if (stored) setExportOptions(prev => ({ ...prev, ...JSON.parse(stored) }))
+      if (stored) {
+        const parsedOptions = JSON.parse(stored)
+        // Verificar se o tema selecionado requer Pro e o usuário não é Pro
+        if (isThemePro(parsedOptions.colorTheme) && !isPro) {
+          // Reset para tema padrão se usuário não é Pro
+          setExportOptions(prev => ({ 
+            ...prev, 
+            ...parsedOptions, 
+            colorTheme: 'default' 
+          }))
+        } else {
+          setExportOptions(prev => ({ ...prev, ...parsedOptions }))
+        }
+      }
     } catch {
       // Ignore errors
     }
-  }, [])
+  }, [isPro])
 
   useEffect(() => {
     try {
@@ -53,6 +66,12 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
     { value: 'dark', label: 'Escuro', description: 'Tema escuro para ecrãs', pro: true }
   ]
 
+  // Função para verificar se um tema requer Pro
+  const isThemePro = (themeValue) => {
+    const theme = colorThemes.find(t => t.value === themeValue)
+    return theme?.pro || false
+  }
+
   const handlePreview = () => {
     setShowPreview(true)
   }
@@ -61,8 +80,7 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
     if (isPreparing) return
     
     // Verificar se o tema selecionado requer Pro
-    const selectedTheme = colorThemes.find(theme => theme.value === exportOptions.colorTheme)
-    if (selectedTheme?.pro && !isPro) {
+    if (isThemePro(exportOptions.colorTheme) && !isPro) {
       // Mostrar modal de upgrade Pro
       const success = useProFeature(PRO_FEATURES.CUSTOM_PDF.id, () => {
         generatePDF()
@@ -89,7 +107,7 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
         <RiderPDF 
           rider={sanitizedRiderData} 
           language="pt" 
-          proBranding={{}} 
+          proBranding={isPro ? { hasPro: true } : {}} 
           options={exportOptions} 
         />
       )
@@ -151,32 +169,58 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
             <div className="bg-dark-700 rounded-lg p-4 space-y-3">
               <h4 className="text-sm font-medium text-gray-300">Tema de Cores</h4>
               <div className="space-y-2">
-                {colorThemes.map((theme) => (
-                  <label key={theme.value} className="flex items-center gap-3 p-2 rounded-lg hover:bg-dark-600 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="colorTheme"
-                      value={theme.value}
-                      checked={exportOptions.colorTheme === theme.value}
-                      onChange={(e) => setExportOptions(o => ({ ...o, colorTheme: e.target.value }))}
-                      className="w-4 h-4"
-                    />
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-300">{theme.label}</span>
-                        {theme.pro && (
-                          <div className="inline-flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-accent-green to-accent-blue rounded-full text-white text-xs font-medium">
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                            </svg>
-                            <span>PRO</span>
-                          </div>
-                        )}
+                {colorThemes.map((theme) => {
+                  const isThemePro = theme.pro && !isPro
+                  const isDisabled = isThemePro
+                  
+                  return (
+                    <label 
+                      key={theme.value} 
+                      className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer ${
+                        isDisabled 
+                          ? 'opacity-50 cursor-not-allowed' 
+                          : 'hover:bg-dark-600'
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="colorTheme"
+                        value={theme.value}
+                        checked={exportOptions.colorTheme === theme.value}
+                        onChange={(e) => {
+                          if (!isDisabled) {
+                            setExportOptions(o => ({ ...o, colorTheme: e.target.value }))
+                          }
+                        }}
+                        disabled={isDisabled}
+                        className="w-4 h-4"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className={`text-sm ${isDisabled ? 'text-gray-500' : 'text-gray-300'}`}>
+                            {theme.label}
+                          </span>
+                          {theme.pro && (
+                            <div className="inline-flex items-center gap-1 px-2 py-0.5 bg-gradient-to-r from-accent-green to-accent-blue rounded-full text-white text-xs font-medium">
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                              </svg>
+                              <span>PRO</span>
+                            </div>
+                          )}
+                        </div>
+                        <p className={`text-xs ${isDisabled ? 'text-gray-500' : 'text-gray-400'}`}>
+                          {theme.description}
+                          {isThemePro && (
+                            <span className="block text-accent-blue mt-1">
+                              🔒 Disponível apenas para usuários PRO
+                            </span>
+                          )}
+                        </p>
                       </div>
-                      <p className="text-xs text-gray-400">{theme.description}</p>
-                    </div>
-                  </label>
-                ))}
+                    </label>
+                  )
+                })}
               </div>
             </div>
           </div>

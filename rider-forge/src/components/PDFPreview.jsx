@@ -49,7 +49,7 @@ function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onEx
         <RiderPDF 
           rider={sanitizedRiderData} 
           language="pt" 
-          proBranding={{}} 
+          proBranding={isPro ? { hasPro: true } : {}} 
           options={exportOptions || {}} 
         />
       )
@@ -93,8 +93,11 @@ function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onEx
       
       const selectedTheme = colorThemes.find(theme => theme.value === exportOptions?.colorTheme)
       if (selectedTheme?.pro && !isPro) {
-        // Para preview, vamos permitir mesmo sem Pro, mas com limitação
-        generatePDFBlob()
+        // Bloquear preview de temas PRO para usuários gratuitos
+        setError('Este tema está disponível apenas para usuários PRO. Faça upgrade para visualizar.')
+        setIsLoading(false)
+        setIsRegenerating(false)
+        return
       } else {
         generatePDFBlob()
       }
