@@ -23,6 +23,9 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
     PRO_FEATURES
   } = useProFeatures()
 
+  // Debug log
+  console.log('NewPDFExport - isPro:', isPro)
+
   // Load/export options like old modal
   useEffect(() => {
     try {
@@ -32,12 +35,14 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
         // Verificar se o tema selecionado requer Pro e o usuário não é Pro
         if (isThemePro(parsedOptions.colorTheme) && !isPro) {
           // Reset para tema padrão se usuário não é Pro
+          console.log(`Resetando tema PRO ${parsedOptions.colorTheme} para default (isPro=${isPro})`)
           setExportOptions(prev => ({ 
             ...prev, 
             ...parsedOptions, 
             colorTheme: 'default' 
           }))
         } else {
+          console.log(`Mantendo tema ${parsedOptions.colorTheme} (isPro=${isPro})`)
           setExportOptions(prev => ({ ...prev, ...parsedOptions }))
         }
       }
@@ -172,6 +177,9 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
                 {colorThemes.map((theme) => {
                   const isThemePro = theme.pro && !isPro
                   const isDisabled = isThemePro
+                  
+                  // Debug log
+                  console.log(`Theme ${theme.value}: pro=${theme.pro}, isPro=${isPro}, isDisabled=${isDisabled}`)
                   
                   return (
                     <label 
