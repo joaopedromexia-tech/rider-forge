@@ -1,22 +1,13 @@
 import React, { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
+import { useRider } from '../../context/RiderContext'
 
 const Dashboard = () => {
   const { user, isPro, loading: authLoading } = useAuth()
+  const { savedRiders, deleteRider, canSaveMoreRiders } = useRider()
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
-
-  // Mock riders para teste
-  const mockRiders = [
-    {
-      id: '1',
-      name: 'Banda de Teste v1 2026',
-      thumbnail: { artista: 'Banda de Teste' },
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
-  ]
 
   // Criar novo rider
   const createNewRider = () => {
@@ -26,7 +17,7 @@ const Dashboard = () => {
     }
 
     // Verificar limite de riders para utilizadores Free
-    if (!isPro && mockRiders.length >= 3) {
+    if (!canSaveMoreRiders()) {
       setShowUpgradeModal(true)
       return
     }
@@ -37,11 +28,11 @@ const Dashboard = () => {
   // Eliminar rider
   const handleDeleteRider = (riderId) => {
     if (!confirm('Tem a certeza que quer eliminar este rider?')) return
-    alert('Funcionalidade de eliminar rider em desenvolvimento!')
+    deleteRider(riderId)
   }
 
   // Filtrar riders por pesquisa
-  const filteredRiders = mockRiders.filter(rider =>
+  const filteredRiders = savedRiders.filter(rider =>
     rider.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
