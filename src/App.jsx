@@ -175,6 +175,7 @@ function AppContent() {
               </div>
 
               {/* Demo */}
+              {import.meta.env.VITE_SHOW_DEMO === 'true' && (
               <div className="card hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20">
                 <div className="text-center p-6 sm:p-8">
                   <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg">
@@ -191,6 +192,7 @@ function AppContent() {
                   </div>
                 </div>
               </div>
+              )}
             </div>
 
             {/* Botão de Upgrade para Pro no fundo da página */}

@@ -430,11 +430,11 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
             {/* Título e Progresso */}
             <div className="flex flex-col items-center gap-3 flex-1">
               <h1 className="text-2xl lg:text-3xl font-bold text-gradient text-center">
-                {editingRider?.isDemo ? 'Rider Demo - Thunder Road' : (editingRiderId ? 'Editar Rider Técnico' : 'Criar Rider Técnico')}
+                {editingRider?.isDemo && import.meta.env.VITE_SHOW_DEMO === 'true' ? 'Rider Demo - Thunder Road' : (editingRiderId ? 'Editar Rider Técnico' : 'Criar Rider Técnico')}
               </h1>
               
               {/* Aviso para Rider Demo */}
-              {editingRider?.isDemo && (
+              {editingRider?.isDemo && import.meta.env.VITE_SHOW_DEMO === 'true' && (
                 <div className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded-lg px-3 py-2 max-w-md text-center">
                   <p className="text-xs text-purple-200">
                     ✨ Este é um <strong>rider demo</strong> para exploração. Para guardar permanentemente, clique em "Guardar Rider" no final da página.
