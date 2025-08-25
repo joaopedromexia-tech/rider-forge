@@ -1,7 +1,10 @@
-import { useRider } from '../context/RiderContext'
+import { useAuth } from '../context/AuthContext'
 
 function ProStatusBadge({ className = '', variant = 'status' }) {
-  const { isPro } = useRider()
+  const { isPro, user } = useAuth()
+
+  // Se não há utilizador, não mostrar badge
+  if (!user) return null
 
   // Variante para selo Pro em opções bloqueadas
   if (variant === 'lock') {
@@ -15,15 +18,23 @@ function ProStatusBadge({ className = '', variant = 'status' }) {
     )
   }
 
-  // Variante padrão para status do usuário
-  if (!isPro) return null
-
+  // Variante padrão - sempre mostrar status (Free ou Pro)
   return (
-    <div className={`inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-accent-green to-accent-blue rounded-full text-white text-sm font-medium shadow-lg ${className}`}>
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <span>PRO</span>
+    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium shadow-sm ${
+      isPro 
+        ? 'bg-gradient-to-r from-accent-green to-accent-blue text-white' 
+        : 'bg-gray-100 text-gray-700 border border-gray-300'
+    } ${className}`}>
+      {isPro ? (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ) : (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      )}
+      <span>{isPro ? 'PRO' : 'FREE'}</span>
     </div>
   )
 }

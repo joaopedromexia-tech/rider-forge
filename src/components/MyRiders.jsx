@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useProFeatures } from '../hooks/useProFeatures'
 import { useFeedback } from '../hooks/useFeedback'
 import ProUpgradeModal from './ProUpgradeModal'
-import ProToggle from './ProToggle'
+import ProStatusBadge from './ProStatusBadge'
 import NewPDFExport from './NewPDFExport'
 import LoginModal from './auth/LoginModal'
 import { encodeObjectToBase64 } from '../utils/base64'
@@ -135,15 +135,15 @@ function MyRiders({ onBack, onEditRider }) {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center py-12 mb-8">
-            <h1 className="text-5xl sm:text-7xl font-bold text-gradient mb-6">
-              Os Meus Riders
-            </h1>
-            <p className="text-xl sm:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-              {!user 
-                ? 'Faça login para aceder aos seus riders guardados'
-                : 'Crie uma conta para aceder aos seus riders guardados'
-              }
-            </p>
+                         <h1 className="text-5xl sm:text-7xl font-bold text-gradient mb-6">
+               Dashboard
+             </h1>
+             <p className="text-xl sm:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+               {!user 
+                 ? 'Faça login para aceder ao seu dashboard'
+                 : 'Crie uma conta para aceder ao seu dashboard'
+               }
+             </p>
           </div>
           
           {/* Call to Action */}
@@ -157,12 +157,12 @@ function MyRiders({ onBack, onEditRider }) {
               <h3 className="text-2xl font-bold text-gray-100 mb-4">
                 {!user ? 'Login Necessário' : 'Conta Necessária'}
               </h3>
-              <p className="text-gray-400 mb-6">
-                {!user 
-                  ? 'Para aceder aos seus riders, precisa de fazer login na sua conta'
-                  : 'Para aceder aos seus riders, precisa de criar uma conta'
-                }
-              </p>
+                             <p className="text-gray-400 mb-6">
+                 {!user 
+                   ? 'Para aceder ao seu dashboard, precisa de fazer login na sua conta'
+                   : 'Para aceder ao seu dashboard, precisa de criar uma conta'
+                 }
+               </p>
               <button
                 onClick={() => setShowLoginModal(true)}
                 className="btn-primary w-full text-lg py-4"
@@ -221,11 +221,11 @@ function MyRiders({ onBack, onEditRider }) {
             Voltar
           </button>
           
-          <h1 className="text-2xl sm:text-3xl font-bold text-gradient text-center">Os Meus Riders</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gradient text-center">Dashboard</h1>
           
           <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto justify-center">
-            {/* Seletor de Plano */}
-            <ProToggle />
+            {/* Badge de Status */}
+            <ProStatusBadge />
             
             <div className="relative">
               <button

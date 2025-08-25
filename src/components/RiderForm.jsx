@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useEquipment } from '../context/EquipmentContext'
 import { useRider } from '../context/RiderContext'
+import { useAuth } from '../context/AuthContext'
 import { useProFeatures } from '../hooks/useProFeatures'
 import { useValidations } from '../hooks/useValidations'
 import { useFeedback } from '../hooks/useFeedback'
@@ -16,7 +17,8 @@ import ObservacoesFinais from './tabs/ObservacoesFinais'
 import SaveRiderModal from './SaveRiderModal'
 import NewPDFExport from './NewPDFExport'
 import ValidationAlerts from './ValidationAlerts'
-import ProToggle from './ProToggle'
+import ProStatusBadge from './ProStatusBadge'
+import LoginModal from './auth/LoginModal'
 import { kvGet, kvSet } from '../utils/storage'
 
 
@@ -24,6 +26,7 @@ import { kvGet, kvSet } from '../utils/storage'
 function RiderForm({ onBack, editingRiderId = null }) {
   const { isPro, setIsPro } = useRider()
   const { saveRider, updateRider, getRiderById } = useRider()
+  const { user, hasAccount } = useAuth()
   const { showSuccess, showError } = useFeedback()
   
   const {
@@ -46,6 +49,7 @@ function RiderForm({ onBack, editingRiderId = null }) {
   })
   const [showSaveModal, setShowSaveModal] = useState(false)
   const [showNewPDFModal, setShowNewPDFModal] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
   const [editingRider, setEditingRider] = useState(null)
   const draftLoadedRef = useRef(false)
   const draftKeyRef = useRef('')
@@ -234,6 +238,12 @@ function RiderForm({ onBack, editingRiderId = null }) {
   }
 
   const handleSaveClick = () => {
+    // Verificar se o utilizador tem conta para gravar
+    if (!user || !hasAccount) {
+      setShowLoginModal(true)
+      return
+    }
+    
     setShowSaveModal(true)
   }
 
@@ -341,8 +351,8 @@ function RiderForm({ onBack, editingRiderId = null }) {
           </div>
           
           <div className="flex items-center gap-4">
-            {/* Seletor de Plano */}
-            <ProToggle />
+            {/* Badge de Status */}
+            <ProStatusBadge />
             
             {/* Botão Exportar PDF (novo) - passa a principal */}
             <button
@@ -357,9 +367,20 @@ function RiderForm({ onBack, editingRiderId = null }) {
             
             <button
               onClick={handleSaveClick}
-              className="btn-primary px-8 py-3"
+              disabled={!user || !hasAccount}
+              className={`px-8 py-3 ${
+                user && hasAccount 
+                  ? 'btn-primary' 
+                  : 'bg-gray-400 text-gray-600 cursor-not-allowed rounded-xl'
+              }`}
+              title={!user || !hasAccount ? 'Crie uma conta para gravar riders' : ''}
             >
-              {editingRider ? 'Atualizar Rider' : 'Salvar Rider'}
+              {!user || !hasAccount 
+                ? '🔒 Criar Conta para Gravar'
+                : editingRider 
+                  ? 'Atualizar Rider' 
+                  : 'Salvar Rider'
+              }
             </button>
           </div>
         </div>
@@ -449,6 +470,12 @@ function RiderForm({ onBack, editingRiderId = null }) {
           ))}
         </div>
       )}
+
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={showLoginModal} 
+        onClose={() => setShowLoginModal(false)} 
+      />
     </div>
   )
 }

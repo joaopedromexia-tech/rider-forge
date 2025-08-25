@@ -117,10 +117,10 @@ function AppContent() {
                       </svg>
                     )}
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-100 mb-4">Os Meus Riders</h3>
+                  <h3 className="text-2xl font-bold text-gray-100 mb-4">Dashboard</h3>
                   <p className="text-gray-400 mb-6 leading-relaxed">
                     {user && hasAccount 
-                      ? 'Aceda, edite e gerencie todos os seus riders técnicos guardados'
+                      ? 'Aceda ao seu dashboard para gerir riders e ver estatísticas'
                       : 'Guarde e organize todos os seus riders numa conta gratuita'
                     }
                   </p>
@@ -134,10 +134,8 @@ function AppContent() {
                   >
                     <span>
                       {user && hasAccount 
-                        ? 'Ver Riders' 
-                        : !user 
-                          ? '🔐 Fazer Login Grátis' 
-                          : '🔐 Criar Conta Grátis'
+                        ? 'Abrir Dashboard' 
+                        : '🔐 Criar Conta Grátis'
                       }
                     </span>
                   </button>
