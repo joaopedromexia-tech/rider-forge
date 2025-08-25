@@ -5,10 +5,12 @@ import {
   searchEquipment,
   getBrands 
 } from '../data/equipmentLibrary'
+import { useAuth } from './AuthContext'
 
 const EquipmentContext = createContext()
 
 export function EquipmentProvider({ children }) {
+  const { isPro } = useAuth()
   const [filters, setFilters] = useState({
     brandFilter: '',
     modelQuery: ''
@@ -16,10 +18,10 @@ export function EquipmentProvider({ children }) {
 
   // Função para obter equipamentos filtrados
   const getFilteredEquipment = useCallback((category = null) => {
-    // Agora retornamos todos os equipamentos (Free + Pro) para todos os usuários
+    // Filtrar equipamentos baseado no status Pro do usuário
     let equipment = category 
-      ? getEquipmentByCategory(category, true) // Sempre incluir Pro
-      : getAllEquipment(true) // Sempre incluir Pro
+      ? getEquipmentByCategory(category, isPro) // Incluir Pro apenas se usuário for Pro
+      : getAllEquipment(isPro) // Incluir Pro apenas se usuário for Pro
 
     // Aplicar filtros
     if (filters.brandFilter) {
@@ -36,19 +38,19 @@ export function EquipmentProvider({ children }) {
     }
 
     return equipment
-  }, [filters.brandFilter, filters.modelQuery])
+  }, [filters.brandFilter, filters.modelQuery, isPro])
 
   // Função para obter marcas disponíveis
   const getAvailableBrands = useCallback(() => {
-    // Incluir todas as marcas (Free + Pro)
-    return getBrands(true)
-  }, [])
+    // Incluir marcas baseado no status Pro do usuário
+    return getBrands(isPro)
+  }, [isPro])
 
   // Função para pesquisar equipamentos
   const searchEquipmentByQuery = useCallback((query) => {
-    // Incluir todos os equipamentos na pesquisa
-    return searchEquipment(query, true)
-  }, [])
+    // Incluir equipamentos baseado no status Pro do usuário
+    return searchEquipment(query, isPro)
+  }, [isPro])
 
   // Função para atualizar filtros
   const updateFilters = useCallback((newFilters) => {
@@ -64,7 +66,7 @@ export function EquipmentProvider({ children }) {
   }, [])
 
   const value = {
-    isPro: false, // Mock para agora, será atualizado quando necessário
+    isPro,
     filters,
     getFilteredEquipment,
     getAvailableBrands,

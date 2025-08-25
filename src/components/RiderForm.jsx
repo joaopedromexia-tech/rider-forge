@@ -15,6 +15,7 @@ import InputList from './tabs/InputList'
 import MonitorMixes from './tabs/MonitorMixes'
 import ObservacoesFinais from './tabs/ObservacoesFinais'
 import SaveRiderModal from './SaveRiderModal'
+import SaveProgressModal from './SaveProgressModal'
 import NewPDFExport from './NewPDFExport'
 import ValidationAlerts from './ValidationAlerts'
 import ProStatusBadge from './ProStatusBadge'
@@ -31,9 +32,13 @@ function RiderForm({ onBack, editingRiderId = null }) {
   
   const {
     showUpgradeModal,
+    showSaveProgressModal,
     currentFeature,
     closeUpgradeModal,
+    closeSaveProgressModal,
+    executePendingProAction,
     useProFeature,
+    useProFeatureWithSave,
     PRO_FEATURES
   } = useProFeatures()
   const [activeTab, setActiveTab] = useState('dados-gerais')
@@ -509,6 +514,28 @@ function RiderForm({ onBack, editingRiderId = null }) {
         isOpen={showUpgradeModal}
         onClose={closeUpgradeModal}
         feature={currentFeature}
+        onNavigateToSubscription={() => {
+          window.location.href = '/pro-subscription'
+        }}
+      />
+
+      {/* Save Progress Modal */}
+      <SaveProgressModal
+        isOpen={showSaveProgressModal}
+        onClose={closeSaveProgressModal}
+        onSave={async () => {
+          // Lógica para salvar progresso
+          try {
+            await kvSet(draftKeyRef.current, formData)
+            return true
+          } catch (error) {
+            throw new Error('Erro ao guardar progresso')
+          }
+        }}
+        onContinueWithoutSaving={() => {
+          executePendingProAction()
+        }}
+        featureName={currentFeature?.title || 'funcionalidade Pro'}
       />
 
       {/* Validation Alerts */}

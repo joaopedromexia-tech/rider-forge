@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from './context/AuthContext'
 import RiderForm from './components/RiderForm'
 import MyRiders from './components/MyRiders'
 import PDFPreview from './components/PDFPreview'
+import ProSubscriptionPage from './components/ProSubscriptionPage'
 import DemoButton from './components/DemoButton'
 import LoginModal from './components/auth/LoginModal'
 
@@ -46,6 +47,10 @@ function AppContent() {
   const handleNavigateToPreview = (riderId) => {
     setEditingRiderId(riderId)
     setCurrentView('preview')
+  }
+
+  const handleNavigateToProSubscription = () => {
+    setCurrentView('pro-subscription')
   }
 
   // Se ainda está a carregar, mostrar loading
@@ -205,6 +210,12 @@ function AppContent() {
         <PDFPreview 
           riderId={editingRiderId}
           onBack={() => setCurrentView('riders')}
+        />
+      )}
+
+      {currentView === 'pro-subscription' && (
+        <ProSubscriptionPage 
+          onBack={handleBackToHome}
         />
       )}
 

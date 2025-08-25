@@ -82,7 +82,21 @@ async function handleSubscriptionCreated(subscription) {
       })
 
     if (error) throw error
-    console.log(`Subscription created for user ${userId}`)
+
+    // Atualizar o perfil do usuário para Pro
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .update({
+        account_type: 'pro',
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', userId)
+
+    if (profileError) {
+      console.error('Error updating user profile to pro:', profileError)
+    }
+
+    console.log(`Subscription created and user upgraded to Pro: ${userId}`)
   } catch (error) {
     console.error('Error creating subscription:', error)
   }
@@ -127,7 +141,33 @@ async function handleSubscriptionDeleted(subscription) {
       .eq('stripe_subscription_id', subscription.id)
 
     if (error) throw error
-    console.log(`Subscription deleted: ${subscription.id}`)
+
+    // Obter o user_id da subscrição
+    const { data: subData, error: subError } = await supabase
+      .from('subscriptions')
+      .select('user_id')
+      .eq('stripe_subscription_id', subscription.id)
+      .single()
+
+    if (subError) {
+      console.error('Error getting subscription user_id:', subError)
+      return
+    }
+
+    // Atualizar o perfil do usuário para Free
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .update({
+        account_type: 'free',
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', subData.user_id)
+
+    if (profileError) {
+      console.error('Error updating user profile to free:', profileError)
+    }
+
+    console.log(`Subscription deleted and user downgraded to Free: ${subData.user_id}`)
   } catch (error) {
     console.error('Error deleting subscription:', error)
   }
@@ -144,7 +184,33 @@ async function handlePaymentSucceeded(invoice) {
       .eq('stripe_subscription_id', invoice.subscription)
 
     if (error) throw error
-    console.log(`Payment succeeded for subscription: ${invoice.subscription}`)
+
+    // Obter o user_id da subscrição
+    const { data: subscription, error: subError } = await supabase
+      .from('subscriptions')
+      .select('user_id')
+      .eq('stripe_subscription_id', invoice.subscription)
+      .single()
+
+    if (subError) {
+      console.error('Error getting subscription user_id:', subError)
+      return
+    }
+
+    // Atualizar o perfil do usuário para Pro
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .update({
+        account_type: 'pro',
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', subscription.user_id)
+
+    if (profileError) {
+      console.error('Error updating user profile to pro:', profileError)
+    }
+
+    console.log(`Payment succeeded and user upgraded to Pro: ${subscription.user_id}`)
   } catch (error) {
     console.error('Error handling payment success:', error)
   }

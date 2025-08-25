@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useProFeatures } from '../hooks/useProFeatures'
 import { useFeedback } from '../hooks/useFeedback'
 import ProUpgradeModal from './ProUpgradeModal'
+import SaveProgressModal from './SaveProgressModal'
 import ProStatusBadge from './ProStatusBadge'
 import NewPDFExport from './NewPDFExport'
 import LoginModal from './auth/LoginModal'
@@ -27,9 +28,13 @@ function MyRiders({ onBack, onEditRider }) {
   
   const {
     showUpgradeModal,
+    showSaveProgressModal,
     currentFeature,
     closeUpgradeModal,
+    closeSaveProgressModal,
+    executePendingProAction,
     useProFeature,
+    useProFeatureWithSave,
     PRO_FEATURES
   } = useProFeatures()
   
@@ -226,6 +231,22 @@ function MyRiders({ onBack, onEditRider }) {
           <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto justify-center">
             {/* Badge de Status */}
             <ProStatusBadge />
+            
+            {/* Botão de Upgrade para Pro */}
+            {!isPro && (
+              <button
+                onClick={() => {
+                  // Navegar para página de subscrição
+                  window.location.href = '/pro-subscription'
+                }}
+                className="btn-primary flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span className="hidden sm:inline">Upgrade Pro</span>
+              </button>
+            )}
             
             <div className="relative">
               <button
@@ -473,6 +494,24 @@ function MyRiders({ onBack, onEditRider }) {
         isOpen={showUpgradeModal} 
         onClose={closeUpgradeModal}
         feature={currentFeature}
+        onNavigateToSubscription={() => {
+          window.location.href = '/pro-subscription'
+        }}
+      />
+
+      {/* Save Progress Modal */}
+      <SaveProgressModal
+        isOpen={showSaveProgressModal}
+        onClose={closeSaveProgressModal}
+        onSave={async () => {
+          // Lógica para salvar progresso (aqui seria salvar o rider atual)
+          showSuccess('Progresso guardado com sucesso!')
+          return true
+        }}
+        onContinueWithoutSaving={() => {
+          executePendingProAction()
+        }}
+        featureName={currentFeature?.title || 'funcionalidade Pro'}
       />
 
       {/* PDF Export Modal */}

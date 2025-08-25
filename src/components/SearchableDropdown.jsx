@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { CATEGORY_ICONS } from '../data/equipmentLibrary'
-import { useRider } from '../context/RiderContext'
+import { useEquipment } from '../context/EquipmentContext'
 import ProStatusBadge from './ProStatusBadge'
 
 function SearchableDropdown({
@@ -14,7 +14,7 @@ function SearchableDropdown({
   className = '',
   maxHeight = '200px'
 }) {
-  const { isPro } = useRider()
+  const { isPro } = useEquipment()
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [highlightedIndex, setHighlightedIndex] = useState(-1)

@@ -1,4 +1,4 @@
-function ProUpgradeModal({ isOpen, onClose, feature }) {
+function ProUpgradeModal({ isOpen, onClose, feature, onNavigateToSubscription }) {
 
   if (!isOpen) return null
 
@@ -87,9 +87,10 @@ function ProUpgradeModal({ isOpen, onClose, feature }) {
             </button>
             <button
               onClick={() => {
-                // Aqui seria a lógica para upgrade
-                alert('Upgrade em breve!')
                 onClose()
+                if (onNavigateToSubscription) {
+                  onNavigateToSubscription()
+                }
               }}
               className="flex-1 btn-primary"
             >

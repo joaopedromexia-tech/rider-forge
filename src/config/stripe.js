@@ -25,7 +25,7 @@ export const STRIPE_CONFIG = {
 
   // URLs de callback
   SUCCESS_URL: `${window.location.origin}/dashboard?success=true`,
-  CANCEL_URL: `${window.location.origin}/pricing?canceled=true`,
+  CANCEL_URL: `${window.location.origin}/pro-subscription?canceled=true`,
   PORTAL_URL: `${window.location.origin}/account`
 }
 
