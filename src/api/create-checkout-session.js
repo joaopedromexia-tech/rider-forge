@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   try {
     const { priceId, userId, customerEmail, successUrl, cancelUrl } = req.body
 
-    console.log('Received request:', { priceId, userId, customerEmail, successUrl, cancelUrl })
+    console.log('Received request:', { priceId, userId, customerEmail, successUrl, cancelUrl, timestamp: new Date().toISOString() })
 
     if (!priceId || !userId || !customerEmail) {
       return res.status(400).json({ error: 'Missing required parameters' })
