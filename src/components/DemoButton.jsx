@@ -425,7 +425,7 @@ function DemoButton({ onNavigateToForm }) {
 
     // Adicionar à lista de riders e abrir para edição
     try {
-      const savedRider = saveRider(completeDemoData, demoRider.name)
+      const savedRider = await saveRider(completeDemoData, demoRider.name)
       console.log('✅ Rider demo criado com sucesso:', savedRider.id)
       // Navegar imediatamente para o formulário
       console.log('🚀 Navegando para o formulário com ID:', savedRider.id)
@@ -446,7 +446,7 @@ function DemoButton({ onNavigateToForm }) {
             }
           }
         }
-        const simpleRider = saveRider(simpleDemoData, 'Thunder Road - Demo Simples')
+        const simpleRider = await saveRider(simpleDemoData, 'Thunder Road - Demo Simples')
         console.log('✅ Rider demo simples criado:', simpleRider.id)
         onNavigateToForm(simpleRider.id)
       } catch (fallbackError) {

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 
-const LoginModal = ({ isOpen, onClose }) => {
+const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
   const { signIn, signUp } = useAuth()
-  const [mode, setMode] = useState('login') // 'login' ou 'signup'
+  const [mode, setMode] = useState(defaultMode) // 'login' ou 'signup'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -20,6 +20,14 @@ const LoginModal = ({ isOpen, onClose }) => {
     setError(null)
     setSuccess(null)
   }
+
+  // Reset para o modo padrão quando o modal é fechado/aberto
+  React.useEffect(() => {
+    if (isOpen) {
+      setMode(defaultMode)
+      resetForm()
+    }
+  }, [isOpen, defaultMode])
 
   const handleModeChange = (newMode) => {
     setMode(newMode)

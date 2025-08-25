@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { useRider } from '../context/RiderContext'
+import { useAuth } from '../context/AuthContext'
 import { PRO_CONFIG } from '../config/proConfig'
 
 // Exportar as funcionalidades Pro da configuração
 export const PRO_FEATURES = PRO_CONFIG.PRO_FEATURES
 
 export function useProFeatures() {
-  const { isPro } = useRider()
+  const { isPro } = useAuth()
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
   const [currentFeature, setCurrentFeature] = useState(null)
 

@@ -247,6 +247,10 @@ function RiderForm({ onBack, editingRiderId = null }) {
     setShowSaveModal(true)
   }
 
+  const handleCreateAccountClick = () => {
+    setShowLoginModal(true)
+  }
+
   // Get the active component outside of render to avoid React 19 static flag issues
   const activeTabData = tabs.find(tab => tab.id === activeTab)
   const ActiveComponent = activeTabData?.component
@@ -365,23 +369,21 @@ function RiderForm({ onBack, editingRiderId = null }) {
               Exportar PDF
             </button>
             
-            <button
-              onClick={handleSaveClick}
-              disabled={!user || !hasAccount}
-              className={`px-8 py-3 ${
-                user && hasAccount 
-                  ? 'btn-primary' 
-                  : 'bg-gray-400 text-gray-600 cursor-not-allowed rounded-xl'
-              }`}
-              title={!user || !hasAccount ? 'Crie uma conta para gravar riders' : ''}
-            >
-              {!user || !hasAccount 
-                ? '🔒 Criar Conta para Gravar'
-                : editingRider 
-                  ? 'Atualizar Rider' 
-                  : 'Salvar Rider'
-              }
-            </button>
+            {!user || !hasAccount ? (
+              <button
+                onClick={handleCreateAccountClick}
+                className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold px-8 py-3 rounded-xl hover:from-yellow-600 hover:to-orange-600 transition-all duration-200"
+              >
+                🔐 Criar Conta para Gravar
+              </button>
+            ) : (
+              <button
+                onClick={handleSaveClick}
+                className="btn-primary px-8 py-3"
+              >
+                {editingRider ? 'Atualizar Rider' : 'Salvar Rider'}
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -474,7 +476,8 @@ function RiderForm({ onBack, editingRiderId = null }) {
       {/* Login Modal */}
       <LoginModal 
         isOpen={showLoginModal} 
-        onClose={() => setShowLoginModal(false)} 
+        onClose={() => setShowLoginModal(false)}
+        defaultMode="signup"
       />
     </div>
   )
