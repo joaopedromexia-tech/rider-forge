@@ -58,7 +58,7 @@ const Dashboard = () => {
                     Olá, {user.user_metadata?.full_name || user.email}
                   </span>
                   <button
-                    onClick={() => alert('Página de pricing em desenvolvimento!')}
+                    onClick={() => window.location.href = '/pricing'}
                     className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                   >
                     {isPro ? 'Pro' : 'Upgrade'}
@@ -198,8 +198,8 @@ const Dashboard = () => {
               </button>
               <button
                 onClick={() => {
-                  alert('Upgrade em desenvolvimento!')
                   setShowUpgradeModal(false)
+                  window.location.href = '/pricing'
                 }}
                 className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
               >
