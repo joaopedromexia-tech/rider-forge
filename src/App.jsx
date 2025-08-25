@@ -25,6 +25,17 @@ function AppContent() {
   const hasUser = Boolean(user)
   const hasUserAccount = Boolean(hasAccount)
 
+  // Debug do estado do usuário
+  console.log('🔍 Estado do usuário:', {
+    user: !!user,
+    hasAccount: !!hasAccount,
+    isPro: !!isPro,
+    authLoading,
+    hasUser,
+    hasUserAccount,
+    isProUser
+  })
+
   const handleNavigateToForm = (riderId = null) => {
     setEditingRiderId(riderId)
     setCurrentView('form')
@@ -145,13 +156,19 @@ function AppContent() {
                   ) : (
                     <div className="space-y-3">
                       <button
-                        onClick={() => setShowLoginModal(true)}
+                        onClick={() => {
+                          console.log('🔑 Botão Login clicado!')
+                          setShowLoginModal(true)
+                        }}
                         className="w-full text-lg py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200"
                       >
                         <span>🔑 Fazer Login</span>
                       </button>
                       <button
-                        onClick={() => setShowLoginModal(true)}
+                        onClick={() => {
+                          console.log('✨ Botão Criar Conta clicado!')
+                          setShowLoginModal(true)
+                        }}
                         className="w-full text-lg py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all duration-200"
                       >
                         <span>✨ Criar Conta Grátis</span>
@@ -201,7 +218,10 @@ function AppContent() {
                       Aceda a equipamentos profissionais, riders ilimitados e funcionalidades avançadas para criar riders técnicos de qualidade
                     </p>
                     <button
-                      onClick={handleNavigateToProSubscription}
+                      onClick={() => {
+                        console.log('🚀 Botão Upgrade Pro clicado!')
+                        handleNavigateToProSubscription()
+                      }}
                       className="bg-gradient-to-r from-accent-green to-accent-blue text-white font-semibold px-12 py-4 rounded-xl hover:from-accent-green/90 hover:to-accent-blue/90 transition-all duration-300 shadow-xl text-lg transform hover:scale-105"
                     >
                       <svg className="w-6 h-6 inline mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
