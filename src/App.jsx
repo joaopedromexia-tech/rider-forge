@@ -33,7 +33,8 @@ function AppContent() {
     authLoading,
     hasUser,
     hasUserAccount,
-    isProUser
+    isProUser,
+    showLoginModal
   })
 
   const handleNavigateToForm = (riderId = null) => {
@@ -278,7 +279,10 @@ function AppContent() {
       {/* Login Modal */}
       <LoginModal 
         isOpen={showLoginModal} 
-        onClose={() => setShowLoginModal(false)} 
+        onClose={() => {
+          console.log('🔒 Fechando modal de login')
+          setShowLoginModal(false)
+        }} 
       />
       
       {/* Vercel Analytics */}
