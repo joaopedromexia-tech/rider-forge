@@ -9,6 +9,7 @@ import ProStatusBadge from './ProStatusBadge'
 import NewPDFExport from './NewPDFExport'
 import LoginModal from './auth/LoginModal'
 import { encodeObjectToBase64 } from '../utils/base64'
+import { PRO_CONFIG } from '../config/proConfig'
 
 function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
   const { 
