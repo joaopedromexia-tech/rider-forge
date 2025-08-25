@@ -5,12 +5,10 @@ import {
   searchEquipment,
   getBrands 
 } from '../data/equipmentLibrary'
-import { useRider } from './RiderContext'
 
 const EquipmentContext = createContext()
 
 export function EquipmentProvider({ children }) {
-  const { isPro } = useRider()
   const [filters, setFilters] = useState({
     brandFilter: '',
     modelQuery: ''
@@ -66,7 +64,7 @@ export function EquipmentProvider({ children }) {
   }, [])
 
   const value = {
-    isPro,
+    isPro: false, // Mock para agora, será atualizado quando necessário
     filters,
     getFilteredEquipment,
     getAvailableBrands,
