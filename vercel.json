@@ -7,6 +7,10 @@
       "config": {
         "distDir": "dist"
       }
+    },
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -24,19 +28,5 @@
     "VITE_SUPABASE_ANON_KEY": "@vite_supabase_anon_key",
     "VITE_STRIPE_PUBLISHABLE_KEY": "@vite_stripe_publishable_key",
     "VITE_STRIPE_PRO_ANNUAL_PRICE_ID": "@vite_stripe_pro_annual_price_id"
-  },
-  "functions": {
-    "api/create-checkout-session.js": {
-      "runtime": "nodejs18.x"
-    },
-    "api/create-portal-session.js": {
-      "runtime": "nodejs18.x"
-    },
-    "api/verify-payment.js": {
-      "runtime": "nodejs18.x"
-    },
-    "api/webhook-stripe.js": {
-      "runtime": "nodejs18.x"
-    }
   }
 }
