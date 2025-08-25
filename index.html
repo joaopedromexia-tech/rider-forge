@@ -11,13 +11,12 @@
       console.log('HTML loaded!');
       document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM loaded!');
-        document.body.style.backgroundColor = 'green';
-        document.body.innerHTML = '<h1 style="color: white; text-align: center; padding: 50px;">HTML está funcionando!</h1>';
+        console.log('Waiting for React to load...');
       });
     </script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/main-simple.jsx"></script>
   </body>
 </html>
