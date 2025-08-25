@@ -91,8 +91,8 @@ export const stripe = {
 // Hook para gestão de checkout
 export const useStripeCheckout = () => {
   const redirectToCheckout = async (priceId, userId, customerEmail) => {
-    const stripe = await stripePromise
-    if (!stripe) {
+    const stripeInstance = await stripePromise
+    if (!stripeInstance) {
       throw new Error('Stripe failed to load')
     }
 
@@ -106,7 +106,7 @@ export const useStripeCheckout = () => {
       throw error
     }
 
-    const { error: checkoutError } = await stripe.redirectToCheckout({
+    const { error: checkoutError } = await stripeInstance.redirectToCheckout({
       sessionId: session.id,
     })
 
@@ -116,24 +116,14 @@ export const useStripeCheckout = () => {
   }
 
   const redirectToPortal = async (customerId) => {
-    const stripe = await stripePromise
-    if (!stripe) {
-      throw new Error('Stripe failed to load')
-    }
-
     const { session, error } = await stripe.createPortalSession(customerId)
 
     if (error) {
       throw error
     }
 
-    const { error: portalError } = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    })
-
-    if (portalError) {
-      throw portalError
-    }
+    // O portal retorna uma URL diretamente, não um sessionId
+    window.location.href = session.id
   }
 
   return {

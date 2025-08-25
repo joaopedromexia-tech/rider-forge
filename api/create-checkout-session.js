@@ -55,7 +55,7 @@ export default async function handler(req, res) {
       }
     })
 
-    res.status(200).json({ sessionId: session.id })
+    res.status(200).json({ id: session.id })
   } catch (error) {
     console.error('Error creating checkout session:', error)
     res.status(500).json({ error: 'Internal server error' })

@@ -80,21 +80,6 @@ function AppContent() {
               <p className="text-xl sm:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
                 Crie riders técnicos profissionais com facilidade e precisão
               </p>
-              
-              {/* Botão de Upgrade para Pro na página inicial */}
-              {hasUser && hasUserAccount && !isProUser && (
-                <div className="mt-8">
-                  <button
-                    onClick={handleNavigateToProSubscription}
-                    className="bg-gradient-to-r from-accent-green to-accent-blue text-white font-semibold px-8 py-4 rounded-xl hover:from-accent-green/90 hover:to-accent-blue/90 transition-all duration-200 shadow-lg text-lg"
-                  >
-                    <svg className="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    Upgrade para Pro - Apenas €3.99/ano
-                  </button>
-                </div>
-              )}
             </div>
             
             {/* Main Action Buttons */}
@@ -202,6 +187,34 @@ function AppContent() {
                 </div>
               </div>
             </div>
+
+            {/* Botão de Upgrade para Pro no fundo da página */}
+            {hasUser && hasUserAccount && !isProUser && (
+              <div className="mt-16 mb-8">
+                <div className="bg-gradient-to-r from-accent-green/10 to-accent-blue/10 border border-accent-green/30 rounded-2xl p-8 text-center">
+                  <div className="max-w-2xl mx-auto">
+                    <h2 className="text-3xl font-bold text-white mb-4">
+                      Potencialize a sua produção musical
+                    </h2>
+                    <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                      Aceda a equipamentos profissionais, riders ilimitados e funcionalidades avançadas
+                    </p>
+                    <button
+                      onClick={handleNavigateToProSubscription}
+                      className="bg-gradient-to-r from-accent-green to-accent-blue text-white font-semibold px-12 py-4 rounded-xl hover:from-accent-green/90 hover:to-accent-blue/90 transition-all duration-300 shadow-xl text-lg transform hover:scale-105"
+                    >
+                      <svg className="w-6 h-6 inline mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      Upgrade para Pro - Apenas €3.99/ano
+                    </button>
+                    <p className="text-sm text-gray-400 mt-4">
+                      ✨ Riders ilimitados • Biblioteca Pro • PDF customizável • Histórico de versões
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Footer Info */}
             <div className="text-center text-gray-500 text-sm">

@@ -12,6 +12,7 @@ const ProSubscriptionPage = ({ onBack }) => {
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [loading, setLoading] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState('annual')
+  const [hoveredFeature, setHoveredFeature] = useState(null)
 
   // Verificações de segurança para evitar erros durante carregamento
   const isProUser = Boolean(isPro)
@@ -39,6 +40,45 @@ const ProSubscriptionPage = ({ onBack }) => {
       ]
     }
   }
+
+  const features = [
+    {
+      icon: '🎯',
+      title: 'Riders Ilimitados',
+      description: 'Crie quantos riders quiser sem limitações. Ideal para produtores que trabalham com múltiplos artistas.',
+      color: 'from-blue-500 to-cyan-500'
+    },
+    {
+      icon: '🎛️',
+      title: 'Biblioteca Pro',
+      description: 'Acesso a equipamentos profissionais premium, incluindo marcas de topo e modelos exclusivos.',
+      color: 'from-green-500 to-emerald-500'
+    },
+    {
+      icon: '🎨',
+      title: 'PDF Customizável',
+      description: 'Personalize os seus PDFs com logo, cores da marca e rodapé personalizado para uma apresentação profissional.',
+      color: 'from-purple-500 to-pink-500'
+    },
+    {
+      icon: '⏰',
+      title: 'Histórico de Versões',
+      description: 'Controle de versões completo. Volte atrás a qualquer momento e veja o histórico de alterações.',
+      color: 'from-yellow-500 to-orange-500'
+    },
+    {
+      icon: '📊',
+      title: 'Exportação Avançada',
+      description: 'Exporte para múltiplos formatos: PDF, CSV, Excel. Integre facilmente com outros sistemas.',
+      color: 'from-red-500 to-pink-500'
+    },
+    {
+      icon: '☁️',
+      title: 'Armazenamento Ilimitado',
+      description: 'Guarde todos os seus riders sem preocupações com espaço. Backup automático e sincronização.',
+      color: 'from-indigo-500 to-purple-500'
+    }
+  ]
 
   const handleUpgrade = async () => {
     if (!hasUser) {
@@ -83,45 +123,57 @@ const ProSubscriptionPage = ({ onBack }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800">
-      {/* Header */}
-      <div className="relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-green/5 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Navigation */}
-          <div className="flex items-center justify-between mb-12">
+      {/* Header com navegação */}
+      <div className="sticky top-0 z-40 bg-dark-950/95 backdrop-blur-md border-b border-dark-800/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
             <button
               onClick={onBack}
-              className="btn-secondary flex items-center gap-2"
+              className="btn-secondary flex items-center gap-2 px-4 py-2 text-sm"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              Voltar
+              <span className="hidden sm:inline">Voltar</span>
             </button>
             
             {isProUser && (
               <ProStatusBadge />
             )}
           </div>
+        </div>
+      </div>
 
-          {/* Hero Section */}
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-green/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-500/3 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          {/* Hero Content */}
           <div className="text-center mb-16">
-            <h1 className="text-4xl sm:text-6xl font-bold text-gradient mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-green/10 border border-accent-green/30 rounded-full text-accent-green text-sm font-medium mb-6">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span>Plano Mais Popular</span>
+            </div>
+            
+            <h1 className="text-5xl sm:text-7xl font-bold text-gradient mb-6 leading-tight">
               Rider Forge Pro
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+            <p className="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed">
               Potencialize a sua produção musical com ferramentas profissionais. 
               Crie riders ilimitados, aceda a equipamentos premium e personalize 
               os seus documentos como nunca antes.
             </p>
             
             {isProUser && (
-              <div className="inline-flex items-center gap-2 px-6 py-3 bg-accent-green/20 border border-accent-green/30 rounded-full text-accent-green">
+              <div className="inline-flex items-center gap-2 px-6 py-3 bg-accent-green/20 border border-accent-green/30 rounded-full text-accent-green animate-pulse">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
@@ -132,13 +184,17 @@ const ProSubscriptionPage = ({ onBack }) => {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Pricing Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        {/* Comparison Table */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-16">
+        <div className="grid lg:grid-cols-2 gap-12 mb-20">
           {/* Free Plan */}
-          <div className="bg-dark-800/50 backdrop-blur-sm rounded-2xl p-8 border border-dark-700">
+          <div className="bg-dark-800/50 backdrop-blur-sm rounded-3xl p-8 border border-dark-700 hover:border-dark-600 transition-all duration-300">
             <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-gray-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
               <h3 className="text-2xl font-bold text-gray-100 mb-2">Free</h3>
               <div className="text-4xl font-bold text-gray-100 mb-2">€0</div>
               <p className="text-gray-400">Para sempre</p>
@@ -193,15 +249,13 @@ const ProSubscriptionPage = ({ onBack }) => {
 
           {/* Pro Plan */}
           <div className="relative">
-            {plans[selectedPlan].popular && (
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
-                <span className="bg-gradient-to-r from-accent-green to-accent-blue text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
-                  Mais Popular
-                </span>
-              </div>
-            )}
+            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+              <span className="bg-gradient-to-r from-accent-green to-accent-blue text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
+                Mais Popular
+              </span>
+            </div>
             
-            <div className="bg-gradient-to-br from-accent-blue/10 to-accent-green/10 backdrop-blur-sm rounded-2xl p-8 border-2 border-accent-blue/30 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-accent-blue/10 to-accent-green/10 backdrop-blur-sm rounded-3xl p-8 border-2 border-accent-blue/30 relative overflow-hidden hover:border-accent-blue/50 transition-all duration-300">
               {/* Background Pattern */}
               <div className="absolute inset-0">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-accent-blue/5 rounded-full blur-2xl"></div>
@@ -210,6 +264,11 @@ const ProSubscriptionPage = ({ onBack }) => {
 
               <div className="relative z-10">
                 <div className="text-center mb-8">
+                  <div className="w-16 h-16 bg-gradient-to-br from-accent-blue to-accent-green rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
                   <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
                   <div className="flex items-center justify-center gap-2 mb-2">
                     <div className="text-4xl font-bold text-white">{plans[selectedPlan].price}</div>
@@ -246,7 +305,7 @@ const ProSubscriptionPage = ({ onBack }) => {
                   <button
                     onClick={handleUpgrade}
                     disabled={loading}
-                    className="w-full btn-primary flex items-center justify-center gap-2"
+                    className="w-full btn-primary flex items-center justify-center gap-2 transform hover:scale-105 transition-all duration-200"
                   >
                     {loading ? (
                       <>
@@ -272,128 +331,83 @@ const ProSubscriptionPage = ({ onBack }) => {
         </div>
 
         {/* Features Grid */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center text-white mb-12">
-            Por que escolher o Rider Forge Pro?
-          </h2>
+        <div className="mb-20">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Por que escolher o Rider Forge Pro?
+            </h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              Descubra como o Rider Forge Pro pode transformar a sua produção musical
+            </p>
+          </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-dark-800/30 backdrop-blur-sm rounded-xl p-6 border border-dark-700">
-              <div className="w-12 h-12 bg-accent-blue/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-accent-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+            {features.map((feature, index) => (
+              <div 
+                key={index}
+                className={`bg-dark-800/30 backdrop-blur-sm rounded-2xl p-6 border border-dark-700 hover:border-dark-600 transition-all duration-300 transform hover:scale-105 cursor-pointer ${
+                  hoveredFeature === index ? 'ring-2 ring-accent-blue/50' : ''
+                }`}
+                onMouseEnter={() => setHoveredFeature(index)}
+                onMouseLeave={() => setHoveredFeature(null)}
+              >
+                <div className={`w-12 h-12 bg-gradient-to-r ${feature.color} rounded-xl flex items-center justify-center mb-4 text-2xl`}>
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
+                <p className="text-gray-300 leading-relaxed">{feature.description}</p>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Riders Ilimitados</h3>
-              <p className="text-gray-300">
-                Crie quantos riders quiser sem limitações. Ideal para produtores que trabalham com múltiplos artistas.
-              </p>
-            </div>
-
-            <div className="bg-dark-800/30 backdrop-blur-sm rounded-xl p-6 border border-dark-700">
-              <div className="w-12 h-12 bg-accent-green/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Biblioteca Pro</h3>
-              <p className="text-gray-300">
-                Acesso a equipamentos profissionais premium, incluindo marcas de topo e modelos exclusivos.
-              </p>
-            </div>
-
-            <div className="bg-dark-800/30 backdrop-blur-sm rounded-xl p-6 border border-dark-700">
-              <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17v4a2 2 0 002 2h4M15 7l3-3m0 0l-3-3m3 3H9" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-2">PDF Customizável</h3>
-              <p className="text-gray-300">
-                Personalize os seus PDFs com logo, cores da marca e rodapé personalizado para uma apresentação profissional.
-              </p>
-            </div>
-
-            <div className="bg-dark-800/30 backdrop-blur-sm rounded-xl p-6 border border-dark-700">
-              <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Histórico de Versões</h3>
-              <p className="text-gray-300">
-                Controle de versões completo. Volte atrás a qualquer momento e veja o histórico de alterações.
-              </p>
-            </div>
-
-            <div className="bg-dark-800/30 backdrop-blur-sm rounded-xl p-6 border border-dark-700">
-              <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Exportação Avançada</h3>
-              <p className="text-gray-300">
-                Exporte para múltiplos formatos: PDF, CSV, Excel. Integre facilmente com outros sistemas.
-              </p>
-            </div>
-
-            <div className="bg-dark-800/30 backdrop-blur-sm rounded-xl p-6 border border-dark-700">
-              <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 109.75 9.75A9.75 9.75 0 0012 2.25z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Armazenamento Ilimitado</h3>
-              <p className="text-gray-300">
-                Guarde todos os seus riders sem preocupações com espaço. Backup automático e sincronização.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
 
         {/* FAQ Section */}
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-white mb-12">
-            Perguntas Frequentes
-          </h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Perguntas Frequentes
+            </h2>
+            <p className="text-gray-300">
+              Tudo o que precisa de saber sobre o Rider Forge Pro
+            </p>
+          </div>
           
           <div className="space-y-6">
-            <div className="bg-dark-800/30 backdrop-blur-sm rounded-xl p-6 border border-dark-700">
+            <div className="bg-dark-800/30 backdrop-blur-sm rounded-2xl p-6 border border-dark-700 hover:border-dark-600 transition-all duration-300">
               <h3 className="font-semibold text-white mb-2">
                 É uma subscrição anual?
               </h3>
-              <p className="text-gray-300">
+              <p className="text-gray-300 leading-relaxed">
                 Sim, o Rider Forge Pro é uma subscrição anual de apenas €3.99. Isso significa que paga apenas uma vez por ano, 
                 o que equivale a apenas €0.33 por mês!
               </p>
             </div>
 
-            <div className="bg-dark-800/30 backdrop-blur-sm rounded-xl p-6 border border-dark-700">
+            <div className="bg-dark-800/30 backdrop-blur-sm rounded-2xl p-6 border border-dark-700 hover:border-dark-600 transition-all duration-300">
               <h3 className="font-semibold text-white mb-2">
                 Os meus riders ficam guardados se cancelar?
               </h3>
-              <p className="text-gray-300">
+              <p className="text-gray-300 leading-relaxed">
                 Sim, todos os seus riders ficam guardados. Se cancelar, poderá continuar a aceder aos seus riders existentes, 
                 mas não poderá criar novos riders (limite de 2 na versão Free).
               </p>
             </div>
 
-            <div className="bg-dark-800/30 backdrop-blur-sm rounded-xl p-6 border border-dark-700">
+            <div className="bg-dark-800/30 backdrop-blur-sm rounded-2xl p-6 border border-dark-700 hover:border-dark-600 transition-all duration-300">
               <h3 className="font-semibold text-white mb-2">
                 Que métodos de pagamento aceitam?
               </h3>
-              <p className="text-gray-300">
+              <p className="text-gray-300 leading-relaxed">
                 Aceitamos todos os principais cartões de crédito e débito, incluindo Visa, Mastercard, American Express 
                 e outros métodos de pagamento seguros através do Stripe.
               </p>
             </div>
 
-            <div className="bg-dark-800/30 backdrop-blur-sm rounded-xl p-6 border border-dark-700">
+            <div className="bg-dark-800/30 backdrop-blur-sm rounded-2xl p-6 border border-dark-700 hover:border-dark-600 transition-all duration-300">
               <h3 className="font-semibold text-white mb-2">
                 Posso cancelar a qualquer momento?
               </h3>
-              <p className="text-gray-300">
+              <p className="text-gray-300 leading-relaxed">
                 Sim, pode cancelar a sua subscrição a qualquer momento através do portal de gestão. 
                 Continuará a ter acesso às funcionalidades Pro até ao final do período de faturação.
               </p>

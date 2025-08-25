@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       return_url: returnUrl || process.env.VERCEL_URL + '/dashboard',
     })
 
-    res.status(200).json({ url: session.url })
+    res.status(200).json({ id: session.url })
   } catch (error) {
     console.error('Error creating portal session:', error)
     res.status(500).json({ error: 'Internal server error' })
