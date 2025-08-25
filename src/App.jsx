@@ -106,7 +106,9 @@ function App() {
                           <p className="text-gray-400 mb-6 leading-relaxed">
                             Explore um exemplo completo de rider técnico profissional
                           </p>
-                          <DemoButton onNavigateToForm={handleNavigateToForm} />
+                          <div className="w-full">
+                            <DemoButton onNavigateToForm={handleNavigateToForm} />
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -459,7 +459,7 @@ function DemoButton({ onNavigateToForm }) {
   return (
     <button
       onClick={createCompleteDemoRider}
-      className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-base sm:text-lg font-bold relative overflow-hidden group w-full max-w-sm px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-2 border-dashed border-purple-400"
+      className="bg-gradient-to-r from-purple-600 to-blue-600 text-white text-lg font-semibold relative overflow-hidden group w-full px-6 py-4 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
     >
       <span className="relative z-10 flex items-center justify-center gap-2">
         <svg 
@@ -470,7 +470,7 @@ function DemoButton({ onNavigateToForm }) {
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
-        🚀 CRIAR RIDER DEMO COMPLETO
+        Criar Demo
       </span>
     </button>
   )
