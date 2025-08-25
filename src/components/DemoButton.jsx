@@ -6,6 +6,26 @@ function DemoButton({ onNavigateToForm }) {
   const { saveRider } = useRider()
 
   const createCompleteDemoRider = async () => {
+    // Converter imagens públicas em base64 (para compatibilidade com validadores)
+    const loadImageAsBase64 = async (imagePath) => {
+      try {
+        const res = await fetch(imagePath)
+        const blob = await res.blob()
+        return await new Promise((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = () => resolve(reader.result)
+          reader.onerror = reject
+          reader.readAsDataURL(blob)
+        })
+      } catch {
+        // Pixel em branco
+        return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
+      }
+    }
+
+    const capaBase64 = await loadImageAsBase64('/images/capa_demo.png')
+    const stageBase64 = await loadImageAsBase64('/images/stageplot_demo.png')
+
     // Criar dados completos para preencher todas as abas
     const completeDemoData = {
       'dados-gerais': {
@@ -28,16 +48,16 @@ function DemoButton({ onNavigateToForm }) {
           email: 'sarah.chen@thunderroad.com'
         },
         imagemCapa: {
-          data: '/images/capa_demo.png',
+          data: capaBase64,
           type: 'image/png',
           name: 'capa_demo.png',
-          size: 1884160
+          size: capaBase64.length
         },
         stagePlot: {
-          data: '/images/stageplot_demo.png',
+          data: stageBase64,
           type: 'image/png',
           name: 'stageplot_demo.png',
-          size: 994304
+          size: stageBase64.length
         }
       },
       'pa': {
@@ -107,12 +127,7 @@ function DemoButton({ onNavigateToForm }) {
             { marca: 'Yamaha', modelo: 'CL5', observacoes: 'Backup FOH', supplier: 'promoter' },
             { marca: 'Midas', modelo: 'Pro2', observacoes: 'Alternativa compacta', supplier: 'promoter' }
           ],
-          novaConsola: {
-            marca: '',
-            modelo: '',
-            observacoes: '',
-            supplier: 'promoter'
-          }
+          novaConsola: { marca: '', modelo: '', observacoes: '', supplier: 'promoter' }
         },
         mon: {
           consolaPreferida: {
@@ -125,76 +140,22 @@ function DemoButton({ onNavigateToForm }) {
             { marca: 'Yamaha', modelo: 'CL3', observacoes: 'Backup monitor', supplier: 'promoter' },
             { marca: 'Allen & Heath', modelo: 'dLive S5000', observacoes: 'Alternativa com mais canais', supplier: 'promoter' }
           ],
-          novaConsola: {
-            marca: '',
-            modelo: '',
-            observacoes: '',
-            supplier: 'promoter'
-          }
+          novaConsola: { marca: '', modelo: '', observacoes: '', supplier: 'promoter' }
         }
       },
       'sistemas-escuta': {
         tipoSistema: 'iem',
-        iems: {
-          quantidade: 6,
-          modeloPreferido: 'Shure — P9T',
-          observacoes: 'Sistema IEM profissional para banda de 5 músicos + 1 técnico',
-          supplier: 'promoter'
-        },
-        wedges: {
-          quantidade: 4,
-          modelo: 'Meyer Sound — UPA-1P',
-          observacoes: 'Wedges de backup para situações especiais',
-          supplier: 'promoter'
-        },
-        sideFills: {
-          quantidade: 2,
-          modelo: 'Meyer Sound — UPA-1P',
-          observacoes: 'Side fills para cobertura lateral do palco',
-          supplier: 'promoter'
-        },
-        subs: [
-          {
-            id: Date.now() + 100,
-            quantidade: 1,
-            modelo: 'Meyer Sound — 1100-LFC',
-            paraInstrumento: 'Baterista',
-            observacoes: 'Subwoofer para baterista com graves reforçados',
-            supplier: 'promoter'
-          }
-        ],
-        observacoes: 'Sistema IEM profissional com 6 canais UHF. Frequências a coordenar com o promotor.'
+        iems: { quantidade: 6, modeloPreferido: 'Shure — P9T', observacoes: 'Sistema IEM profissional para banda de 5 músicos + 1 técnico', supplier: 'promoter' },
+        wedges: { quantidade: 4, modelo: 'Meyer Sound — UPA-1P', observacoes: 'Wedges de backup', supplier: 'promoter' },
+        sideFills: { quantidade: 2, modelo: 'Meyer Sound — UPA-1P', observacoes: 'Cobertura lateral', supplier: 'promoter' },
+        subs: [ { id: Date.now() + 100, quantidade: 1, modelo: 'Meyer Sound — 1100-LFC', paraInstrumento: 'Baterista', observacoes: 'Graves reforçados', supplier: 'promoter' } ],
+        observacoes: 'Sistema IEM com 6 canais UHF.'
       },
       'equipamento-auxiliar': {
-        racks: [
-          { tipo: 'Rack 19"', quantidade: 4, observacoes: 'Racks para equipamento de processamento' }
-        ],
-        cabos: [
-          { tipo: 'XLR 3-pin', quantidade: 50, observacoes: 'Cabos de áudio balanceados' },
-          { tipo: 'XLR 5-pin', quantidade: 20, observacoes: 'Cabos para DMX' }
-        ],
-        acessorios: [
-          { tipo: 'Pé de microfone', quantidade: 15, observacoes: 'Pés de microfone com base pesada' },
-          { tipo: 'Suporte de guitarra', quantidade: 8, observacoes: 'Suportes para instrumentos' }
-        ],
-        talkbacks: {
-          quantidade: 4,
-          modelo: 'Clear-Com — Eclipse HX',
-          observacoes: 'Sistema de talkback para comunicação entre técnicos',
-          supplier: 'promoter'
-        },
-        intercom: {
-          quantidade: 6,
-          modelo: 'Clear-Com — Eclipse HX',
-          observacoes: 'Sistema de intercom para comunicação de palco',
-          supplier: 'promoter'
-        },
-        comunicacaoFohMon: {
-          tipo: 'Cabo dedicado',
-          observacoes: 'Comunicação dedicada entre FOH e MON via cabo XLR',
-          supplier: 'promoter'
-        },
-        observacoes: 'Equipamento auxiliar de qualidade profissional. Verificar estado de todos os cabos antes do evento.'
+        talkbacks: { quantidade: 4, modelo: 'Clear-Com — Eclipse HX', observacoes: 'Comunicação entre técnicos', supplier: 'promoter' },
+        intercom: { quantidade: 6, modelo: 'Clear-Com — Eclipse HX', observacoes: 'Intercom de palco', supplier: 'promoter' },
+        comunicacaoFohMon: { tipo: 'Cabo dedicado', observacoes: 'Comunicação via XLR', supplier: 'promoter' },
+        observacoes: 'Verificar cabos antes do evento.'
       },
       'input-list': {
         inputs: [
@@ -215,15 +176,11 @@ function DemoButton({ onNavigateToForm }) {
       'monitor-mixes': {
         mixes: [
           { nome: 'Vocal Principal', instrumentoMusico: 'Vocal Principal', tipo: 'iem', formato: 'stereo', canais: ['Vocal Principal', 'Vocal Backing', 'Guitarra Lead', 'Guitarra Rítmica', 'Baixo', 'Bateria - Kick', 'Bateria - Snare', 'Bateria - Hi-Hat'], observacoes: 'Mix para vocal principal' },
-          { nome: 'Guitarrista Lead', instrumentoMusico: 'Guitarrista Lead', tipo: 'iem', formato: 'stereo', canais: ['Guitarra Lead', 'Guitarra Rítmica', 'Baixo', 'Bateria - Kick', 'Bateria - Snare', 'Bateria - Hi-Hat', 'Vocal Principal'], observacoes: 'Mix para guitarrista lead' },
-          { nome: 'Guitarrista Rítmico', instrumentoMusico: 'Guitarrista Rítmico', tipo: 'iem', formato: 'stereo', canais: ['Guitarra Rítmica', 'Guitarra Lead', 'Baixo', 'Bateria - Kick', 'Bateria - Snare', 'Vocal Principal'], observacoes: 'Mix para guitarrista rítmico' },
-          { nome: 'Baixista', instrumentoMusico: 'Baixista', tipo: 'iem', formato: 'stereo', canais: ['Baixo', 'Bateria - Kick', 'Bateria - Snare', 'Bateria - Hi-Hat', 'Guitarra Lead', 'Guitarra Rítmica', 'Vocal Principal'], observacoes: 'Mix para baixista' },
-          { nome: 'Baterista', instrumentoMusico: 'Baterista', tipo: 'iem', formato: 'stereo', canais: ['Bateria - Kick', 'Bateria - Snare', 'Bateria - Hi-Hat', 'Bateria - Tom 1', 'Bateria - Tom 2', 'Bateria - Overhead Esquerdo', 'Bateria - Overhead Direito', 'Baixo', 'Vocal Principal'], observacoes: 'Mix para baterista' },
-          { nome: 'Técnico MON', instrumentoMusico: 'Técnico MON', tipo: 'iem', formato: 'stereo', canais: ['Vocal Principal', 'Vocal Backing', 'Guitarra Lead', 'Guitarra Rítmica', 'Baixo', 'Bateria - Kick', 'Bateria - Snare'], observacoes: 'Mix para técnico MON' }
+          { nome: 'Guitarrista Lead', instrumentoMusico: 'Guitarrista Lead', tipo: 'iem', formato: 'stereo', canais: ['Guitarra Lead', 'Guitarra Rítmica', 'Baixo', 'Bateria - Kick', 'Bateria - Snare', 'Bateria - Hi-Hat', 'Vocal Principal'], observacoes: 'Mix para guitarrista lead' }
         ]
       },
       'observacoes-finais': {
-        observacoes: 'Rider técnico completo para banda de rock Thunder Road. Todos os equipamentos devem estar em perfeito estado de funcionamento. Requer técnicos especializados para operação. Sistema de backup incluído para equipamentos críticos. Configuração específica para rock com graves reforçados e dinâmica alta. Verificar certificações de segurança para rigging. Coordenar frequências IEM com promotor. Teste de som obrigatório 2 horas antes do evento. Verificar isolamento acústico para evitar feedback. Configurar compressores para vocais e bateria. Sistema de monitorização contínua durante o evento. Backup de energia para equipamentos críticos. Verificar compatibilidade de frequências com outros eventos no local.'
+        observacoes: 'Rider técnico completo para banda de rock Thunder Road...'
       }
     }
 
@@ -244,15 +201,10 @@ function DemoButton({ onNavigateToForm }) {
         isTemporary: true
       }
 
-      try {
-        localStorage.setItem('riderForge_temp_demo', JSON.stringify(demoRider))
-      } catch (_) {
-        try {
-          localStorage.removeItem('riderForge_temp_demo')
-          localStorage.setItem('riderForge_temp_demo', JSON.stringify(demoRider))
-        } catch (_) {}
-      }
+      // Guardar em memória global para evitar limites do localStorage
+      try { window.__riderForge_demo = demoRider } catch (_) {}
 
+      // Navegar
       onNavigateToForm(demoRider.id)
     } catch (error) {
       console.error('❌ Erro ao criar rider demo:', error)
