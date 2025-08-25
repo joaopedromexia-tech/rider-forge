@@ -49,13 +49,50 @@ export const AUTH_CONFIG = {
 
 // Funções de autenticação
 export const auth = {
-  // Sign in com OAuth
+  // Sign up com email/password
+  signUp: async (email, password, userData = {}) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: userData
+      }
+    })
+    return { data, error }
+  },
+
+  // Sign in com email/password
+  signIn: async (email, password) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
+    return { data, error }
+  },
+
+  // Sign in com OAuth (mantido para futuro)
   signInWithProvider: async (provider) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
         redirectTo: AUTH_CONFIG.redirectTo
       }
+    })
+    return { data, error }
+  },
+
+  // Reset password
+  resetPassword: async (email) => {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`
+    })
+    return { data, error }
+  },
+
+  // Update password
+  updatePassword: async (password) => {
+    const { data, error } = await supabase.auth.updateUser({
+      password
     })
     return { data, error }
   },
