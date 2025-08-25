@@ -10,7 +10,7 @@ import NewPDFExport from './NewPDFExport'
 import LoginModal from './auth/LoginModal'
 import { encodeObjectToBase64 } from '../utils/base64'
 
-function MyRiders({ onBack, onEditRider }) {
+function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
   const { 
     savedRiders, 
     deleteRider, 
@@ -49,6 +49,7 @@ function MyRiders({ onBack, onEditRider }) {
   const fileInputRef = useRef(null)
   
   const stats = getStats()
+  const { FREE_LIMITS } = PRO_CONFIG
 
   const handleDelete = (id) => {
     deleteRider(id)
@@ -236,8 +237,10 @@ function MyRiders({ onBack, onEditRider }) {
             {!isPro && (
               <button
                 onClick={() => {
-                  // Navegar para página de subscrição
-                  window.location.href = '/pro-subscription'
+                  // Navegar para página de subscrição usando a função do App
+                  if (onNavigateToProSubscription) {
+                    onNavigateToProSubscription()
+                  }
                 }}
                 className="btn-primary flex items-center gap-2"
               >
@@ -292,6 +295,39 @@ function MyRiders({ onBack, onEditRider }) {
           </div>
         </div>
       </div>
+
+      {/* Aviso de Limite de Riders */}
+      {!isPro && savedRiders.length >= FREE_LIMITS.maxRiders && (
+        <div className="max-w-7xl mx-auto mb-6">
+          <div className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-xl p-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                <svg className="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-yellow-500 mb-1">
+                  Limite de Riders Atingido
+                </h3>
+                <p className="text-gray-300 mb-3">
+                  Você atingiu o limite de {FREE_LIMITS.maxRiders} riders da versão Free. 
+                  Faça upgrade para Pro para criar riders ilimitados!
+                </p>
+                <button
+                  onClick={onNavigateToProSubscription}
+                  className="bg-gradient-to-r from-accent-green to-accent-blue text-white font-semibold px-6 py-2 rounded-lg hover:from-accent-green/90 hover:to-accent-blue/90 transition-all duration-200"
+                >
+                  <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Upgrade para Pro - Apenas €3.99/ano
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Riders Grid */}
       <div className="max-w-7xl mx-auto">

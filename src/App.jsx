@@ -75,6 +75,21 @@ function AppContent() {
               <p className="text-xl sm:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
                 Crie riders técnicos profissionais com facilidade e precisão
               </p>
+              
+              {/* Botão de Upgrade para Pro na página inicial */}
+              {user && hasAccount && !isPro && (
+                <div className="mt-8">
+                  <button
+                    onClick={handleNavigateToProSubscription}
+                    className="bg-gradient-to-r from-accent-green to-accent-blue text-white font-semibold px-8 py-4 rounded-xl hover:from-accent-green/90 hover:to-accent-blue/90 transition-all duration-200 shadow-lg text-lg"
+                  >
+                    <svg className="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Upgrade para Pro - Apenas €3.99/ano
+                  </button>
+                </div>
+              )}
             </div>
             
             {/* Main Action Buttons */}
@@ -195,6 +210,7 @@ function AppContent() {
         <RiderForm 
           onBack={handleBackToHome}
           editingRiderId={editingRiderId}
+          onNavigateToProSubscription={handleNavigateToProSubscription}
         />
       )}
       
@@ -203,6 +219,7 @@ function AppContent() {
           onBack={handleBackToHome}
           onEditRider={handleNavigateToForm}
           onPreview={handleNavigateToPreview}
+          onNavigateToProSubscription={handleNavigateToProSubscription}
         />
       )}
       

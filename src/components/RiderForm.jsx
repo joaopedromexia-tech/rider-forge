@@ -24,7 +24,7 @@ import { kvGet, kvSet } from '../utils/storage'
 
 
 
-function RiderForm({ onBack, editingRiderId = null }) {
+function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription }) {
   const { isPro, setIsPro } = useRider()
   const { saveRider, updateRider, getRiderById, saveDemoRiderAsPermanent } = useRider()
   const { showSuccess, showError } = useFeedback()
@@ -416,6 +416,19 @@ function RiderForm({ onBack, editingRiderId = null }) {
               <div className="hidden lg:block">
                 <ProStatusBadge />
               </div>
+              
+              {/* Botão de Upgrade para Pro */}
+              {!isPro && onNavigateToProSubscription && (
+                <button
+                  onClick={onNavigateToProSubscription}
+                  className="btn-primary flex items-center gap-2 px-3 py-2 text-sm"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span className="hidden sm:inline">Upgrade Pro</span>
+                </button>
+              )}
               
               {/* Botão Exportar PDF */}
               <button
