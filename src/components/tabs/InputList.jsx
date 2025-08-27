@@ -286,7 +286,7 @@ function InputList({ data, onChange }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-gray-300 mb-1">
-                  <strong>Inputs Completos:</strong> {formData.inputs.filter(input => (input?.fonte || '').trim() && (input?.microDi || '').trim()).length}/{formData.inputs.length}
+                  <strong>{t('tab.input.complete')}</strong> {formData.inputs.filter(input => (input?.fonte || '').trim() && (input?.microDi || '').trim()).length}/{formData.inputs.length}
                 </p>
                 <div className="flex gap-1">
                   <div className="w-3 h-3 rounded-full bg-blue-500" title="Canais"></div>
@@ -306,7 +306,7 @@ function InputList({ data, onChange }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <div className="flex-1">
-            <h4 className="text-blue-400 font-semibold mb-2">Como configurar os inputs:</h4>
+            <h4 className="text-blue-400 font-semibold mb-2">{t('tab.input.instructions')}</h4>
             <div className="text-gray-300 text-sm space-y-1">
               <p>• <strong>Fonte</strong> = O que está conectado (ex: vocal, guitarra, teclado)</p>
               <p>• <strong>Microfone/DI</strong> = Equipamento específico usado</p>
@@ -627,7 +627,7 @@ function InputList({ data, onChange }) {
               <h4 className="text-yellow-400 font-semibold mb-2">{t('tab.input.bandSupplies.title')}</h4>
               {bandEquipment.length === formData.inputs.length ? (
                 <p className="text-gray-300 text-sm">
-                  O artista fornece todo o equipamento de microfones e DI necessários.
+                  {t('tab.input.bandSupplies.all')}
                 </p>
               ) : (
                 <div className="text-gray-300 text-sm space-y-1">
@@ -649,7 +649,7 @@ function InputList({ data, onChange }) {
                       const micItems = Object.entries(groupedMics).map(([name, count]) => 
                         count > 1 ? `${count}x "${name}"` : `"${name}"`
                       )
-                      items.push(<p key="mics">• <strong>Microfones:</strong> {micItems.join(', ')}</p>)
+                      items.push(<p key="mics">• <strong>{t('tab.input.bandSupplies.mics')}:</strong> {micItems.join(', ')}</p>)
                     }
                     
                     if (bandDIs.length > 0) {
@@ -657,11 +657,11 @@ function InputList({ data, onChange }) {
                       const diItems = Object.entries(groupedDIs).map(([name, count]) => 
                         count > 1 ? `${count}x "${name}"` : `"${name}"`
                       )
-                      items.push(<p key="dis">• <strong>DI Boxes:</strong> {diItems.join(', ')}</p>)
+                      items.push(<p key="dis">• <strong>{t('tab.input.bandSupplies.dis')}:</strong> {diItems.join(', ')}</p>)
                     }
                     
                     if (bandXLR.length > 0) {
-                      items.push(<p key="xlr">• <strong>Cabos XLR:</strong> {bandXLR.length} unidade(s)</p>)
+                      items.push(<p key="xlr">• <strong>{t('tab.input.bandSupplies.xlr')}:</strong> {bandXLR.length} {t('tab.input.bandSupplies.units')}</p>)
                     }
                     
                     return items
@@ -682,7 +682,7 @@ function InputList({ data, onChange }) {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
-          Adicionar Input
+          {t('tab.input.add')}
         </button>
       </div>
     </div>
