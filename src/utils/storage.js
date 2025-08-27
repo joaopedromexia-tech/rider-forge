@@ -103,12 +103,16 @@ const MAX_VERSIONS_PER_RIDER = 20;
 
 export async function saveRiderVersion(riderId, data) {
   try {
+    console.log('🔄 Saving version for rider:', riderId);
     const timestamp = new Date().toISOString();
     const key = `${riderId}::${timestamp}`;
     const result = await withStore(STORE_VERSIONS, 'readwrite', (store) => store.put({ key, riderId, timestamp, data }));
     if (result) {
+      console.log('✅ Version saved successfully:', key);
       // Prune old versions
       await pruneOldVersions(riderId);
+    } else {
+      console.warn('⚠️ Version save returned null');
     }
   } catch (error) {
     console.warn('Error saving rider version:', error);
@@ -117,8 +121,11 @@ export async function saveRiderVersion(riderId, data) {
 
 export async function getRiderVersions(riderId) {
   try {
+    console.log('🔍 Getting versions for rider:', riderId);
     const all = await withStore(STORE_VERSIONS, 'readonly', (store) => store.getAll());
+    console.log('📦 All versions in store:', all);
     const filtered = Array.isArray(all) ? all.filter(v => v.riderId === riderId) : [];
+    console.log('🎯 Filtered versions for this rider:', filtered);
     return filtered.sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));
   } catch (error) {
     console.error('❌ Erro ao obter versões:', error);
