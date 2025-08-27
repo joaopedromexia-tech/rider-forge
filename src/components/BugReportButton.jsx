@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '../context/I18nContext'
 import BugReportModal from './BugReportModal.jsx'
 
 const BugReportButton = ({ 
@@ -8,7 +8,7 @@ const BugReportButton = ({
   showLabel = false,
   variant = 'floating' // 'floating' | 'inline'
 }) => {
-  const { t } = useTranslation()
+  const { t } = useI18n()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const positionClasses = {

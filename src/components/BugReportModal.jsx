@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { supabase } from '../config/supabase.js'
 import { useAuth } from '../context/AuthContext.jsx'
-import { useTranslation } from 'react-i18next'
+import { useI18n } from '../context/I18nContext'
 
 const BugReportModal = ({ isOpen, onClose }) => {
-  const { t } = useTranslation()
+  const { t } = useI18n()
   const { user } = useAuth()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
