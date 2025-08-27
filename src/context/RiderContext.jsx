@@ -112,12 +112,15 @@ export function RiderProvider({ children }) {
   useEffect(() => {
     if (!user) {
       try {
-        localStorage.setItem('riderForge_riders', JSON.stringify(savedRiders))
+        const ridersJson = JSON.stringify(savedRiders)
+        localStorage.setItem('riderForge_riders', ridersJson)
       } catch (error) {
         console.error('❌ Erro ao salvar riders:', error)
       }
       // Sincronização em background com IndexedDB (best-effort)
-      backgroundSyncRiders(savedRiders)
+      backgroundSyncRiders(savedRiders).catch(error => {
+        console.warn('Error syncing riders to IndexedDB:', error)
+      })
     }
   }, [savedRiders, user])
 
@@ -224,8 +227,10 @@ export function RiderProvider({ children }) {
       }
 
       setSavedRiders(prev => [...prev, newRider])
-      // Guardar versão inicial
-      try { saveRiderVersion(newRider.id, newRider.data) } catch (_) {}
+      // Guardar versão inicial (não bloqueante)
+      saveRiderVersion(newRider.id, newRider.data).catch(error => {
+        console.warn('Error saving version for new rider:', error)
+      })
       return newRider
     }
   }, [savedRiders, canSaveMoreRiders, canSaveBySize, generateThumbnail, user, hasAccount])
@@ -276,7 +281,10 @@ export function RiderProvider({ children }) {
             }
           : rider
       ))
-      try { saveRiderVersion(id, riderData) } catch (_) {}
+      // Salvar versão (não bloqueante)
+      saveRiderVersion(id, riderData).catch(error => {
+        console.warn('Error saving version for updated rider:', error)
+      })
     }
   }, [generateThumbnail, user, hasAccount])
 
@@ -328,7 +336,10 @@ export function RiderProvider({ children }) {
       // Duplicar localmente para utilizadores não autenticados
       duplicatedRider.id = Date.now().toString()
       setSavedRiders(prev => [...prev, duplicatedRider])
-      try { saveRiderVersion(duplicatedRider.id, duplicatedRider.data) } catch (_) {}
+      // Salvar versão (não bloqueante)
+      saveRiderVersion(duplicatedRider.id, duplicatedRider.data).catch(error => {
+        console.warn('Error saving version for duplicated rider:', error)
+      })
       return duplicatedRider
     }
   }, [savedRiders, canSaveMoreRiders, user, hasAccount])
@@ -460,6 +471,24 @@ export function RiderProvider({ children }) {
     }
   }, [savedRiders, isPro, calculateStorageSize])
 
+  // Restaurar versão de um rider
+  const restoreRiderVersion = useCallback((riderId, versionData) => {
+    setSavedRiders(prev => prev.map(rider => 
+      rider.id === riderId 
+        ? {
+            ...rider,
+            data: versionData,
+            updatedAt: new Date().toISOString(),
+            thumbnail: generateThumbnail(versionData)
+          }
+        : rider
+    ))
+    // Salvar nova versão após restauração (não bloqueante)
+    saveRiderVersion(riderId, versionData).catch(error => {
+      console.warn('Error saving version after restore:', error)
+    })
+  }, [generateThumbnail])
+
   const value = {
     savedRiders,
     isPro,
@@ -472,6 +501,7 @@ export function RiderProvider({ children }) {
     saveDemoRiderAsPermanent,
     exportRider,
     importRider,
+    restoreRiderVersion,
     getStats,
     canSaveMoreRiders,
     canSaveBySize,

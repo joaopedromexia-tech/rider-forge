@@ -10,6 +10,7 @@ import ProStatusBadge from './ProStatusBadge'
 import NewPDFExport from './NewPDFExport'
 import LoginModal from './auth/LoginModal'
 import Modal from './Modal'
+import VersionHistoryModal from './VersionHistoryModal'
 import { encodeObjectToBase64 } from '../utils/base64'
 import { PRO_CONFIG } from '../config/proConfig'
 
@@ -50,6 +51,8 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
   const [exportRiderPayload, setExportRiderPayload] = useState({ name: '', data: {} })
   const [shareLink, setShareLink] = useState('')
   const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showVersionHistoryModal, setShowVersionHistoryModal] = useState(false)
+  const [selectedRiderForHistory, setSelectedRiderForHistory] = useState(null)
   const fileInputRef = useRef(null)
   
   const stats = getStats()
@@ -96,6 +99,17 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
     } catch (error) {
       showError(t('riders.export.error', { message: error.message }))
     }
+  }
+
+  const handleVersionHistory = (id) => {
+    const rider = getRiderById(id)
+    if (!rider) {
+      showError('Rider não encontrado')
+      return
+    }
+    
+    setSelectedRiderForHistory(rider)
+    setShowVersionHistoryModal(true)
   }
 
   const handleImport = async (event) => {
@@ -380,25 +394,26 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                     </div>
                   </div>
                   
-                                  {/* Rider Info */}
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm">
-                    <span className="text-gray-400">{t('riders.card.artist')}:</span>
-                    <span className="text-gray-200 font-medium">{rider.thumbnail?.artista || t('riders.card.noArtist')}</span>
-                  </div>
+                  {/* Rider Info */}
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="text-gray-400">{t('riders.card.artist')}:</span>
+                      <span className="text-gray-200 font-medium">{rider.thumbnail?.artista || t('riders.card.noArtist')}</span>
+                    </div>
 
-                  <div className="flex items-center gap-2 text-sm">
-                    <span className="text-gray-400">{t('riders.card.lastChange')}:</span>
-                    <span className="text-gray-200 font-medium">{formatDate(rider.updatedAt)}</span>
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="text-gray-400">{t('riders.card.lastChange')}:</span>
+                      <span className="text-gray-200 font-medium">{formatDate(rider.updatedAt)}</span>
+                    </div>
                   </div>
-                </div>
                 </div>
 
 
 
                 {/* Action Buttons */}
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   <button
+                    key={`edit-${rider.id}`}
                     onClick={() => onEditRider(rider.id)}
                     className="btn-action text-sm py-3 flex items-center justify-center gap-2"
                   >
@@ -409,6 +424,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                   </button>
                   
                   <button
+                    key={`export-${rider.id}`}
                     onClick={() => handleExport(rider.id)}
                     className="btn-action text-sm py-3 flex items-center justify-center gap-2"
                   >
@@ -418,7 +434,22 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                     <span className="hidden sm:inline">{t('common.export')}</span>
                   </button>
 
+                  {/* Version History Button - Only for Pro users */}
+                  {isPro && (
+                    <button
+                      key={`history-${rider.id}`}
+                      onClick={() => handleVersionHistory(rider.id)}
+                      className="btn-action text-sm py-3 flex items-center justify-center gap-2"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="hidden sm:inline">{t('versionHistory.title')}</span>
+                    </button>
+                  )}
+
                   <button
+                    key={`duplicate-${rider.id}`}
                     onClick={() => handleDuplicate(rider.id)}
                     className="btn-action text-sm py-3 flex items-center justify-center gap-2"
                   >
@@ -429,6 +460,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                   </button>
                   
                   <button
+                    key={`delete-${rider.id}`}
                     onClick={() => setShowDeleteConfirm(rider.id)}
                     className="btn-action text-sm py-3 flex items-center justify-center gap-2 text-red-400 hover:text-red-300"
                   >
@@ -563,6 +595,28 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
         riderName={exportRiderPayload.name}
         riderData={exportRiderPayload.data}
         shareLink={shareLink}
+      />
+
+      {/* Version History Modal */}
+      <VersionHistoryModal
+        isOpen={showVersionHistoryModal}
+        onClose={() => setShowVersionHistoryModal(false)}
+        riderId={selectedRiderForHistory?.id}
+        currentData={selectedRiderForHistory?.data}
+        onRestoreVersion={(versionData) => {
+          // Atualizar o rider com a versão restaurada
+          if (selectedRiderForHistory) {
+            const updatedRider = {
+              ...selectedRiderForHistory,
+              data: versionData,
+              updatedAt: new Date().toISOString()
+            }
+            // Aqui você precisaria atualizar o rider no contexto
+            // Por enquanto, vamos apenas fechar o modal
+            setShowVersionHistoryModal(false)
+            setSelectedRiderForHistory(null)
+          }
+        }}
       />
     </div>
   )

@@ -997,36 +997,7 @@ function PA({ data, onChange }) {
         />
       </div>
 
-      <style jsx>{`
-        .slider::-webkit-slider-thumb {
-          appearance: none;
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: #3b82f6;
-          cursor: pointer;
-          border: 2px solid #1e40af;
-        }
-        
-        .slider::-moz-range-thumb {
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: #3b82f6;
-          cursor: pointer;
-          border: 2px solid #1e40af;
-        }
 
-        select {
-          z-index: 10;
-          position: relative;
-        }
-
-        select option {
-          background-color: #374151;
-          color: #f3f4f6;
-        }
-      `}</style>
     </div>
   )
 }

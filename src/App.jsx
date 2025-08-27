@@ -9,9 +9,11 @@ import RiderForm from './components/RiderForm'
 import MyRiders from './components/MyRiders'
 import PDFPreview from './components/PDFPreview'
 import ProSubscriptionPage from './components/ProSubscriptionPage'
+import PricingPage from './components/pricing/PricingPage'
 import DemoButton from './components/DemoButton'
 import LoginModal from './components/auth/LoginModal'
 import BugReportButton from './components/BugReportButton'
+import ProStatusBadge from './components/ProStatusBadge'
 
 // Componente interno que usa o contexto de autenticação
 function AppContent() {
@@ -63,6 +65,10 @@ function AppContent() {
     setCurrentView('pro-subscription')
   }
 
+  const handleNavigateToPricing = () => {
+    setCurrentView('pricing')
+  }
+
   // Se ainda está a carregar, mostrar loading
   if (authLoading) {
     return (
@@ -81,11 +87,17 @@ function AppContent() {
             <div className="text-center mb-12 sm:mb-16 lg:mb-20">
               <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gradient mb-4 sm:mb-6 leading-[1.1] pb-2">{t('app.title')}</h1>
               <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">{t('app.subtitle')}</p>
-              <div className="mt-4">
+              <div className="mt-4 flex items-center justify-center gap-4">
                 <select value={locale} onChange={(e) => setLocale(e.target.value)} className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200">
                   <option value="pt">PT</option>
                   <option value="en">EN</option>
                 </select>
+                <button 
+                  onClick={handleNavigateToPricing}
+                  className="transition-transform hover:scale-105"
+                >
+                  <ProStatusBadge />
+                </button>
               </div>
             </div>
             
@@ -185,6 +197,25 @@ function AppContent() {
               )}
             </div>
 
+            {/* Botão de Pricing */}
+            <div className="mt-12 sm:mt-16 mb-8">
+              <div className="bg-gradient-to-r from-blue-600/10 to-indigo-600/10 border border-blue-500/30 rounded-2xl p-6 sm:p-8 text-center">
+                <div className="max-w-2xl mx-auto">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">{t('home.pricing.title')}</h2>
+                  <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">{t('home.pricing.desc')}</p>
+                  <button
+                    onClick={handleNavigateToPricing}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold px-12 py-4 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-xl text-lg transform hover:scale-105"
+                  >
+                    <svg className="w-6 h-6 inline mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                    </svg>
+                    {t('home.pricing.cta')}
+                  </button>
+                </div>
+              </div>
+            </div>
+
             {/* Botão de Upgrade para Pro no fundo da página */}
             {hasUser && hasUserAccount && !isProUser && (
               <div className="mt-12 sm:mt-16 mb-8">
@@ -241,6 +272,12 @@ function AppContent() {
 
       {currentView === 'pro-subscription' && (
         <ProSubscriptionPage 
+          onBack={handleBackToHome}
+        />
+      )}
+
+      {currentView === 'pricing' && (
+        <PricingPage 
           onBack={handleBackToHome}
         />
       )}

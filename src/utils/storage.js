@@ -36,7 +36,10 @@ function openDb() {
 
 async function withStore(storeName, mode, fn) {
   const db = await openDb();
-  if (!db) return null;
+  if (!db) {
+    console.warn('❌ IndexedDB não disponível para store:', storeName);
+    return null;
+  }
   return new Promise((resolve, reject) => {
     try {
       const tx = db.transaction(storeName, mode);
@@ -102,10 +105,14 @@ export async function saveRiderVersion(riderId, data) {
   try {
     const timestamp = new Date().toISOString();
     const key = `${riderId}::${timestamp}`;
-    await withStore(STORE_VERSIONS, 'readwrite', (store) => store.put({ key, riderId, timestamp, data }));
-    // Prune old versions
-    await pruneOldVersions(riderId);
-  } catch (_) {}
+    const result = await withStore(STORE_VERSIONS, 'readwrite', (store) => store.put({ key, riderId, timestamp, data }));
+    if (result) {
+      // Prune old versions
+      await pruneOldVersions(riderId);
+    }
+  } catch (error) {
+    console.warn('Error saving rider version:', error);
+  }
 }
 
 export async function getRiderVersions(riderId) {
@@ -113,7 +120,8 @@ export async function getRiderVersions(riderId) {
     const all = await withStore(STORE_VERSIONS, 'readonly', (store) => store.getAll());
     const filtered = Array.isArray(all) ? all.filter(v => v.riderId === riderId) : [];
     return filtered.sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));
-  } catch (_) {
+  } catch (error) {
+    console.error('❌ Erro ao obter versões:', error);
     return [];
   }
 }

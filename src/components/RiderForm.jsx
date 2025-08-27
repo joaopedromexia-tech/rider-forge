@@ -20,6 +20,7 @@ import NewPDFExport from './NewPDFExport'
 import ValidationAlerts from './ValidationAlerts'
 import ProStatusBadge from './ProStatusBadge'
 import LoginModal from './auth/LoginModal'
+import VersionHistoryModal from './VersionHistoryModal'
 import { kvGet, kvSet } from '../utils/storage'
 import { useI18n } from '../context/I18nContext'
 
@@ -57,6 +58,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
   const [showSaveModal, setShowSaveModal] = useState(false)
   const [showNewPDFModal, setShowNewPDFModal] = useState(false)
   const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showVersionHistoryModal, setShowVersionHistoryModal] = useState(false)
   const [editingRider, setEditingRider] = useState(null)
   const draftLoadedRef = useRef(false)
   const draftKeyRef = useRef('')
@@ -299,11 +301,11 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
       try {
         if (payload?.mode === 'new' && payload?.riderName) {
           // Novo rider
-          saveRider(formData, payload.riderName)
+          await saveRider(formData, payload.riderName)
           showSuccess('Rider salvo com sucesso!')
         } else if (editingRider) {
           // Atualizar rider existente (modo de edição)
-          updateRider(editingRider.id, formData, editingRider.name)
+          await updateRider(editingRider.id, formData, editingRider.name)
           showSuccess('Rider atualizado com sucesso!')
         } else {
           showError('Dados de salvamento inválidos')
@@ -492,6 +494,19 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
                 <span className="hidden sm:inline">{t('common.pdf')}</span>
               </button>
               
+              {/* Version History Button - Only for Pro users and when editing */}
+              {isPro && editingRiderId && (
+                <button
+                  onClick={() => setShowVersionHistoryModal(true)}
+                  className="btn-secondary flex items-center gap-2 px-3 py-2 text-sm"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="hidden sm:inline">Histórico</span>
+                </button>
+              )}
+              
               {/* Botão Principal */}
               {!user || !hasAccount ? (
                 <button
@@ -623,6 +638,18 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
           ))}
         </div>
       )}
+
+      {/* Version History Modal */}
+      <VersionHistoryModal
+        isOpen={showVersionHistoryModal}
+        onClose={() => setShowVersionHistoryModal(false)}
+        riderId={editingRiderId}
+        currentData={formData}
+        onRestoreVersion={(versionData) => {
+          setFormData(versionData)
+          setShowVersionHistoryModal(false)
+        }}
+      />
 
       {/* Login Modal */}
       <LoginModal 

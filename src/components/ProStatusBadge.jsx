@@ -3,8 +3,17 @@ import { useAuth } from '../context/AuthContext'
 function ProStatusBadge({ className = '', variant = 'status' }) {
   const { isPro, user } = useAuth()
 
-  // Se não há utilizador, não mostrar badge
-  if (!user) return null
+  // Se não há utilizador, mostrar badge FREE
+  if (!user) {
+    return (
+      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium shadow-sm bg-gray-100 text-gray-700 border border-gray-300 ${className}`}>
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        <span>FREE</span>
+      </div>
+    )
+  }
 
   // Variante para selo Pro em opções bloqueadas
   if (variant === 'lock') {
