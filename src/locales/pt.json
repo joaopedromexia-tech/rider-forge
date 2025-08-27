@@ -279,6 +279,7 @@
   "tab.consoles.sugg.title": "Sugestões para MON",
   "tab.consoles.sugg.explainer": "Consolas da mesma família permitem partilhar show files (quando suportado) e oferecem interface familiar. Algumas famílias (CL, dLive, SD, X32, Vi) suportam partilha de show files via software específico.",
   "tab.consoles.sugg.forMon": "para MON",
+  "tab.consoles.sugg.sameFamily": "Mesma família {brand}",
   "tab.consoles.foh.title": "FOH (Front of House)",
   "tab.consoles.foh.subtitle": "Consola Principal da Sala",
   "tab.consoles.preferred": "Consola Preferida",

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { getEquipmentByCategory } from '../../data/equipmentLibrary.js'
 import { useRider } from '../../context/RiderContext'
+import { useI18n } from '../../context/I18nContext'
 import SearchableDropdown from '../SearchableDropdown'
 
 function Consolas({ data, onChange }) {
-
-
+  const { t } = useI18n()
   const { isPro } = useRider()
   const [showSuggestions, setShowSuggestions] = useState(false)
   
@@ -209,23 +209,23 @@ function Consolas({ data, onChange }) {
     const hasMON = monConsole.marca && monConsole.modelo
     
     if (!hasFOH && !hasMON) {
-      return { status: 'warning', message: 'Nenhuma consola configurada' }
+      return { status: 'warning', message: t('tab.consoles.status.none') }
     }
     
     if (hasFOH && !hasMON) {
-      return { status: 'info', message: 'Apenas FOH configurada' }
+      return { status: 'info', message: t('tab.consoles.status.onlyFOH') }
     }
     
     if (!hasFOH && hasMON) {
-      return { status: 'info', message: 'Apenas MON configurada' }
+      return { status: 'info', message: t('tab.consoles.status.onlyMON') }
     }
     
     // Verificar se são da mesma marca (recomendado)
     if (fohConsole.marca === monConsole.marca) {
-      return { status: 'success', message: 'Consolas compatíveis (mesma marca)' }
+      return { status: 'success', message: t('tab.consoles.status.compatible') }
     }
     
-    return { status: 'warning', message: 'Consolas de marcas diferentes' }
+    return { status: 'warning', message: t('tab.consoles.status.differentBrands') }
   }
 
   // Sugestões de configuração baseadas na consola FOH
@@ -273,8 +273,8 @@ function Consolas({ data, onChange }) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-100 mb-2">Consolas</h2>
-        <p className="text-gray-400">Configuração das consolas FOH e MON</p>
+        <h2 className="text-2xl font-bold text-gray-100 mb-2">{t('tab.consoles.title')}</h2>
+        <p className="text-gray-400">{t('tab.consoles.subtitle')}</p>
       </div>
 
       {/* Progresso e Validação */}
@@ -285,7 +285,7 @@ function Consolas({ data, onChange }) {
           </svg>
           <div className="flex-1">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="text-blue-400 font-semibold">Progresso das Consolas</h4>
+              <h4 className="text-blue-400 font-semibold">{t('tab.consoles.progress.title')}</h4>
               <span className="text-blue-400 font-bold">{Math.round((((formData.foh?.consolaPreferida?.marca && formData.foh?.consolaPreferida?.modelo) ? 1 : 0) + ((formData.mon?.consolaPreferida?.marca && formData.mon?.consolaPreferida?.modelo) ? 1 : 0)) / 2 * 100)}%</span>
             </div>
             
@@ -300,11 +300,11 @@ function Consolas({ data, onChange }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-gray-300 mb-1">
-                  <strong>Consolas Configuradas:</strong> {((formData.foh?.consolaPreferida?.marca && formData.foh?.consolaPreferida?.modelo) ? 1 : 0) + ((formData.mon?.consolaPreferida?.marca && formData.mon?.consolaPreferida?.modelo) ? 1 : 0)}/2
+                  <strong>{t('tab.consoles.progress.configured')}</strong> {((formData.foh?.consolaPreferida?.marca && formData.foh?.consolaPreferida?.modelo) ? 1 : 0) + ((formData.mon?.consolaPreferida?.marca && formData.mon?.consolaPreferida?.modelo) ? 1 : 0)}/2
                 </p>
                 <div className="flex gap-1">
-                  <div className={`w-3 h-3 rounded-full ${(formData.foh?.consolaPreferida?.marca && formData.foh?.consolaPreferida?.modelo) ? 'bg-green-500' : 'bg-gray-500'}`} title="FOH"></div>
-                  <div className={`w-3 h-3 rounded-full ${(formData.mon?.consolaPreferida?.marca && formData.mon?.consolaPreferida?.modelo) ? 'bg-green-500' : 'bg-gray-500'}`} title="MON"></div>
+                                      <div className={`w-3 h-3 rounded-full ${(formData.foh?.consolaPreferida?.marca && formData.foh?.consolaPreferida?.modelo) ? 'bg-green-500' : 'bg-gray-500'}`} title={t('tab.consoles.foh.short')}></div>
+                    <div className={`w-3 h-3 rounded-full ${(formData.mon?.consolaPreferida?.marca && formData.mon?.consolaPreferida?.modelo) ? 'bg-green-500' : 'bg-gray-500'}`} title={t('tab.consoles.mon.short')}></div>
                 </div>
               </div>
             </div>
@@ -334,7 +334,7 @@ function Consolas({ data, onChange }) {
                 compatibilityStatus.status === 'warning' ? 'text-yellow-400' :
                 'text-blue-400'
               }`}>
-                Status de Compatibilidade
+                {t('tab.consoles.status.title')}
               </h4>
               <p className="text-gray-300 text-sm">{compatibilityStatus.message}</p>
             </div>
@@ -344,7 +344,7 @@ function Consolas({ data, onChange }) {
         {/* Sugestões de Consolas */}
         <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
           <div className="flex items-center justify-between mb-3">
-            <h4 className="text-purple-400 font-semibold">Sugestões para MON</h4>
+            <h4 className="text-purple-400 font-semibold">{t('tab.consoles.sugg.title')}</h4>
             <button
               onClick={() => setShowSuggestions(!showSuggestions)}
               className="px-3 py-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-colors text-sm flex items-center gap-2"
@@ -398,12 +398,12 @@ function Consolas({ data, onChange }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
           </svg>
           FOH (Front of House)
-          <span className="text-gray-400 text-sm font-normal">Consola Principal da Sala</span>
+                      <span className="text-gray-400 text-sm font-normal">{t('tab.consoles.foh.subtitle')}</span>
         </h3>
 
         {/* FOH Consola Preferida */}
         <div className="mb-8">
-          <h4 className="text-lg font-medium text-gray-200 mb-4">Consola Preferida</h4>
+          <h4 className="text-lg font-medium text-gray-200 mb-4">{t('tab.consoles.preferred')}</h4>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-300 mb-2">Consola</label>
@@ -474,7 +474,7 @@ function Consolas({ data, onChange }) {
 
         {/* FOH Outras Consolas */}
         <div>
-          <h4 className="text-lg font-medium text-gray-200 mb-4">Outras Consolas Aceites</h4>
+          <h4 className="text-lg font-medium text-gray-200 mb-4">{t('tab.consoles.accepted')}</h4>
           
           {/* Form to add new FOH console */}
           <div className="bg-dark-700 rounded-lg p-4 mb-4">
@@ -541,7 +541,7 @@ function Consolas({ data, onChange }) {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
-                  Adicionar
+                  {t('common.add')}
                 </button>
               </div>
             </div>
@@ -582,12 +582,12 @@ function Consolas({ data, onChange }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           MON (Monitor)
-          <span className="text-gray-400 text-sm font-normal">Consola para Monitores de Palco</span>
+          <span className="text-gray-400 text-sm font-normal">{t('tab.consoles.mon.subtitle')}</span>
         </h3>
 
         {/* MON Consola Preferida */}
         <div className="mb-8">
-          <h4 className="text-lg font-medium text-gray-200 mb-4">Consola Preferida</h4>
+          <h4 className="text-lg font-medium text-gray-200 mb-4">{t('tab.consoles.preferred')}</h4>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-300 mb-2">Consola</label>
@@ -658,7 +658,7 @@ function Consolas({ data, onChange }) {
 
         {/* MON Outras Consolas */}
         <div>
-          <h4 className="text-lg font-medium text-gray-200 mb-4">Outras Consolas Aceites</h4>
+          <h4 className="text-lg font-medium text-gray-200 mb-4">{t('tab.consoles.accepted')}</h4>
           
           {/* Form to add new MON console */}
           <div className="bg-dark-700 rounded-lg p-4 mb-4">
@@ -725,7 +725,7 @@ function Consolas({ data, onChange }) {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
-                  Adicionar
+                  {t('common.add')}
                 </button>
               </div>
             </div>
