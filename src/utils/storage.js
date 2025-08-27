@@ -45,7 +45,15 @@ async function withStore(storeName, mode, fn) {
       const tx = db.transaction(storeName, mode);
       const store = tx.objectStore(storeName);
       const result = fn(store, tx);
-      tx.oncomplete = () => resolve(result);
+      
+      if (result && typeof result.then === 'function') {
+        // Se o resultado é uma Promise (como getAll()), esperar por ela
+        result.then(resolve).catch(() => resolve(null));
+      } else {
+        // Se não é uma Promise, resolver imediatamente
+        tx.oncomplete = () => resolve(result);
+      }
+      
       tx.onerror = () => resolve(null);
       tx.onabort = () => resolve(null);
     } catch (e) {
