@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
+import { useI18n } from '../../context/I18nContext'
 
 function DadosGerais({ data, onChange }) {
+  const { t } = useI18n()
 
 
   const [formData, setFormData] = useState({
@@ -63,11 +65,11 @@ function DadosGerais({ data, onChange }) {
     const maxSize = 5 * 1024 * 1024 // 5MB
 
     if (!allowedTypes.includes(file.type)) {
-      return { valid: false, error: 'Apenas ficheiros PNG e JPG são permitidos.' }
+      return { valid: false, error: t('general.onlyPngJpg') }
     }
 
     if (file.size > maxSize) {
-      return { valid: false, error: 'O ficheiro deve ter menos de 5MB.' }
+      return { valid: false, error: t('general.fileMax5mb') }
     }
 
     return { valid: true }
@@ -109,7 +111,7 @@ function DadosGerais({ data, onChange }) {
       setFormData(newData)
       onChange(newData)
     } catch (error) {
-      alert('Erro ao processar a imagem. Tente novamente.')
+      alert(t('general.imageProcessError'))
       event.target.value = ''
     }
   }
@@ -141,7 +143,7 @@ function DadosGerais({ data, onChange }) {
       setFormData(newData)
       onChange(newData)
     } catch (error) {
-      alert('Erro ao processar a imagem. Tente novamente.')
+      alert(t('general.imageProcessError'))
     }
   }
 
@@ -173,7 +175,7 @@ function DadosGerais({ data, onChange }) {
       setFormData(newData)
       onChange(newData)
     } catch (error) {
-      alert('Erro ao processar a imagem. Tente novamente.')
+      alert(t('general.imageProcessError'))
       event.target.value = ''
     }
   }
@@ -205,7 +207,7 @@ function DadosGerais({ data, onChange }) {
       setFormData(newData)
       onChange(newData)
     } catch (error) {
-      alert('Erro ao processar a imagem. Tente novamente.')
+      alert(t('general.imageProcessError'))
     }
   }
 
@@ -276,8 +278,8 @@ function DadosGerais({ data, onChange }) {
   return (
     <div className="space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-100 mb-2">Dados Gerais</h2>
-        <p className="text-gray-400">Informações básicas do evento e contactos principais</p>
+        <h2 className="text-2xl font-bold text-gray-100 mb-2">{t('tab.general.title')}</h2>
+        <p className="text-gray-400">{t('tab.general.subtitle')}</p>
       </div>
 
       {/* Progresso e Validação */}
@@ -288,7 +290,7 @@ function DadosGerais({ data, onChange }) {
           </svg>
           <div className="flex-1">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="text-blue-400 font-semibold">Progresso do Preenchimento</h4>
+              <h4 className="text-blue-400 font-semibold">{t('tab.general.progress.title')}</h4>
               <span className="text-blue-400 font-bold">{validationStatus.progress}%</span>
             </div>
             
@@ -303,14 +305,14 @@ function DadosGerais({ data, onChange }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-gray-300 mb-1">
-                  <strong>Campos Obrigatórios:</strong> {validationStatus.required.completed}/{validationStatus.required.total}
+                  <strong>{t('tab.general.progress.required')}:</strong> {validationStatus.required.completed}/{validationStatus.required.total}
                 </p>
                 <div className="flex gap-1">
                   {['artista', 'versaoRider', 'anoTour'].map(field => (
                     <div
                       key={field}
                       className={`w-3 h-3 rounded-full ${isFieldValid(field) ? 'bg-green-500' : 'bg-red-500'}`}
-                      title={`${field}: ${isFieldValid(field) ? 'Preenchido' : 'Pendente'}`}
+                      title={`${field}: ${isFieldValid(field) ? t('general.filled') : t('general.pending')}`}
                     ></div>
                   ))}
                 </div>
@@ -318,14 +320,14 @@ function DadosGerais({ data, onChange }) {
               
               <div>
                 <p className="text-gray-300 mb-1">
-                  <strong>Contactos:</strong> {validationStatus.optional.completed}/{validationStatus.optional.total}
+                  <strong>{t('tab.general.progress.contacts')}:</strong> {validationStatus.optional.completed}/{validationStatus.optional.total}
                 </p>
                 <div className="flex gap-1">
                   {['roadManager', 'foh', 'mon'].map(contact => (
                     <div
                       key={contact}
                       className={`w-3 h-3 rounded-full ${isContactValid(contact) ? 'bg-green-500' : 'bg-yellow-500'}`}
-                      title={`${contact}: ${isContactValid(contact) ? 'Preenchido' : 'Vazio'}`}
+                      title={`${contact}: ${isContactValid(contact) ? t('general.filled') : t('general.empty')}`}
                     ></div>
                   ))}
                 </div>
@@ -341,15 +343,13 @@ function DadosGerais({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
-          Informações Básicas
+          {t('tab.general.basicInfo.title')}
           <span className="text-red-400 text-sm">*</span>
         </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Artista/Banda *
-            </label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.general.basicInfo.artist')} *</label>
             <div className="relative">
               <input
                 type="text"
@@ -358,7 +358,7 @@ function DadosGerais({ data, onChange }) {
                 className={`w-full px-4 py-3 bg-dark-700 border rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200 ${
                   formData.artista.trim() ? 'border-green-500/50' : 'border-red-500/50'
                 }`}
-                placeholder="Nome do artista ou banda"
+                placeholder={t('tab.general.basicInfo.artist.placeholder')}
               />
               {formData.artista.trim() && (
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -371,9 +371,7 @@ function DadosGerais({ data, onChange }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Versão do Rider *
-            </label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.general.basicInfo.riderVersion')} *</label>
             <input
               type="text"
               value={formData.versaoRider}
@@ -381,20 +379,18 @@ function DadosGerais({ data, onChange }) {
               className={`w-full px-4 py-3 bg-dark-700 border rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200 ${
                 formData.versaoRider.trim() ? 'border-green-500/50' : 'border-red-500/50'
               }`}
-              placeholder="Ex: 1.0, 2.1, etc."
+              placeholder={t('tab.general.basicInfo.riderVersion.placeholder')}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              Ano da Tour *
-            </label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.general.basicInfo.tourYear')} *</label>
             <input
               type="number"
               value={formData.anoTour}
               onChange={(e) => handleChange('anoTour', e.target.value)}
               className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-              placeholder="Ex: 2024"
+              placeholder={t('tab.general.basicInfo.tourYear.placeholder')}
               min="2000"
               max="2030"
             />
@@ -408,8 +404,8 @@ function DadosGerais({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
-          Imagens
-          <span className="text-gray-400 text-sm">(Opcional)</span>
+          {t('tab.general.images.title')}
+          <span className="text-gray-400 text-sm">{t('general.optional')}</span>
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -419,7 +415,7 @@ function DadosGerais({ data, onChange }) {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              Imagem de Capa
+              {t('tab.general.images.cover')}
             </h4>
             
             {formData.imagemCapa ? (
@@ -427,13 +423,13 @@ function DadosGerais({ data, onChange }) {
                 <div className="relative">
                   <img
                     src={formData.imagemCapa.data}
-                    alt="Capa do rider"
+                    alt={t('tab.general.images.cover.alt')}
                     className="w-full h-48 object-cover rounded-lg border border-dark-600"
                   />
                   <button
                     onClick={() => removeImage('imagemCapa')}
                     className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition-colors duration-200"
-                    title="Remover imagem"
+                    title={t('general.removeImage')}
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -441,8 +437,8 @@ function DadosGerais({ data, onChange }) {
                   </button>
                 </div>
                 <div className="text-sm text-gray-400">
-                  <p><strong>Nome:</strong> {formData.imagemCapa.name}</p>
-                  <p><strong>Tamanho:</strong> {formatFileSize(formData.imagemCapa.size)}</p>
+                  <p><strong>{t('general.name')}:</strong> {formData.imagemCapa.name}</p>
+                  <p><strong>{t('general.size')}:</strong> {formatFileSize(formData.imagemCapa.size)}</p>
                 </div>
               </div>
             ) : (
@@ -466,9 +462,9 @@ function DadosGerais({ data, onChange }) {
                   <svg className="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
-                  <p className="text-gray-300 font-medium">Carregar Imagem de Capa</p>
-                  <p className="text-gray-500 text-sm mt-1">PNG ou JPG, máximo 5MB</p>
-                  <p className="text-gray-500 text-xs mt-1">Também podes arrastar e largar aqui</p>
+                  <p className="text-gray-300 font-medium">{t('tab.general.images.cover.upload')}</p>
+                  <p className="text-gray-500 text-sm mt-1">{t('general.pngJpgMax')}</p>
+                  <p className="text-gray-500 text-xs mt-1">{t('general.dragDropHere')}</p>
                 </button>
               </div>
             )}
@@ -480,7 +476,7 @@ function DadosGerais({ data, onChange }) {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
-              Stage Plot
+              {t('tab.general.images.stageplot')}
             </h4>
             
             {formData.stagePlot ? (
@@ -488,14 +484,14 @@ function DadosGerais({ data, onChange }) {
                 <div className="relative">
                   <img
                     src={formData.stagePlot.data}
-                    alt="Stage plot"
+                    alt={t('tab.general.images.stageplot.alt')}
                     className="w-full h-48 object-cover rounded-lg border border-dark-600"
                   />
 
                   <button
                     onClick={() => removeImage('stagePlot')}
                     className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 transition-colors duration-200"
-                    title="Remover imagem"
+                    title={t('general.removeImage')}
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -503,8 +499,8 @@ function DadosGerais({ data, onChange }) {
                   </button>
                 </div>
                 <div className="text-sm text-gray-400">
-                  <p><strong>Nome:</strong> {formData.stagePlot.name}</p>
-                  <p><strong>Tamanho:</strong> {formatFileSize(formData.stagePlot.size)}</p>
+                  <p><strong>{t('general.name')}:</strong> {formData.stagePlot.name}</p>
+                  <p><strong>{t('general.size')}:</strong> {formatFileSize(formData.stagePlot.size)}</p>
                 </div>
               </div>
             ) : (
@@ -528,9 +524,9 @@ function DadosGerais({ data, onChange }) {
                   <svg className="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
-                  <p className="text-gray-300 font-medium">Carregar Stage Plot</p>
-                  <p className="text-gray-500 text-sm mt-1">PNG ou JPG, máximo 5MB</p>
-                  <p className="text-gray-500 text-xs mt-1">Também podes arrastar e largar aqui</p>
+                  <p className="text-gray-300 font-medium">{t('tab.general.images.stageplot.upload')}</p>
+                  <p className="text-gray-500 text-sm mt-1">{t('general.pngJpgMax')}</p>
+                  <p className="text-gray-500 text-xs mt-1">{t('general.dragDropHere')}</p>
                 </button>
               </div>
             )}
@@ -544,8 +540,8 @@ function DadosGerais({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
-          Contactos
-          <span className="text-gray-400 text-sm">(Recomendado)</span>
+          {t('tab.general.contacts.title')}
+          <span className="text-gray-400 text-sm">{t('general.recommended')}</span>
         </h3>
 
         {/* Road Manager */}
@@ -554,37 +550,37 @@ function DadosGerais({ data, onChange }) {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
-            Road Manager
+            {t('tab.general.contacts.roadManager')}
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('general.name')}</label>
               <input
                 type="text"
                 value={formData.roadManager.nome}
                 onChange={(e) => handleContactChange('roadManager', 'nome', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="Nome completo"
+                placeholder={t('general.fullName')}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('general.phone')}</label>
               <input
                 type="tel"
                 value={formData.roadManager.telefone}
                 onChange={(e) => handleContactChange('roadManager', 'telefone', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="+351 123 456 789"
+                placeholder={t('general.phone.placeholder')}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('general.email')}</label>
               <input
                 type="email"
                 value={formData.roadManager.email}
                 onChange={(e) => handleContactChange('roadManager', 'email', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="email@exemplo.com"
+                placeholder={t('general.email.placeholder')}
               />
             </div>
           </div>
@@ -596,37 +592,37 @@ function DadosGerais({ data, onChange }) {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
             </svg>
-            FOH (Front of House)
+            {t('tab.general.contacts.foh')}
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('general.name')}</label>
               <input
                 type="text"
                 value={formData.foh.nome}
                 onChange={(e) => handleContactChange('foh', 'nome', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="Nome completo"
+                placeholder={t('general.fullName')}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('general.phone')}</label>
               <input
                 type="tel"
                 value={formData.foh.telefone}
                 onChange={(e) => handleContactChange('foh', 'telefone', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="+351 123 456 789"
+                placeholder={t('general.phone.placeholder')}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('general.email')}</label>
               <input
                 type="email"
                 value={formData.foh.email}
                 onChange={(e) => handleContactChange('foh', 'email', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="email@exemplo.com"
+                placeholder={t('general.email.placeholder')}
               />
             </div>
           </div>
@@ -638,37 +634,37 @@ function DadosGerais({ data, onChange }) {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
           </svg>
-          MON (Monitor)
+          {t('tab.general.contacts.mon')}
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('general.name')}</label>
             <input
               type="text"
               value={formData.mon.nome}
               onChange={(e) => handleContactChange('mon', 'nome', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-              placeholder="Nome completo"
+              placeholder={t('general.fullName')}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Telefone</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('general.phone')}</label>
             <input
               type="tel"
               value={formData.mon.telefone}
               onChange={(e) => handleContactChange('mon', 'telefone', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-              placeholder="+351 123 456 789"
+              placeholder={t('general.phone.placeholder')}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('general.email')}</label>
             <input
               type="email"
               value={formData.mon.email}
               onChange={(e) => handleContactChange('mon', 'email', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-              placeholder="email@exemplo.com"
+              placeholder={t('general.email.placeholder')}
             />
           </div>
         </div>

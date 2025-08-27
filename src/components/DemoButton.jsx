@@ -193,7 +193,7 @@ function DemoButton({ onNavigateToForm }) {
         updatedAt: new Date().toISOString(),
         thumbnail: {
           artista: 'Thunder Road',
-          data: new Date().toLocaleDateString('pt-PT'),
+          data: new Date().toISOString(),
           equipmentCount: 35,
           cardName: 'Thunder Road - Rider Técnico Completo 2026'
         },

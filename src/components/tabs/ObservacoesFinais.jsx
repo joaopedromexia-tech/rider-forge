@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useI18n } from '../../context/I18nContext'
 import { useRider } from '../../context/RiderContext'
 
 function ObservacoesFinais({ data, onChange }) {
   const { isPro } = useRider()
+  const { t } = useI18n()
   const [showTemplates, setShowTemplates] = useState(false)
   const [formData, setFormData] = useState({
     observacoes: ''
@@ -149,8 +151,8 @@ OBSERVAÇÕES:
   return (
     <div className="space-y-8">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-100 mb-2">Observações Finais</h2>
-        <p className="text-gray-400">Notas adicionais e observações importantes para o rider técnico</p>
+        <h2 className="text-2xl font-bold text-gray-100 mb-2">{t('tab.final.title')}</h2>
+        <p className="text-gray-400">{t('tab.final.subtitle')}</p>
       </div>
 
       {/* Progresso e Validação */}
@@ -161,7 +163,7 @@ OBSERVAÇÕES:
           </svg>
           <div className="flex-1">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="text-blue-400 font-semibold">Progresso das Observações</h4>
+              <h4 className="text-blue-400 font-semibold">{t('tab.final.progress.title')}</h4>
               <span className="text-blue-400 font-bold">{Math.min(100, Math.round((observationsValidation.charCount/100)*100))}%</span>
             </div>
             
@@ -176,13 +178,13 @@ OBSERVAÇÕES:
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-gray-300 mb-1">
-                  <strong>Informações Essenciais:</strong> {observationsValidation.essentialInfo}/4
+                  <strong>{t('tab.final.progress.essential')}</strong> {observationsValidation.essentialInfo}/4
                 </p>
                 <div className="flex gap-1">
-                  <div className={`w-3 h-3 rounded-full ${observationsValidation.hasHorarios ? 'bg-green-500' : 'bg-gray-500'}`} title="Horários"></div>
-                  <div className={`w-3 h-3 rounded-full ${observationsValidation.hasEnergia ? 'bg-green-500' : 'bg-gray-500'}`} title="Energia"></div>
-                  <div className={`w-3 h-3 rounded-full ${observationsValidation.hasAcesso ? 'bg-green-500' : 'bg-gray-500'}`} title="Acesso"></div>
-                  <div className={`w-3 h-3 rounded-full ${observationsValidation.hasEspecificos ? 'bg-green-500' : 'bg-gray-500'}`} title="Específicos"></div>
+                  <div className={`w-3 h-3 rounded-full ${observationsValidation.hasHorarios ? 'bg-green-500' : 'bg-gray-500'}`} title={t('tab.final.tags.schedule')}></div>
+                  <div className={`w-3 h-3 rounded-full ${observationsValidation.hasEnergia ? 'bg-green-500' : 'bg-gray-500'}`} title={t('tab.final.tags.power')}></div>
+                  <div className={`w-3 h-3 rounded-full ${observationsValidation.hasAcesso ? 'bg-green-500' : 'bg-gray-500'}`} title={t('tab.final.tags.access')}></div>
+                  <div className={`w-3 h-3 rounded-full ${observationsValidation.hasEspecificos ? 'bg-green-500' : 'bg-gray-500'}`} title={t('tab.final.tags.specifics')}></div>
                 </div>
               </div>
             </div>
@@ -206,7 +208,7 @@ OBSERVAÇÕES:
               observationsValidation.status === 'basic' ? 'text-yellow-400' :
               'text-gray-400'
             }`}>
-              Status das Observações
+              {t('tab.final.status.title')}
             </h4>
             <span className={`font-bold ${
               observationsValidation.status === 'complete' ? 'text-green-400' :
@@ -214,7 +216,7 @@ OBSERVAÇÕES:
               observationsValidation.status === 'basic' ? 'text-yellow-400' :
               'text-gray-400'
             }`}>
-              {observationsValidation.wordCount} palavras
+              {observationsValidation.wordCount} {t('tab.final.status.words')}
             </span>
           </div>
           
@@ -241,7 +243,7 @@ OBSERVAÇÕES:
         {/* Templates de Performance */}
         <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
           <div className="flex items-center justify-between mb-3">
-            <h4 className="text-purple-400 font-semibold">Templates por Tipo de Performance</h4>
+            <h4 className="text-purple-400 font-semibold">{t('tab.final.templates.title')}</h4>
             <button
               onClick={() => setShowTemplates(!showTemplates)}
               className="px-3 py-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-colors text-sm flex items-center gap-2"
@@ -249,7 +251,7 @@ OBSERVAÇÕES:
               <svg className={`w-4 h-4 transition-transform ${showTemplates ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
-              {showTemplates ? 'Esconder' : 'Mostrar'}
+              {showTemplates ? t('common.hide') : t('common.show')}
             </button>
           </div>
           {showTemplates && (
@@ -261,10 +263,8 @@ OBSERVAÇÕES:
                   className="text-left p-3 bg-purple-500/20 hover:bg-purple-500/30 rounded-lg transition-colors"
                 >
                   <div className="text-purple-300 font-medium">{template.title}</div>
-                  <div className="text-gray-300 text-sm">Template estruturado</div>
-                  <div className="text-gray-400 text-xs mt-1">
-                    Clique para aplicar
-                  </div>
+                  <div className="text-gray-300 text-sm">{t('tab.final.templates.structured')}</div>
+                  <div className="text-gray-400 text-xs mt-1">{t('tab.final.templates.apply')}</div>
                 </button>
               ))}
             </div>
@@ -279,10 +279,8 @@ OBSERVAÇÕES:
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
               <div>
-                <h4 className="text-orange-400 font-semibold">Informações Recomendadas</h4>
-                <p className="text-gray-300 text-sm">
-                  Considere adicionar: {missingInfo.join(', ')}
-                </p>
+                <h4 className="text-orange-400 font-semibold">{t('tab.final.missing.title')}</h4>
+                <p className="text-gray-300 text-sm">{t('tab.final.missing.consider')}: {missingInfo.join(', ')}</p>
               </div>
             </div>
           </div>
@@ -296,19 +294,17 @@ OBSERVAÇÕES:
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
             </svg>
-            <h3 className="text-xl font-semibold">Observações Gerais</h3>
+            <h3 className="text-xl font-semibold">{t('tab.final.general.title')}</h3>
           </div>
           
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-300">
-              Notas Adicionais
-            </label>
+            <label className="block text-sm font-medium text-gray-300">{t('tab.final.general.notes')}</label>
             <textarea
               value={formData.observacoes}
               onChange={(e) => handleChange('observacoes', e.target.value)}
               rows={12}
               className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200 resize-none"
-              placeholder="Adicione aqui qualquer informação adicional, requisitos especiais, horários, catering, alojamento, etc."
+              placeholder={t('tab.final.general.placeholder')}
             />
           </div>
 
@@ -318,25 +314,25 @@ OBSERVAÇÕES:
               <svg className="w-4 h-4 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              Sugestões de Conteúdo
+              {t('tab.final.suggestions.title')}
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-400">
               <div className="space-y-2">
-                <p className="font-medium text-gray-300">Requisitos Especiais:</p>
+                <p className="font-medium text-gray-300">{t('tab.final.suggestions.special')}</p>
                 <ul className="space-y-1 text-xs">
-                  <li>• Horários de setup e soundcheck</li>
-                  <li>• Requisitos de energia elétrica</li>
-                  <li>• Acesso e logística</li>
-                  <li>• Equipamentos específicos do artista</li>
+                  <li>• {t('tab.final.suggestions.items.setup')}</li>
+                  <li>• {t('tab.final.suggestions.items.power')}</li>
+                  <li>• {t('tab.final.suggestions.items.access')}</li>
+                  <li>• {t('tab.final.suggestions.items.artistEquip')}</li>
                 </ul>
               </div>
               <div className="space-y-2">
-                <p className="font-medium text-gray-300">Configurações:</p>
+                <p className="font-medium text-gray-300">{t('tab.final.suggestions.config')}</p>
                 <ul className="space-y-1 text-xs">
-                  <li>• Configurações de PA específicas</li>
-                  <li>• Presets de consola</li>
-                  <li>• Configurações de IEM</li>
-                  <li>• Notas sobre o repertório</li>
+                  <li>• {t('tab.final.suggestions.items.pa')}</li>
+                  <li>• {t('tab.final.suggestions.items.console')}</li>
+                  <li>• {t('tab.final.suggestions.items.iem')}</li>
+                  <li>• {t('tab.final.suggestions.items.repertoire')}</li>
                 </ul>
               </div>
             </div>
@@ -344,12 +340,8 @@ OBSERVAÇÕES:
 
           {/* Contador de Caracteres */}
           <div className="flex justify-between items-center text-xs text-gray-500">
-            <span>
-              {formData.observacoes.length} caracteres
-            </span>
-            <span>
-              {Math.ceil(formData.observacoes.length / 50)} linhas estimadas
-            </span>
+            <span>{formData.observacoes.length} {t('tab.final.counter.chars')}</span>
+            <span>{Math.ceil(formData.observacoes.length / 50)} {t('tab.final.counter.lines')}</span>
           </div>
         </div>
       </div>
@@ -360,20 +352,20 @@ OBSERVAÇÕES:
           <svg className="w-5 h-5 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          Dicas para Observações Eficazes
+          {t('tab.final.tips.title')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-400">
           <div className="space-y-2">
-            <p className="font-medium text-gray-300">Seja Específico</p>
-            <p className="text-xs">Inclua detalhes técnicos específicos, marcas e modelos de equipamentos quando relevante.</p>
+            <p className="font-medium text-gray-300">{t('tab.final.tips.specific.title')}</p>
+            <p className="text-xs">{t('tab.final.tips.specific.desc')}</p>
           </div>
           <div className="space-y-2">
-            <p className="font-medium text-gray-300">Organize por Prioridade</p>
-            <p className="text-xs">Mencione primeiro os requisitos mais críticos e depois os secundários.</p>
+            <p className="font-medium text-gray-300">{t('tab.final.tips.priority.title')}</p>
+            <p className="text-xs">{t('tab.final.tips.priority.desc')}</p>
           </div>
           <div className="space-y-2">
-            <p className="font-medium text-gray-300">Inclua Contexto</p>
-            <p className="text-xs">Explique o porquê de certos requisitos para facilitar a compreensão da equipa técnica.</p>
+            <p className="font-medium text-gray-300">{t('tab.final.tips.context.title')}</p>
+            <p className="text-xs">{t('tab.final.tips.context.desc')}</p>
           </div>
         </div>
       </div>

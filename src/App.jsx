@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
-import { I18nProvider } from './context/I18nContext'
+import { I18nProvider, useI18n } from './context/I18nContext'
 import { EquipmentProvider } from './context/EquipmentContext'
 import { UnitsProvider } from './context/UnitsContext'
 import { RiderProvider } from './context/RiderContext'
@@ -17,6 +17,7 @@ function AppContent() {
   const [currentView, setCurrentView] = useState('home')
   const [editingRiderId, setEditingRiderId] = useState(null)
   const [showLoginModal, setShowLoginModal] = useState(false)
+  const { t, locale, setLocale } = useI18n()
   
   const { user, hasAccount, isPro, loading: authLoading } = useAuth()
 
@@ -77,12 +78,14 @@ function AppContent() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
             {/* Header */}
             <div className="text-center mb-12 sm:mb-16 lg:mb-20">
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gradient mb-4 sm:mb-6 leading-[1.1] pb-2">
-                Rider Forge
-              </h1>
-              <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
-                Crie riders técnicos profissionais com facilidade e precisão
-              </p>
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gradient mb-4 sm:mb-6 leading-[1.1] pb-2">{t('app.title')}</h1>
+              <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">{t('app.subtitle')}</p>
+              <div className="mt-4">
+                <select value={locale} onChange={(e) => setLocale(e.target.value)} className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200">
+                  <option value="pt">PT</option>
+                  <option value="en">EN</option>
+                </select>
+              </div>
             </div>
             
             {/* Main Action Buttons */}
@@ -95,15 +98,13 @@ function AppContent() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                     </svg>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-100 mb-3 sm:mb-4">Criar Novo Rider</h3>
-                  <p className="text-gray-400 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
-                    Comece do zero e crie um rider técnico personalizado para o seu evento
-                  </p>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-100 mb-3 sm:mb-4">{t('home.createNew.title')}</h3>
+                  <p className="text-gray-400 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">{t('home.createNew.desc')}</p>
                   <button
                     onClick={() => handleNavigateToForm()}
                     className="btn-primary w-full text-lg py-4"
                   >
-                    <span>Começar Agora</span>
+                    <span>{t('home.createNew.cta')}</span>
                   </button>
                 </div>
               </div>
@@ -130,19 +131,16 @@ function AppContent() {
                       </svg>
                     )}
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-100 mb-3 sm:mb-4">Dashboard</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-100 mb-3 sm:mb-4">{t('home.dashboard.title')}</h3>
                   <p className="text-gray-400 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
-                    {hasUser && hasUserAccount 
-                      ? 'Aceda ao seu dashboard para gerir riders e ver estatísticas'
-                      : 'Guarde e organize todos os seus riders numa conta gratuita'
-                    }
+                    {hasUser && hasUserAccount ? t('home.dashboard.desc.hasAccount') : t('home.dashboard.desc.noAccount')}
                   </p>
                   {hasUser && hasUserAccount ? (
                     <button
                       onClick={handleNavigateToMyRiders}
                       className="w-full text-lg py-4 btn-secondary"
                     >
-                      <span>Abrir Dashboard</span>
+                      <span>{t('home.dashboard.open')}</span>
                     </button>
                   ) : (
                     <div className="space-y-3">
@@ -151,14 +149,14 @@ function AppContent() {
                         className="w-full text-lg py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200"
                         style={{ position: 'relative', zIndex: 10 }}
                       >
-                        <span>🔑 Fazer Login</span>
+                        <span>🔑 {t('home.login')}</span>
                       </button>
                       <button
                         onClick={() => setShowLoginModal(true)}
                         className="w-full text-lg py-3 bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all duration-200"
                         style={{ position: 'relative', zIndex: 10 }}
                       >
-                        <span>✨ Criar Conta Grátis</span>
+                        <span>✨ {t('home.signup')}</span>
                       </button>
                     </div>
                   )}
@@ -166,9 +164,7 @@ function AppContent() {
                   {/* Mensagem de incentivo */}
                   {(!hasUser || !hasUserAccount) && (
                     <div className="mt-4 p-3 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-lg">
-                      <p className="text-sm text-yellow-200 font-medium">
-                        ✨ Conta gratuita • Riders ilimitados • Sincronização automática
-                      </p>
+                      <p className="text-sm text-yellow-200 font-medium">{t('home.free.perks')}</p>
                     </div>
                   )}
                 </div>
@@ -183,10 +179,8 @@ function AppContent() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-100 mb-3 sm:mb-4">Rider Demo</h3>
-                  <p className="text-gray-400 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
-                    Explore um exemplo completo de rider técnico profissional
-                  </p>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-100 mb-3 sm:mb-4">{t('home.demo.title')}</h3>
+                  <p className="text-gray-400 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">{t('home.demo.desc')}</p>
                   <div className="w-full">
                     <DemoButton onNavigateToForm={handleNavigateToForm} />
                   </div>
@@ -200,12 +194,8 @@ function AppContent() {
               <div className="mt-12 sm:mt-16 mb-8">
                 <div className="bg-gradient-to-r from-accent-green/10 to-accent-blue/10 border border-accent-green/30 rounded-2xl p-6 sm:p-8 text-center">
                   <div className="max-w-2xl mx-auto">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">
-                      Potencialize a criação de riders técnicos
-                    </h2>
-                    <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">
-                      Aceda a equipamentos profissionais, riders ilimitados e funcionalidades avançadas para criar riders técnicos de qualidade
-                    </p>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">{t('home.pro.title')}</h2>
+                    <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">{t('home.pro.desc')}</p>
                     <button
                       onClick={handleNavigateToProSubscription}
                       className="bg-gradient-to-r from-accent-green to-accent-blue text-white font-semibold px-12 py-4 rounded-xl hover:from-accent-green/90 hover:to-accent-blue/90 transition-all duration-300 shadow-xl text-lg transform hover:scale-105"
@@ -213,11 +203,9 @@ function AppContent() {
                       <svg className="w-6 h-6 inline mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
-                      Upgrade para Pro - Apenas €3.99/ano
+                      {t('home.pro.cta')}
                     </button>
-                    <p className="text-sm text-gray-400 mt-4">
-                      ✨ Riders ilimitados • Biblioteca Pro • PDF customizável • Histórico de versões
-                    </p>
+                    <p className="text-sm text-gray-400 mt-4">{t('home.pro.perks')}</p>
                   </div>
                 </div>
               </div>
@@ -225,7 +213,7 @@ function AppContent() {
 
             {/* Footer Info */}
             <div className="text-center text-gray-500 text-sm mt-8 sm:mt-12">
-              <p>Ferramenta profissional para criação de riders técnicos</p>
+              <p>{t('home.footer')}</p>
             </div>
           </div>
         </div>

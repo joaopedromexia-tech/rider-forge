@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react'
+import { useI18n } from '../context/I18nContext'
 import { createPortal } from 'react-dom'
 import { CATEGORY_ICONS } from '../data/equipmentLibrary'
 import { useEquipment } from '../context/EquipmentContext'
@@ -14,6 +15,7 @@ function SearchableDropdown({
   className = '',
   maxHeight = '200px'
 }) {
+  const { t } = useI18n()
   const { isPro } = useEquipment()
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -240,9 +242,7 @@ function SearchableDropdown({
         {/* Lista de Opções */}
         <div className="max-h-48 overflow-y-auto">
           {filteredOptions.length === 0 ? (
-            <div className="px-3 py-2 text-gray-400 text-sm">
-              Nenhum resultado encontrado
-            </div>
+            <div className="px-3 py-2 text-gray-400 text-sm">{t('common.noResults')}</div>
           ) : (
             filteredOptions.map((option, index) => {
               const isHighlighted = index === highlightedIndex

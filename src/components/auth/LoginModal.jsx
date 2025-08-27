@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import { useI18n } from '../../context/I18nContext'
 import { useAuth } from '../../context/AuthContext'
 
 const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
   const { signIn, signUp } = useAuth()
+  const { t } = useI18n()
   const [mode, setMode] = useState(defaultMode) // 'login' ou 'signup'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -43,15 +45,9 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
     try {
       if (mode === 'signup') {
         // Validações para signup
-        if (password !== confirmPassword) {
-          throw new Error('As passwords não coincidem')
-        }
-        if (password.length < 6) {
-          throw new Error('A password deve ter pelo menos 6 caracteres')
-        }
-        if (!fullName.trim()) {
-          throw new Error('Nome completo é obrigatório')
-        }
+        if (password !== confirmPassword) throw new Error(t('auth.error.passwordMismatch'))
+        if (password.length < 6) throw new Error(t('auth.error.passwordMin'))
+        if (!fullName.trim()) throw new Error(t('auth.error.fullNameRequired'))
 
         const { data, error } = await signUp(email, password, {
           full_name: fullName.trim()
@@ -59,7 +55,7 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
 
         if (error) throw error
 
-        setSuccess('Conta criada com sucesso! Verifique o seu email para confirmar a conta.')
+        setSuccess(t('auth.success.signup'))
         // Não fechar o modal para mostrar a mensagem de sucesso
       } else {
         // Login
@@ -69,7 +65,7 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
         onClose()
       }
     } catch (error) {
-      setError(error.message || 'Erro inesperado. Tente novamente.')
+      setError(error.message || t('auth.error.unexpected'))
     } finally {
       setLoading(false)
     }
@@ -82,13 +78,10 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
       <div className="bg-white rounded-lg p-6 max-w-md w-full">
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            {mode === 'login' ? 'Entrar no Rider Forge' : 'Criar Conta'}
+            {mode === 'login' ? t('auth.login.title') : t('auth.signup.title')}
           </h2>
           <p className="text-gray-600">
-            {mode === 'login' 
-              ? 'Aceda à sua conta para continuar'
-              : 'Crie uma conta gratuita para guardar os seus riders'
-            }
+            {mode === 'login' ? t('auth.login.subtitle') : t('auth.signup.subtitle')}
           </p>
         </div>
 
@@ -102,7 +95,7 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            Entrar
+            {t('auth.login.tab')}
           </button>
           <button
             onClick={() => handleModeChange('signup')}
@@ -112,7 +105,7 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            Criar Conta
+            {t('auth.signup.tab')}
           </button>
         </div>
 
@@ -132,7 +125,7 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
           {mode === 'signup' && (
             <div>
               <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">
-                Nome Completo
+                {t('auth.fullName')}
               </label>
               <input
                 id="fullName"
@@ -140,7 +133,7 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
-                placeholder="O seu nome completo"
+                placeholder={t('auth.fullName.placeholder')}
                 required
               />
             </div>
@@ -148,7 +141,7 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
+              {t('auth.email')}
             </label>
             <input
               id="email"
@@ -156,14 +149,14 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-white"
-              placeholder="seu@email.com"
+              placeholder={t('auth.email.placeholder')}
               required
             />
           </div>
 
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Password
+              {t('auth.password')}
             </label>
             <input
               id="password"
@@ -180,7 +173,7 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
           {mode === 'signup' && (
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                Confirmar Password
+                {t('auth.passwordConfirm')}
               </label>
               <input
                 id="confirmPassword"
@@ -201,8 +194,8 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading 
-              ? (mode === 'login' ? 'A entrar...' : 'A criar conta...') 
-              : (mode === 'login' ? 'Entrar' : 'Criar Conta')
+              ? (mode === 'login' ? t('auth.login.loading') : t('auth.signup.loading'))
+              : (mode === 'login' ? t('auth.login.cta') : t('auth.signup.cta'))
             }
           </button>
         </form>
@@ -212,7 +205,7 @@ const LoginModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-sm"
           >
-            Cancelar
+            {t('common.cancel')}
           </button>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useI18n } from '../context/I18nContext'
 import { getBrands } from '../data/equipmentLibrary'
 
 function FilterBar({
@@ -6,6 +7,7 @@ function FilterBar({
   onFiltersChange,
   className = ''
 }) {
+  const { t } = useI18n()
   const [brandFilter, setBrandFilter] = useState('')
   const [modelQuery, setModelQuery] = useState('')
   const [isMobile, setIsMobile] = useState(false)
@@ -48,14 +50,14 @@ function FilterBar({
           {/* Filtro por Marca */}
           <div className="flex-1">
             <label className="block text-sm font-medium text-gray-300 mb-1">
-              Marca
+              {t('filter.brand')}
             </label>
             <select
               value={brandFilter}
               onChange={(e) => setBrandFilter(e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded text-gray-100 text-sm focus:outline-none focus:ring-1 focus:ring-accent-blue focus:border-transparent"
             >
-              <option value="">Todas as marcas</option>
+              <option value="">{t('filter.allBrands')}</option>
               {brands.map(brand => (
                 <option key={brand} value={brand}>
                   {brand}
@@ -67,13 +69,13 @@ function FilterBar({
           {/* Pesquisa por Modelo */}
           <div className="flex-1">
             <label className="block text-sm font-medium text-gray-300 mb-1">
-              Modelo
+              {t('filter.model')}
             </label>
             <input
               type="text"
               value={modelQuery}
               onChange={(e) => setModelQuery(e.target.value)}
-              placeholder="Pesquisar modelo..."
+              placeholder={t('filter.searchModel')}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded text-gray-100 text-sm focus:outline-none focus:ring-1 focus:ring-accent-blue focus:border-transparent"
             />
           </div>
@@ -91,7 +93,7 @@ function FilterBar({
                 }
               `}
             >
-              Limpar filtros
+              {t('filter.clear')}
             </button>
           </div>
         </div>
@@ -99,15 +101,15 @@ function FilterBar({
         {/* Indicador de Filtros Ativos */}
         {hasActiveFilters && (
           <div className="mt-3 flex items-center gap-2 text-sm text-gray-400">
-            <span>Filtros ativos:</span>
+            <span>{t('filter.activeFilters')}:</span>
             {brandFilter && (
               <span className="px-2 py-1 bg-accent-blue/20 text-accent-blue rounded">
-                Marca: {brandFilter}
+                {t('filter.brand')}: {brandFilter}
               </span>
             )}
             {modelQuery && (
               <span className="px-2 py-1 bg-accent-green/20 text-accent-green rounded">
-                Modelo: {modelQuery}
+                {t('filter.model')}: {modelQuery}
               </span>
             )}
           </div>
@@ -128,7 +130,7 @@ function FilterBar({
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
           </svg>
-          Filtros
+          {t('filter.filters')}
           {hasActiveFilters && (
             <span className="w-2 h-2 bg-accent-blue rounded-full"></span>
           )}
@@ -152,14 +154,14 @@ function FilterBar({
             {/* Filtro por Marca */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Marca
+                {t('filter.brand')}
               </label>
               <select
                 value={brandFilter}
                 onChange={(e) => setBrandFilter(e.target.value)}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded text-gray-100 text-sm focus:outline-none focus:ring-1 focus:ring-accent-blue focus:border-transparent"
               >
-                <option value="">Todas as marcas</option>
+                <option value="">{t('filter.allBrands')}</option>
                 {brands.map(brand => (
                   <option key={brand} value={brand}>
                     {brand}
@@ -171,13 +173,13 @@ function FilterBar({
             {/* Pesquisa por Modelo */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
-                Modelo
+                {t('filter.model')}
               </label>
               <input
                 type="text"
                 value={modelQuery}
                 onChange={(e) => setModelQuery(e.target.value)}
-                placeholder="Pesquisar modelo..."
+                placeholder={t('filter.searchModel')}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded text-gray-100 text-sm focus:outline-none focus:ring-1 focus:ring-accent-blue focus:border-transparent"
               />
             </div>
@@ -194,21 +196,21 @@ function FilterBar({
                 }
               `}
             >
-              Limpar filtros
+              {t('filter.clear')}
             </button>
 
             {/* Indicador de Filtros Ativos */}
             {hasActiveFilters && (
               <div className="flex flex-wrap gap-2 text-sm text-gray-400">
-                <span>Filtros ativos:</span>
+                <span>{t('filter.activeFilters')}:</span>
                 {brandFilter && (
                   <span className="px-2 py-1 bg-accent-blue/20 text-accent-blue rounded">
-                    Marca: {brandFilter}
+                    {t('filter.brand')}: {brandFilter}
                   </span>
                 )}
                 {modelQuery && (
                   <span className="px-2 py-1 bg-accent-green/20 text-accent-green rounded">
-                    Modelo: {modelQuery}
+                    {t('filter.model')}: {modelQuery}
                   </span>
                 )}
               </div>

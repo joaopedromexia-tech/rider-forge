@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { getEquipmentByCategory, getBrands } from '../../data/equipmentLibrary.js'
+import { useI18n } from '../../context/I18nContext'
 
 function FOH({ data, onChange }) {
+  const { t } = useI18n()
   const [formData, setFormData] = useState({
     consolaPreferida: {
       marca: '',
@@ -88,8 +90,8 @@ function FOH({ data, onChange }) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-100 mb-2">FOH (Front of House)</h2>
-        <p className="text-gray-400">Especificações da consola de som principal</p>
+        <h2 className="text-2xl font-bold text-gray-100 mb-2">{t('tab.foh.title')}</h2>
+        <p className="text-gray-400">{t('tab.foh.subtitle')}</p>
       </div>
 
       {/* Consola Preferida */}
@@ -98,55 +100,55 @@ function FOH({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
           </svg>
-          Consola Preferida
+          {t('tab.foh.preferred')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Marca</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.brand')}</label>
             <select
               value={formData.consolaPreferida.marca}
               onChange={(e) => handleConsolaPreferidaChange('marca', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
             >
-              <option value="">Selecionar marca</option>
+              <option value="">{t('common.selectBrand')}</option>
               {consoleBrands.map(brand => (
                 <option key={brand} value={brand}>{brand}</option>
               ))}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Modelo</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.model')}</label>
             <select
               value={formData.consolaPreferida.modelo}
               onChange={(e) => handleConsolaPreferidaChange('modelo', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
               disabled={!formData.consolaPreferida.marca}
             >
-              <option value="">Selecionar modelo</option>
+              <option value="">{t('common.selectModel')}</option>
               {formData.consolaPreferida.marca && getModelsByBrand(formData.consolaPreferida.marca).map(modelo => (
                 <option key={modelo} value={modelo}>{modelo}</option>
               ))}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Fornecedor</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.supplier')}</label>
             <select
               value={formData.consolaPreferida.supplier}
               onChange={(e) => handleConsolaPreferidaChange('supplier', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
             >
-              <option value="promoter">Fornecido pelo Promotor</option>
-              <option value="band">Fornecido pela Banda</option>
+              <option value="promoter">{t('supplier.promoter')}</option>
+              <option value="band">{t('supplier.band')}</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Notas</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.notes')}</label>
             <input
               type="text"
               value={formData.consolaPreferida.observacoes}
               onChange={(e) => handleConsolaPreferidaChange('observacoes', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-              placeholder="ex: Versão, configuração de cartões"
+              placeholder={t('common.placeholder.versionConfig')}
             />
           </div>
         </div>
@@ -158,58 +160,58 @@ function FOH({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          Outras Consolas Aceites
+          {t('tab.foh.accepted')}
         </h3>
         
         {/* Form to add new console */}
         <div className="bg-dark-700 rounded-lg p-4 mb-4">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Marca</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.brand')}</label>
               <select
                 value={formData.novaConsola.marca}
                 onChange={(e) => handleNovaConsolaChange('marca', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-600 border border-dark-500 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-green focus:border-transparent transition-all duration-200"
               >
-                <option value="">Selecionar marca</option>
+                <option value="">{t('common.selectBrand')}</option>
                 {consoleBrands.map(brand => (
                   <option key={brand} value={brand}>{brand}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Modelo</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.model')}</label>
               <select
                 value={formData.novaConsola.modelo}
                 onChange={(e) => handleNovaConsolaChange('modelo', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-600 border border-dark-500 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-green focus:border-transparent transition-all duration-200"
                 disabled={!formData.novaConsola.marca}
               >
-                <option value="">Selecionar modelo</option>
+                <option value="">{t('common.selectModel')}</option>
                 {formData.novaConsola.marca && getModelsByBrand(formData.novaConsola.marca).map(modelo => (
                   <option key={modelo} value={modelo}>{modelo}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Fornecedor</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.supplier')}</label>
               <select
                 value={formData.novaConsola.supplier}
                 onChange={(e) => handleNovaConsolaChange('supplier', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-600 border border-dark-500 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-green focus:border-transparent transition-all duration-200"
               >
-                <option value="promoter">Fornecido pelo Promotor</option>
-                <option value="band">Fornecido pela Banda</option>
+                <option value="promoter">{t('supplier.promoter')}</option>
+                <option value="band">{t('supplier.band')}</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Notas</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.notes')}</label>
               <input
                 type="text"
                 value={formData.novaConsola.observacoes}
                 onChange={(e) => handleNovaConsolaChange('observacoes', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-600 border border-dark-500 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-green focus:border-transparent transition-all duration-200"
-                placeholder="ex: Versão, configuração"
+                placeholder={t('common.placeholder.version')}
               />
             </div>
             <div className="flex items-end">
@@ -221,7 +223,7 @@ function FOH({ data, onChange }) {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
-                Adicionar
+                {t('common.add')}
               </button>
             </div>
           </div>

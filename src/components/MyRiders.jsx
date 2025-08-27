@@ -3,6 +3,7 @@ import { useRider } from '../context/RiderContext'
 import { useAuth } from '../context/AuthContext'
 import { useProFeatures } from '../hooks/useProFeatures'
 import { useFeedback } from '../hooks/useFeedback'
+import { useI18n } from '../context/I18nContext'
 import ProUpgradeModal from './ProUpgradeModal'
 import SaveProgressModal from './SaveProgressModal'
 import ProStatusBadge from './ProStatusBadge'
@@ -26,6 +27,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
   
   const { user, hasAccount, loading: authLoading } = useAuth()
   const { showSuccess, showError } = useFeedback()
+  const { t, locale } = useI18n()
   
   const {
     showUpgradeModal,
@@ -55,17 +57,17 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
   const handleDelete = (id) => {
     deleteRider(id)
     setShowDeleteConfirm(null)
-    showSuccess('Rider eliminado com sucesso!')
+    showSuccess(t('riders.delete.success'))
   }
 
   const handleDuplicate = (id) => {
     const success = useProFeature(PRO_FEATURES.UNLIMITED_RIDERS.id, () => {
       try {
         duplicateRider(id)
-        showSuccess('Rider duplicado com sucesso!')
+        showSuccess(t('riders.duplicate.success'))
         return true
       } catch (error) {
-        showError('Erro ao duplicar rider: ' + error.message)
+        showError(t('riders.duplicate.error', { message: error.message }))
         return false
       }
     })
@@ -80,7 +82,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
     try {
       const rider = getRiderById(id)
       if (!rider) {
-        showError('Rider não encontrado')
+        showError(t('riders.export.notFound'))
         return
       }
 
@@ -91,7 +93,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
       setExportRiderPayload({ name: rider.name, data: rider.data })
       setShowNewPDFModal(true)
     } catch (error) {
-      showError('Erro ao exportar rider: ' + error.message)
+      showError(t('riders.export.error', { message: error.message }))
     }
   }
 
@@ -142,15 +144,15 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center py-12 mb-8">
-                         <h1 className="text-5xl sm:text-7xl font-bold text-gradient mb-6">
-               Dashboard
-             </h1>
-             <p className="text-xl sm:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-               {!user 
-                 ? 'Faça login para aceder ao seu dashboard'
-                 : 'Crie uma conta para aceder ao seu dashboard'
-               }
-             </p>
+            <h1 className="text-5xl sm:text-7xl font-bold text-gradient mb-6">
+              {t('riders.header.dashboard')}
+            </h1>
+            <p className="text-xl sm:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              {!user 
+                ? t('riders.auth.loginToAccess')
+                : t('riders.auth.createAccountToAccess')
+              }
+            </p>
           </div>
           
           {/* Call to Action */}
@@ -162,19 +164,19 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                 </svg>
               </div>
               <h3 className="text-2xl font-bold text-gray-100 mb-4">
-                {!user ? 'Login Necessário' : 'Conta Necessária'}
+                {!user ? t('riders.auth.loginRequired') : t('riders.auth.accountRequired')}
               </h3>
-                             <p className="text-gray-400 mb-6">
-                 {!user 
-                   ? 'Para aceder ao seu dashboard, precisa de fazer login na sua conta'
-                   : 'Para aceder ao seu dashboard, precisa de criar uma conta'
-                 }
-               </p>
+              <p className="text-gray-400 mb-6">
+                {!user 
+                  ? t('riders.auth.loginExplanation')
+                  : t('riders.auth.accountExplanation')
+                }
+              </p>
               <button
                 onClick={() => setShowLoginModal(true)}
                 className="btn-primary w-full text-lg py-4"
               >
-                <span>{!user ? 'Fazer Login' : 'Criar Conta'}</span>
+                <span>{!user ? t('auth.login.cta') : t('auth.signup.cta')}</span>
               </button>
             </div>
           </div>
@@ -190,7 +192,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
   }
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('pt-PT', {
+    return new Date(dateString).toLocaleDateString(locale, {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
@@ -225,10 +227,10 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Voltar
+            {t('common.back')}
           </button>
           
-          <h1 className="text-2xl sm:text-3xl font-bold text-gradient text-center">Dashboard</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gradient text-center">{t('riders.header.dashboard')}</h1>
           
           <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto justify-center">
             {/* Badge de Status */}
@@ -248,7 +250,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                <span className="hidden sm:inline">Upgrade Pro</span>
+                <span className="hidden sm:inline">{t('pro.upgradeCta')}</span>
               </button>
             )}
             
@@ -256,17 +258,17 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
               <button
                 disabled
                 className="btn-secondary flex items-center gap-2 opacity-50 cursor-not-allowed"
-                title="Funcionalidade temporariamente indisponível"
+                title={t('common.soon.unavailableTooltip')}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
-                <span className="hidden sm:inline">Importar</span>
+                <span className="hidden sm:inline">{t('common.import')}</span>
               </button>
               
               {/* Badge de "Em breve" */}
               <div className="absolute -top-2 -right-2 bg-yellow-500 text-black text-xs px-1.5 py-0.5 rounded-full font-medium">
-                Em breve
+                {t('common.comingSoon')}
               </div>
             </div>
           </div>
@@ -279,19 +281,19 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             <div>
               <div className="text-2xl font-bold text-accent-blue">{stats.totalRiders}</div>
-              <div className="text-sm text-gray-400">Riders Salvos</div>
+              <div className="text-sm text-gray-400">{t('riders.stats.saved')}</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-accent-green">{stats.totalSize}MB</div>
-              <div className="text-sm text-gray-400">Armazenamento</div>
+              <div className="text-sm text-gray-400">{t('riders.stats.storage')}</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-purple-400">{stats.maxRiders}</div>
-              <div className="text-sm text-gray-400">Limite Riders</div>
+              <div className="text-sm text-gray-400">{t('riders.stats.ridersLimit')}</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-yellow-400">{stats.maxStorage}</div>
-              <div className="text-sm text-gray-400">Limite Armazenamento</div>
+              <div className="text-sm text-gray-400">{t('riders.stats.storageLimit')}</div>
             </div>
           </div>
         </div>
@@ -309,11 +311,10 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
               </div>
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-yellow-500 mb-1">
-                  Limite de Riders Atingido
+                  {t('riders.limit.title')}
                 </h3>
                 <p className="text-gray-300 mb-3">
-                  Você atingiu o limite de {FREE_LIMITS.maxRiders} riders da versão Free. 
-                  Faça upgrade para Pro para criar riders ilimitados!
+                  {t('riders.limit.description', { max: FREE_LIMITS.maxRiders })}
                 </p>
                 <button
                   onClick={onNavigateToProSubscription}
@@ -322,7 +323,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                   <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  Upgrade para Pro - Apenas €3.99/ano
+                  {t('pro.upgradeCtaWithPrice')}
                 </button>
               </div>
             </div>
@@ -339,13 +340,13 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-100 mb-2">Nenhum rider encontrado</h3>
-            <p className="text-gray-400 mb-6">Crie o seu primeiro rider técnico</p>
+            <h3 className="text-xl font-semibold text-gray-100 mb-2">{t('riders.empty.title')}</h3>
+            <p className="text-gray-400 mb-6">{t('riders.empty.subtitle')}</p>
             <button
               onClick={onBack}
               className="btn-primary"
             >
-              Criar Rider
+              {t('riders.empty.cta')}
             </button>
           </div>
         ) : (
@@ -363,7 +364,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                       <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
                         <img
                           src={rider.data['dados-gerais'].imagemCapa.data}
-                          alt="Capa do rider"
+                          alt={t('riders.card.coverAlt')}
                           className="w-full h-full object-cover"
                         />
                       </div>
@@ -381,13 +382,13 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                                   {/* Rider Info */}
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm">
-                    <span className="text-gray-400">Artista:</span>
-                    <span className="text-gray-200 font-medium">{rider.thumbnail?.artista || 'Sem artista'}</span>
+                    <span className="text-gray-400">{t('riders.card.artist')}:</span>
+                    <span className="text-gray-200 font-medium">{rider.thumbnail?.artista || t('riders.card.noArtist')}</span>
                   </div>
 
                   <div className="flex items-center gap-2 text-sm">
-                    <span className="text-gray-400">Última alteração:</span>
-                    <span className="text-gray-200 font-medium">{rider.thumbnail?.data || 'Sem data'}</span>
+                    <span className="text-gray-400">{t('riders.card.lastChange')}:</span>
+                    <span className="text-gray-200 font-medium">{formatDate(rider.updatedAt)}</span>
                   </div>
                 </div>
                 </div>
@@ -403,7 +404,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
-                    <span className="hidden sm:inline">Editar</span>
+                    <span className="hidden sm:inline">{t('common.edit')}</span>
                   </button>
                   
                   <button
@@ -413,7 +414,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    <span className="hidden sm:inline">Exportar</span>
+                    <span className="hidden sm:inline">{t('common.export')}</span>
                   </button>
 
                   <button
@@ -421,9 +422,9 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                     className="btn-action text-sm py-3 flex items-center justify-center gap-2"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2H8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
-                    <span className="hidden sm:inline">Duplicar</span>
+                    <span className="hidden sm:inline">{t('common.duplicate')}</span>
                   </button>
                   
                   <button
@@ -433,7 +434,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
-                    <span className="hidden sm:inline">Eliminar</span>
+                    <span className="hidden sm:inline">{t('common.delete')}</span>
                   </button>
                 </div>
               </div>
@@ -448,23 +449,23 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
           <div className="bg-dark-800 rounded-lg shadow-xl max-w-md w-full border border-dark-700">
             <div className="p-6">
               <h3 className="text-lg font-semibold text-gray-100 mb-4">
-                Confirmar Eliminação
+                {t('riders.delete.title')}
               </h3>
               <p className="text-gray-400 mb-6">
-                Tem a certeza que quer eliminar este rider? Esta ação não pode ser desfeita.
+                {t('riders.delete.description')}
               </p>
               <div className="flex gap-3">
                 <button
                   onClick={() => handleDelete(showDeleteConfirm)}
                   className="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-red-700 transition-colors"
                 >
-                  Eliminar
+                  {t('common.delete')}
                 </button>
                 <button
                   onClick={() => setShowDeleteConfirm(null)}
                   className="flex-1 btn-secondary"
                 >
-                  Cancelar
+                  {t('common.cancel')}
                 </button>
               </div>
             </div>
@@ -478,7 +479,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
           <div className="bg-dark-800 rounded-lg shadow-xl max-w-md w-full border border-dark-700">
             <div className="p-6">
               <h3 className="text-lg font-semibold text-gray-100 mb-4">
-                Importar Rider
+                {t('riders.import.title')}
               </h3>
               
               {importError && (
@@ -495,7 +496,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
               
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Selecionar arquivo JSON
+                  {t('riders.import.selectJson')}
                 </label>
                 <input
                   ref={fileInputRef}
@@ -518,7 +519,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                   }}
                   className="flex-1 btn-secondary"
                 >
-                  Cancelar
+                  {t('common.cancel')}
                 </button>
               </div>
             </div>
@@ -542,13 +543,13 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
         onClose={closeSaveProgressModal}
         onSave={async () => {
           // Lógica para salvar progresso (aqui seria salvar o rider atual)
-          showSuccess('Progresso guardado com sucesso!')
+          showSuccess(t('riders.progress.saved'))
           return true
         }}
         onContinueWithoutSaving={() => {
           executePendingProAction()
         }}
-        featureName={currentFeature?.title || 'funcionalidade Pro'}
+        featureName={currentFeature?.title || t('pro.feature')}
       />
 
       {/* PDF Export Modal */}

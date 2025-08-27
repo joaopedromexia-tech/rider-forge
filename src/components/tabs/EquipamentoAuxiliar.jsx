@@ -150,8 +150,8 @@ function EquipamentoAuxiliar({ data, onChange }) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-100 mb-2">Equipamento Auxiliar</h2>
-        <p className="text-gray-400">Equipamentos de apoio e comunicação</p>
+        <h2 className="text-2xl font-bold text-gray-100 mb-2">{t('tab.aux.title')}</h2>
+        <p className="text-gray-400">{t('tab.aux.subtitle')}</p>
       </div>
 
       {/* Progresso e Validação */}
@@ -162,7 +162,7 @@ function EquipamentoAuxiliar({ data, onChange }) {
           </svg>
           <div className="flex-1">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="text-blue-400 font-semibold">Progresso da Comunicação</h4>
+              <h4 className="text-blue-400 font-semibold">{t('tab.aux.progress.title')}</h4>
               <span className="text-blue-400 font-bold">{Math.round(((communicationStatus.hasTalkbacks?1:0)+(communicationStatus.hasIntercom?1:0)+(communicationStatus.hasFOHMonCom?1:0))/3*100)}%</span>
             </div>
             
@@ -177,12 +177,12 @@ function EquipamentoAuxiliar({ data, onChange }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-gray-300 mb-1">
-                  <strong>Sistemas de Comunicação:</strong> {[communicationStatus.hasTalkbacks, communicationStatus.hasIntercom, communicationStatus.hasFOHMonCom].filter(Boolean).length}/3
+                  <strong>{t('tab.aux.progress.systems')}</strong> {[communicationStatus.hasTalkbacks, communicationStatus.hasIntercom, communicationStatus.hasFOHMonCom].filter(Boolean).length}/3
                 </p>
                 <div className="flex gap-1">
-                  <div className={`w-3 h-3 rounded-full ${communicationStatus.hasTalkbacks ? 'bg-green-500' : 'bg-gray-500'}`} title="Talkbacks"></div>
-                  <div className={`w-3 h-3 rounded-full ${communicationStatus.hasIntercom ? 'bg-green-500' : 'bg-gray-500'}`} title="Intercom"></div>
-                  <div className={`w-3 h-3 rounded-full ${communicationStatus.hasFOHMonCom ? 'bg-green-500' : 'bg-gray-500'}`} title="FOH-MON"></div>
+                  <div className={`w-3 h-3 rounded-full ${communicationStatus.hasTalkbacks ? 'bg-green-500' : 'bg-gray-500'}`} title={t('tab.aux.talkbacks')}></div>
+                  <div className={`w-3 h-3 rounded-full ${communicationStatus.hasIntercom ? 'bg-green-500' : 'bg-gray-500'}`} title={t('tab.aux.intercom')}></div>
+                  <div className={`w-3 h-3 rounded-full ${communicationStatus.hasFOHMonCom ? 'bg-green-500' : 'bg-gray-500'}`} title={t('tab.aux.fohMon')}></div>
                 </div>
               </div>
             </div>
@@ -204,14 +204,14 @@ function EquipamentoAuxiliar({ data, onChange }) {
               communicationStatus.status === 'partial' ? 'text-yellow-400' :
               'text-blue-400'
             }`}>
-              Status de Comunicação
+              {t('tab.aux.status.title')}
             </h4>
             <span className={`font-bold ${
               communicationStatus.status === 'complete' ? 'text-green-400' :
               communicationStatus.status === 'partial' ? 'text-yellow-400' :
               'text-blue-400'
             }`}>
-              {communicationStatus.totalCommunication}/3 sistemas
+              {communicationStatus.totalCommunication}/3 {t('tab.aux.systems')}
             </span>
           </div>
           
@@ -234,7 +234,7 @@ function EquipamentoAuxiliar({ data, onChange }) {
         {/* Sugestões de Banda */}
         <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
           <div className="flex items-center justify-between mb-3">
-            <h4 className="text-purple-400 font-semibold">Configurações Rápidas por Tipo de Banda</h4>
+            <h4 className="text-purple-400 font-semibold">{t('tab.aux.quick.title')}</h4>
             <button
               onClick={() => setShowQuickConfig(!showQuickConfig)}
               className="px-3 py-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 rounded-lg transition-colors text-sm flex items-center gap-2"
@@ -242,7 +242,7 @@ function EquipamentoAuxiliar({ data, onChange }) {
               <svg className={`w-4 h-4 transition-transform ${showQuickConfig ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
-              {showQuickConfig ? 'Esconder' : 'Mostrar'}
+              {showQuickConfig ? t('common.hide') : t('common.show')}
             </button>
           </div>
           {showQuickConfig && (
@@ -253,10 +253,10 @@ function EquipamentoAuxiliar({ data, onChange }) {
                   onClick={() => applyBandConfig(type)}
                   className="text-left p-3 bg-purple-500/20 hover:bg-purple-500/30 rounded-lg transition-colors"
                 >
-                  <div className="text-purple-300 font-medium capitalize">{type}</div>
-                  <div className="text-gray-300 text-sm">{config.description}</div>
+                  <div className="text-purple-300 font-medium capitalize">{t(`tab.aux.quick.type.${type}`)}</div>
+                  <div className="text-gray-300 text-sm">{t(`tab.aux.quick.type.${type}.desc`)}</div>
                   <div className="text-gray-400 text-xs mt-1">
-                    Talkbacks: {config.talkbacks} | Intercom: {config.intercom}
+                    {t('tab.aux.talkbacks')}: {config.talkbacks} | {t('tab.aux.intercom')}: {config.intercom}
                   </div>
                 </button>
               ))}
@@ -271,8 +271,8 @@ function EquipamentoAuxiliar({ data, onChange }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <div>
-              <h4 className="text-orange-400 font-semibold">Recomendação</h4>
-              <p className="text-gray-300 text-sm">{escutaCompatibility.recommendation}</p>
+              <h4 className="text-orange-400 font-semibold">{t('tab.aux.recommendation.title')}</h4>
+              <p className="text-gray-300 text-sm">{t(escutaCompatibility.recommendationKey)}</p>
             </div>
           </div>
         </div>
@@ -284,7 +284,7 @@ function EquipamentoAuxiliar({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
           </svg>
-          Talkbacks
+          {t('tab.aux.talkbacks')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
@@ -320,13 +320,13 @@ function EquipamentoAuxiliar({ data, onChange }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Observações</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.observations')}</label>
             <input
               type="text"
               value={formData.talkbacks.observacoes}
               onChange={(e) => handleSystemChange('talkbacks', 'observacoes', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-              placeholder="Observações"
+              placeholder={t('tab.aux.placeholder.observations')}
             />
           </div>
         </div>
@@ -353,34 +353,34 @@ function EquipamentoAuxiliar({ data, onChange }) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Fornecedor</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.supplier')}</label>
             <select
               value={formData.intercom.supplier}
               onChange={(e) => handleSystemChange('intercom', 'supplier', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
             >
-              <option value="promoter">Fornecido pelo Promotor</option>
-              <option value="band">Fornecido pela Banda</option>
+              <option value="promoter">{t('supplier.promoter')}</option>
+              <option value="band">{t('supplier.band')}</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Modelo</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.model')}</label>
             <input
               type="text"
               value={formData.intercom.modelo}
               onChange={(e) => handleSystemChange('intercom', 'modelo', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-              placeholder="ex: Clear-Com Eclipse"
+              placeholder={t('tab.listen.placeholder.model')}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Observações</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.observations')}</label>
             <input
               type="text"
               value={formData.intercom.observacoes}
               onChange={(e) => handleSystemChange('intercom', 'observacoes', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-              placeholder="Observações"
+              placeholder={t('tab.aux.placeholder.observations')}
             />
           </div>
         </div>
@@ -392,43 +392,43 @@ function EquipamentoAuxiliar({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
           </svg>
-          Comunicação
+          {t('tab.aux.communication.title')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Tipo de Comunicação</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.aux.communication.type')}</label>
             <select
               value={formData.comunicacaoFohMon.tipo}
               onChange={(e) => handleSystemChange('comunicacaoFohMon', 'tipo', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
             >
-              <option value="">Selecionar tipo</option>
-              <option value="dedicated-line">Linha dedicada</option>
-              <option value="intercom-channel">Canal intercom</option>
-              <option value="wireless">Sem fios</option>
-              <option value="network">Rede</option>
-              <option value="other">Outro</option>
+              <option value="">{t('tab.aux.communication.selectType')}</option>
+              <option value="dedicated-line">{t('tab.aux.communication.type.dedicatedLine')}</option>
+              <option value="intercom-channel">{t('tab.aux.communication.type.intercomChannel')}</option>
+              <option value="wireless">{t('tab.aux.communication.type.wireless')}</option>
+              <option value="network">{t('tab.aux.communication.type.network')}</option>
+              <option value="other">{t('tab.aux.communication.type.other')}</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Fornecedor</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.supplier')}</label>
             <select
               value={formData.comunicacaoFohMon.supplier}
               onChange={(e) => handleSystemChange('comunicacaoFohMon', 'supplier', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
             >
-              <option value="promoter">Fornecido pelo Promotor</option>
-              <option value="band">Fornecido pela Banda</option>
+              <option value="promoter">{t('supplier.promoter')}</option>
+              <option value="band">{t('supplier.band')}</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Observações</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.observations')}</label>
             <input
               type="text"
               value={formData.comunicacaoFohMon.observacoes}
               onChange={(e) => handleSystemChange('comunicacaoFohMon', 'observacoes', e.target.value)}
-              className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-              placeholder="Observações"
+              className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus-border-transparent transition-all duration-200"
+              placeholder={t('tab.aux.placeholder.observations')}
             />
           </div>
         </div>
@@ -440,14 +440,14 @@ function EquipamentoAuxiliar({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
-          Observações Gerais
+          {t('tab.aux.general.title')}
         </h3>
         <textarea
           value={formData.observacoes}
           onChange={(e) => handleChange('observacoes', e.target.value)}
           rows={4}
-          className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200 resize-none"
-          placeholder="Observações adicionais sobre equipamento auxiliar..."
+          className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus-border-transparent transition-all duration-200 resize-none"
+          placeholder={t('tab.aux.general.placeholder')}
         />
       </div>
     </div>

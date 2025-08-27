@@ -65,7 +65,7 @@ export function RiderProvider({ children }) {
           updatedAt: rider.updated_at,
           thumbnail: {
             artista: rider.data?.dadosGerais?.artista || 'Sem artista',
-            data: new Date(rider.updated_at).toLocaleDateString('pt-PT'),
+            data: rider.updated_at,
             equipmentCount: Object.keys(rider.data || {}).length,
             cardName: rider.title
           }
@@ -99,7 +99,7 @@ export function RiderProvider({ children }) {
         updatedAt: new Date().toISOString(),
         thumbnail: {
           artista: 'Banda de Teste',
-          data: new Date().toLocaleDateString('pt-PT'),
+          data: new Date().toISOString(),
           equipmentCount: 1,
           cardName: 'Banda de Teste v1 2026'
         }
@@ -151,7 +151,7 @@ export function RiderProvider({ children }) {
     
     return {
       artista: dadosGerais.artista || 'Sem artista',
-      data: new Date().toLocaleDateString('pt-PT'), // Data da última alteração
+      data: new Date().toISOString(), // Data da última alteração (ISO; format in UI)
       equipmentCount: Object.keys(data).length,
       cardName: cardName
     }

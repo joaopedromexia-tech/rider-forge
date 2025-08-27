@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { STRIPE_CONFIG, useStripeCheckout } from '../../config/stripe'
 import LoginModal from '../auth/LoginModal'
+import { useI18n } from '../../context/I18nContext'
 
 const PricingPage = () => {
   const { user, isPro, subscription } = useAuth()
   const { redirectToCheckout } = useStripeCheckout()
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [loading, setLoading] = useState(false)
+  const { t } = useI18n()
 
   const handleUpgrade = async () => {
     if (!user) {
@@ -42,10 +44,10 @@ const PricingPage = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Escolha o seu plano
+            {t('pricing.header.title')}
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Comece gratuitamente e faça upgrade quando precisar de mais funcionalidades
+            {t('pricing.header.subtitle')}
           </p>
         </div>
 
@@ -54,9 +56,9 @@ const PricingPage = () => {
           {/* Free Plan */}
           <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200">
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Free</h3>
-              <div className="text-4xl font-bold text-gray-900 mb-2">€0</div>
-              <p className="text-gray-600">Para sempre</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('pricing.free.title')}</h3>
+              <div className="text-4xl font-bold text-gray-900 mb-2">{t('pricing.free.price')}</div>
+              <p className="text-gray-600">{t('pricing.free.forever')}</p>
             </div>
 
             <ul className="space-y-4 mb-8">
@@ -64,25 +66,25 @@ const PricingPage = () => {
                 <svg className="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                Até 2 riders
+                {t('pricing.free.benefit.maxRiders')}
               </li>
               <li className="flex items-center">
                 <svg className="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                Biblioteca básica de equipamentos
+                {t('pricing.free.benefit.basicLib')}
               </li>
               <li className="flex items-center">
                 <svg className="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                Exportação PDF básica
+                {t('pricing.free.benefit.basicPdf')}
               </li>
               <li className="flex items-center">
                 <svg className="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                5MB de armazenamento
+                {t('pricing.free.benefit.storage')}
               </li>
             </ul>
 
@@ -90,7 +92,7 @@ const PricingPage = () => {
               onClick={() => window.location.href = '/dashboard'}
               className="w-full bg-gray-100 text-gray-900 py-3 px-6 rounded-lg font-semibold hover:bg-gray-200 transition-colors"
             >
-              Começar Grátis
+              {t('pricing.free.cta')}
             </button>
           </div>
 
@@ -105,12 +107,10 @@ const PricingPage = () => {
             )}
             
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold mb-2">Pro</h3>
-              <div className="text-4xl font-bold mb-2">€3.99</div>
-              <p className="text-blue-100">por ano</p>
-              <div className="text-sm text-blue-200 mt-2">
-                Apenas €0.33 por mês!
-              </div>
+              <h3 className="text-2xl font-bold mb-2">{t('pricing.pro.title')}</h3>
+              <div className="text-4xl font-bold mb-2">{t('pricing.pro.price')}</div>
+              <p className="text-blue-100">{t('pricing.pro.perYear')}</p>
+              <div className="text-sm text-blue-200 mt-2">{t('pricing.pro.perMonthNote')}</div>
             </div>
 
             <ul className="space-y-4 mb-8">
@@ -118,37 +118,37 @@ const PricingPage = () => {
                 <svg className="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                Riders ilimitados
+                {t('pricing.pro.benefit.unlimited')}
               </li>
               <li className="flex items-center">
                 <svg className="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                Biblioteca Pro de equipamentos
+                {t('pricing.pro.benefit.proLib')}
               </li>
               <li className="flex items-center">
                 <svg className="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                PDF customizável
+                {t('pricing.pro.benefit.customPdf')}
               </li>
               <li className="flex items-center">
                 <svg className="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                Histórico de versões
+                {t('pricing.pro.benefit.versionHistory')}
               </li>
               <li className="flex items-center">
                 <svg className="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                Exportação avançada
+                {t('pricing.pro.benefit.advancedExport')}
               </li>
               <li className="flex items-center">
                 <svg className="w-5 h-5 text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
-                Armazenamento ilimitado
+                {t('pricing.pro.benefit.unlimitedStorage')}
               </li>
             </ul>
 
@@ -157,7 +157,7 @@ const PricingPage = () => {
                 onClick={handleManageSubscription}
                 className="w-full bg-white text-blue-600 py-3 px-6 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
               >
-                Gerir Subscrição
+                {t('pricing.pro.manage')}
               </button>
             ) : (
               <button
@@ -165,7 +165,7 @@ const PricingPage = () => {
                 disabled={loading}
                 className="w-full bg-white text-blue-600 py-3 px-6 rounded-lg font-semibold hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'A processar...' : 'Upgrade para Pro'}
+                {loading ? t('pricing.pro.processing') : t('pricing.pro.upgrade')}
               </button>
             )}
           </div>
@@ -173,36 +173,22 @@ const PricingPage = () => {
 
         {/* FAQ Section */}
         <div className="mt-16 max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            Perguntas Frequentes
-          </h2>
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">{t('pricing.faq.title')}</h2>
           
           <div className="space-y-6">
             <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-2">
-                É uma subscrição anual?
-              </h3>
-              <p className="text-gray-600">
-                Sim, o Rider Forge Pro é uma subscrição anual de apenas €3.99. Isso significa que paga apenas uma vez por ano, o que equivale a apenas €0.33 por mês!
-              </p>
+              <h3 className="font-semibold text-gray-900 mb-2">{t('pricing.faq.q1')}</h3>
+              <p className="text-gray-600">{t('pricing.faq.a1')}</p>
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-2">
-                Os meus riders ficam guardados se cancelar?
-              </h3>
-              <p className="text-gray-600">
-                Sim, todos os seus riders ficam guardados. Se cancelar, poderá continuar a aceder aos seus riders existentes, mas não poderá criar novos riders (limite de 2 na versão Free).
-              </p>
+              <h3 className="font-semibold text-gray-900 mb-2">{t('pricing.faq.q2')}</h3>
+              <p className="text-gray-600">{t('pricing.faq.a2')}</p>
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-2">
-                Que métodos de pagamento aceitam?
-              </h3>
-              <p className="text-gray-600">
-                Aceitamos todos os principais cartões de crédito e débito, incluindo Visa, Mastercard, American Express e outros métodos de pagamento seguros através do Stripe.
-              </p>
+              <h3 className="font-semibold text-gray-900 mb-2">{t('pricing.faq.q3')}</h3>
+              <p className="text-gray-600">{t('pricing.faq.a3')}</p>
             </div>
           </div>
         </div>

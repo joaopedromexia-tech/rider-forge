@@ -1,18 +1,20 @@
 import { useState } from 'react'
 import { useFeedback } from '../hooks/useFeedback'
+import { useI18n } from '../context/I18nContext'
 
 function SaveProgressModal({ isOpen, onClose, onSave, onContinueWithoutSaving, featureName }) {
   const [isSaving, setIsSaving] = useState(false)
   const { showSuccess, showError } = useFeedback()
+  const { t } = useI18n()
 
   const handleSave = async () => {
     setIsSaving(true)
     try {
       await onSave()
-      showSuccess('Progresso guardado com sucesso!')
+      showSuccess(t('riders.progress.saved'))
       onClose()
     } catch (error) {
-      showError('Erro ao guardar progresso: ' + error.message)
+      showError(t('rider.progress.saveError'))
     } finally {
       setIsSaving(false)
     }
@@ -43,10 +45,9 @@ function SaveProgressModal({ isOpen, onClose, onSave, onContinueWithoutSaving, f
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
               </svg>
             </div>
-            <h3 className="text-2xl font-bold text-gradient mb-2">Guardar Progresso?</h3>
+            <h3 className="text-2xl font-bold text-gradient mb-2">{t('saveProgress.title')}</h3>
             <p className="text-gray-400">
-              Para aceder a <span className="text-accent-blue font-semibold">{featureName}</span>, 
-              recomendamos guardar o seu progresso atual.
+              {t('saveProgress.description', { feature: featureName })}
             </p>
           </div>
 
@@ -59,9 +60,9 @@ function SaveProgressModal({ isOpen, onClose, onSave, onContinueWithoutSaving, f
                 </svg>
               </div>
               <div>
-                <h4 className="font-semibold text-yellow-500">Atenção</h4>
+                <h4 className="font-semibold text-yellow-500">{t('saveProgress.warningTitle')}</h4>
                 <p className="text-sm text-gray-300">
-                  Se não guardar, poderá perder as alterações não guardadas.
+                  {t('saveProgress.warningText')}
                 </p>
               </div>
             </div>
@@ -80,14 +81,14 @@ function SaveProgressModal({ isOpen, onClose, onSave, onContinueWithoutSaving, f
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  A guardar...
+                  {t('common.saving')}
                 </>
               ) : (
                 <>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
                   </svg>
-                  Guardar e Continuar
+                  {t('saveProgress.saveAndContinue')}
                 </>
               )}
             </button>
@@ -96,14 +97,14 @@ function SaveProgressModal({ isOpen, onClose, onSave, onContinueWithoutSaving, f
               onClick={handleContinueWithoutSaving}
               className="btn-secondary"
             >
-              Continuar sem Guardar
+              {t('saveProgress.continueWithoutSaving')}
             </button>
             
             <button
               onClick={onClose}
               className="text-gray-400 hover:text-gray-300 text-sm py-2"
             >
-              Cancelar
+              {t('common.cancel')}
             </button>
           </div>
         </div>

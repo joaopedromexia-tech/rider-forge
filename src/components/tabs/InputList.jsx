@@ -4,8 +4,10 @@ import SearchableDropdown from '../SearchableDropdown'
 import FilterBar from '../FilterBar'
 import { STAND_OPTIONS } from '../../data/equipmentLibrary'
 import { inputsToCSV, csvToInputs } from '../../utils/csv'
+import { useI18n } from '../../context/I18nContext'
 
 function InputList({ data, onChange }) {
+  const { t } = useI18n()
   const { isPro, getFilteredEquipment, updateFilters } = useEquipment()
   const [formData, setFormData] = useState({
     inputs: []
@@ -257,8 +259,8 @@ function InputList({ data, onChange }) {
   return (
     <div className="space-y-8">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-100 mb-2">Input List</h2>
-        <p className="text-gray-400">Configuração dos canais de entrada da consola</p>
+        <h2 className="text-2xl font-bold text-gray-100 mb-2">{t('tab.input.title')}</h2>
+        <p className="text-gray-400">{t('tab.input.subtitle')}</p>
       </div>
 
       {/* Progresso e Validação */}
@@ -269,7 +271,7 @@ function InputList({ data, onChange }) {
           </svg>
           <div className="flex-1">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="text-blue-400 font-semibold">Progresso dos Inputs</h4>
+              <h4 className="text-blue-400 font-semibold">{t('tab.input.progress.title')}</h4>
               <span className="text-blue-400 font-bold">{formData.inputs.length === 0 ? 0 : Math.round((formData.inputs.filter(input => (input?.fonte || '').trim() && (input?.microDi || '').trim()).length / formData.inputs.length) * 100)}%</span>
             </div>
             
@@ -327,7 +329,7 @@ function InputList({ data, onChange }) {
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
-            Ações Rápidas
+            {t('tab.input.actions.quick')}
           </h3>
           
           {/* Status da Capacidade */}
@@ -337,14 +339,14 @@ function InputList({ data, onChange }) {
                 ? 'bg-red-500/20 text-red-400 border border-red-500/30' 
                 : 'bg-green-500/20 text-green-400 border border-green-500/30'
             }`}>
-              {currentInputs}/{consoleCapacity} inputs
+              {t('tab.input.capacity', { current: currentInputs, capacity: consoleCapacity })}
             </div>
             {isOverCapacity && (
               <div className="flex items-center gap-1 text-red-400 text-sm">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
                 </svg>
-                Excede capacidade
+                {t('tab.input.overCapacity')}
               </div>
             )}
           </div>
@@ -358,7 +360,7 @@ function InputList({ data, onChange }) {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
-            Adicionar Input
+            {t('tab.input.add')}
           </button>
           
           <button
@@ -414,18 +416,18 @@ function InputList({ data, onChange }) {
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
-            Lista de Inputs
-            <span className="text-gray-400 text-sm font-normal">({formData.inputs.length} inputs configurados)</span>
+            {t('tab.input.title.list')}
+            <span className="text-gray-400 text-sm font-normal">{t('tab.input.title.list.detail', { count: formData.inputs.length })}</span>
           </h3>
           <div className="flex items-center gap-2">
             <button
               onClick={handleExportCSV}
               className="px-3 py-2 bg-dark-700 hover:bg-dark-600 text-gray-200 rounded-lg border border-dark-600 transition-colors"
             >
-              Exportar CSV
+              {t('tab.input.exportCsv')}
             </button>
             <label className="px-3 py-2 bg-dark-700 hover:bg-dark-600 text-gray-200 rounded-lg border border-dark-600 transition-colors cursor-pointer">
-              Importar CSV
+              {t('tab.input.importCsv')}
               <input
                 type="file"
                 accept=".csv,text/csv"
@@ -452,9 +454,7 @@ function InputList({ data, onChange }) {
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 border-b border-dark-700">
                   Stand
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 border-b border-dark-700">
-                  Phantom
-                </th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 border-b border-dark-700">{t('tab.input.table.phantom')}</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 border-b border-dark-700">
                   Banda Fornece
                 </th>
@@ -484,14 +484,14 @@ function InputList({ data, onChange }) {
                               }
                             }, 1000)
                           }}
-                          placeholder="Ex: Kick, Snare, Vocal..."
+                          placeholder={t('tab.input.placeholder.source')}
                           className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded text-gray-100 text-sm focus:outline-none focus:ring-1 focus:ring-accent-blue focus:border-transparent"
                         />
                         {input.fonte && input.fonte.trim() && (
                           <button
                             onClick={() => applySuggestions(input.id, input.fonte)}
                             className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-400 hover:text-blue-300 transition-colors"
-                            title="Aplicar sugestões automáticas"
+                            title={t('tab.input.tooltip.applyAuto')}
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -506,7 +506,7 @@ function InputList({ data, onChange }) {
                         
                         return needsDI ? (
                           <div className="absolute bottom-full left-0 mb-2 px-2 py-1 bg-blue-500 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-                            Considere usar DI para esta fonte
+                            {t('tab.input.tooltip.considerDI')}
                             <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-blue-500"></div>
                           </div>
                         ) : null
@@ -557,8 +557,8 @@ function InputList({ data, onChange }) {
                           onChange(newData)
                         }
                       }}
-                      placeholder="Selecionar micro/DI..."
-                      searchPlaceholder="Pesquisar equipamento..."
+                      placeholder={t('tab.input.select.micdi')}
+                      searchPlaceholder={t('tab.input.search.equipment')}
                       className="table-cell-dropdown"
                     />
                   </td>
@@ -568,7 +568,7 @@ function InputList({ data, onChange }) {
                       onChange={(e) => updateInput(input.id, 'stand', e.target.value)}
                       className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded text-gray-100 text-sm focus:outline-none focus:ring-1 focus:ring-accent-blue focus:border-transparent"
                     >
-                      <option value="">Selecionar stand</option>
+                      <option value="">{t('tab.input.select.stand')}</option>
                       {STAND_OPTIONS.map(option => (
                         <option key={option.value} value={option.value}>
                           {option.label}
@@ -594,7 +594,7 @@ function InputList({ data, onChange }) {
                         checked={input.supplier}
                         onChange={(e) => updateInput(input.id, 'supplier', e.target.checked)}
                         className="w-4 h-4 text-accent-blue bg-dark-700 border-dark-600 rounded focus:ring-accent-blue focus:ring-2"
-                        title="Banda fornece este equipamento"
+                        title={t('tab.input.table.bandSupplies')}
                       />
                     </label>
                   </td>
@@ -602,7 +602,7 @@ function InputList({ data, onChange }) {
                     <button
                       onClick={() => removeInput(input.id)}
                       className="text-red-400 hover:text-red-300 transition-colors duration-200"
-                      title="Remover input"
+                      title={t('tab.input.remove')}
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -624,7 +624,7 @@ function InputList({ data, onChange }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
             </svg>
             <div className="flex-1">
-              <h4 className="text-yellow-400 font-semibold mb-2">Equipamento fornecido pelo artista:</h4>
+              <h4 className="text-yellow-400 font-semibold mb-2">{t('tab.input.bandSupplies.title')}</h4>
               {bandEquipment.length === formData.inputs.length ? (
                 <p className="text-gray-300 text-sm">
                   O artista fornece todo o equipamento de microfones e DI necessários.

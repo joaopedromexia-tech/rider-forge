@@ -234,80 +234,35 @@ function Consolas({ data, onChange }) {
     if (!fohConsole.marca) return []
     
     const suggestions = []
-    
-    // Sugestões baseadas na marca para performances musicais
-    if (fohConsole.marca.toLowerCase().includes('midas')) {
-      suggestions.push({
-        name: 'Midas Pro Series para MON',
-        reason: 'Mesma família Midas - interface familiar, compatibilidade de protocolos'
-      })
-      suggestions.push({
-        name: 'Midas HD96 para MON',
-        reason: 'Alta qualidade Midas - compatível com protocolos Midas, ideal para grandes shows'
-      })
-      suggestions.push({
-        name: 'Midas M32 para MON',
-        reason: 'Consola compacta Midas - interface familiar, boa para shows médios'
-      })
-    } else if (fohConsole.marca.toLowerCase().includes('yamaha')) {
-      suggestions.push({
-        name: 'Yamaha CL5 para MON',
-        reason: 'Mesma família CL - show files partilháveis via CL Editor, interface idêntica'
-      })
-      suggestions.push({
-        name: 'Yamaha DM7 para MON',
-        reason: 'Nova geração Yamaha - alta qualidade, compatível com protocolos Yamaha'
-      })
-      suggestions.push({
-        name: 'Yamaha QL5 para MON',
-        reason: 'Consola compacta QL - show files partilháveis via QL Editor, boa para shows médios'
-      })
-    } else if (fohConsole.marca.toLowerCase().includes('allen')) {
-      suggestions.push({
-        name: 'Allen & Heath dLive para MON',
-        reason: 'Mesma família dLive - show files partilháveis via dLive Director, interface familiar'
-      })
-      suggestions.push({
-        name: 'Allen & Heath Avantis para MON',
-        reason: 'Nova geração A&H - alta qualidade, compatível com protocolos A&H'
-      })
-      suggestions.push({
-        name: 'Allen & Heath SQ7 para MON',
-        reason: 'Consola compacta SQ - interface familiar, boa para shows médios'
-      })
-    } else if (fohConsole.marca.toLowerCase().includes('digico')) {
-      suggestions.push({
-        name: 'Digico SD12 para MON',
-        reason: 'Mesma família SD - show files partilháveis via Digico software, alta qualidade'
-      })
-      suggestions.push({
-        name: 'Digico SD7 para MON',
-        reason: 'Consola principal SD - show files partilháveis, para grandes produções'
-      })
-      suggestions.push({
-        name: 'Digico SD9 para MON',
-        reason: 'Consola compacta SD - show files partilháveis, boa para shows médios'
-      })
-    } else if (fohConsole.marca.toLowerCase().includes('behringer')) {
-      suggestions.push({
-        name: 'Behringer X32 para MON',
-        reason: 'Mesma família X32 - show files partilháveis via X32 Edit, boa relação qualidade/preço'
-      })
-      suggestions.push({
-        name: 'Behringer Wing para MON',
-        reason: 'Nova geração Behringer - alta qualidade, compatível com protocolos Behringer'
-      })
-    } else if (fohConsole.marca.toLowerCase().includes('soundcraft')) {
-      suggestions.push({
-        name: 'Soundcraft Vi3000 para MON',
-        reason: 'Mesma família Vi - show files partilháveis via Vi software, boa qualidade'
-      })
-      suggestions.push({
-        name: 'Soundcraft Si Expression para MON',
-        reason: 'Consola compacta Si - interface familiar, boa para shows médios'
-      })
+
+    const brand = fohConsole.marca
+    const makeName = (model) => `${brand} ${model} ${t('tab.consoles.sugg.forMon')}`
+    const sameFamily = t('tab.consoles.sugg.sameFamily', { brand })
+
+    if (brand.toLowerCase().includes('midas')) {
+      suggestions.push({ name: makeName('Pro Series'), reason: sameFamily })
+      suggestions.push({ name: makeName('HD96'), reason: sameFamily })
+      suggestions.push({ name: makeName('M32'), reason: sameFamily })
+    } else if (brand.toLowerCase().includes('yamaha')) {
+      suggestions.push({ name: makeName('CL5'), reason: sameFamily })
+      suggestions.push({ name: makeName('DM7'), reason: sameFamily })
+      suggestions.push({ name: makeName('QL5'), reason: sameFamily })
+    } else if (brand.toLowerCase().includes('allen')) {
+      suggestions.push({ name: makeName('dLive'), reason: sameFamily })
+      suggestions.push({ name: makeName('Avantis'), reason: sameFamily })
+      suggestions.push({ name: makeName('SQ7'), reason: sameFamily })
+    } else if (brand.toLowerCase().includes('digico')) {
+      suggestions.push({ name: makeName('SD12'), reason: sameFamily })
+      suggestions.push({ name: makeName('SD7'), reason: sameFamily })
+      suggestions.push({ name: makeName('SD9'), reason: sameFamily })
+    } else if (brand.toLowerCase().includes('behringer')) {
+      suggestions.push({ name: makeName('X32'), reason: sameFamily })
+      suggestions.push({ name: makeName('Wing'), reason: sameFamily })
+    } else if (brand.toLowerCase().includes('soundcraft')) {
+      suggestions.push({ name: makeName('Vi3000'), reason: sameFamily })
+      suggestions.push({ name: makeName('Si Expression'), reason: sameFamily })
     }
-    
+
     return suggestions
   }
 

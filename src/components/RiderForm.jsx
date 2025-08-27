@@ -21,10 +21,12 @@ import ValidationAlerts from './ValidationAlerts'
 import ProStatusBadge from './ProStatusBadge'
 import LoginModal from './auth/LoginModal'
 import { kvGet, kvSet } from '../utils/storage'
+import { useI18n } from '../context/I18nContext'
 
 
 
 function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription }) {
+  const { t } = useI18n()
   const { isPro, setIsPro } = useRider()
   const { saveRider, updateRider, getRiderById } = useRider()
   const { showSuccess, showError } = useFeedback()
@@ -65,7 +67,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
   const tabs = [
     {
       id: 'dados-gerais',
-      title: 'Dados Gerais',
+      title: t('rider.tabs.general'),
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -75,7 +77,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     },
     {
       id: 'pa',
-      title: 'PA',
+      title: t('rider.tabs.pa'),
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
@@ -85,7 +87,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     },
     {
       id: 'consolas',
-      title: 'Consolas',
+      title: t('rider.tabs.consoles'),
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
@@ -95,7 +97,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     },
     {
       id: 'sistemas-escuta',
-      title: 'Sistemas de Escuta',
+      title: t('rider.tabs.listenSystems'),
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 18v-6a9 9 0 0118 0v6m-9-3h9m-9 0H6" />
@@ -105,7 +107,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     },
     {
       id: 'equipamento-auxiliar',
-      title: 'Equipamento Auxiliar',
+      title: t('rider.tabs.auxEquip'),
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -115,7 +117,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     },
     {
       id: 'input-list',
-      title: 'Input List',
+      title: t('rider.tabs.inputList'),
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -125,7 +127,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     },
     {
       id: 'monitor-mixes',
-      title: 'Monitor Mixes',
+      title: t('rider.tabs.monitorMixes'),
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
@@ -135,7 +137,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     },
     {
       id: 'observacoes-finais',
-      title: 'Observações Finais',
+      title: t('rider.tabs.finalNotes'),
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -427,7 +429,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                <span className="hidden sm:inline">Voltar</span>
+                <span className="hidden sm:inline">{t('common.back')}</span>
               </button>
               
               {/* Badge de Status - visível apenas em mobile */}
@@ -438,23 +440,19 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
             
             {/* Título e Progresso */}
             <div className="flex flex-col items-center gap-3 flex-1">
-              <h1 className="text-2xl lg:text-3xl font-bold text-gradient text-center">
-                {editingRider?.isDemo && import.meta.env.VITE_SHOW_DEMO === 'true' ? 'Rider Demo - Thunder Road' : (editingRiderId ? 'Editar Rider Técnico' : 'Criar Rider Técnico')}
-              </h1>
+              <h1 className="text-2xl lg:text-3xl font-bold text-gradient text-center">{editingRider?.isDemo && import.meta.env.VITE_SHOW_DEMO === 'true' ? t('rider.demo.title') : (editingRiderId ? t('rider.header.title.edit') : t('rider.header.title.create'))}</h1>
               
               {/* Aviso para Rider Demo */}
               {editingRider?.isDemo && import.meta.env.VITE_SHOW_DEMO === 'true' && (
                 <div className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded-lg px-3 py-2 max-w-md text-center">
-                  <p className="text-xs text-purple-200">
-                    ✨ Este é um <strong>rider demo</strong> para exploração. Para guardar permanentemente, clique em "Guardar Rider" no final da página.
-                  </p>
+                  <p className="text-xs text-purple-200">{t('rider.header.demo.note')}</p>
                 </div>
               )}
               
               {/* Progresso Geral */}
               <div className="w-full max-w-xs">
                 <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
-                  <span>Progresso geral</span>
+                  <span>{t('rider.header.progress')}</span>
                   <span className="font-semibold text-gray-300">{overallProgress}%</span>
                 </div>
                 <div className="h-2 bg-dark-800 rounded-full overflow-hidden border border-dark-700">
@@ -479,7 +477,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <span className="hidden sm:inline">Upgrade Pro</span>
+                  <span className="hidden sm:inline">{t('common.upgradePro')}</span>
                 </button>
               )}
               
@@ -491,7 +489,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v4m0 8v4m4-12h4m-8 0H4m12 8h4M4 16h8" />
                 </svg>
-                <span className="hidden sm:inline">PDF</span>
+                <span className="hidden sm:inline">{t('common.pdf')}</span>
               </button>
               
               {/* Botão Principal */}
@@ -500,7 +498,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
                   onClick={handleCreateAccountClick}
                   className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold px-4 py-2 rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all duration-200 text-sm"
                 >
-                  <span className="hidden sm:inline">🔐 Criar Conta</span>
+                  <span className="hidden sm:inline">🔐 {t('common.createAccount')}</span>
                   <span className="sm:hidden">🔐</span>
                 </button>
               ) : !editingRider?.isDemo ? (
@@ -508,7 +506,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
                   onClick={handleSaveClick}
                   className="btn-primary px-4 py-2 text-sm"
                 >
-                  <span className="hidden sm:inline">{editingRider ? 'Atualizar' : 'Salvar'}</span>
+                  <span className="hidden sm:inline">{editingRider ? t('common.update') : t('common.save')}</span>
                   <span className="sm:hidden">💾</span>
                 </button>
               ) : null}

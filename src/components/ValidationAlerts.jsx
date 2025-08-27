@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
+import { useI18n } from '../context/I18nContext'
 
 function ValidationAlerts({ errors, warnings, onClose }) {
+  const { t } = useI18n()
   const [visibleErrors, setVisibleErrors] = useState([])
   const [visibleWarnings, setVisibleWarnings] = useState([])
 
@@ -39,7 +41,7 @@ function ValidationAlerts({ errors, warnings, onClose }) {
             </div>
             <div className="flex-1">
               <h3 className="text-sm font-medium text-red-400 mb-2">
-                Erros de Validação ({visibleErrors.length})
+                {t('validation.errorsTitle', { count: visibleErrors.length })}
               </h3>
               <div className="space-y-2">
                 {visibleErrors.map((error, index) => (
@@ -72,7 +74,7 @@ function ValidationAlerts({ errors, warnings, onClose }) {
             </div>
             <div className="flex-1">
               <h3 className="text-sm font-medium text-yellow-400 mb-2">
-                Avisos ({visibleWarnings.length})
+                {t('validation.warningsTitle', { count: visibleWarnings.length })}
               </h3>
               <div className="space-y-2">
                 {visibleWarnings.map((warning, index) => (

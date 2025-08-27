@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useEquipment } from '../../context/EquipmentContext'
 import FilterBar from '../FilterBar'
+import { useI18n } from '../../context/I18nContext'
 
 function MonitorMixes({ data, onChange, allData = {} }) {
   const { isPro, getFilteredEquipment, updateFilters } = useEquipment()
+  const { t } = useI18n()
   const [formData, setFormData] = useState({
     mixes: []
   })
@@ -62,14 +64,14 @@ function MonitorMixes({ data, onChange, allData = {} }) {
   }, [updateFilters])
 
   const tipoOptions = [
-    { value: 'iem', label: 'IEM (In-Ear Monitor)' },
-    { value: 'wedge', label: 'Wedge Monitor' },
-    { value: 'sidefill', label: 'Side Fill' }
+    { value: 'iem', label: t('tab.monitor.type.iem') },
+    { value: 'wedge', label: t('tab.monitor.type.wedge') },
+    { value: 'sidefill', label: t('tab.monitor.type.sidefill') }
   ]
 
   const formatoOptions = [
-    { value: 'mono', label: 'Mono' },
-    { value: 'stereo', label: 'Stereo' }
+    { value: 'mono', label: t('tab.monitor.format.mono') },
+    { value: 'stereo', label: t('tab.monitor.format.stereo') }
   ]
 
   // Validação de compatibilidade com inputs e sistemas de escuta
@@ -100,52 +102,52 @@ function MonitorMixes({ data, onChange, allData = {} }) {
   const getCommonMixSuggestions = () => {
     const suggestions = [
       {
-        instrumentoMusico: 'Vocal Principal',
+        instrumentoMusico: t('tab.monitor.sugg.leadVocal'),
         tipo: 'iem',
         formato: 'stereo',
-        canais: ['Vocal', 'Click', 'Backing Vocals', 'Guitarra']
+        canais: [t('channel.vocal'), t('channel.click'), t('channel.backVocal'), t('channel.guitar')]
       },
       {
-        instrumentoMusico: 'Guitarra',
+        instrumentoMusico: t('tab.monitor.sugg.guitar'),
         tipo: 'iem',
         formato: 'stereo',
-        canais: ['Guitarra', 'Click', 'Bass', 'Vocal']
+        canais: [t('channel.guitar'), t('channel.click'), t('channel.bass'), t('channel.vocal')]
       },
       {
-        instrumentoMusico: 'Bass',
+        instrumentoMusico: t('tab.monitor.sugg.bass'),
         tipo: 'iem',
         formato: 'stereo',
-        canais: ['Bass', 'Click', 'Drums', 'Guitarra']
+        canais: [t('channel.bass'), t('channel.click'), t('channel.drums'), t('channel.guitar')]
       },
       {
-        instrumentoMusico: 'Bateria',
+        instrumentoMusico: t('tab.monitor.sugg.drums'),
         tipo: 'wedge',
         formato: 'stereo',
-        canais: ['Drums', 'Click', 'Bass', 'Vocal']
+        canais: [t('channel.drums'), t('channel.click'), t('channel.bass'), t('channel.vocal')]
       },
       {
-        instrumentoMusico: 'Teclado',
+        instrumentoMusico: t('tab.monitor.sugg.keyboard'),
         tipo: 'iem',
         formato: 'stereo',
-        canais: ['Teclado', 'Click', 'Vocal', 'Guitarra']
+        canais: [t('channel.keyboard'), t('channel.click'), t('channel.vocal'), t('channel.guitar')]
       },
       {
-        instrumentoMusico: 'Backing Vocal',
+        instrumentoMusico: t('tab.monitor.sugg.backVocal'),
         tipo: 'iem',
         formato: 'stereo',
-        canais: ['Backing Vocals', 'Click', 'Vocal Principal', 'Guitarra']
+        canais: [t('channel.backVocal'), t('channel.click'), t('tab.monitor.sugg.leadVocal'), t('channel.guitar')]
       },
       {
-        instrumentoMusico: 'Percussão',
+        instrumentoMusico: t('tab.monitor.sugg.percussion'),
         tipo: 'iem',
         formato: 'stereo',
-        canais: ['Percussão', 'Click', 'Drums', 'Bass']
+        canais: [t('channel.percussion'), t('channel.click'), t('channel.drums'), t('channel.bass')]
       },
       {
-        instrumentoMusico: 'Saxofone',
+        instrumentoMusico: t('tab.monitor.sugg.saxophone'),
         tipo: 'iem',
         formato: 'stereo',
-        canais: ['Saxofone', 'Click', 'Bass', 'Drums']
+        canais: [t('channel.saxophone'), t('channel.click'), t('channel.bass'), t('channel.drums')]
       }
     ]
     return suggestions
@@ -223,8 +225,8 @@ function MonitorMixes({ data, onChange, allData = {} }) {
   return (
     <div className="space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-100 mb-2">Monitor Mixes</h2>
-        <p className="text-gray-400">Configurações específicas de monitor para cada artista</p>
+        <h2 className="text-2xl font-bold text-gray-100 mb-2">{t('tab.monitor.title')}</h2>
+        <p className="text-gray-400">{t('tab.monitor.subtitle')}</p>
       </div>
 
       {/* Progresso e Validação */}
@@ -235,7 +237,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
           </svg>
           <div className="flex-1">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="text-blue-400 font-semibold">Progresso dos Mixes</h4>
+              <h4 className="text-blue-400 font-semibold">{t('tab.monitor.progress.title')}</h4>
               <span className="text-blue-400 font-bold">{mixValidation.totalMixes === 0 ? 0 : Math.round((formData.mixes.filter(m => (m?.instrumentoMusico||'').trim() && m?.tipo && m?.formato).length / mixValidation.totalMixes) * 100)}%</span>
             </div>
             
@@ -250,13 +252,13 @@ function MonitorMixes({ data, onChange, allData = {} }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-gray-300 mb-1">
-                  <strong>Mixes Completas:</strong> {formData.mixes.filter(m => (m?.instrumentoMusico||'').trim() && m?.tipo && m?.formato).length}/{mixValidation.totalMixes}
+                  <strong>{t('tab.monitor.progress.completed')}</strong> {formData.mixes.filter(m => (m?.instrumentoMusico||'').trim() && m?.tipo && m?.formato).length}/{mixValidation.totalMixes}
                 </p>
                 <div className="flex gap-1">
-                  <div className={`w-3 h-3 rounded-full ${mixValidation.hasIEMs ? 'bg-green-500' : 'bg-gray-500'}`} title="IEMs"></div>
-                  <div className={`w-3 h-3 rounded-full ${mixValidation.hasWedges ? 'bg-green-500' : 'bg-gray-500'}`} title="Wedges"></div>
-                  <div className={`w-3 h-3 rounded-full ${mixValidation.hasSidefills ? 'bg-green-500' : 'bg-gray-500'}`} title="Side Fills"></div>
-                  <div className="w-3 h-3 rounded-full bg-blue-500" title="Canais"></div>
+                  <div className={`w-3 h-3 rounded-full ${mixValidation.hasIEMs ? 'bg-green-500' : 'bg-gray-500'}`} title={t('tab.listen.iems')}></div>
+                  <div className={`w-3 h-3 rounded-full ${mixValidation.hasWedges ? 'bg-green-500' : 'bg-gray-500'}`} title={t('tab.listen.wedges')}></div>
+                  <div className={`w-3 h-3 rounded-full ${mixValidation.hasSidefills ? 'bg-green-500' : 'bg-gray-500'}`} title={t('tab.listen.sidefills')}></div>
+                  <div className="w-3 h-3 rounded-full bg-blue-500" title={t('tab.monitor.channels')}></div>
                 </div>
               </div>
             </div>
@@ -269,26 +271,26 @@ function MonitorMixes({ data, onChange, allData = {} }) {
         {/* Status dos Mixes */}
         <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
           <div className="flex items-center justify-between mb-3">
-            <h4 className="text-blue-400 font-semibold">Status dos Mixes</h4>
-            <span className="text-blue-400 font-bold">{mixValidation.totalMixes} mixes configuradas</span>
+            <h4 className="text-blue-400 font-semibold">{t('tab.monitor.status.title')}</h4>
+            <span className="text-blue-400 font-bold">{mixValidation.totalMixes} {t('tab.monitor.status.mixes')}</span>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
             <div className="flex items-center gap-2">
               <div className={`w-3 h-3 rounded-full ${mixValidation.hasIEMs ? 'bg-green-500' : 'bg-gray-500'}`}></div>
-              <span className="text-gray-300">IEMs: {mixValidation.iemMixes}</span>
+              <span className="text-gray-300">{t('tab.listen.iems')}: {mixValidation.iemMixes}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className={`w-3 h-3 rounded-full ${mixValidation.hasWedges ? 'bg-green-500' : 'bg-gray-500'}`}></div>
-              <span className="text-gray-300">Wedges: {mixValidation.wedgeMixes}</span>
+              <span className="text-gray-300">{t('tab.listen.wedges')}: {mixValidation.wedgeMixes}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className={`w-3 h-3 rounded-full ${mixValidation.hasSidefills ? 'bg-green-500' : 'bg-gray-500'}`}></div>
-              <span className="text-gray-300">Side Fills: {mixValidation.sidefillMixes}</span>
+              <span className="text-gray-300">{t('tab.listen.sidefills')}: {mixValidation.sidefillMixes}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-              <span className="text-gray-300">Canais: {mixValidation.totalChannels}</span>
+              <span className="text-gray-300">{t('tab.monitor.channels')}: {mixValidation.totalChannels}</span>
             </div>
           </div>
         </div>
@@ -296,7 +298,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
         {/* Sugestões de Mixes Comuns */}
         <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
           <div className="flex items-center justify-between mb-3">
-            <h4 className="text-green-400 font-semibold">Mixes Comuns - Adicionar Rapidamente</h4>
+            <h4 className="text-green-400 font-semibold">{t('tab.monitor.quick.title')}</h4>
             <button
               onClick={() => setShowCommonMixes(!showCommonMixes)}
               className="px-3 py-1 bg-green-500/20 hover:bg-green-500/30 text-green-300 rounded-lg transition-colors text-sm flex items-center gap-2"
@@ -304,7 +306,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
               <svg className={`w-4 h-4 transition-transform ${showCommonMixes ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
-              {showCommonMixes ? 'Esconder' : 'Mostrar'}
+              {showCommonMixes ? t('common.hide') : t('common.show')}
             </button>
           </div>
           {showCommonMixes && (
@@ -316,7 +318,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
                   className="text-left p-3 bg-green-500/20 hover:bg-green-500/30 rounded-lg transition-colors"
                 >
                   <div className="text-green-300 font-medium">{suggestion.instrumentoMusico}</div>
-                  <div className="text-gray-300 text-sm capitalize">{suggestion.tipo} • {suggestion.formato}</div>
+                  <div className="text-gray-300 text-sm capitalize">{t(`tab.monitor.type.${suggestion.tipo}`)} • {t(`tab.monitor.format.${suggestion.formato}`)}</div>
                   <div className="text-gray-400 text-xs mt-1">
                     {suggestion.canais.slice(0, 2).join(', ')}
                     {suggestion.canais.length > 2 && '...'}
@@ -335,11 +337,11 @@ function MonitorMixes({ data, onChange, allData = {} }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
               <div>
-                <h4 className="text-yellow-400 font-semibold">Compatibilidade com Sistemas de Escuta</h4>
+                <h4 className="text-yellow-400 font-semibold">{t('tab.monitor.compat.title')}</h4>
                 <p className="text-gray-300 text-sm">
-                  {escutaCompatibility.needsIEMs && '• Configure IEMs na aba "Sistemas de Escuta"'}<br/>
-                  {escutaCompatibility.needsWedges && '• Configure Wedges na aba "Sistemas de Escuta"'}<br/>
-                  {escutaCompatibility.needsSidefills && '• Configure Side Fills na aba "Sistemas de Escuta"'}
+                  {escutaCompatibility.needsIEMs && t('tab.monitor.compat.needsIems')}<br/>
+                  {escutaCompatibility.needsWedges && t('tab.monitor.compat.needsWedges')}<br/>
+                  {escutaCompatibility.needsSidefills && t('tab.monitor.compat.needsSidefills')}
                 </p>
               </div>
             </div>
@@ -360,7 +362,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
           <div key={mix.id} className="bg-dark-800/50 rounded-lg p-6 border border-dark-700/50">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-accent-blue">
-                Mix {getMixNumber(index, mix.formato)}
+                {t('tab.monitor.mix.label')} {getMixNumber(index, mix.formato)}
               </h3>
               <button
                 onClick={() => removeMix(index)}
@@ -375,14 +377,14 @@ function MonitorMixes({ data, onChange, allData = {} }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Instrumento/Músico
+                  {t('tab.monitor.instrument')}
                 </label>
                 <input
                   type="text"
                   value={mix.instrumentoMusico || ''}
                   onChange={(e) => updateMix(index, 'instrumentoMusico', e.target.value)}
                   className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                  placeholder="ex: Vocalista, Guitarra, Bateria"
+                  placeholder={t('tab.monitor.instrument.placeholder')}
                 />
               </div>
             </div>
@@ -390,7 +392,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Tipo de Mix
+                  {t('tab.monitor.type.title')}
                 </label>
                 <select
                   value={mix.tipo || 'iem'}
@@ -406,7 +408,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Formato
+                  {t('tab.monitor.format.title')}
                 </label>
                 <select
                   value={mix.formato || 'stereo'}
@@ -432,7 +434,7 @@ function MonitorMixes({ data, onChange, allData = {} }) {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Adicionar Mix
+          {t('tab.monitor.add')}
         </button>
       </div>
 
@@ -442,8 +444,8 @@ function MonitorMixes({ data, onChange, allData = {} }) {
           <svg className="w-12 h-12 text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
           </svg>
-          <p className="text-gray-500">Nenhum mix configurado</p>
-          <p className="text-gray-600 text-sm">Adicione mixes específicos para cada artista</p>
+          <p className="text-gray-500">{t('tab.monitor.none')}</p>
+          <p className="text-gray-600 text-sm">{t('tab.monitor.none.cta')}</p>
         </div>
       )}
     </div>

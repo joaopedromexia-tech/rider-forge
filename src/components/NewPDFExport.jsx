@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { pdf } from '@react-pdf/renderer'
 import RiderPDF from '../pdf/RiderPDF'
 import PDFPreview from './PDFPreview'
+import { useI18n } from '../context/I18nContext'
 
 function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
+  const { t, locale } = useI18n()
   const [isPreparing, setIsPreparing] = useState(false)
   const [showPreview, setShowPreview] = useState(false)
   const [exportOptions, setExportOptions] = useState({ 
@@ -25,7 +27,7 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
 
   // Apenas o tema padrão
   const colorThemes = [
-    { value: 'default', label: 'Padrão', description: 'Tema clássico preto e branco' }
+    { value: 'default', label: t('pdf.export.theme.default.label'), description: t('pdf.export.theme.default.desc') }
   ]
   const themesToShow = colorThemes
 
@@ -53,12 +55,12 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
     try {
       const sanitizedRiderData = JSON.parse(JSON.stringify(riderData || {}))
       if (!sanitizedRiderData || Object.keys(sanitizedRiderData).length === 0) {
-        throw new Error('Nenhum dado disponível para gerar o PDF')
+        throw new Error(t('pdf.error.noData'))
       }
       const instance = pdf(
         <RiderPDF 
           rider={sanitizedRiderData} 
-          language="pt" 
+          language={locale} 
           proBranding={{}} 
           options={exportOptions} 
         />
@@ -74,7 +76,7 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
     } catch (e) {
-      alert(`Erro ao gerar PDF: ${e.message || 'Verifique se todos os dados estão preenchidos corretamente.'}`)
+      alert(t('pdf.error.generate'))
     } finally {
       setIsPreparing(false)
     }
@@ -85,13 +87,13 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <div className="bg-dark-800 rounded-lg p-6 max-w-lg w-full mx-4 border border-dark-700 max-h-[90vh] overflow-y-auto">
           <div className="text-center mb-6">
-            <h3 className="text-xl font-bold text-gray-100 mb-2">Exportar PDF</h3>
-            <p className="text-gray-400">Gerar rider técnico em formato PDF</p>
+            <h3 className="text-xl font-bold text-gray-100 mb-2">{t('pdf.export.title')}</h3>
+            <p className="text-gray-400">{t('pdf.export.subtitle')}</p>
           </div>
 
           <div className="space-y-4 mb-6">
             <div className="bg-dark-700 rounded-lg p-4 space-y-3">
-              <h4 className="text-sm font-medium text-gray-300">Opções de Exportação</h4>
+              <h4 className="text-sm font-medium text-gray-300">{t('pdf.export.options')}</h4>
               <label className="flex items-center gap-2 text-sm text-gray-300">
                 <input
                   type="checkbox"
@@ -99,23 +101,23 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
                   onChange={(e) => setExportOptions(o => ({ ...o, includeStagePlot: e.target.checked }))}
                   className="w-4 h-4"
                 />
-                Incluir Stage Plot (se existir)
+                {t('pdf.export.includeStagePlot')}
               </label>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Rodapé personalizado (opcional)</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">{t('pdf.export.customFooter')}</label>
                 <input
                   type="text"
                   value={exportOptions.customFooter}
                   onChange={(e) => setExportOptions(o => ({ ...o, customFooter: e.target.value }))}
                   className="w-full px-3 py-2 bg-dark-800 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500"
-                  placeholder="Texto de rodapé"
+                  placeholder={t('pdf.export.customFooter.placeholder')}
                 />
               </div>
             </div>
 
             {/* Seletor de Tema de Cores */}
             <div className="bg-dark-700 rounded-lg p-4 space-y-3">
-              <h4 className="text-sm font-medium text-gray-300">Tema de Cores</h4>
+              <h4 className="text-sm font-medium text-gray-300">{t('pdf.export.theme')}</h4>
               <div className="space-y-2">
                 {themesToShow.map((theme) => (
                   <label key={theme.value} className="flex items-center gap-3 p-2 rounded-lg hover:bg-dark-600 cursor-pointer">
@@ -140,10 +142,10 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
           </div>
 
           <div className="flex gap-3">
-            <button onClick={onClose} className="flex-1 px-4 py-2 bg-dark-700 text-gray-300 rounded-lg hover:bg-dark-600 transition-colors duration-200">Cancelar</button>
-            <button type="button" onClick={handlePreview} className="flex-1 px-4 py-2 bg-dark-600 text-gray-300 rounded-lg hover:bg-dark-500 transition-colors duration-200 flex items-center justify-center gap-2">Preview</button>
+            <button onClick={onClose} className="flex-1 px-4 py-2 bg-dark-700 text-gray-300 rounded-lg hover:bg-dark-600 transition-colors duration-200">{t('pdf.export.cancel')}</button>
+            <button type="button" onClick={handlePreview} className="flex-1 px-4 py-2 bg-dark-600 text-gray-300 rounded-lg hover:bg-dark-500 transition-colors duration-200 flex items-center justify-center gap-2">{t('pdf.export.preview')}</button>
             <button type="button" onClick={handleGenerateAndDownload} disabled={isPreparing} className="flex-1 px-4 py-2 bg-accent-blue text-white rounded-lg hover:bg-accent-blue/90 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer select-none" style={{ cursor: isPreparing ? 'not-allowed' : 'pointer', userSelect: 'none' }}>
-              {isPreparing ? 'A preparar…' : 'Exportar PDF'}
+              {isPreparing ? t('pdf.export.prepare') : t('pdf.export.cta')}
             </button>
           </div>
         </div>

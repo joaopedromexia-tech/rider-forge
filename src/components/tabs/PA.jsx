@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react'
 import { useRider } from '../../context/RiderContext'
 import SearchableDropdown from '../SearchableDropdown'
 import { getEquipmentByCategory } from '../../data/equipmentLibrary'
+import { useI18n } from '../../context/I18nContext'
 
 function PA({ data, onChange }) {
   const { isPro } = useRider()
+  const { t } = useI18n()
   const [showQuickActions, setShowQuickActions] = useState(false)
   
   // Obter equipamentos de PA da biblioteca
@@ -278,8 +280,8 @@ function PA({ data, onChange }) {
 
 
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-100 mb-2">PA - Sistema de Som</h2>
-        <p className="text-gray-400">Especificações do sistema de som principal</p>
+        <h2 className="text-2xl font-bold text-gray-100 mb-2">{t('tab.pa.title')}</h2>
+        <p className="text-gray-400">{t('tab.pa.subtitle')}</p>
       </div>
 
       {/* Requisitos Gerais - Redesenhado */}
@@ -288,7 +290,7 @@ function PA({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          Requisitos Gerais
+          {t('tab.pa.requirements.title')}
         </h3>
         
         {/* Instruções Claras */}
@@ -298,18 +300,18 @@ function PA({ data, onChange }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <div className="flex-1">
-              <h4 className="text-blue-400 font-semibold mb-2">Como usar esta seção:</h4>
+              <h4 className="text-blue-400 font-semibold mb-2">{t('tab.pa.instructions.title')}</h4>
               <div className="text-gray-300 text-sm space-y-1 mb-3">
-                <p>• <strong>Marque TODAS as opções</strong> que são requisitos para o seu evento</p>
-                <p>• <strong>OBRIGATÓRIO</strong> = Deve estar presente (vermelho)</p>
-                <p>• <strong>IMPRESCINDÍVEL</strong> = Criticamente importante (laranja)</p>
-                <p>• <strong>ESSENCIAL</strong> = Altamente recomendado (laranja)</p>
-                <p>• <strong>QUALIDADE</strong> = Padrão profissional (verde)</p>
+                <p>{t('tab.pa.instructions.item1')}</p>
+                <p>{t('tab.pa.instructions.item2')}</p>
+                <p>{t('tab.pa.instructions.item3')}</p>
+                <p>{t('tab.pa.instructions.item4')}</p>
+                <p>{t('tab.pa.instructions.item5')}</p>
               </div>
               
               {/* Botões de Ação Rápida */}
               <div className="flex items-center justify-between mb-2">
-                <span className="text-gray-300 text-sm font-medium">Ações Rápidas:</span>
+                <span className="text-gray-300 text-sm font-medium">{t('tab.pa.quick.title')}</span>
                 <button
                   onClick={() => setShowQuickActions(!showQuickActions)}
                   className="px-2 py-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 rounded text-xs flex items-center gap-1"
@@ -317,7 +319,7 @@ function PA({ data, onChange }) {
                   <svg className={`w-3 h-3 transition-transform ${showQuickActions ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
-                  {showQuickActions ? 'Esconder' : 'Mostrar'}
+                  {showQuickActions ? t('common.hide') : t('common.show')}
                 </button>
               </div>
               {showQuickActions && (
@@ -349,7 +351,7 @@ function PA({ data, onChange }) {
                     }}
                     className="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-lg transition-colors"
                   >
-                    ✓ Selecionar Padrão Profissional
+                    {t('tab.pa.quick.selectProfessional')}
                   </button>
                   
                   <button
@@ -379,7 +381,7 @@ function PA({ data, onChange }) {
                     }}
                     className="px-3 py-1.5 bg-gray-600 hover:bg-gray-700 text-white text-xs font-medium rounded-lg transition-colors"
                   >
-                    ✗ Limpar Todas as Opções
+                    {t('tab.pa.quick.clearAll')}
                   </button>
                 </div>
               )}
@@ -395,19 +397,19 @@ function PA({ data, onChange }) {
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                Especificações de Performance
+                {t('tab.pa.performance.title')}
               </h4>
               
               <div className="space-y-4">
                 {/* SPL e Uniformidade */}
                 <div className="bg-gradient-to-r from-green-500/10 to-green-600/10 border border-green-500/20 rounded-lg p-3">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-green-400 text-xs font-semibold bg-green-500/20 px-2 py-1 rounded">NÍVEIS</span>
-                    <span className="text-gray-100 font-medium">Especificações de Nível</span>
+                    <span className="text-green-400 text-xs font-semibold bg-green-500/20 px-2 py-1 rounded">{t('tab.pa.badge.levels')}</span>
+                    <span className="text-gray-100 font-medium">{t('tab.pa.performance.levelSpecs')}</span>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">SPL na Regie</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-1">{t('tab.pa.performance.splAtFOH')}</label>
                       <div className="flex gap-2">
                         <input
                           type="number"
@@ -429,7 +431,7 @@ function PA({ data, onChange }) {
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Uniformidade</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-1">{t('tab.pa.performance.uniformity')}</label>
                       <div className="flex gap-2">
                         <input
                           type="text"
@@ -453,8 +455,8 @@ function PA({ data, onChange }) {
                 {/* Resposta em Frequência */}
                 <div className="bg-gradient-to-r from-green-500/10 to-green-600/10 border border-green-500/20 rounded-lg p-3">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-green-400 text-xs font-semibold bg-green-500/20 px-2 py-1 rounded">FREQUÊNCIA</span>
-                    <span className="text-gray-100 font-medium">Resposta em Frequência</span>
+                    <span className="text-green-400 text-xs font-semibold bg-green-500/20 px-2 py-1 rounded">{t('tab.pa.badge.frequency')}</span>
+                    <span className="text-gray-100 font-medium">{t('tab.pa.performance.frequencyResponse')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <input
@@ -467,7 +469,7 @@ function PA({ data, onChange }) {
                       className="w-20 px-3 py-2 bg-dark-700 border border-green-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                       placeholder="40"
                     />
-                    <span className="text-gray-400 text-sm">Hz -</span>
+                    <span className="text-gray-400 text-sm">{t('unit.hz')} -</span>
                     <input
                       type="number"
                       value={formData.generalRequirements.performance.frequencyResponse.high}
@@ -478,7 +480,7 @@ function PA({ data, onChange }) {
                       className="w-20 px-3 py-2 bg-dark-700 border border-green-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                       placeholder="16000"
                     />
-                    <span className="text-gray-400 text-sm">Hz</span>
+                    <span className="text-gray-400 text-sm">{t('unit.hz')}</span>
                   </div>
                 </div>
 
@@ -533,36 +535,36 @@ function PA({ data, onChange }) {
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3" />
                 </svg>
-                Cobertura e Distribuição
+                {t('tab.pa.coverage.title')}
               </h4>
               
               <div className="space-y-4">
                 {/* Dimensões da Audiência */}
                 <div className="bg-gradient-to-r from-purple-500/10 to-purple-600/10 border border-purple-500/20 rounded-lg p-3">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-purple-400 text-xs font-semibold bg-purple-500/20 px-2 py-1 rounded">DIMENSÕES</span>
-                    <span className="text-gray-100 font-medium">Área de Cobertura</span>
+                    <span className="text-purple-400 text-xs font-semibold bg-purple-500/20 px-2 py-1 rounded">{t('tab.pa.badge.dimensions')}</span>
+                    <span className="text-gray-100 font-medium">{t('tab.pa.coverage.area')}</span>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Profundidade (m)</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-1">{t('tab.pa.coverage.depth')}</label>
                       <input
                         type="text"
                         value={formData.generalRequirements.coverage.audienceDepth}
                         onChange={(e) => handleNestedChange('generalRequirements', 'coverage', 'audienceDepth', e.target.value)}
                         className="w-full px-3 py-2 bg-dark-700 border border-purple-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
-                        placeholder="ex: 50"
+                        placeholder={t('tab.pa.coverage.depth.placeholder')}
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-1">Largura (m)</label>
+                      <label className="block text-sm font-medium text-gray-300 mb-1">{t('tab.pa.coverage.width')}</label>
                       <input
                         type="text"
                         value={formData.generalRequirements.coverage.audienceWidth}
                         onChange={(e) => handleNestedChange('generalRequirements', 'coverage', 'audienceWidth', e.target.value)}
                         className="w-full px-3 py-2 bg-dark-700 border border-purple-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
-                        placeholder="ex: 30"
+                        placeholder={t('tab.pa.coverage.width.placeholder')}
                       />
                     </div>
                   </div>
@@ -571,18 +573,18 @@ function PA({ data, onChange }) {
                 {/* Zonas de Delay */}
                 <div className="bg-gradient-to-r from-purple-500/10 to-purple-600/10 border border-purple-500/20 rounded-lg p-3">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-purple-400 text-xs font-semibold bg-purple-500/20 px-2 py-1 rounded">DELAY</span>
-                    <span className="text-gray-100 font-medium">Zonas de Delay</span>
+                    <span className="text-purple-400 text-xs font-semibold bg-purple-500/20 px-2 py-1 rounded">{t('tab.pa.badge.delay')}</span>
+                    <span className="text-gray-100 font-medium">{t('tab.pa.coverage.delayZones.title')}</span>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">Número de Zonas</label>
+                    <label className="block text-sm font-medium text-gray-300 mb-1">{t('tab.pa.coverage.delayZones.count')}</label>
                     <input
                       type="number"
                       min="0"
                       value={formData.generalRequirements.coverage.delayZones}
                       onChange={(e) => handleNestedChange('generalRequirements', 'coverage', 'delayZones', parseInt(e.target.value) || 0)}
                       className="w-full px-3 py-2 bg-dark-700 border border-purple-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
-                      placeholder="0"
+                      placeholder={t('common.zero')}
                     />
                   </div>
                 </div>
@@ -658,13 +660,13 @@ function PA({ data, onChange }) {
                   />
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-orange-400 text-xs font-semibold bg-orange-500/20 px-2 py-1 rounded">IMPRESCINDÍVEL</span>
-                      <span className="text-gray-100 font-medium">Montagem em Torres Layer</span>
+                      <span className="text-orange-400 text-xs font-semibold bg-orange-500/20 px-2 py-1 rounded">{t('tab.pa.badge.critical')}</span>
+                      <span className="text-gray-100 font-medium">{t('tab.pa.systemConfig.towerMounting')}</span>
                       {formData.generalRequirements.systemConfig.towerMounting && (
-                        <span className="text-green-400 text-xs">✓ Selecionado</span>
+                        <span className="text-green-400 text-xs">{t('common.selected')}</span>
                       )}
                     </div>
-                    <p className="text-gray-400 text-sm">Sistema deve ser montado em torres layer para posicionamento ideal</p>
+                    <p className="text-gray-400 text-sm">{t('tab.pa.systemConfig.towerMounting.desc')}</p>
                   </div>
                 </div>
               </div>
@@ -678,12 +680,12 @@ function PA({ data, onChange }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              Processamento e Controle
+              {t('tab.pa.processing.title')}
             </h4>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Processador de Sistema</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">{t('tab.pa.processing.processor')}</label>
                 <SearchableDropdown
                   options={[...SYSTEM_PROCESSORS.FREE, ...SYSTEM_PROCESSORS.PRO]}
                   value={formData.generalRequirements.processing.systemProcessor}
@@ -694,8 +696,8 @@ function PA({ data, onChange }) {
                       handleNestedChange('generalRequirements', 'processing', 'systemProcessor', '')
                     }
                   }}
-                  placeholder="Selecionar processador..."
-                  searchPlaceholder="Pesquisar processador..."
+                  placeholder={t('tab.pa.processing.selectProcessor')}
+                  searchPlaceholder={t('tab.pa.processing.searchProcessor')}
                   className="w-full"
                 />
               </div>
@@ -713,10 +715,10 @@ function PA({ data, onChange }) {
                     />
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-orange-400 text-xs font-semibold bg-orange-500/20 px-2 py-1 rounded">ESSENCIAL</span>
-                        <span className="text-gray-100 font-medium">PA Calibrado e Alinhado</span>
+                        <span className="text-orange-400 text-xs font-semibold bg-orange-500/20 px-2 py-1 rounded">{t('tab.pa.badge.essential')}</span>
+                        <span className="text-gray-100 font-medium">{t('tab.pa.processing.roomTuning')}</span>
                       </div>
-                      <p className="text-gray-400 text-sm">Sistema deve estar devidamente calibrado e alinhado para o espaço</p>
+                      <p className="text-gray-400 text-sm">{t('tab.pa.processing.roomTuning.desc')}</p>
                     </div>
                   </div>
                 </div>
@@ -724,17 +726,17 @@ function PA({ data, onChange }) {
 
               <div className="bg-gradient-to-r from-orange-500/10 to-orange-600/10 border border-orange-500/20 rounded-lg p-3">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-orange-400 text-xs font-semibold bg-orange-500/20 px-2 py-1 rounded">MEDIÇÃO</span>
-                  <span className="text-gray-100 font-medium">Sistema de Medição</span>
+                  <span className="text-orange-400 text-xs font-semibold bg-orange-500/20 px-2 py-1 rounded">{t('tab.pa.badge.measurement')}</span>
+                  <span className="text-gray-100 font-medium">{t('tab.pa.processing.measurement.title')}</span>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">Software de Medição</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">{t('tab.pa.processing.measurement.software')}</label>
                   <input
                     type="text"
                     value={formData.generalRequirements.processing.measurementSystem}
                     onChange={(e) => handleNestedChange('generalRequirements', 'processing', 'measurementSystem', e.target.value)}
                     className="w-full px-3 py-2 bg-dark-700 border border-orange-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
-                    placeholder="ex: SMAART, SIM, EASERA"
+                    placeholder={t('tab.pa.processing.measurement.placeholder')}
                   />
                 </div>
               </div>
@@ -749,7 +751,7 @@ function PA({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
           </svg>
-          Sistema Principal (LineArray) - Marcas e Modelos Aceites
+          {t('tab.pa.main.title')}
           <span className="text-red-400 text-sm">*</span>
         </h3>
         
@@ -757,7 +759,7 @@ function PA({ data, onChange }) {
           {/* Lista de sistemas aceites */}
           {formData.mainSystem.acceptedSystems.length > 0 && (
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-300">Sistemas Aceites:</label>
+              <label className="block text-sm font-medium text-gray-300">{t('tab.pa.main.accepted')}</label>
               <div className="space-y-2">
                 {formData.mainSystem.acceptedSystems.map((system, index) => (
                   <div key={index} className="flex items-center justify-between bg-dark-700 rounded-lg px-3 py-2">
@@ -768,7 +770,7 @@ function PA({ data, onChange }) {
                           ? 'bg-blue-500/20 text-blue-400' 
                           : 'bg-green-500/20 text-green-400'
                       }`}>
-                        {system.supplier === 'promoter' ? 'Promotor' : 'Banda'}
+                        {system.supplier === 'promoter' ? t('supplier.promoter') : t('supplier.band')}
                       </span>
                     </div>
                     <button
@@ -789,7 +791,7 @@ function PA({ data, onChange }) {
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Sistema de PA</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.pa.main.paSystem')}</label>
                 <SearchableDropdown
                   options={paEquipment}
                   value={formData.mainSystem.newBrand && formData.mainSystem.newModel ? 
@@ -821,20 +823,20 @@ function PA({ data, onChange }) {
                       onChange(newData)
                     }
                   }}
-                  placeholder="Selecionar sistema de PA..."
-                  searchPlaceholder="Pesquisar sistema..."
+                  placeholder={t('tab.pa.main.selectPa')}
+                  searchPlaceholder={t('tab.pa.main.searchPa')}
                   className="w-full"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Fornecedor</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.supplier')}</label>
                 <select
                   value={formData.mainSystem.supplier}
                   onChange={(e) => handleSystemChange('mainSystem', 'supplier', e.target.value)}
                   className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent"
                 >
-                  <option value="promoter">Fornecido pelo Promotor</option>
-                  <option value="band">Fornecido pela Banda</option>
+                  <option value="promoter">{t('supplier.promoter')}</option>
+                  <option value="band">{t('supplier.band')}</option>
                 </select>
               </div>
             </div>
@@ -844,7 +846,7 @@ function PA({ data, onChange }) {
                 disabled={!formData.mainSystem.newBrand.trim() || !formData.mainSystem.newModel.trim()}
                 className="w-full px-4 py-2 bg-accent-blue text-white rounded-lg hover:bg-accent-blue/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
               >
-                Adicionar
+                {t('common.add')}
               </button>
             </div>
           </div>
@@ -865,7 +867,7 @@ function PA({ data, onChange }) {
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
-            Subwoofers
+            {t('tab.pa.subs.title')}
           </h3>
         </div>
         
@@ -873,7 +875,7 @@ function PA({ data, onChange }) {
           <div className="space-y-4">
             {/* Tipos de montagem */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-3">Tipo de Montagem Preferido:</label>
+              <label className="block text-sm font-medium text-gray-300 mb-3">{t('tab.pa.subs.mounting.title')}</label>
               <div className="space-y-2">
                 <div className="flex items-center gap-3">
                   <input
@@ -884,7 +886,7 @@ function PA({ data, onChange }) {
                     onChange={() => handleConditionChange('mountingTypes', 'arcDelay', true)}
                     className="w-4 h-4 text-accent-green bg-dark-700 border-dark-600 focus:ring-accent-green focus:ring-2"
                   />
-                  <label htmlFor="arcDelay" className="text-gray-300">Arc Delay</label>
+                  <label htmlFor="arcDelay" className="text-gray-300">{t('tab.pa.subs.mounting.arcDelay')}</label>
                 </div>
                 <div className="flex items-center gap-3">
                   <input
@@ -895,7 +897,7 @@ function PA({ data, onChange }) {
                     onChange={() => handleConditionChange('mountingTypes', 'cardioide', true)}
                     className="w-4 h-4 text-accent-green bg-dark-700 border-dark-600 focus:ring-accent-green focus:ring-2"
                   />
-                  <label htmlFor="cardioide" className="text-gray-300">Cardioide</label>
+                  <label htmlFor="cardioide" className="text-gray-300">{t('tab.pa.subs.mounting.cardioid')}</label>
                 </div>
                 <div className="flex items-center gap-3">
                   <input
@@ -906,7 +908,7 @@ function PA({ data, onChange }) {
                     onChange={() => handleConditionChange('mountingTypes', 'endFire', true)}
                     className="w-4 h-4 text-accent-green bg-dark-700 border-dark-600 focus:ring-accent-green focus:ring-2"
                   />
-                  <label htmlFor="endFire" className="text-gray-300">End Fire</label>
+                  <label htmlFor="endFire" className="text-gray-300">{t('tab.pa.subs.mounting.endFire')}</label>
                 </div>
               </div>
             </div>
@@ -921,15 +923,15 @@ function PA({ data, onChange }) {
                   onChange={(e) => handleSystemChange('subwoofers', 'crossoverEnabled', e.target.checked)}
                   className="w-4 h-4 text-accent-green bg-dark-700 border-dark-600 rounded focus:ring-accent-green focus:ring-2"
                 />
-                <label htmlFor="crossoverEnabled" className="text-gray-300">Definir frequência de crossover</label>
+                <label htmlFor="crossoverEnabled" className="text-gray-300">{t('tab.pa.subs.crossover.enable')}</label>
               </div>
               
               {formData.subwoofers.crossoverEnabled && (
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm text-gray-400">
-                    <span>60 Hz</span>
-                    <span>{formData.subwoofers.crossoverFrequency} Hz</span>
-                    <span>100 Hz</span>
+                    <span>60 {t('unit.hz')}</span>
+                    <span>{formData.subwoofers.crossoverFrequency} {t('unit.hz')}</span>
+                    <span>100 {t('unit.hz')}</span>
                   </div>
                   <input
                     type="range"
@@ -945,13 +947,13 @@ function PA({ data, onChange }) {
 
             {/* Observações */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Observações</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.notes')}</label>
               <textarea
                 value={formData.subwoofers.notes}
                 onChange={(e) => handleSystemChange('subwoofers', 'notes', e.target.value)}
                 rows={3}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-green focus:border-transparent transition-all duration-200 resize-none"
-                placeholder="Observações sobre subwoofers..."
+                placeholder={t('tab.pa.subs.notes.placeholder')}
               />
             </div>
           </div>
@@ -972,31 +974,31 @@ function PA({ data, onChange }) {
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
-            Sistema In/Front-Fill
+            {t('tab.pa.frontfill.title')}
           </h3>
         </div>
         
         {formData.frontFillRequired && (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Cobertura a partir da primeira linha de público</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.pa.frontfill.coverage')}</label>
               <input
                 type="text"
                 value={formData.frontFillCoverage}
                 onChange={(e) => handleChange('frontFillCoverage', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200"
-                placeholder="ex: 5m"
+                placeholder={t('tab.pa.frontfill.coverage.placeholder')}
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Observações</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.notes')}</label>
               <textarea
                 value={formData.frontFillNotes}
                 onChange={(e) => handleChange('frontFillNotes', e.target.value)}
                 rows={3}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-200 resize-none"
-                placeholder="Observações sobre front fill..."
+                placeholder={t('tab.pa.frontfill.notes.placeholder')}
               />
             </div>
           </div>
@@ -1009,17 +1011,17 @@ function PA({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
-          Requisitos de Rigging
+          {t('tab.pa.rigging.title')}
         </h3>
         
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Notas Importantes</label>
+          <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.pa.rigging.notes')}</label>
           <textarea
             value={formData.riggingNotes}
             onChange={(e) => handleChange('riggingNotes', e.target.value)}
             rows={4}
             className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-200 resize-none"
-            placeholder="Notas importantes sobre rigging, pontos de fixação, capacidades de carga, etc..."
+            placeholder={t('tab.pa.rigging.placeholder')}
           />
         </div>
       </div>
@@ -1030,49 +1032,15 @@ function PA({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
-          Observações Gerais
+          {t('tab.pa.generalNotes.title')}
         </h3>
         <textarea
           value={formData.observacoes}
           onChange={(e) => handleChange('observacoes', e.target.value)}
           rows={4}
-          className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200 resize-none"
-          placeholder="Observações adicionais sobre o sistema PA, configurações especiais, requisitos técnicos, etc."
+          className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus-border-transparent transition-all duration-200 resize-none"
+          placeholder={t('tab.pa.generalNotes.placeholder')}
         />
       </div>
 
       <style>{`
-        .slider::-webkit-slider-thumb {
-          appearance: none;
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: #3b82f6;
-          cursor: pointer;
-          border: 2px solid #1e40af;
-        }
-        
-        .slider::-moz-range-thumb {
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: #3b82f6;
-          cursor: pointer;
-          border: 2px solid #1e40af;
-        }
-
-        select {
-          z-index: 10;
-          position: relative;
-        }
-
-        select option {
-          background-color: #374151;
-          color: #f3f4f6;
-        }
-      `}</style>
-    </div>
-  )
-}
-
-export default PA
