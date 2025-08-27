@@ -152,7 +152,8 @@ export const database = {
         .update(updates)
         .eq('id', riderId)
         .eq('user_id', userId)
-        .select()
+        .select('id, title, data, created_at, updated_at')
+        .single()
       return { data, error }
     },
 
