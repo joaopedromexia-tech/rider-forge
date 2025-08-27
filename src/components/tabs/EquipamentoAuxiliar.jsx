@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useRider } from '../../context/RiderContext'
+import { useI18n } from '../../context/I18nContext'
 import SearchableDropdown from '../SearchableDropdown'
 import { getEquipmentByCategory } from '../../data/equipmentLibrary'
 
 function EquipamentoAuxiliar({ data, onChange }) {
   const { isPro } = useRider()
+  const { t } = useI18n()
   const [showQuickConfig, setShowQuickConfig] = useState(false)
   const [formData, setFormData] = useState({
     talkbacks: {
@@ -137,9 +139,9 @@ function EquipamentoAuxiliar({ data, onChange }) {
       hasIEMs,
       hasWedges,
       needsTalkbacks: hasIEMs || hasWedges,
-      recommendation: hasIEMs ? 'Talkbacks essenciais para comunicação com músicos em IEMs' : 
-                     hasWedges ? 'Talkbacks recomendados para comunicação com músicos em wedges' : 
-                     'Talkbacks opcionais para comunicação básica'
+      recommendationKey: hasIEMs ? 'tab.aux.recommendation.iems' : 
+                         hasWedges ? 'tab.aux.recommendation.wedges' : 
+                         'tab.aux.recommendation.optional'
     }
   }
 
@@ -288,29 +290,29 @@ function EquipamentoAuxiliar({ data, onChange }) {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Quantidade</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.quantity')}</label>
             <input
               type="number"
               value={formData.talkbacks.quantidade}
               onChange={(e) => handleSystemChange('talkbacks', 'quantidade', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-              placeholder="ex: 4"
+              placeholder={t('tab.listen.placeholder.qty')}
               min="0"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Fornecedor</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.supplier')}</label>
             <select
               value={formData.talkbacks.supplier}
               onChange={(e) => handleSystemChange('talkbacks', 'supplier', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
             >
-              <option value="promoter">Fornecido pelo Promotor</option>
-              <option value="band">Fornecido pela Banda</option>
+              <option value="promoter">{t('supplier.promoter')}</option>
+              <option value="band">{t('supplier.band')}</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Modelo</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.model')}</label>
             <input
               type="text"
               value={formData.talkbacks.modelo}
@@ -338,17 +340,17 @@ function EquipamentoAuxiliar({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
           </svg>
-          Intercom
+          {t('tab.aux.intercom')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Quantidade</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.listen.quantity')}</label>
             <input
               type="number"
               value={formData.intercom.quantidade}
               onChange={(e) => handleSystemChange('intercom', 'quantidade', e.target.value)}
               className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-              placeholder="ex: 8"
+              placeholder={t('tab.listen.placeholder.qty')}
               min="0"
             />
           </div>
@@ -427,7 +429,7 @@ function EquipamentoAuxiliar({ data, onChange }) {
               type="text"
               value={formData.comunicacaoFohMon.observacoes}
               onChange={(e) => handleSystemChange('comunicacaoFohMon', 'observacoes', e.target.value)}
-              className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus-border-transparent transition-all duration-200"
+              className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
               placeholder={t('tab.aux.placeholder.observations')}
             />
           </div>
@@ -446,7 +448,7 @@ function EquipamentoAuxiliar({ data, onChange }) {
           value={formData.observacoes}
           onChange={(e) => handleChange('observacoes', e.target.value)}
           rows={4}
-          className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus-border-transparent transition-all duration-200 resize-none"
+          className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200 resize-none"
           placeholder={t('tab.aux.general.placeholder')}
         />
       </div>
