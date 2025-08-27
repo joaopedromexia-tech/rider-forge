@@ -180,6 +180,7 @@
   "tab.general.contacts.foh": "FOH (Front of House)",
   "tab.general.contacts.mon": "MON (Monitor)"
   ,
+  "supplier.label": "Supplier",
   "supplier.promoter": "Provided by Promoter",
   "supplier.band": "Provided by Band",
   "tab.input.title": "Input List",
@@ -475,7 +476,17 @@
   "tab.final.tips.priority.title": "Prioritize",
   "tab.final.tips.priority.desc": "Mention the most critical requirements first, then the secondary ones.",
   "tab.final.tips.context.title": "Include Context",
-  "tab.final.tips.context.desc": "Explain why certain requirements exist to help the tech team understand."
+  "tab.final.tips.context.desc": "Explain why certain requirements exist to help the tech team understand.",
+  "tab.final.templates.festival.title": "Festival",
+  "tab.final.templates.festival.content": "SCHEDULES:\n• Setup: [time]\n• Soundcheck: [time]\n• Show: [time]\n\nPOWER:\n• Electrical power requirements for equipment\n• Generator backup if necessary\n\nACCESS:\n• Backstage access time\n• Loading area for equipment\n• Parking for van/bus\n\nSPECIFIC REQUIREMENTS:\n• Specific PA configurations\n• Console presets\n• IEM configurations\n• Backing tracks or playbacks",
+  "tab.final.templates.sala.title": "Concert Hall",
+  "tab.final.templates.sala.content": "SCHEDULES:\n• Setup: [time]\n• Soundcheck: [time]\n• Show: [time]\n\nCONFIGURATIONS:\n• Specific console presets\n• PA configurations\n• IEM configurations\n• Backing tracks\n\nSPECIFIC REQUIREMENTS:\n• Artist-specific equipment\n• Monitor configurations\n• Notes about repertoire",
+  "tab.final.templates.acustico.title": "Acoustic Show",
+  "tab.final.templates.acustico.content": "SCHEDULES:\n• Setup: [time]\n• Soundcheck: [time]\n• Show: [time]\n\nREQUIREMENTS:\n• Specific acoustic equipment\n• Audio configurations for acoustic instruments\n• Venue access\n\nOBSERVATIONS:\n• Acoustic instruments (guitar, piano, etc.)\n• Microphone configurations\n• Backing tracks if necessary",
+  "tab.final.missing.schedule": "Setup/soundcheck schedules",
+  "tab.final.missing.power": "Power requirements",
+  "tab.final.missing.access": "Access information",
+  "tab.final.missing.specifics": "Specific requirements"
   ,
   "common.noResults": "No results found"
   ,
@@ -622,7 +633,16 @@
   "tab.monitor.compat.title": "Compatibility with Monitoring Systems",
   "tab.monitor.compat.needsIems": "• Configure IEMs in the \"Monitoring Systems\" tab",
   "tab.monitor.compat.needsWedges": "• Configure Wedges in the \"Monitoring Systems\" tab",
-  "tab.monitor.compat.needsSidefills": "• Configure Side Fills in the \"Monitoring Systems\" tab"
+  "tab.monitor.compat.needsSidefills": "• Configure Side Fills in the \"Monitoring Systems\" tab",
+  "tab.monitor.mix.label": "Mix",
+  "tab.monitor.sugg.leadVocal": "Lead Vocal",
+  "tab.monitor.sugg.guitar": "Guitar",
+  "tab.monitor.sugg.bass": "Bass",
+  "tab.monitor.sugg.drums": "Drums",
+  "tab.monitor.sugg.keyboard": "Keyboard",
+  "tab.monitor.sugg.backVocal": "Backing Vocals",
+  "tab.monitor.sugg.percussion": "Percussion",
+  "tab.monitor.sugg.saxophone": "Saxophone"
 }
 
 

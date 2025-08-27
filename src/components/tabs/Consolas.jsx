@@ -352,14 +352,13 @@ function Consolas({ data, onChange }) {
               <svg className={`w-4 h-4 transition-transform ${showSuggestions ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
-              {showSuggestions ? 'Esconder' : 'Mostrar'}
+              {showSuggestions ? t('common.hide') : t('common.show')}
             </button>
           </div>
           {showSuggestions && (
             <div className="space-y-2">
               <p className="text-gray-300 text-sm mb-3">
-                Consolas da mesma família permitem partilhar show files (quando suportado) e oferecem interface familiar. 
-                Algumas famílias (CL, dLive, SD, X32, Vi) suportam partilha de show files via software específico.
+                {t('tab.consoles.sugg.explainer')}
               </p>
               {fohSuggestions.map((suggestion, index) => (
                 <button
@@ -406,7 +405,7 @@ function Consolas({ data, onChange }) {
           <h4 className="text-lg font-medium text-gray-200 mb-4">{t('tab.consoles.preferred')}</h4>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-300 mb-2">Consola</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.console')}</label>
               <SearchableDropdown
                 options={consoleEquipment}
                 value={formData.foh.consolaPreferida.marca && formData.foh.consolaPreferida.modelo ? 
@@ -444,19 +443,19 @@ function Consolas({ data, onChange }) {
                     onChange(newData)
                   }
                 }}
-                placeholder="Selecionar consola..."
-                searchPlaceholder="Pesquisar consolas..."
+                placeholder={t('common.selectConsole')}
+                searchPlaceholder={t('common.searchConsoles')}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Fornecedor</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('supplier.label')}</label>
               <select
                 value={formData.foh.consolaPreferida.supplier}
                 onChange={(e) => handleFOHConsolaPreferidaChange('supplier', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
               >
-                <option value="promoter">Fornecido pelo Promotor</option>
-                <option value="band">Fornecido pela Banda</option>
+                <option value="promoter">{t('supplier.promoter')}</option>
+                <option value="band">{t('supplier.band')}</option>
               </select>
             </div>
             <div>
@@ -518,8 +517,8 @@ function Consolas({ data, onChange }) {
                       onChange(newData)
                     }
                   }}
-                  placeholder="Selecionar consola..."
-                  searchPlaceholder="Pesquisar consolas..."
+                  placeholder={t('common.selectConsole')}
+                  searchPlaceholder={t('common.searchConsoles')}
                 />
               </div>
               <div>
@@ -628,8 +627,8 @@ function Consolas({ data, onChange }) {
                     onChange(newData)
                   }
                 }}
-                placeholder="Selecionar consola..."
-                searchPlaceholder="Pesquisar consolas..."
+                                  placeholder={t('common.selectConsole')}
+                  searchPlaceholder={t('common.searchConsoles')}
               />
             </div>
             <div>
@@ -639,8 +638,8 @@ function Consolas({ data, onChange }) {
                 onChange={(e) => handleMONConsolaPreferidaChange('supplier', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-green focus:border-transparent transition-all duration-200"
               >
-                <option value="promoter">Fornecido pelo Promotor</option>
-                <option value="band">Fornecido pela Banda</option>
+                <option value="promoter">{t('supplier.promoter')}</option>
+                <option value="band">{t('supplier.band')}</option>
               </select>
             </div>
             <div>
@@ -702,8 +701,8 @@ function Consolas({ data, onChange }) {
                       onChange(newData)
                     }
                   }}
-                  placeholder="Selecionar consola..."
-                  searchPlaceholder="Pesquisar consolas..."
+                  placeholder={t('common.selectConsole')}
+                  searchPlaceholder={t('common.searchConsoles')}
                 />
               </div>
               <div>

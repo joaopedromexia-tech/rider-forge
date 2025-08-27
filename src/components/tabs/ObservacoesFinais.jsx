@@ -58,61 +58,16 @@ function ObservacoesFinais({ data, onChange }) {
   const getTemplateSuggestions = () => {
     const templates = {
       festival: {
-        title: 'Festival',
-        content: `HORÁRIOS:
-• Setup: [horário]
-• Soundcheck: [horário]
-• Show: [horário]
-
-ENERGIA:
-• Requisitos de energia elétrica para equipamentos
-• Backup de gerador se necessário
-
-ACESSO:
-• Horário de acesso ao backstage
-• Área de loading para equipamentos
-• Estacionamento para van/autocarro
-
-REQUISITOS ESPECÍFICOS:
-• Configurações específicas de PA
-• Presets de consola
-• Configurações de IEM
-• Backing tracks ou playbacks`
+        title: t('tab.final.templates.festival.title'),
+        content: t('tab.final.templates.festival.content')
       },
       sala: {
-        title: 'Sala de Concertos',
-        content: `HORÁRIOS:
-• Setup: [horário]
-• Soundcheck: [horário]
-• Show: [horário]
-
-CONFIGURAÇÕES:
-• Presets de consola específicos
-• Configurações de PA
-• Configurações de IEM
-• Backing tracks
-
-REQUISITOS ESPECÍFICOS:
-• Equipamentos específicos do artista
-• Configurações de monitor
-• Notas sobre o repertório`
+        title: t('tab.final.templates.sala.title'),
+        content: t('tab.final.templates.sala.content')
       },
       acustico: {
-        title: 'Show Acústico',
-        content: `HORÁRIOS:
-• Setup: [horário]
-• Soundcheck: [horário]
-• Show: [horário]
-
-REQUISITOS:
-• Equipamentos acústicos específicos
-• Configurações de áudio para instrumentos acústicos
-• Acesso ao local
-
-OBSERVAÇÕES:
-• Instrumentos acústicos (violão, piano, etc.)
-• Configurações de microfones
-• Backing tracks se necessário`
+        title: t('tab.final.templates.acustico.title'),
+        content: t('tab.final.templates.acustico.content')
       }
     }
     return templates
@@ -136,10 +91,10 @@ OBSERVAÇÕES:
     const validation = getObservationsValidation()
     const missing = []
     
-    if (!validation.hasHorarios) missing.push('Horários de setup/soundcheck')
-    if (!validation.hasEnergia) missing.push('Requisitos de energia')
-    if (!validation.hasAcesso) missing.push('Informações de acesso')
-    if (!validation.hasEspecificos) missing.push('Requisitos específicos')
+    if (!validation.hasHorarios) missing.push(t('tab.final.missing.schedule'))
+    if (!validation.hasEnergia) missing.push(t('tab.final.missing.power'))
+    if (!validation.hasAcesso) missing.push(t('tab.final.missing.access'))
+    if (!validation.hasEspecificos) missing.push(t('tab.final.missing.specifics'))
     
     return missing
   }
@@ -223,19 +178,19 @@ OBSERVAÇÕES:
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
             <div className="flex items-center gap-2">
               <div className={`w-3 h-3 rounded-full ${observationsValidation.hasHorarios ? 'bg-green-500' : 'bg-gray-500'}`}></div>
-              <span className="text-gray-300">Horários</span>
+              <span className="text-gray-300">{t('tab.final.tags.schedule')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className={`w-3 h-3 rounded-full ${observationsValidation.hasEnergia ? 'bg-green-500' : 'bg-gray-500'}`}></div>
-              <span className="text-gray-300">Energia</span>
+              <span className="text-gray-300">{t('tab.final.tags.power')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className={`w-3 h-3 rounded-full ${observationsValidation.hasAcesso ? 'bg-green-500' : 'bg-gray-500'}`}></div>
-              <span className="text-gray-300">Acesso</span>
+              <span className="text-gray-300">{t('tab.final.tags.access')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className={`w-3 h-3 rounded-full ${observationsValidation.hasEspecificos ? 'bg-green-500' : 'bg-gray-500'}`}></div>
-              <span className="text-gray-300">Específicos</span>
+              <span className="text-gray-300">{t('tab.final.tags.specifics')}</span>
             </div>
           </div>
         </div>

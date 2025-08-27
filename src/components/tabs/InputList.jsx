@@ -456,7 +456,7 @@ function InputList({ data, onChange }) {
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 border-b border-dark-700">{t('tab.input.table.phantom')}</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 border-b border-dark-700">
-                  Banda Fornece
+                  {t('tab.input.table.bandSupplies')}
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 border-b border-dark-700">
                   Ações

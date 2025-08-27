@@ -1,30 +1,30 @@
-# 🐛 Sistema de Reporte de Bugs - Rider Forge
+# 🐛 Bug Reporting System - Rider Forge
 
-## Visão Geral
+## Overview
 
-O sistema de reporte de bugs foi implementado de forma integrada com o Supabase, permitindo aos utilizadores reportarem problemas de forma fácil e eficiente. O sistema captura automaticamente informações do browser e contexto da aplicação.
+The bug reporting system has been implemented with Supabase integration, allowing users to report issues easily and efficiently. The system automatically captures browser information and application context.
 
-## Funcionalidades
+## Features
 
-### ✅ **Reporte Manual de Bugs**
-- Modal intuitivo para reporte de bugs
-- Campos para título, descrição e severidade
-- Captura automática de informações do browser
-- Suporte a utilizadores logados e anónimos
+### ✅ **Manual Bug Reporting**
+- Intuitive modal for bug reporting
+- Fields for title, description, and severity
+- Automatic browser information capture
+- Support for logged-in and anonymous users
 
-### ✅ **Reporte Automático de Erros**
-- ErrorBoundary integrado que captura erros automaticamente
-- Envio automático de reportes para bugs críticos
-- Informações detalhadas sobre o contexto do erro
+### ✅ **Automatic Error Reporting**
+- Integrated ErrorBoundary that captures errors automatically
+- Automatic submission of reports for critical bugs
+- Detailed information about error context
 
-### ✅ **Interface Flexível**
-- Botão flutuante configurável
-- Suporte a múltiplas posições (bottom-right, bottom-left, etc.)
-- Design responsivo e acessível
+### ✅ **Flexible Interface**
+- Configurable floating button
+- Support for multiple positions (bottom-right, bottom-left, etc.)
+- Responsive and accessible design
 
-## Estrutura da Base de Dados
+## Database Structure
 
-### Tabela `bug_reports`
+### `bug_reports` Table
 
 ```sql
 CREATE TABLE bug_reports (
@@ -43,49 +43,49 @@ CREATE TABLE bug_reports (
 );
 ```
 
-### Campos Capturados Automaticamente
+### Automatically Captured Fields
 
-- **browser_info**: Informações detalhadas do browser
-- **app_version**: Versão da aplicação
-- **page_url**: URL onde o erro ocorreu
-- **user_agent**: User agent do browser
-- **user_id**: ID do utilizador (se logado)
+- **browser_info**: Detailed browser information
+- **app_version**: Application version
+- **page_url**: URL where the error occurred
+- **user_agent**: Browser user agent
+- **user_id**: User ID (if logged in)
 
-## Componentes Principais
+## Main Components
 
 ### 1. `BugReportModal.jsx`
-Modal principal para reporte de bugs com:
-- Formulário completo
-- Validação de campos
-- Feedback visual
-- Integração com Supabase
+Main modal for bug reporting with:
+- Complete form
+- Field validation
+- Visual feedback
+- Supabase integration
 
 ### 2. `BugReportButton.jsx`
-Botão flutuante configurável:
-- Posições: bottom-right, bottom-left, top-right, top-left
-- Variantes: floating, inline
-- Opção de mostrar/esconder label
+Configurable floating button:
+- Positions: bottom-right, bottom-left, top-right, top-left
+- Variants: floating, inline
+- Option to show/hide label
 
 ### 3. `useBugReport.js`
-Hook personalizado para:
-- Submissão programática de bugs
-- Reporte automático de erros
-- Gestão de estado de submissão
+Custom hook for:
+- Programmatic bug submission
+- Automatic error reporting
+- Submission state management
 
-## Como Usar
+## How to Use
 
-### 1. **Botão Flutuante (Recomendado)**
+### 1. **Floating Button (Recommended)**
 ```jsx
 import BugReportButton from './components/BugReportButton'
 
-// No seu componente principal
+// In your main component
 <BugReportButton 
   position="bottom-right"
   showLabel={false}
 />
 ```
 
-### 2. **Hook Personalizado**
+### 2. **Custom Hook**
 ```jsx
 import { useBugReport } from './hooks/useBugReport'
 
@@ -96,26 +96,26 @@ function MyComponent() {
     try {
       await submitErrorReport(error, { component: 'MyComponent' })
     } catch (err) {
-      console.error('Erro ao reportar bug:', err)
+      console.error('Error reporting bug:', err)
     }
   }
 
   const handleManualReport = async () => {
     try {
       await submitBugReport({
-        title: 'Problema específico',
-        description: 'Descrição detalhada...',
+        title: 'Specific problem',
+        description: 'Detailed description...',
         severity: 'medium'
       })
     } catch (err) {
-      console.error('Erro ao reportar bug:', err)
+      console.error('Error reporting bug:', err)
     }
   }
 }
 ```
 
-### 3. **ErrorBoundary Integrado**
-O ErrorBoundary já está configurado para capturar erros automaticamente. Apenas certifique-se de que está a envolver a sua aplicação:
+### 3. **Integrated ErrorBoundary**
+The ErrorBoundary is already configured to capture errors automatically. Just make sure it wraps your application:
 
 ```jsx
 import ErrorBoundary from './components/ErrorBoundary'
@@ -123,73 +123,73 @@ import ErrorBoundary from './components/ErrorBoundary'
 function App() {
   return (
     <ErrorBoundary>
-      {/* Sua aplicação */}
+      {/* Your application */}
     </ErrorBoundary>
   )
 }
 ```
 
-## Traduções
+## Translations
 
-O sistema suporta português e inglês. As traduções estão em:
+The system supports Portuguese and English. Translations are in:
 - `src/locales/pt.json`
 - `src/locales/en.json`
 
-### Chaves de Tradução
+### Translation Keys
 ```json
 {
-  "bugReport.title": "Reportar Bug",
-  "bugReport.titleLabel": "Título",
-  "bugReport.descriptionLabel": "Descrição",
-  "bugReport.severityLabel": "Severidade",
-  "bugReport.submit": "Enviar Reporte",
-  "bugReport.success": "Bug reportado com sucesso!",
-  "bugReport.error": "Erro ao enviar reporte."
+  "bugReport.title": "Report Bug",
+  "bugReport.titleLabel": "Title",
+  "bugReport.descriptionLabel": "Description",
+  "bugReport.severityLabel": "Severity",
+  "bugReport.submit": "Submit Report",
+  "bugReport.success": "Bug reported successfully!",
+  "bugReport.error": "Error sending report."
 }
 ```
 
-## Configuração
+## Configuration
 
-### 1. **Executar SQL no Supabase**
-Execute o script `supabase-setup.sql` no SQL Editor do Supabase para criar a tabela e políticas de segurança.
+### 1. **Run SQL in Supabase**
+Execute the `supabase-setup.sql` script in the Supabase SQL Editor to create the table and security policies.
 
-### 2. **Variáveis de Ambiente**
-Certifique-se de que as variáveis do Supabase estão configuradas:
+### 2. **Environment Variables**
+Make sure Supabase variables are configured:
 ```env
-VITE_SUPABASE_URL=sua_url_do_supabase
-VITE_SUPABASE_ANON_KEY=sua_chave_anonima
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_anon_key
 ```
 
-### 3. **Políticas de Segurança**
-O sistema já inclui políticas RLS configuradas:
-- Qualquer pessoa pode criar bug reports
-- Utilizadores logados podem ver os seus próprios reports
-- Utilizadores logados podem atualizar os seus próprios reports
+### 3. **Security Policies**
+The system already includes configured RLS policies:
+- Anyone can create bug reports
+- Logged-in users can view their own reports
+- Logged-in users can update their own reports
 
-## Monitorização
+## Monitoring
 
-### Dashboard do Supabase
-Aceda ao dashboard do Supabase para ver os bug reports:
-1. Vá para o seu projeto no Supabase
-2. Navegue para "Table Editor"
-3. Selecione a tabela `bug_reports`
-4. Veja os reports em tempo real
+### Supabase Dashboard
+Access the Supabase dashboard to view bug reports:
+1. Go to your Supabase project
+2. Navigate to "Table Editor"
+3. Select the `bug_reports` table
+4. View reports in real-time
 
-### Filtros Úteis
+### Useful Filters
 ```sql
--- Ver apenas reports críticos
+-- View only critical reports
 SELECT * FROM bug_reports WHERE severity = 'critical' ORDER BY created_at DESC;
 
--- Ver reports de um utilizador específico
+-- View reports from a specific user
 SELECT * FROM bug_reports WHERE user_id = 'user_uuid' ORDER BY created_at DESC;
 
--- Ver reports dos últimos 7 dias
+-- View reports from the last 7 days
 SELECT * FROM bug_reports WHERE created_at > NOW() - INTERVAL '7 days' ORDER BY created_at DESC;
 ```
 
-## Personalização
+## Customization
 
-### Estilo do Botão
+### Button Styling
 ```jsx
 <BugReportButton 
   position="bottom-left"
@@ -199,8 +199,8 @@ SELECT * FROM bug_reports WHERE created_at > NOW() - INTERVAL '7 days' ORDER BY 
 />
 ```
 
-### Versão da App
-Modifique a função `getAppVersion()` em `useBugReport.js` para usar a versão real da sua aplicação:
+### App Version
+Modify the `getAppVersion()` function in `useBugReport.js` to use your application's real version:
 
 ```js
 const getAppVersion = () => {
@@ -210,44 +210,44 @@ const getAppVersion = () => {
 
 ## Troubleshooting
 
-### Problema: Erro ao enviar reporte
-**Solução**: Verifique se:
-1. As variáveis do Supabase estão configuradas
-2. A tabela `bug_reports` foi criada
-3. As políticas RLS estão ativas
+### Problem: Error sending report
+**Solution**: Check if:
+1. Supabase variables are configured
+2. The `bug_reports` table was created
+3. RLS policies are active
 
-### Problema: Botão não aparece
-**Solução**: Verifique se:
-1. O componente está importado corretamente
-2. Não há conflitos de z-index
-3. O componente está renderizado no DOM
+### Problem: Button doesn't appear
+**Solution**: Check if:
+1. Component is imported correctly
+2. There are no z-index conflicts
+3. Component is rendered in the DOM
 
-### Problema: Traduções não funcionam
-**Solução**: Verifique se:
-1. As chaves de tradução estão nos arquivos de idioma
-2. O contexto de i18n está configurado
-3. O idioma está definido corretamente
+### Problem: Translations don't work
+**Solution**: Check if:
+1. Translation keys are in the language files
+2. i18n context is configured
+3. Language is set correctly
 
-## Próximos Passos
+## Next Steps
 
-### Funcionalidades Futuras
-- [ ] Dashboard de administração para gestão de bugs
-- [ ] Notificações por email para bugs críticos
-- [ ] Integração com GitHub Issues
-- [ ] Sistema de priorização automática
-- [ ] Relatórios e analytics
+### Future Features
+- [ ] Administration dashboard for bug management
+- [ ] Email notifications for critical bugs
+- [ ] GitHub Issues integration
+- [ ] Automatic prioritization system
+- [ ] Reports and analytics
 
-### Melhorias Sugeridas
-- [ ] Screenshots automáticos
-- [ ] Captura de console logs
-- [ ] Integração com Sentry
-- [ ] Sistema de feedback para utilizadores
-- [ ] Categorização automática de bugs
+### Suggested Improvements
+- [ ] Automatic screenshots
+- [ ] Console logs capture
+- [ ] Sentry integration
+- [ ] User feedback system
+- [ ] Automatic bug categorization
 
-## Suporte
+## Support
 
-Para questões sobre o sistema de reporte de bugs, consulte:
-1. Esta documentação
-2. Logs do console do browser
-3. Dashboard do Supabase
-4. Código fonte dos componentes
+For questions about the bug reporting system, consult:
+1. This documentation
+2. Browser console logs
+3. Supabase dashboard
+4. Component source code
