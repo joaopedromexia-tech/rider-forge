@@ -21,6 +21,10 @@
   "home.pricing.desc": "Compare Free and Pro plans to find what best fits your needs",
   "home.pricing.cta": "View Pricing",
   "home.footer": "Professional tool for creating technical riders",
+  "home.seo.keywords": "technical rider, musical rider, musical equipment, sound technician, music production, rider forge, create rider, professional rider",
+
+  "riders.seo.description": "Manage all your technical riders in one place. View, edit, export and organize professional riders with ease.",
+  "riders.seo.keywords": "rider dashboard, manage riders, technical riders, export riders, organize riders, rider forge dashboard",
 
   "bugReport.title": "Report Bug",
   "bugReport.titleLabel": "Title",

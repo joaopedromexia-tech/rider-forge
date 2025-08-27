@@ -6,6 +6,9 @@
   "display": "standalone",
   "background_color": "#0b1020",
   "theme_color": "#1e90ff",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": ["productivity", "music", "utilities"],
   "icons": [
     {
       "src": "/vite.svg",

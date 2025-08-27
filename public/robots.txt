@@ -4,12 +4,26 @@ Allow: /
 # Sitemap
 Sitemap: https://www.riderforge.app/sitemap.xml
 
-# Allow all pages
-Allow: /index.html
-Allow: /simple.html
-Allow: /test.html
+# Crawl-delay para ser respeitoso com o servidor
+Crawl-delay: 1
 
-# Disallow API routes
+# Permitir indexação de todas as páginas públicas
+Allow: /pricing
+Allow: /dashboard
+
+# Bloquear páginas de administração ou sensíveis (se existirem)
+Disallow: /admin/
 Disallow: /api/
-Disallow: /src/
-Disallow: /node_modules/
+Disallow: /private/
+
+# Permitir recursos estáticos
+Allow: /images/
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.gif
+Allow: /*.svg
+Allow: /*.ico

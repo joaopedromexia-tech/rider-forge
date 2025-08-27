@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
+import { HelmetProvider } from 'react-helmet-async'
 import { I18nProvider, useI18n } from './context/I18nContext'
 import { EquipmentProvider } from './context/EquipmentContext'
 import { UnitsProvider } from './context/UnitsContext'
@@ -14,6 +15,7 @@ import DemoButton from './components/DemoButton'
 import LoginModal from './components/auth/LoginModal'
 import BugReportButton from './components/BugReportButton'
 import ProStatusBadge from './components/ProStatusBadge'
+import SEO from './components/SEO'
 
 // Componente interno que usa o contexto de autenticação
 function AppContent() {
@@ -81,7 +83,19 @@ function AppContent() {
   return (
     <div className="App">
       {currentView === 'home' && (
-        <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800">
+        <>
+          <Helmet>
+            <title>{t('app.title')} - {t('app.subtitle')}</title>
+            <meta name="description" content={t('app.subtitle')} />
+            <meta name="keywords" content={t('home.seo.keywords')} />
+            <meta property="og:title" content={`${t('app.title')} - ${t('app.subtitle')}`} />
+            <meta property="og:description" content={t('app.subtitle')} />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="https://www.riderforge.app" />
+            <meta name="twitter:title" content={`${t('app.title')} - ${t('app.subtitle')}`} />
+            <meta name="twitter:description" content={t('app.subtitle')} />
+          </Helmet>
+          <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
             {/* Header */}
             <div className="text-center mb-12 sm:mb-16 lg:mb-20">
@@ -92,12 +106,19 @@ function AppContent() {
                   <option value="pt">PT</option>
                   <option value="en">EN</option>
                 </select>
-                <button 
-                  onClick={handleNavigateToPricing}
-                  className="transition-transform hover:scale-105"
-                >
-                  <ProStatusBadge />
-                </button>
+                {!isProUser && (
+                  <button 
+                    onClick={handleNavigateToPricing}
+                    className="transition-transform hover:scale-105"
+                  >
+                    <ProStatusBadge />
+                  </button>
+                )}
+                {isProUser && (
+                  <div className="transition-transform hover:scale-105">
+                    <ProStatusBadge />
+                  </div>
+                )}
               </div>
             </div>
             
@@ -197,24 +218,26 @@ function AppContent() {
               )}
             </div>
 
-            {/* Botão de Pricing */}
-            <div className="mt-12 sm:mt-16 mb-8">
-              <div className="bg-gradient-to-r from-blue-600/10 to-indigo-600/10 border border-blue-500/30 rounded-2xl p-6 sm:p-8 text-center">
-                <div className="max-w-2xl mx-auto">
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">{t('home.pricing.title')}</h2>
-                  <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">{t('home.pricing.desc')}</p>
-                  <button
-                    onClick={handleNavigateToPricing}
-                    className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold px-12 py-4 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-xl text-lg transform hover:scale-105"
-                  >
-                    <svg className="w-6 h-6 inline mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                    </svg>
-                    {t('home.pricing.cta')}
-                  </button>
+            {/* Botão de Pricing - Oculto para usuários Pro */}
+            {!isProUser && (
+              <div className="mt-12 sm:mt-16 mb-8">
+                <div className="bg-gradient-to-r from-blue-600/10 to-indigo-600/10 border border-blue-500/30 rounded-2xl p-6 sm:p-8 text-center">
+                  <div className="max-w-2xl mx-auto">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">{t('home.pricing.title')}</h2>
+                    <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">{t('home.pricing.desc')}</p>
+                    <button
+                      onClick={handleNavigateToPricing}
+                      className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold px-12 py-4 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-xl text-lg transform hover:scale-105"
+                    >
+                      <svg className="w-6 h-6 inline mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                      </svg>
+                      {t('home.pricing.cta')}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Botão de Upgrade para Pro no fundo da página */}
             {hasUser && hasUserAccount && !isProUser && (
@@ -244,6 +267,7 @@ function AppContent() {
             </div>
           </div>
         </div>
+        </>
       )}
       
       {currentView === 'form' && (
@@ -308,7 +332,10 @@ function App() {
         <EquipmentProvider>
           <UnitsProvider>
             <RiderProvider>
-              <AppContent />
+              <HelmetProvider>
+                <SEO />
+                <AppContent />
+              </HelmetProvider>
             </RiderProvider>
           </UnitsProvider>
         </EquipmentProvider>

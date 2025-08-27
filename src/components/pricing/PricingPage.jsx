@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { STRIPE_CONFIG, useStripeCheckout } from '../../config/stripe'
 import LoginModal from '../auth/LoginModal'
@@ -10,6 +10,13 @@ const PricingPage = ({ onBack }) => {
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [loading, setLoading] = useState(false)
   const { t } = useI18n()
+
+  // Redirecionar usuários Pro de volta para a página inicial
+  useEffect(() => {
+    if (isPro && onBack) {
+      onBack()
+    }
+  }, [isPro, onBack])
 
   const handleUpgrade = async () => {
     if (!user) {

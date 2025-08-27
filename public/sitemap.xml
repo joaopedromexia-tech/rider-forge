@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Página Principal -->
   <url>
     <loc>https://www.riderforge.app/</loc>
-    <lastmod>2024-12-19</lastmod>
+    <lastmod>2024-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.riderforge.app/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://www.riderforge.app/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.riderforge.app/" />
   </url>
+  
+  <!-- Página de Pricing -->
   <url>
-    <loc>https://www.riderforge.app/simple.html</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://www.riderforge.app/pricing</loc>
+    <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.riderforge.app/pricing?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://www.riderforge.app/pricing?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.riderforge.app/pricing" />
   </url>
+  
+  <!-- Dashboard (página protegida) -->
   <url>
-    <loc>https://www.riderforge.app/test.html</loc>
-    <lastmod>2024-12-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://www.riderforge.app/dashboard</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.riderforge.app/dashboard?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://www.riderforge.app/dashboard?lang=en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.riderforge.app/dashboard" />
   </url>
+  
 </urlset>
