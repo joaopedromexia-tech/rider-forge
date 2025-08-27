@@ -1,11 +1,13 @@
 import React from 'react'
 import { View, Text, StyleSheet } from '@react-pdf/renderer'
+import { getPDFTranslation } from '../translations.ts'
 
 export interface SectionProps {
   title: string
   accentColor?: string
   children?: React.ReactNode
   bullets?: string[]
+  language?: string
 }
 
 const TOKENS = {
@@ -60,7 +62,8 @@ export const BulletList: React.FC<{ items: string[] }> = ({ items }) => (
   </View>
 )
 
-export const Section: React.FC<SectionProps> = ({ title, accentColor = TOKENS.colors.accent, children, bullets }) => {
+export const Section: React.FC<SectionProps> = ({ title, accentColor = TOKENS.colors.accent, children, bullets, language = 'pt' }) => {
+  const suggested = getPDFTranslation(language, 'texts', 'suggestedBrandsModels') || 'Marcas e modelos sugeridos'
   return (
     <View style={styles.container}>
       <View style={styles.titleRow} wrap={false}>
@@ -69,7 +72,7 @@ export const Section: React.FC<SectionProps> = ({ title, accentColor = TOKENS.co
       </View>
       {bullets && bullets.length ? (
         <View>
-          <Text style={{ fontWeight: 'bold', marginBottom: TOKENS.spacing.xs }}>Marcas e modelos sugeridos</Text>
+          <Text style={{ fontWeight: 'bold', marginBottom: TOKENS.spacing.xs }}>{suggested}</Text>
           <BulletList items={bullets} />
         </View>
       ) : null}

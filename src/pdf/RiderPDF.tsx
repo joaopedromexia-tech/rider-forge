@@ -5,6 +5,7 @@ import { Cover } from './components/Cover'
 import { Section, BulletList } from './components/Section'
 import { Footer as PdfFooter } from './components/Footer'
 import { STAND_OPTIONS } from '../data/equipmentLibrary.js'
+import { getPDFTranslation } from './translations.ts'
 
 type RiderPDFProps = {
   rider: any,
@@ -206,11 +207,12 @@ const createStyles = (colorTheme: string) => {
   })
 }
 
-const formatDate = (dateString?: string) => {
+const formatDate = (dateString?: string, language = 'pt') => {
   if (!dateString) return ''
   try {
     const date = new Date(dateString)
-    return new Intl.DateTimeFormat('pt-PT', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(date)
+    const locale = language === 'en' ? 'en-US' : 'pt-PT'
+    return new Intl.DateTimeFormat(locale, { day: '2-digit', month: '2-digit', year: 'numeric' }).format(date)
   } catch {
     return String(dateString)
   }
@@ -283,8 +285,15 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
     i.phantom ? 'Sim' : 'Não'
   ])
 
-  const mixTipo: Record<string, string> = { iem: 'IEM', wedge: 'Wedge', sidefill: 'Side Fill' }
-  const mixFormato: Record<string, string> = { mono: 'Mono', stereo: 'Stereo' }
+  const mixTipo: Record<string, string> = { 
+    iem: getPDFTranslation(language, 'mixTypes', 'iem'), 
+    wedge: getPDFTranslation(language, 'mixTypes', 'wedge'), 
+    sidefill: getPDFTranslation(language, 'mixTypes', 'sidefill') 
+  }
+  const mixFormato: Record<string, string> = { 
+    mono: getPDFTranslation(language, 'formats', 'mono'), 
+    stereo: getPDFTranslation(language, 'formats', 'stereo') 
+  }
 
   const computeMixNumber = (mixes: any[], idx: number) => {
     let channelNumber = 1
@@ -347,24 +356,23 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
     <Page key={`p-${i}-capa`} size="A4" style={styles.page}>
       <Cover
         logoDataUrl={proBranding?.logoDataUrl}
-        title={dados.artista || 'Artista'}
+        title={dados.artista || getPDFTranslation(language, 'texts', 'defaultArtist')}
         // Remove local/data da capa conforme pedido
         subtitle={undefined}
         imageDataUrl={dados?.imagemCapa?.data}
         contacts={{ roadManager: dados.roadManager, foh: dados.foh, mon: dados.mon }}
         version={dados.versaoRider}
         tourYear={dados.anoTour}
+        language={language}
       />
       {/* Nota sobre equipamento da banda - só aparece se há equipamento da banda e não há observações finais */}
       {hasBandEquipment() && !hasObs && (
         <View style={{ marginTop: TOKENS.spacing.md, padding: TOKENS.spacing.sm, backgroundColor: styles.zebra.backgroundColor, borderLeft: `3px solid ${theme.accent}`, borderRadius: 4 }}>
           <Text style={{ fontWeight: 'bold', marginBottom: TOKENS.spacing.xs, color: theme.accent }}>
-            ⚠️ Equipamento da Banda
+            {getPDFTranslation(language, 'texts', 'bandEquipment')}
           </Text>
           <Text style={{ fontSize: 10, lineHeight: 1.3, color: theme.textSecondary }}>
-            Alguns equipamentos especificados neste rider são fornecidos pela banda. 
-            Por favor, confirme com a equipa técnica da banda quais equipamentos serão transportados 
-            e quais necessitam de ser fornecidos pelo promotor/empresa de aluguer.
+            {getPDFTranslation(language, 'texts', 'bandEquipmentNote')}
           </Text>
         </View>
       )}
@@ -372,8 +380,8 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
       <PdfFooter
         render={({ pageNumber, totalPages }) => (
           options?.customFooter && options.customFooter.trim()
-            ? `Página ${pageNumber} de ${totalPages} • Rider Forge • ${options.customFooter.trim()}`
-            : `Página ${pageNumber} de ${totalPages} • Rider Forge`
+            ? `${getPDFTranslation(language, 'texts', 'page')} ${pageNumber} ${getPDFTranslation(language, 'texts', 'of')} ${totalPages} • ${getPDFTranslation(language, 'texts', 'riderForge')} • ${options.customFooter.trim()}`
+            : `${getPDFTranslation(language, 'texts', 'page')} ${pageNumber} ${getPDFTranslation(language, 'texts', 'of')} ${totalPages} • ${getPDFTranslation(language, 'texts', 'riderForge')}`
         )}
       />
     </Page>
@@ -385,14 +393,15 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
       <Page key={`p-${i}-secs`} size="A4" style={styles.page}>
         {hasPA && (
           <Section
-            title="PA"
+            title={getPDFTranslation(language, 'sections', 'pa')}
+            language={language}
             bullets={Array.isArray(pa?.mainSystem?.acceptedSystems) ? pa.mainSystem.acceptedSystems.map((system: any) => {
               if (typeof system === 'string') return system
               if (system && typeof system === 'object' && system.marca && system.modelo) {
-                const supplierText = system.supplier === 'band' ? ' (Fornecido pela banda)' : ''
+                const supplierText = system.supplier === 'band' ? getPDFTranslation(language, 'texts', 'providedByBand') : ''
                 return `${system.marca} ${system.modelo}${supplierText}`
               }
-              return 'Sistema não especificado'
+              return getPDFTranslation(language, 'texts', 'systemNotSpecified')
             }) : []}
           >
             {(() => {
@@ -402,108 +411,108 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
               const proc = pa?.generalRequirements?.processing || {}
               const subs = pa?.subwoofers || {}
 
-              const yesNo = (v: any) => (v ? 'Sim' : 'Não')
+              const yesNo = (v: any) => (v ? getPDFTranslation(language, 'texts', 'yes') : getPDFTranslation(language, 'texts', 'no'))
 
               const perfItems: string[] = []
-              if (perf?.splAtFOH) perfItems.push(`• SPL na Régie: ${perf.splAtFOH} ${perf.splUnit || ''}`)
-              if (perf?.uniformity) perfItems.push(`• Uniformidade: ${perf.uniformity} ${perf.uniformityUnit || ''}`)
-              if (perf?.frequencyResponse?.low || perf?.frequencyResponse?.high) perfItems.push(`• Resposta em frequência: ${perf.frequencyResponse?.low || '?'}–${perf.frequencyResponse?.high || '?'} ${perf.frequencyResponse?.unit || ''}`)
-              if (typeof perf?.phaseAlignment === 'boolean' && perf.phaseAlignment) perfItems.push(`• Sistemas alinhados em fase`)
-              if (typeof perf?.noiseFree === 'boolean' && perf.noiseFree) perfItems.push(`• Sistemas isentos de ruído`)
+              if (perf?.splAtFOH) perfItems.push(`• ${getPDFTranslation(language, 'texts', 'splAtFOH')} ${perf.splAtFOH} ${perf.splUnit || ''}`)
+              if (perf?.uniformity) perfItems.push(`• ${getPDFTranslation(language, 'texts', 'uniformity')} ${perf.uniformity} ${perf.uniformityUnit || ''}`)
+              if (perf?.frequencyResponse?.low || perf?.frequencyResponse?.high) perfItems.push(`• ${getPDFTranslation(language, 'texts', 'frequencyResponse')} ${perf.frequencyResponse?.low || '?'}–${perf.frequencyResponse?.high || '?'} ${perf.frequencyResponse?.unit || ''}`)
+              if (typeof perf?.phaseAlignment === 'boolean' && perf.phaseAlignment) perfItems.push(`• ${getPDFTranslation(language, 'texts', 'phaseAligned')}`)
+              if (typeof perf?.noiseFree === 'boolean' && perf.noiseFree) perfItems.push(`• ${getPDFTranslation(language, 'texts', 'noiseFree')}`)
 
               const sysItems: string[] = []
-              if (typeof sys?.lineArrayRequired === 'boolean' && sys.lineArrayRequired) sysItems.push(`• Sistema Line Array (OBRIGATÓRIO)`)
-              if (typeof sys?.suspensionRequired === 'boolean' && sys.suspensionRequired) sysItems.push(`• Sistema sempre suspenso (OBRIGATÓRIO)`)
-              if (typeof sys?.towerMounting === 'boolean' && sys.towerMounting) sysItems.push(`• Montagem em torres layer (IMPRESCINDÍVEL)`)
+              if (typeof sys?.lineArrayRequired === 'boolean' && sys.lineArrayRequired) sysItems.push(`• ${getPDFTranslation(language, 'texts', 'lineArrayRequired')}`)
+              if (typeof sys?.suspensionRequired === 'boolean' && sys.suspensionRequired) sysItems.push(`• ${getPDFTranslation(language, 'texts', 'suspensionRequired')}`)
+              if (typeof sys?.towerMounting === 'boolean' && sys.towerMounting) sysItems.push(`• ${getPDFTranslation(language, 'texts', 'towerMounting')}`)
 
               const covItems: string[] = []
-              if (cov?.audienceDepth) covItems.push(`Profundidade: ${cov.audienceDepth} m`)
-              if (cov?.audienceWidth) covItems.push(`Largura: ${cov.audienceWidth} m`)
-              if (typeof cov?.balconyCoverage === 'boolean') covItems.push(`Cobertura de balcão: ${yesNo(cov.balconyCoverage)}`)
-              if (typeof cov?.underBalcony === 'boolean') covItems.push(`Cobertura sob balcão: ${yesNo(cov.underBalcony)}`)
-              if (typeof cov?.delayZones === 'number') covItems.push(`Zonas de delay: ${cov.delayZones}`)
-              if (cov?.coverageNotes) covItems.push(`Notas: ${cov.coverageNotes}`)
+              if (cov?.audienceDepth) covItems.push(`${getPDFTranslation(language, 'texts', 'depth')} ${cov.audienceDepth} ${getPDFTranslation(language, 'texts', 'meters')}`)
+              if (cov?.audienceWidth) covItems.push(`${getPDFTranslation(language, 'texts', 'width')} ${cov.audienceWidth} ${getPDFTranslation(language, 'texts', 'meters')}`)
+              if (typeof cov?.balconyCoverage === 'boolean') covItems.push(`${getPDFTranslation(language, 'texts', 'balconyCoverage')} ${yesNo(cov.balconyCoverage)}`)
+              if (typeof cov?.underBalcony === 'boolean') covItems.push(`${getPDFTranslation(language, 'texts', 'underBalcony')} ${yesNo(cov.underBalcony)}`)
+              if (typeof cov?.delayZones === 'number') covItems.push(`${getPDFTranslation(language, 'texts', 'delayZones')} ${cov.delayZones}`)
+              if (cov?.coverageNotes) covItems.push(`${getPDFTranslation(language, 'texts', 'observations')}: ${cov.coverageNotes}`)
 
               const procItems: string[] = []
-              if (proc?.systemProcessor) procItems.push(`Processador: ${proc.systemProcessor}`)
-              if (typeof proc?.roomTuning === 'boolean') procItems.push(`Room tuning: ${yesNo(proc.roomTuning)}`)
-              if (typeof proc?.autoAlignment === 'boolean') procItems.push(`Auto-alinhamento: ${yesNo(proc.autoAlignment)}`)
-              if (proc?.measurementSystem) procItems.push(`Sistema de medição: ${proc.measurementSystem}`)
-              if (proc?.processingNotes) procItems.push(`Notas: ${proc.processingNotes}`)
+              if (proc?.systemProcessor) procItems.push(`${getPDFTranslation(language, 'texts', 'processor')} ${proc.systemProcessor}`)
+              if (typeof proc?.roomTuning === 'boolean') procItems.push(`${getPDFTranslation(language, 'texts', 'roomTuning')}: ${yesNo(proc.roomTuning)}`)
+              if (typeof proc?.autoAlignment === 'boolean') procItems.push(`${getPDFTranslation(language, 'texts', 'autoAlignment')}: ${yesNo(proc.autoAlignment)}`)
+              if (proc?.measurementSystem) procItems.push(`${getPDFTranslation(language, 'texts', 'measurementSystem')} ${proc.measurementSystem}`)
+              if (proc?.processingNotes) procItems.push(`${getPDFTranslation(language, 'texts', 'observations')}: ${proc.processingNotes}`)
 
               const subsItems: string[] = []
-              if (typeof subs?.required === 'boolean') subsItems.push(`Requeridos: ${yesNo(subs.required)}`)
+              if (typeof subs?.required === 'boolean') subsItems.push(`${getPDFTranslation(language, 'texts', 'required')} ${yesNo(subs.required)}`)
               if (subs?.required) {
                 if (subs?.mountingTypes) {
                   const m = subs.mountingTypes
-                  const tipo = m.cardioide ? 'Cardioide' : m.endFire ? 'End Fire' : m.arcDelay ? 'Arc Delay' : '—'
-                  subsItems.push(`Tipo de montagem: ${tipo}`)
+                  const tipo = m.cardioide ? getPDFTranslation(language, 'subMountingTypes', 'cardioid') : m.endFire ? getPDFTranslation(language, 'subMountingTypes', 'endFire') : m.arcDelay ? getPDFTranslation(language, 'subMountingTypes', 'arcDelay') : '—'
+                  subsItems.push(`${getPDFTranslation(language, 'texts', 'mountingType')} ${tipo}`)
                 }
-                if (typeof subs?.crossoverEnabled === 'boolean') subsItems.push(`Crossover: ${subs.crossoverEnabled ? `ativo em ${subs.crossoverFrequency || ''} Hz` : 'desativado'}`)
-                if (subs?.notes) subsItems.push(`Observações: ${subs.notes}`)
+                if (typeof subs?.crossoverEnabled === 'boolean') subsItems.push(`${getPDFTranslation(language, 'texts', 'crossover')}: ${subs.crossoverEnabled ? `${getPDFTranslation(language, 'texts', 'activeAt')} ${subs.crossoverFrequency || ''} ${getPDFTranslation(language, 'texts', 'hertz')}` : getPDFTranslation(language, 'texts', 'disabled')}`)
+                if (subs?.notes) subsItems.push(`${getPDFTranslation(language, 'texts', 'observations')}: ${subs.notes}`)
               }
 
               const ffItems: string[] = []
-              if (typeof pa?.frontFillRequired === 'boolean') ffItems.push(`Necessário: ${yesNo(pa.frontFillRequired)}`)
+              if (typeof pa?.frontFillRequired === 'boolean') ffItems.push(`${getPDFTranslation(language, 'texts', 'necessary')}: ${yesNo(pa.frontFillRequired)}`)
               if (pa?.frontFillRequired) {
-                if (pa?.frontFillCoverage) ffItems.push(`Cobertura desde 1ª fila: ${pa.frontFillCoverage}`)
-                if (pa?.frontFillNotes) ffItems.push(`Observações: ${pa.frontFillNotes}`)
+                if (pa?.frontFillCoverage) ffItems.push(`${getPDFTranslation(language, 'texts', 'coverageFromFirstRow')}: ${pa.frontFillCoverage}`)
+                if (pa?.frontFillNotes) ffItems.push(`${getPDFTranslation(language, 'texts', 'observations')}: ${pa.frontFillNotes}`)
               }
 
               return (
                 <View>
                   {perfItems.length ? (
                     <View style={{ marginBottom: TOKENS.spacing.sm }}>
-                      <Text style={{ fontWeight: 'bold' }}>Especificações de performance</Text>
+                      <Text style={{ fontWeight: 'bold' }}>{getPDFTranslation(language, 'texts', 'performanceSpecs')}</Text>
                       <BulletList items={perfItems} />
                     </View>
                   ) : null}
 
                   {sysItems.length ? (
                     <View style={{ marginBottom: TOKENS.spacing.sm }}>
-                      <Text style={{ fontWeight: 'bold' }}>Configuração do sistema</Text>
+                      <Text style={{ fontWeight: 'bold' }}>{getPDFTranslation(language, 'texts', 'systemConfig')}</Text>
                       <BulletList items={sysItems} />
                     </View>
                   ) : null}
 
                   {covItems.length ? (
                     <View style={{ marginBottom: TOKENS.spacing.sm }}>
-                      <Text style={{ fontWeight: 'bold' }}>Cobertura</Text>
+                      <Text style={{ fontWeight: 'bold' }}>{getPDFTranslation(language, 'texts', 'coverage')}</Text>
                       <BulletList items={covItems} />
                     </View>
                   ) : null}
 
                   {procItems.length ? (
                     <View style={{ marginBottom: TOKENS.spacing.sm }}>
-                      <Text style={{ fontWeight: 'bold' }}>Processamento e controlo</Text>
+                      <Text style={{ fontWeight: 'bold' }}>{getPDFTranslation(language, 'texts', 'processing')}</Text>
                       <BulletList items={procItems} />
                     </View>
                   ) : null}
 
                   {subsItems.length ? (
                     <View style={{ marginBottom: TOKENS.spacing.sm }}>
-                      <Text style={{ fontWeight: 'bold' }}>Subwoofers</Text>
+                      <Text style={{ fontWeight: 'bold' }}>{getPDFTranslation(language, 'texts', 'subwoofers')}</Text>
                       <BulletList items={subsItems} />
                     </View>
                   ) : null}
 
                   {ffItems.length ? (
                     <View style={{ marginBottom: TOKENS.spacing.sm }}>
-                      <Text style={{ fontWeight: 'bold' }}>In/Front Fill</Text>
+                      <Text style={{ fontWeight: 'bold' }}>{getPDFTranslation(language, 'texts', 'frontFill')}</Text>
                       <BulletList items={ffItems} />
                     </View>
                   ) : null}
 
                   {pa?.riggingNotes ? (
                     <View style={{ marginBottom: TOKENS.spacing.sm }}>
-                      <Text style={{ fontWeight: 'bold' }}>Rigging</Text>
+                      <Text style={{ fontWeight: 'bold' }}>{getPDFTranslation(language, 'texts', 'rigging')}</Text>
                       <Text>{pa.riggingNotes}</Text>
                     </View>
                   ) : null}
 
                   {pa?.observacoes ? (
                     <View style={{ marginBottom: TOKENS.spacing.sm }}>
-                      <Text style={{ fontWeight: 'bold' }}>Observações gerais</Text>
+                      <Text style={{ fontWeight: 'bold' }}>{getPDFTranslation(language, 'texts', 'generalObservations')}</Text>
                       <Text>{pa.observacoes}</Text>
                     </View>
                   ) : null}
@@ -514,25 +523,25 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
         )}
 
         {hasFOH && (
-          <Section title="FOH">
+          <Section title={getPDFTranslation(language, 'sections', 'foh')} language={language}>
             <View>
               {consolas?.foh?.consolaPreferida?.marca ? (
                 <Text>
-                  <Text style={{ fontWeight: 'bold' }}>Consola preferida: </Text>
+                  <Text style={{ fontWeight: 'bold' }}>{getPDFTranslation(language, 'texts', 'preferredConsole')} </Text>
                   {consolas.foh.consolaPreferida.marca || ''} {consolas.foh.consolaPreferida.modelo || ''}
                   {consolas.foh.consolaPreferida.observacoes ? ` — ${consolas.foh.consolaPreferida.observacoes}` : ''}
-                  {consolas.foh.consolaPreferida.supplier === 'band' ? ` (Fornecido pela banda)` : ''}
+                  {consolas.foh.consolaPreferida.supplier === 'band' ? getPDFTranslation(language, 'texts', 'providedByBand') : ''}
                 </Text>
               ) : null}
               {Array.isArray(consolas?.foh?.outrasConsolas) && consolas.foh.outrasConsolas.length > 0 ? (
                 <View style={{ marginTop: 4 }}>
-                  <Text style={styles.small}><Text style={{ fontWeight: 'bold' }}>Alternativas aceites:</Text></Text>
+                  <Text style={styles.small}><Text style={{ fontWeight: 'bold' }}>{getPDFTranslation(language, 'texts', 'acceptedAlternatives')}:</Text></Text>
                   <BulletList items={consolas.foh.outrasConsolas.map((c: any) => {
                     if (c && typeof c === 'object' && c.marca && c.modelo) {
-                      const supplierText = c.supplier === 'band' ? ' (Fornecido pela banda)' : ''
+                      const supplierText = c.supplier === 'band' ? getPDFTranslation(language, 'texts', 'providedByBand') : ''
                       return `${c.marca} ${c.modelo}${c.observacoes ? ` — ${c.observacoes}` : ''}${supplierText}`
                     }
-                    return 'Consola não especificada'
+                    return getPDFTranslation(language, 'texts', 'consoleNotSpecified')
                   })} />
                 </View>
               ) : null}
@@ -541,25 +550,25 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
         )}
 
         {hasMON && (
-          <Section title="MON">
+          <Section title={getPDFTranslation(language, 'sections', 'mon')} language={language}>
             <View>
               {consolas?.mon?.consolaPreferida?.marca ? (
                 <Text>
-                  <Text style={{ fontWeight: 'bold' }}>Consola preferida: </Text>
+                  <Text style={{ fontWeight: 'bold' }}>{getPDFTranslation(language, 'texts', 'preferredConsole')} </Text>
                   {consolas.mon.consolaPreferida.marca || ''} {consolas.mon.consolaPreferida.modelo || ''}
                   {consolas.mon.consolaPreferida.observacoes ? ` — ${consolas.mon.consolaPreferida.observacoes}` : ''}
-                  {consolas.mon.consolaPreferida.supplier === 'band' ? ` (Fornecido pela banda)` : ''}
+                  {consolas.mon.consolaPreferida.supplier === 'band' ? getPDFTranslation(language, 'texts', 'providedByBand') : ''}
                 </Text>
               ) : null}
               {Array.isArray(consolas?.mon?.outrasConsolas) && consolas.mon.outrasConsolas.length > 0 ? (
                 <View style={{ marginTop: 4 }}>
-                  <Text style={styles.small}><Text style={{ fontWeight: 'bold' }}>Alternativas aceites:</Text></Text>
+                  <Text style={styles.small}><Text style={{ fontWeight: 'bold' }}>{getPDFTranslation(language, 'texts', 'acceptedAlternatives')}:</Text></Text>
                   <BulletList items={consolas.mon.outrasConsolas.map((c: any) => {
                     if (c && typeof c === 'object' && c.marca && c.modelo) {
-                      const supplierText = c.supplier === 'band' ? ' (Fornecido pela banda)' : ''
+                      const supplierText = c.supplier === 'band' ? getPDFTranslation(language, 'texts', 'providedByBand') : ''
                       return `${c.marca} ${c.modelo}${c.observacoes ? ` — ${c.observacoes}` : ''}${supplierText}`
                     }
-                    return 'Consola não especificada'
+                    return getPDFTranslation(language, 'texts', 'consoleNotSpecified')
                   })} />
                 </View>
               ) : null}
@@ -571,27 +580,27 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
               const items: string[] = []
               
               if (se?.iems?.quantidade) {
-                const supplierText = se.iems.supplier === 'band' ? ' (Fornecido pela banda)' : ''
-                items.push(`${se.iems.quantidade}x ${se.iems.modeloPreferido || 'IEMs'}${supplierText}`)
+                const supplierText = se.iems.supplier === 'band' ? getPDFTranslation(language, 'texts', 'providedByBand') : ''
+                items.push(`${se.iems.quantidade}x ${se.iems.modeloPreferido || getPDFTranslation(language, 'texts', 'defaultIEMs')}${supplierText}`)
               }
               if (se?.sideFills?.quantidade) {
-                const supplierText = se.sideFills.supplier === 'band' ? ' (Fornecido pela banda)' : ''
-                items.push(`${se.sideFills.quantidade}x ${se.sideFills.modelo || 'Side Fills'}${supplierText}`)
+                const supplierText = se.sideFills.supplier === 'band' ? getPDFTranslation(language, 'texts', 'providedByBand') : ''
+                items.push(`${se.sideFills.quantidade}x ${se.sideFills.modelo || getPDFTranslation(language, 'texts', 'defaultSideFills')}${supplierText}`)
               }
               if (se?.wedges?.quantidade) {
-                const supplierText = se.wedges.supplier === 'band' ? ' (Fornecido pela banda)' : ''
-                items.push(`${se.wedges.quantidade}x ${se.wedges.modelo || 'Wedges'}${supplierText}`)
+                const supplierText = se.wedges.supplier === 'band' ? getPDFTranslation(language, 'texts', 'providedByBand') : ''
+                items.push(`${se.wedges.quantidade}x ${se.wedges.modelo || getPDFTranslation(language, 'texts', 'defaultWedges')}${supplierText}`)
               }
               if (Array.isArray(se?.subs)) se.subs.forEach((s: any) => {
-                const supplierText = s.supplier === 'band' ? ' (Fornecido pela banda)' : ''
-                items.push(`${s.quantidade}x ${s.modelo || 'Subs'}${s.paraInstrumento ? ` (${s.paraInstrumento})` : ''}${s.observacoes ? ` — ${s.observacoes}` : ''}${supplierText}`)
+                const supplierText = s.supplier === 'band' ? getPDFTranslation(language, 'texts', 'providedByBand') : ''
+                items.push(`${s.quantidade}x ${s.modelo || getPDFTranslation(language, 'texts', 'defaultSubs')}${s.paraInstrumento ? ` (${s.paraInstrumento})` : ''}${s.observacoes ? ` — ${s.observacoes}` : ''}${supplierText}`)
               })
               
           return (
-            <Section title="Sistemas de Escuta" bullets={items}>
+            <Section title={getPDFTranslation(language, 'sections', 'listenSystems')} bullets={items} language={language}>
               {se?.observacoes ? (
                 <View style={{ marginTop: TOKENS.spacing.xs }}>
-                  <Text style={styles.small}>Observações:</Text>
+                  <Text style={styles.small}>{getPDFTranslation(language, 'texts', 'observations')}:</Text>
                   <Text>{se.observacoes}</Text>
                 </View>
               ) : null}
@@ -602,22 +611,22 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
         {hasEA && (() => {
               const items: string[] = []
               if (ea?.talkbacks?.quantidade) {
-                const supplierText = ea.talkbacks.supplier === 'band' ? ' (Fornecido pela banda)' : ''
-                items.push(`${ea.talkbacks.quantidade}x ${ea.talkbacks.modelo || 'Talkbacks'}${supplierText}`)
+                const supplierText = ea.talkbacks.supplier === 'band' ? getPDFTranslation(language, 'texts', 'providedByBand') : ''
+                items.push(`${ea.talkbacks.quantidade}x ${ea.talkbacks.modelo || getPDFTranslation(language, 'texts', 'defaultTalkbacks')}${supplierText}`)
               }
               if (ea?.intercom?.quantidade) {
-                const supplierText = ea.intercom.supplier === 'band' ? ' (Fornecido pela banda)' : ''
-                items.push(`${ea.intercom.quantidade}x ${ea.intercom.modelo || 'Intercom'}${supplierText}`)
+                const supplierText = ea.intercom.supplier === 'band' ? getPDFTranslation(language, 'texts', 'providedByBand') : ''
+                items.push(`${ea.intercom.quantidade}x ${ea.intercom.modelo || getPDFTranslation(language, 'texts', 'defaultIntercom')}${supplierText}`)
               }
               if (ea?.comunicacaoFohMon?.tipo) {
-                const supplierText = ea.comunicacaoFohMon.supplier === 'band' ? ' (Fornecido pela banda)' : ''
-                items.push(`Comunicação FOH/MON: ${ea.comunicacaoFohMon.tipo}${ea.comunicacaoFohMon.observacoes ? ` — ${ea.comunicacaoFohMon.observacoes}` : ''}${supplierText}`)
+                const supplierText = ea.comunicacaoFohMon.supplier === 'band' ? getPDFTranslation(language, 'texts', 'providedByBand') : ''
+                items.push(`${getPDFTranslation(language, 'texts', 'fohMonCommunication')} ${ea.comunicacaoFohMon.tipo}${ea.comunicacaoFohMon.observacoes ? ` — ${ea.comunicacaoFohMon.observacoes}` : ''}${supplierText}`)
               }
           return (
-            <Section title="Equipamento Auxiliar" bullets={items}>
+            <Section title={getPDFTranslation(language, 'sections', 'auxEquipment')} bullets={items} language={language}>
               {ea?.observacoes ? (
                 <View style={{ marginTop: TOKENS.spacing.xs }}>
-                  <Text style={styles.small}>Observações:</Text>
+                  <Text style={styles.small}>{getPDFTranslation(language, 'texts', 'observations')}:</Text>
                   <Text>{ea.observacoes}</Text>
                 </View>
               ) : null}
@@ -639,7 +648,7 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
   if (hasInput) {
     pageBuilders.push((i, total) => (
       <Page key={`p-${i}-inputs`} size="A4" style={styles.page}>
-        <Text style={styles.h2}>Input List</Text>
+        <Text style={styles.h2}>{getPDFTranslation(language, 'sections', 'inputList')}</Text>
         {(() => {
           const columns = [
             { widthPercent: 9,  align: 'center' as const }, // Canal (+1%)
@@ -663,7 +672,14 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
             <>
               <PdfTable
                 columns={columns}
-                headers={[ 'Canal', 'Fonte', 'Micro/DI', 'Stand', 'Phantom', 'Notas' ]}
+                headers={[ 
+                  getPDFTranslation(language, 'tableHeaders', 'inputList', 'channel'),
+                  getPDFTranslation(language, 'tableHeaders', 'inputList', 'source'),
+                  getPDFTranslation(language, 'tableHeaders', 'inputList', 'micDi'),
+                  getPDFTranslation(language, 'tableHeaders', 'inputList', 'stand'),
+                  getPDFTranslation(language, 'tableHeaders', 'inputList', 'phantom'),
+                  getPDFTranslation(language, 'tableHeaders', 'inputList', 'notes')
+                ]}
                 rows={rows6}
                 rowsPerPage={22}
                 rowMinHeight={18}
@@ -706,7 +722,7 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
                   return (
                     <View style={{ marginTop: TOKENS.spacing.md, padding: TOKENS.spacing.sm, backgroundColor: styles.zebra.backgroundColor, borderLeft: `3px solid ${theme.accent}`, borderRadius: 4 }}>
                       <Text style={{ fontWeight: 'bold', marginBottom: TOKENS.spacing.xs, color: theme.accent }}>
-                        Equipamento fornecido pelo artista:
+                        {getPDFTranslation(language, 'texts', 'artistSuppliedEquipment')}
                       </Text>
                       {(() => {
                         const items: string[] = []
@@ -726,7 +742,7 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
                           const micItems = Object.entries(groupedMics).map(([name, count]) => 
                             count > 1 ? `${count}x "${name}"` : `"${name}"`
                           )
-                          items.push(`• Microfones: ${micItems.join(', ')}`)
+                          items.push(`• ${getPDFTranslation(language, 'texts', 'microphones')} ${micItems.join(', ')}`)
                         }
                         
                         if (bandDIs.length > 0) {
@@ -734,11 +750,11 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
                           const diItems = Object.entries(groupedDIs).map(([name, count]) => 
                             count > 1 ? `${count}x "${name}"` : `"${name}"`
                           )
-                          items.push(`• DI Boxes: ${diItems.join(', ')}`)
+                          items.push(`• ${getPDFTranslation(language, 'texts', 'diBoxes')} ${diItems.join(', ')}`)
                         }
                         
                         if (bandXLR.length > 0) {
-                          items.push(`• Cabos XLR: ${bandXLR.length} unidade(s)`)
+                          items.push(`• ${getPDFTranslation(language, 'texts', 'xlrCables')} ${bandXLR.length} ${getPDFTranslation(language, 'texts', 'unit')}`)
                         }
                         
                         return items.map((item, index) => (
@@ -758,8 +774,8 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
         <PdfFooter
           render={({ pageNumber, totalPages }) => (
             options?.customFooter && options.customFooter.trim()
-              ? `Página ${pageNumber} de ${totalPages} • Rider Forge • ${options.customFooter.trim()}`
-              : `Página ${pageNumber} de ${totalPages} • Rider Forge`
+              ? `${getPDFTranslation(language, 'texts', 'page')} ${pageNumber} ${getPDFTranslation(language, 'texts', 'of')} ${totalPages} • ${getPDFTranslation(language, 'texts', 'riderForge')} • ${options.customFooter.trim()}`
+              : `${getPDFTranslation(language, 'texts', 'page')} ${pageNumber} ${getPDFTranslation(language, 'texts', 'of')} ${totalPages} • ${getPDFTranslation(language, 'texts', 'riderForge')}`
           )}
         />
       </Page>
@@ -769,9 +785,14 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
   if (hasMixes) {
     pageBuilders.push((i, total) => (
       <Page key={`p-${i}-mixes`} size="A4" style={styles.page}>
-        <Text style={styles.h2}>Output List</Text>
+        <Text style={styles.h2}>{getPDFTranslation(language, 'sections', 'outputList')}</Text>
         <LegacyTable
-          headers={[ 'Mix', 'Instrumento/Músico', 'Tipo', 'Formato' ]}
+          headers={[ 
+            getPDFTranslation(language, 'tableHeaders', 'outputList', 'mix'),
+            getPDFTranslation(language, 'tableHeaders', 'outputList', 'instrumentMusician'),
+            getPDFTranslation(language, 'tableHeaders', 'outputList', 'type'),
+            getPDFTranslation(language, 'tableHeaders', 'outputList', 'format')
+          ]}
           widths={[ 60, 240, 100, 90 ]}
           rows={mixRows}
           styles={styles}
@@ -779,8 +800,8 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
         <PdfFooter
           render={({ pageNumber, totalPages }) => (
             options?.customFooter && options.customFooter.trim()
-              ? `Página ${pageNumber} de ${totalPages} • Rider Forge • ${options.customFooter.trim()}`
-              : `Página ${pageNumber} de ${totalPages} • Rider Forge`
+              ? `${getPDFTranslation(language, 'texts', 'page')} ${pageNumber} ${getPDFTranslation(language, 'texts', 'of')} ${totalPages} • ${getPDFTranslation(language, 'texts', 'riderForge')} • ${options.customFooter.trim()}`
+              : `${getPDFTranslation(language, 'texts', 'page')} ${pageNumber} ${getPDFTranslation(language, 'texts', 'of')} ${totalPages} • ${getPDFTranslation(language, 'texts', 'riderForge')}`
           )}
         />
       </Page>
@@ -790,19 +811,17 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
   if (hasObs) {
     pageBuilders.push((i, total) => (
       <Page key={`p-${i}-obs`} size="A4" style={styles.page}>
-        <Text style={styles.h2}>Observações Finais</Text>
+        <Text style={styles.h2}>{getPDFTranslation(language, 'sections', 'finalNotes')}</Text>
         <Text style={{ lineHeight: 1.4 }}>{observacoes}</Text>
         
         {/* Nota sobre equipamento da banda - só aparece se há equipamento da banda */}
         {hasBandEquipment() && (
           <View style={{ marginTop: TOKENS.spacing.md, padding: TOKENS.spacing.sm, backgroundColor: styles.zebra.backgroundColor, borderLeft: `3px solid ${theme.accent}`, borderRadius: 4 }}>
             <Text style={{ fontWeight: 'bold', marginBottom: TOKENS.spacing.xs, color: theme.accent }}>
-              ⚠️ Equipamento da Banda
+              {getPDFTranslation(language, 'texts', 'bandEquipment')}
             </Text>
             <Text style={{ fontSize: 10, lineHeight: 1.3, color: theme.textSecondary }}>
-              Alguns equipamentos especificados neste rider são fornecidos pela banda. 
-              Por favor, confirme com a equipa técnica da banda quais equipamentos serão transportados 
-              e quais necessitam de ser fornecidos pelo promotor/empresa de aluguer.
+              {getPDFTranslation(language, 'texts', 'bandEquipmentNote')}
             </Text>
           </View>
         )}
@@ -810,8 +829,8 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
         <PdfFooter
           render={({ pageNumber, totalPages }) => (
             options?.customFooter && options.customFooter.trim()
-              ? `Página ${pageNumber} de ${totalPages} • Rider Forge • ${options.customFooter.trim()}`
-              : `Página ${pageNumber} de ${totalPages} • Rider Forge`
+              ? `${getPDFTranslation(language, 'texts', 'page')} ${pageNumber} ${getPDFTranslation(language, 'texts', 'of')} ${totalPages} • ${getPDFTranslation(language, 'texts', 'riderForge')} • ${options.customFooter.trim()}`
+              : `${getPDFTranslation(language, 'texts', 'page')} ${pageNumber} ${getPDFTranslation(language, 'texts', 'of')} ${totalPages} • ${getPDFTranslation(language, 'texts', 'riderForge')}`
           )}
         />
       </Page>
@@ -823,14 +842,20 @@ const LegacyTable = ({ headers, rows, widths, styles }: { headers: string[], row
   if (hasStagePlot) {
     pageBuilders.push((i, total) => (
       <Page key={`p-${i}-stage`} size="A4" style={styles.page}>
-        <Text style={styles.h2}>Stage Plot</Text>
+        <Text style={styles.h2}>{getPDFTranslation(language, 'sections', 'stagePlot')}</Text>
         <View style={{ alignItems: 'center', marginTop: TOKENS.spacing.md }}>
           <Image
             src={{ uri: rider['dados-gerais'].stagePlot.data }}
             style={{ width: '100%', height: 500, objectFit: 'contain', borderRadius: 6 }}
           />
         </View>
-        <Footer current={i} total={total} customFooter={options?.customFooter} styles={styles} />
+        <PdfFooter
+          render={({ pageNumber, totalPages }) => (
+            options?.customFooter && options.customFooter.trim()
+              ? `${getPDFTranslation(language, 'texts', 'page')} ${pageNumber} ${getPDFTranslation(language, 'texts', 'of')} ${totalPages} • ${getPDFTranslation(language, 'texts', 'riderForge')} • ${options.customFooter.trim()}`
+              : `${getPDFTranslation(language, 'texts', 'page')} ${pageNumber} ${getPDFTranslation(language, 'texts', 'of')} ${totalPages} • ${getPDFTranslation(language, 'texts', 'riderForge')}`
+          )}
+        />
       </Page>
     ))
   }

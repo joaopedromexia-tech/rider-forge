@@ -62,9 +62,10 @@ function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onEx
       
       // Calcular informações do PDF
       const sizeInMB = (blob.size / (1024 * 1024)).toFixed(2)
+      const estimated = locale === 'en' ? 'Estimated: 1–3 pages' : 'Estimado: 1–3 páginas'
       setPdfInfo({
         size: sizeInMB,
-        pages: 'Estimado: 1-3 páginas',
+        pages: estimated,
         generatedAt: new Date().toLocaleTimeString(locale)
       })
     } catch (err) {

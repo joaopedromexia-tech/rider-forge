@@ -41,7 +41,10 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
   // Garantir ordem consistente de hooks: só agora podemos retornar
   if (!isOpen) return null
 
-  const filename = `${(riderName || 'rider_tecnico').replace(/[^a-z0-9]/gi, '_').toLowerCase()}_novo.pdf`
+  const filenameBase = (riderName || (locale === 'en' ? 'technical_rider' : 'rider_tecnico'))
+    .replace(/[^a-z0-9]/gi, '_')
+    .toLowerCase()
+  const filename = `${filenameBase}_${locale}.pdf`
 
   const handlePreview = () => setShowPreview(true)
 

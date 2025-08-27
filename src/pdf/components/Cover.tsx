@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, Link } from '@react-pdf/renderer'
+import { getPDFTranslation } from '../translations.ts'
 
 export interface ContactInfo {
   nome?: string
@@ -20,6 +21,7 @@ export interface CoverProps {
   titleSize?: number // default 36 (within 32–40pt requested)
   version?: string
   tourYear?: string | number
+  language?: string
 }
 
 const TOKENS = {
@@ -110,7 +112,16 @@ const ContactLine: React.FC<{ label: string; info?: ContactInfo }> = ({ label, i
   )
 }
 
-export const Cover: React.FC<CoverProps> = ({ logoDataUrl, title, subtitle, imageDataUrl, contacts, titleSize = 36, version, tourYear }) => {
+export const Cover: React.FC<CoverProps> = ({ logoDataUrl, title, subtitle, imageDataUrl, contacts, titleSize = 36, version, tourYear, language = 'pt' }) => {
+  const telLabel = getPDFTranslation(language, 'texts', 'tel') || 'Tel'
+  const emailLabel = getPDFTranslation(language, 'texts', 'email') || 'Email'
+  const riderVersionPrefix = getPDFTranslation(language, 'texts', 'riderVersionPrefix') || 'Rider v'
+  const tourPrefix = getPDFTranslation(language, 'texts', 'tourPrefix') || 'Tour'
+  const contactsTitle = getPDFTranslation(language, 'texts', 'contacts') || 'Contacts'
+  const roadManagerLabel = getPDFTranslation(language, 'texts', 'roadManager') || 'Road Manager'
+  const fohLabel = getPDFTranslation(language, 'texts', 'fohShort') || 'FOH'
+  const monLabel = getPDFTranslation(language, 'texts', 'monShort') || 'MON'
+
   return (
     <View style={styles.container}>
       <View style={styles.header} wrap={false}>
@@ -118,8 +129,8 @@ export const Cover: React.FC<CoverProps> = ({ logoDataUrl, title, subtitle, imag
           <Image src={logoDataUrl} style={styles.logo} />
         ) : null}
         <Text style={[styles.title, { fontSize: titleSize }]}>{title}</Text>
-        {version ? <Text style={styles.version}>Rider v{version}</Text> : null}
-        {tourYear ? <Text style={styles.tourYear}>Tour {tourYear}</Text> : null}
+        {version ? <Text style={styles.version}>{riderVersionPrefix} {version}</Text> : null}
+        {tourYear ? <Text style={styles.tourYear}>{tourPrefix} {tourYear}</Text> : null}
         {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
       </View>
 
@@ -131,10 +142,50 @@ export const Cover: React.FC<CoverProps> = ({ logoDataUrl, title, subtitle, imag
 
       {contacts && (contacts.roadManager || contacts.foh || contacts.mon) ? (
         <View style={styles.contactsBlock}>
-          <Text style={styles.contactsTitle}>Contactos</Text>
-          <ContactLine label="Road Manager" info={contacts.roadManager} />
-          <ContactLine label="FOH" info={contacts.foh} />
-          <ContactLine label="MON" info={contacts.mon} />
+          <Text style={styles.contactsTitle}>{contactsTitle}</Text>
+          {/* Inline labels for tel/email handled within ContactLine above; to localize Tel/Email, render them here */}
+          {contacts.roadManager ? (
+            <View style={styles.contactLine} wrap={false}>
+              <Text>
+                <Text style={{ fontWeight: 'bold' }}>{roadManagerLabel}: </Text>
+                <Text>{contacts.roadManager.nome}</Text>
+                {contacts.roadManager.telefone ? <Text>  •  <Text style={{ fontWeight: 'bold' }}>{telLabel}:</Text> {contacts.roadManager.telefone}</Text> : null}
+                {contacts.roadManager.email ? (
+                  <Text>
+                    {'  •  '}<Text style={{ fontWeight: 'bold' }}>{emailLabel}:</Text> <Link src={`mailto:${contacts.roadManager.email}`}>{contacts.roadManager.email}</Link>
+                  </Text>
+                ) : null}
+              </Text>
+            </View>
+          ) : null}
+          {contacts.foh ? (
+            <View style={styles.contactLine} wrap={false}>
+              <Text>
+                <Text style={{ fontWeight: 'bold' }}>{fohLabel}: </Text>
+                <Text>{contacts.foh.nome}</Text>
+                {contacts.foh.telefone ? <Text>  •  <Text style={{ fontWeight: 'bold' }}>{telLabel}:</Text> {contacts.foh.telefone}</Text> : null}
+                {contacts.foh.email ? (
+                  <Text>
+                    {'  •  '}<Text style={{ fontWeight: 'bold' }}>{emailLabel}:</Text> <Link src={`mailto:${contacts.foh.email}`}>{contacts.foh.email}</Link>
+                  </Text>
+                ) : null}
+              </Text>
+            </View>
+          ) : null}
+          {contacts.mon ? (
+            <View style={styles.contactLine} wrap={false}>
+              <Text>
+                <Text style={{ fontWeight: 'bold' }}>{monLabel}: </Text>
+                <Text>{contacts.mon.nome}</Text>
+                {contacts.mon.telefone ? <Text>  •  <Text style={{ fontWeight: 'bold' }}>{telLabel}:</Text> {contacts.mon.telefone}</Text> : null}
+                {contacts.mon.email ? (
+                  <Text>
+                    {'  •  '}<Text style={{ fontWeight: 'bold' }}>{emailLabel}:</Text> <Link src={`mailto:${contacts.mon.email}`}>{contacts.mon.email}</Link>
+                  </Text>
+                ) : null}
+              </Text>
+            </View>
+          ) : null}
         </View>
       ) : null}
     </View>
