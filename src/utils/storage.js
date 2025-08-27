@@ -124,6 +124,20 @@ export async function getRiderVersions(riderId) {
     console.log('🔍 Getting versions for rider:', riderId);
     const all = await withStore(STORE_VERSIONS, 'readonly', (store) => store.getAll());
     console.log('📦 All versions in store:', all);
+    
+    if (Array.isArray(all)) {
+      console.log('🔍 Checking each version:');
+      all.forEach((version, index) => {
+        console.log(`  Version ${index}:`, {
+          versionRiderId: version.riderId,
+          searchRiderId: riderId,
+          match: version.riderId === riderId,
+          type: typeof version.riderId,
+          searchType: typeof riderId
+        });
+      });
+    }
+    
     const filtered = Array.isArray(all) ? all.filter(v => v.riderId === riderId) : [];
     console.log('🎯 Filtered versions for this rider:', filtered);
     return filtered.sort((a, b) => (a.timestamp < b.timestamp ? 1 : -1));
