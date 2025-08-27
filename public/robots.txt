@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://riderforge.app/sitemap.xml
+Sitemap: https://www.riderforge.app/sitemap.xml
 
 # Allow all pages
 Allow: /index.html
