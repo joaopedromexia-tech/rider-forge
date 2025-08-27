@@ -112,10 +112,12 @@ const MAX_VERSIONS_PER_RIDER = 20;
 
 export async function saveRiderVersion(riderId, data) {
   try {
-    console.log('🔄 Saving version for rider:', riderId);
+    console.log('🔄 Saving version for rider:', riderId, 'Type:', typeof riderId);
     const timestamp = new Date().toISOString();
     const key = `${riderId}::${timestamp}`;
-    const result = await withStore(STORE_VERSIONS, 'readwrite', (store) => store.put({ key, riderId, timestamp, data }));
+    const versionData = { key, riderId, timestamp, data };
+    console.log('📝 Version data to save:', versionData);
+    const result = await withStore(STORE_VERSIONS, 'readwrite', (store) => store.put(versionData));
     if (result) {
       console.log('✅ Version saved successfully:', key);
       // Prune old versions

@@ -269,7 +269,7 @@ export function RiderProvider({ children }) {
           rider.id === id ? updatedRider : rider
         ))
         // Salvar versão (não bloqueante) - também para utilizadores autenticados
-        saveRiderVersion(id, riderData).catch(error => {
+        saveRiderVersion(data.id, riderData).catch(error => {
           console.warn('Error saving version for updated rider:', error)
         })
       } catch (error) {
