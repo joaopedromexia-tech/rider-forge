@@ -268,18 +268,23 @@ export function RiderProvider({ children }) {
         const { data, error } = await database.riders.updateRider(id, updates, user.id)
         if (error) throw error
 
+        // Se a API não retornar dados completos, usar os dados originais + os novos
+        const originalRider = savedRiders.find(r => r.id === id)
+        
         const updatedRider = {
           id: data.id || id, // Fallback para o id original se data.id vier undefined
           name: data.title || riderName, // Fallback para riderName se title vier undefined
-          data: data.data,
-          createdAt: data.created_at,
-          updatedAt: data.updated_at,
+          data: data.data || riderData, // Fallback para riderData se data.data vier undefined
+          createdAt: data.created_at || originalRider?.createdAt,
+          updatedAt: data.updated_at || new Date().toISOString(),
           thumbnail: thumbnail
         }
 
         console.log('✅ Rider atualizado na base de dados:', updatedRider.name)
         console.log('🔍 Debug - data.id:', data.id, 'id original:', id)
         console.log('🔍 Debug - data.title:', data.title, 'riderName:', riderName)
+        console.log('🔍 Debug - data.data:', data.data ? 'presente' : 'UNDEFINED')
+        console.log('🔍 Debug - usando riderData como fallback:', riderData ? 'presente' : 'UNDEFINED')
         
         setSavedRiders(prev => {
           const newRiders = prev.map(rider => {
