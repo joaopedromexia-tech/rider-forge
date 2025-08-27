@@ -133,7 +133,7 @@ export const PDF_TRANSLATIONS = {
       pa: 'PA',
       foh: 'FOH',
       mon: 'MON',
-      listenSystems: 'Monitor Systems',
+      listenSystems: 'Monitoring Systems',
       auxEquipment: 'Auxiliary Equipment',
       inputList: 'Input List',
       outputList: 'Output List',
