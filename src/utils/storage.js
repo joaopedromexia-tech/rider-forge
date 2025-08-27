@@ -112,6 +112,10 @@ const MAX_VERSIONS_PER_RIDER = 20;
 
 export async function saveRiderVersion(riderId, data) {
   try {
+    if (!riderId) {
+      console.warn('⚠️ Skipping saveRiderVersion: invalid riderId', riderId)
+      return
+    }
     console.log('🔄 Saving version for rider:', riderId, 'Type:', typeof riderId);
     const timestamp = new Date().toISOString();
     const key = `${riderId}::${timestamp}`;
@@ -132,6 +136,10 @@ export async function saveRiderVersion(riderId, data) {
 
 export async function getRiderVersions(riderId) {
   try {
+    if (!riderId) {
+      console.warn('⚠️ Skipping getRiderVersions: invalid riderId', riderId)
+      return []
+    }
     console.log('🔍 Getting versions for rider:', riderId);
     const all = await withStore(STORE_VERSIONS, 'readonly', (store) => store.getAll());
     console.log('📦 All versions in store:', all);

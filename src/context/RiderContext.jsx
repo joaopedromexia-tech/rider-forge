@@ -444,6 +444,73 @@ export function RiderProvider({ children }) {
     return null
   }, [savedRiders, user])
 
+  // Função para obter rider com sincronização forçada
+  const getRiderByIdWithSync = useCallback((id) => {
+    console.log('🔍 getRiderByIdWithSync chamado com ID:', id, 'Tipo:', typeof id)
+    
+    // Validar ID
+    if (!id || id === 'undefined' || id === 'null') {
+      console.log('❌ ID inválido:', id)
+      return null
+    }
+    
+    // Primeiro tentar encontrar no estado atual
+    let rider = savedRiders.find(rider => rider.id === id)
+    if (rider) {
+      console.log('✅ Rider encontrado no estado:', rider.name, 'ID:', rider.id)
+      return rider
+    }
+    
+    console.log('📊 Estado atual tem', savedRiders.length, 'riders')
+    console.log('📋 Riders no estado:', savedRiders.map(r => ({ id: r.id, name: r.name })))
+    console.log('🔍 Procurando por ID:', id)
+    console.log('🔍 Comparando IDs:', savedRiders.map(r => ({ id: r.id, matches: r.id === id })))
+    
+    // Se não encontrar e não for utilizador autenticado, forçar sincronização
+    if (!user) {
+      console.log('🔄 Forçando sincronização...')
+      try {
+        const stored = localStorage.getItem('riderForge_riders')
+        if (stored) {
+          const storedRiders = JSON.parse(stored)
+          console.log('📦 Verificando localStorage:', storedRiders.length, 'riders')
+          console.log('📋 Riders no localStorage:', storedRiders.map(r => ({ id: r.id, name: r.name })))
+          
+          rider = storedRiders.find(rider => rider.id === id)
+          if (rider) {
+            console.log('💾 Rider encontrado no localStorage:', rider.name, 'ID:', rider.id)
+            // Atualizar o estado para futuras consultas
+            setSavedRiders(storedRiders)
+            return rider
+          }
+        } else {
+          console.log('📭 localStorage vazio')
+        }
+      } catch (error) {
+        console.warn('Erro ao verificar localStorage:', error)
+      }
+    }
+    
+    // Verificar demos temporários
+    if (id.startsWith('demo_temp_')) {
+      try {
+        const tempDemo = localStorage.getItem('riderForge_temp_demo')
+        if (tempDemo) {
+          const demoRider = JSON.parse(tempDemo)
+          if (demoRider.id === id) {
+            console.log('🎭 Demo rider encontrado:', demoRider.name, 'ID:', demoRider.id)
+            return demoRider
+          }
+        }
+      } catch (error) {
+        console.warn('Erro ao carregar demo temporário:', error)
+      }
+    }
+    
+    console.log('❌ Rider não encontrado em nenhum local para ID:', id)
+    return null
+  }, [savedRiders, user])
+
   // Função para forçar sincronização do estado
   const forceSyncState = useCallback(() => {
     if (!user) {
@@ -573,6 +640,7 @@ export function RiderProvider({ children }) {
     duplicateRider,
     deleteRider,
     getRiderById,
+    getRiderByIdWithSync,
     forceSyncState,
     saveDemoRiderAsPermanent,
     exportRider,

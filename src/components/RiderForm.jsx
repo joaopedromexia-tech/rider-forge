@@ -29,7 +29,7 @@ import { useI18n } from '../context/I18nContext'
 function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription }) {
   const { t } = useI18n()
   const { isPro, setIsPro } = useRider()
-  const { saveRider, updateRider, getRiderById, forceSyncState } = useRider()
+  const { saveRider, updateRider, getRiderById, getRiderByIdWithSync, forceSyncState } = useRider()
   const { showSuccess, showError } = useFeedback()
   const { user, hasAccount } = useAuth()
   
@@ -152,90 +152,113 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
   // Carregar dados do rider se estiver editando
   useEffect(() => {
     if (editingRiderId) {
+      console.log('🔄 RiderForm: Carregando rider com ID:', editingRiderId)
+      
       // Forçar sincronização do estado antes de tentar carregar o rider
       forceSyncState()
       
-      const rider = getRiderById(editingRiderId)
-      if (rider) {
-        setEditingRider(rider)
-        setFormData(rider.data || {})
-      } else {
-        // Se é um demo temporário, tentar carregar do localStorage
-        if (editingRiderId.startsWith('demo_temp_')) {
-          try {
-            const tempDemo = localStorage.getItem('riderForge_temp_demo')
-            if (tempDemo) {
-              const demoRider = JSON.parse(tempDemo)
-              if (demoRider.id === editingRiderId) {
+      // Usar setTimeout para garantir que a sincronização seja processada
+      const loadRider = () => {
+        const rider = getRiderByIdWithSync(editingRiderId)
+        console.log('📋 RiderForm: Resultado da busca:', rider)
+        
+        if (rider) {
+          console.log('✅ RiderForm: Carregando dados do rider:', rider.name)
+          setEditingRider(rider)
+          setFormData(rider.data || {})
+        } else {
+          console.log('❌ RiderForm: Rider não encontrado, tentando fallbacks...')
+          // Se é um demo temporário, tentar carregar do localStorage
+          if (editingRiderId.startsWith('demo_temp_')) {
+            try {
+              const tempDemo = localStorage.getItem('riderForge_temp_demo')
+              if (tempDemo) {
+                const demoRider = JSON.parse(tempDemo)
+                if (demoRider.id === editingRiderId) {
+                  console.log('🎭 Demo rider encontrado:', demoRider)
+                  setEditingRider(demoRider)
+                  setFormData(demoRider.data || {})
+                  return
+                }
+              }
+            } catch (error) {
+              // noop
+            }
+
+            // Fallback: memória global (evita quota do localStorage)
+            try {
+              if (typeof window !== 'undefined' && window.__riderForge_demo && window.__riderForge_demo.id === editingRiderId) {
+                const demoRider = window.__riderForge_demo
                 setEditingRider(demoRider)
                 setFormData(demoRider.data || {})
                 return
               }
-            }
-          } catch (error) {
-            // noop
-          }
-
-          // Fallback: memória global (evita quota do localStorage)
-          try {
-            if (typeof window !== 'undefined' && window.__riderForge_demo && window.__riderForge_demo.id === editingRiderId) {
-              const demoRider = window.__riderForge_demo
-              setEditingRider(demoRider)
-              setFormData(demoRider.data || {})
-              return
-            }
-          } catch (_) {}
-        }
-        
-        // Se ainda não encontrou, criar um demo básico
-        if (editingRiderId.startsWith('demo_temp_')) {
-          const basicDemoData = {
-            'dados-gerais': {
-              artista: 'Thunder Road',
-              versaoRider: '3.0',
-              anoTour: '2026',
-              roadManager: {
-                nome: 'Alex Johnson',
-                telefone: '+1 555 123 4567',
-                email: 'alex.johnson@thunderroad.com'
-              },
-              foh: {
-                nome: 'Mike Rodriguez',
-                telefone: '+1 555 987 6543',
-                email: 'mike.rodriguez@thunderroad.com'
-              },
-              mon: {
-                nome: 'Sarah Chen',
-                telefone: '+1 555 456 7890',
-                email: 'sarah.chen@thunderroad.com'
-              }
-            },
-            'pa': {},
-            'consolas': {},
-            'sistemas-escuta': {},
-            'equipamento-auxiliar': {},
-            'input-list': { inputs: [] },
-            'monitor-mixes': { mixes: [] },
-            'observacoes-finais': {}
+            } catch (_) {}
           }
           
-          const basicDemoRider = {
-            id: editingRiderId,
-            name: 'Thunder Road - Demo Básico',
-            data: basicDemoData,
-            isDemo: true,
-            isTemporary: true
+          // Se ainda não encontrou, criar um demo básico
+          if (editingRiderId.startsWith('demo_temp_')) {
+            const basicDemoData = {
+              'dados-gerais': {
+                artista: 'Thunder Road',
+                versaoRider: '3.0',
+                anoTour: '2026',
+                roadManager: {
+                  nome: 'Alex Johnson',
+                  telefone: '+1 555 123 4567',
+                  email: 'alex.johnson@thunderroad.com'
+                },
+                foh: {
+                  nome: 'Mike Rodriguez',
+                  telefone: '+1 555 987 6543',
+                  email: 'mike.rodriguez@thunderroad.com'
+                },
+                mon: {
+                  nome: 'Sarah Chen',
+                  telefone: '+1 555 456 7890',
+                  email: 'sarah.chen@thunderroad.com'
+                }
+              },
+              'pa': {},
+              'consolas': {},
+              'sistemas-escuta': {},
+              'equipamento-auxiliar': {},
+              'input-list': { inputs: [] },
+              'monitor-mixes': { mixes: [] },
+              'observacoes-finais': {}
+            }
+            
+            const basicDemoRider = {
+              id: editingRiderId,
+              name: 'Thunder Road - Demo Básico',
+              data: basicDemoData,
+              isDemo: true,
+              isTemporary: true
+            }
+            
+            setEditingRider(basicDemoRider)
+            setFormData(basicDemoData)
           }
-          
-          setEditingRider(basicDemoRider)
-          setFormData(basicDemoData)
         }
       }
+      
+      // Tentar carregar imediatamente
+      loadRider()
+      
+      // Se não encontrou, tentar novamente após um pequeno delay
+      setTimeout(() => {
+        if (!editingRider) {
+          console.log('🔄 RiderForm: Tentando carregar novamente após delay...')
+          loadRider()
+        }
+      }, 100)
+      
     } else {
+      console.log('🔄 Limpando dados do formulário (sem editingRiderId)')
       setEditingRider(null)
       setFormData({})
     }
-  }, [editingRiderId, getRiderById, forceSyncState])
+  }, [editingRiderId, getRiderByIdWithSync, forceSyncState, editingRider])
 
   // Definir chave de rascunho por contexto (novo ou edição)
   useEffect(() => {
