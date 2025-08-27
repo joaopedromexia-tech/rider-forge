@@ -29,7 +29,7 @@ import { useI18n } from '../context/I18nContext'
 function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription }) {
   const { t } = useI18n()
   const { isPro, setIsPro } = useRider()
-  const { saveRider, updateRider, getRiderById } = useRider()
+  const { saveRider, updateRider, getRiderById, forceSyncState } = useRider()
   const { showSuccess, showError } = useFeedback()
   const { user, hasAccount } = useAuth()
   
@@ -152,6 +152,9 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
   // Carregar dados do rider se estiver editando
   useEffect(() => {
     if (editingRiderId) {
+      // Forçar sincronização do estado antes de tentar carregar o rider
+      forceSyncState()
+      
       const rider = getRiderById(editingRiderId)
       if (rider) {
         setEditingRider(rider)
@@ -232,7 +235,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
       setEditingRider(null)
       setFormData({})
     }
-  }, [editingRiderId, getRiderById])
+  }, [editingRiderId, getRiderById, forceSyncState])
 
   // Definir chave de rascunho por contexto (novo ou edição)
   useEffect(() => {
@@ -285,9 +288,11 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     // Para overwrite, não precisamos de verificação Pro
     if (payload?.mode === 'overwrite' && payload?.riderId) {
       try {
-        updateRider(payload.riderId, formData)
+        await updateRider(payload.riderId, formData)
         showSuccess('Rider substituído com sucesso!')
         try { await kvSet(draftKeyRef.current, null) } catch (_) {}
+        // Forçar sincronização antes de voltar
+        forceSyncState()
         onBack()
         return
       } catch (error) {
@@ -312,6 +317,8 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
           return false
         }
         try { await kvSet(draftKeyRef.current, null) } catch (_) {}
+        // Forçar sincronização antes de voltar
+        forceSyncState()
         onBack()
         return true
       } catch (error) {

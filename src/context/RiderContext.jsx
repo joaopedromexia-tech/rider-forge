@@ -231,6 +231,16 @@ export function RiderProvider({ children }) {
       }
 
       setSavedRiders(prev => [...prev, newRider])
+      
+      // Garantir que o localStorage seja atualizado imediatamente
+      try {
+        const currentRiders = JSON.parse(localStorage.getItem('riderForge_riders') || '[]')
+        const updatedRiders = [...currentRiders, newRider]
+        localStorage.setItem('riderForge_riders', JSON.stringify(updatedRiders))
+      } catch (error) {
+        console.warn('Erro ao atualizar localStorage:', error)
+      }
+      
       // Guardar versão inicial (não bloqueante)
       saveRiderVersion(newRider.id, newRider.data).catch(error => {
         console.warn('Error saving version for new rider:', error)
@@ -278,17 +288,39 @@ export function RiderProvider({ children }) {
       }
     } else {
       // Atualizar localmente para utilizadores não autenticados
+      const updatedRider = {
+        id,
+        data: riderData,
+        name: riderName,
+        updatedAt: new Date().toISOString(),
+        thumbnail: thumbnail
+      }
+      
       setSavedRiders(prev => prev.map(rider => 
         rider.id === id 
           ? {
               ...rider,
-              data: riderData,
-              name: riderName,
-              updatedAt: new Date().toISOString(),
-              thumbnail: thumbnail
+              ...updatedRider
             }
           : rider
       ))
+      
+      // Garantir que o localStorage seja atualizado imediatamente
+      try {
+        const currentRiders = JSON.parse(localStorage.getItem('riderForge_riders') || '[]')
+        const updatedRiders = currentRiders.map(rider => 
+          rider.id === id 
+            ? {
+                ...rider,
+                ...updatedRider
+              }
+            : rider
+        )
+        localStorage.setItem('riderForge_riders', JSON.stringify(updatedRiders))
+      } catch (error) {
+        console.warn('Erro ao atualizar localStorage:', error)
+      }
+      
       // Salvar versão (não bloqueante)
       saveRiderVersion(id, riderData).catch(error => {
         console.warn('Error saving version for updated rider:', error)
@@ -393,8 +425,39 @@ export function RiderProvider({ children }) {
       }
     }
     
+    // Fallback: tentar carregar do localStorage se não encontrar no estado
+    if (!user) {
+      try {
+        const stored = localStorage.getItem('riderForge_riders')
+        if (stored) {
+          const storedRiders = JSON.parse(stored)
+          const storedRider = storedRiders.find(rider => rider.id === id)
+          if (storedRider) {
+            return storedRider
+          }
+        }
+      } catch (error) {
+        console.warn('Erro ao carregar rider do localStorage:', error)
+      }
+    }
+    
     return null
-  }, [savedRiders])
+  }, [savedRiders, user])
+
+  // Função para forçar sincronização do estado
+  const forceSyncState = useCallback(() => {
+    if (!user) {
+      try {
+        const stored = localStorage.getItem('riderForge_riders')
+        if (stored) {
+          const storedRiders = JSON.parse(stored)
+          setSavedRiders(storedRiders)
+        }
+      } catch (error) {
+        console.warn('Erro ao sincronizar estado:', error)
+      }
+    }
+  }, [user])
 
   // Converter rider demo temporário em permanente
   const saveDemoRiderAsPermanent = useCallback(async (demoId, customName) => {
@@ -510,6 +573,7 @@ export function RiderProvider({ children }) {
     duplicateRider,
     deleteRider,
     getRiderById,
+    forceSyncState,
     saveDemoRiderAsPermanent,
     exportRider,
     importRider,

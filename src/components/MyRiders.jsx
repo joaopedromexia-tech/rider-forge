@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRider } from '../context/RiderContext'
 import { useAuth } from '../context/AuthContext'
 import { useProFeatures } from '../hooks/useProFeatures'
@@ -23,6 +23,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
     importRider,
     getStats,
     getRiderById,
+    forceSyncState,
     isPro,
     setIsPro
   } = useRider()
@@ -57,6 +58,11 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
   
   const stats = getStats()
   const { FREE_LIMITS } = PRO_CONFIG
+
+  // Forçar sincronização do estado quando o componente é montado
+  useEffect(() => {
+    forceSyncState()
+  }, [forceSyncState])
 
   const handleDelete = (id) => {
     deleteRider(id)
