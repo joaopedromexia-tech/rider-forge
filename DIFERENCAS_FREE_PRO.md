@@ -82,11 +82,7 @@
 - Comparação entre versões
 - Backup automático
 
-### 6. Exportação Avançada (PRO apenas)
-- Exportação em múltiplos formatos
-- Integração com sistemas externos
-- Templates personalizáveis
-- Configurações avançadas
+
 
 ## 🔒 Como Funciona o Sistema
 

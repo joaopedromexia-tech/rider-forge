@@ -90,7 +90,7 @@
   "pricing.pro.benefit.proLib": "Pro equipment library",
   "pricing.pro.benefit.customPdf": "Customizable PDF",
   "pricing.pro.benefit.versionHistory": "Version history",
-  "pricing.pro.benefit.advancedExport": "Advanced export",
+  
   "pricing.pro.benefit.unlimitedStorage": "Unlimited storage",
   "pricing.pro.manage": "Manage Subscription",
   "pricing.pro.upgrade": "Upgrade to Pro",
@@ -682,7 +682,7 @@
   "pro.plans.annual.features.proLibrary": "Pro equipment library",
   "pro.plans.annual.features.customPdf": "Customizable PDF with logo",
   "pro.plans.annual.features.versionHistory": "Version history",
-  "pro.plans.annual.features.advancedExport": "Advanced export (CSV, Excel)",
+  
   "pro.plans.annual.features.unlimitedStorage": "Unlimited storage",
   "pro.plans.annual.features.prioritySupport": "Priority support",
   "pro.plans.annual.features.earlyAccess": "Early access to new features",
@@ -736,8 +736,7 @@
   "versionHistory.cancel": "Cancel",
   "versionHistory.viewAndRestore": "View and restore previous versions of the rider",
   "versionHistory.versionsWillBeCreated": "Versions will be created automatically when you save changes.",
-  "pro.features.export.title": "Advanced Export",
-  "pro.features.export.description": "Export to multiple formats: PDF, CSV, Excel. Easily integrate with other systems.",
+
   "pro.features.storage.title": "Unlimited Storage",
   "pro.features.storage.description": "Store all your riders without worrying about space. Automatic backup and synchronization.",
   "pro.features.title": "Why choose Rider Forge Pro?",

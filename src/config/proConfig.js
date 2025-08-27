@@ -28,11 +28,7 @@ export const PRO_CONFIG = {
       title: 'Histórico de Versões',
       description: 'Controle de versões e histórico de alterações'
     },
-    ADVANCED_EXPORT: {
-      id: 'advanced_export',
-      title: 'Exportação Avançada',
-      description: 'Formatos de exportação adicionais'
-    }
+
   },
 
   // Mensagens do sistema

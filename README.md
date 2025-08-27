@@ -79,7 +79,7 @@ Uma aplicação moderna e elegante para criação e gerenciamento de riders téc
 - ✅ Riders ilimitados
 - ✅ Armazenamento expandido
 - ✅ Templates premium
-- ✅ Exportação avançada
+
 
 ### UX/UI
 - ✅ Feedback visual em todas as ações

@@ -17,7 +17,7 @@ export const STRIPE_CONFIG = {
         'Biblioteca Pro de Equipamentos',
         'PDF Customizável',
         'Histórico de Versões',
-        'Exportação Avançada',
+      
         'Armazenamento Ilimitado'
       ]
     }

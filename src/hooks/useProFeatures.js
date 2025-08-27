@@ -74,10 +74,7 @@ export function useProFeatures() {
     return useProFeature(PRO_FEATURES.VERSION_HISTORY.id, () => true)
   }
 
-  // Verificar se pode usar exportação avançada
-  const canUseAdvancedExport = () => {
-    return useProFeature(PRO_FEATURES.ADVANCED_EXPORT.id, () => true)
-  }
+
 
   // Fechar modal de upgrade
   const closeUpgradeModal = () => {
@@ -113,7 +110,7 @@ export function useProFeatures() {
     canUseProEquipment,
     canCustomizePDF,
     canUseVersionHistory,
-    canUseAdvancedExport,
+
     closeUpgradeModal,
     closeSaveProgressModal,
     executePendingProAction,
