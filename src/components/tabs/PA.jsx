@@ -498,10 +498,10 @@ function PA({ data, onChange }) {
                       />
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-green-400 text-xs font-semibold bg-green-500/20 px-2 py-1 rounded">QUALIDADE</span>
-                          <span className="text-gray-100 font-medium">Sistemas Alinhados em Fase</span>
+                          <span className="text-green-400 text-xs font-semibold bg-green-500/20 px-2 py-1 rounded">{t('tab.pa.badge.quality')}</span>
+                          <span className="text-gray-100 font-medium">{t('tab.pa.performance.phaseAligned')}</span>
                         </div>
-                        <p className="text-gray-400 text-sm">Todos os sistemas devem estar alinhados em fase para evitar cancelamentos</p>
+                        <p className="text-gray-400 text-sm">{t('tab.pa.performance.phaseAligned.desc')}</p>
                       </div>
                     </div>
                   </div>
@@ -518,10 +518,10 @@ function PA({ data, onChange }) {
                       />
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-green-400 text-xs font-semibold bg-green-500/20 px-2 py-1 rounded">QUALIDADE</span>
-                          <span className="text-gray-100 font-medium">Sistemas Isentos de Ruído</span>
+                          <span className="text-green-400 text-xs font-semibold bg-green-500/20 px-2 py-1 rounded">{t('tab.pa.badge.quality')}</span>
+                          <span className="text-gray-100 font-medium">{t('tab.pa.performance.noiseFree')}</span>
                         </div>
-                        <p className="text-gray-400 text-sm">Sistemas devem estar livres de ruído de fundo e interferências</p>
+                        <p className="text-gray-400 text-sm">{t('tab.pa.performance.noiseFree.desc')}</p>
                       </div>
                     </div>
                   </div>
@@ -598,7 +598,7 @@ function PA({ data, onChange }) {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
-              Configuração do Sistema
+              {t('tab.pa.systemConfig.title')}
             </h4>
             
             <div className="space-y-4">
@@ -614,13 +614,13 @@ function PA({ data, onChange }) {
                   />
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-red-400 text-xs font-semibold bg-red-500/20 px-2 py-1 rounded">OBRIGATÓRIO</span>
-                      <span className="text-gray-100 font-medium">Sistema Line Array</span>
+                      <span className="text-red-400 text-xs font-semibold bg-red-500/20 px-2 py-1 rounded">{t('tab.pa.badge.required')}</span>
+                      <span className="text-gray-100 font-medium">{t('tab.pa.systemConfig.lineArray')}</span>
                       {formData.generalRequirements.systemConfig.lineArrayRequired && (
-                        <span className="text-green-400 text-xs">✓ Selecionado</span>
+                        <span className="text-green-400 text-xs">{t('common.selected')}</span>
                       )}
                     </div>
-                    <p className="text-gray-400 text-sm">Sistema de som deve ser do tipo Line Array para cobertura uniforme</p>
+                    <p className="text-gray-400 text-sm">{t('tab.pa.systemConfig.lineArray.desc')}</p>
                   </div>
                 </div>
               </div>
@@ -637,13 +637,13 @@ function PA({ data, onChange }) {
                   />
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-red-400 text-xs font-semibold bg-red-500/20 px-2 py-1 rounded">OBRIGATÓRIO</span>
-                      <span className="text-gray-100 font-medium">Sistema Suspenso</span>
+                      <span className="text-red-400 text-xs font-semibold bg-red-500/20 px-2 py-1 rounded">{t('tab.pa.badge.required')}</span>
+                      <span className="text-gray-100 font-medium">{t('tab.pa.systemConfig.suspension')}</span>
                       {formData.generalRequirements.systemConfig.suspensionRequired && (
-                        <span className="text-green-400 text-xs">✓ Selecionado</span>
+                        <span className="text-green-400 text-xs">{t('common.selected')}</span>
                       )}
                     </div>
-                    <p className="text-gray-400 text-sm">Sistema deve estar sempre suspenso, nunca no chão</p>
+                    <p className="text-gray-400 text-sm">{t('tab.pa.systemConfig.suspension.desc')}</p>
                   </div>
                 </div>
               </div>
