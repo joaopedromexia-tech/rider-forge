@@ -46,11 +46,12 @@ async function withStore(storeName, mode, fn) {
       const store = tx.objectStore(storeName);
       const result = fn(store, tx);
       
-      if (result && typeof result.then === 'function') {
-        // Se o resultado é uma Promise (como getAll()), esperar por ela
-        result.then(resolve).catch(() => resolve(null));
+      // Para operações que retornam IDBRequest (como getAll, get, etc.)
+      if (result && result.readyState !== undefined) {
+        result.onsuccess = () => resolve(result.result);
+        result.onerror = () => resolve(null);
       } else {
-        // Se não é uma Promise, resolver imediatamente
+        // Para operações que não retornam IDBRequest (como put, delete, etc.)
         tx.oncomplete = () => resolve(result);
       }
       
