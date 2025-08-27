@@ -210,6 +210,10 @@ export function RiderProvider({ children }) {
         }
 
         setSavedRiders(prev => [...prev, convertedRider])
+        // Guardar versão inicial (não bloqueante) - também para utilizadores autenticados
+        saveRiderVersion(convertedRider.id, convertedRider.data).catch(error => {
+          console.warn('Error saving version for new rider:', error)
+        })
         return convertedRider
       } catch (error) {
         console.error('Error saving rider to database:', error)
@@ -264,6 +268,10 @@ export function RiderProvider({ children }) {
         setSavedRiders(prev => prev.map(rider => 
           rider.id === id ? updatedRider : rider
         ))
+        // Salvar versão (não bloqueante) - também para utilizadores autenticados
+        saveRiderVersion(id, riderData).catch(error => {
+          console.warn('Error saving version for updated rider:', error)
+        })
       } catch (error) {
         console.error('Error updating rider in database:', error)
         throw error
@@ -327,6 +335,10 @@ export function RiderProvider({ children }) {
         }
 
         setSavedRiders(prev => [...prev, convertedRider])
+        // Guardar versão inicial (não bloqueante) - também para utilizadores autenticados
+        saveRiderVersion(convertedRider.id, convertedRider.data).catch(error => {
+          console.warn('Error saving version for duplicated rider:', error)
+        })
         return convertedRider
       } catch (error) {
         console.error('Error duplicating rider in database:', error)
