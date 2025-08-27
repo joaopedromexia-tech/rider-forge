@@ -270,7 +270,7 @@ export function RiderProvider({ children }) {
 
         const updatedRider = {
           id: data.id,
-          name: data.title,
+          name: data.title || riderName, // Fallback para riderName se title vier undefined
           data: data.data,
           createdAt: data.created_at,
           updatedAt: data.updated_at,
@@ -278,10 +278,18 @@ export function RiderProvider({ children }) {
         }
 
         console.log('✅ Rider atualizado na base de dados:', updatedRider.name)
+        console.log('🔍 Debug - data.title:', data.title, 'riderName:', riderName)
         
         setSavedRiders(prev => {
-          const newRiders = prev.map(rider => rider.id === id ? updatedRider : rider)
+          const newRiders = prev.map(rider => {
+            if (rider.id === id) {
+              console.log('🔄 Substituindo rider:', rider.name, '->', updatedRider.name)
+              return updatedRider
+            }
+            return rider
+          })
           console.log('📊 Estado atualizado, total riders:', newRiders.length)
+          console.log('🔍 Riders após update:', newRiders.map(r => `${r.name} (${r.id})`))
           return newRiders
         })
         
