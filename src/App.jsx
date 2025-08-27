@@ -11,6 +11,9 @@ import MyRiders from './components/MyRiders'
 import PDFPreview from './components/PDFPreview'
 import ProSubscriptionPage from './components/ProSubscriptionPage'
 import PricingPage from './components/pricing/PricingPage'
+import SubscriptionManagementPage from './components/subscription/SubscriptionManagementPage'
+import FAQPage from './components/legal/FAQPage'
+import PrivacyTermsPage from './components/legal/PrivacyTermsPage'
 import DemoButton from './components/DemoButton'
 import LoginModal from './components/auth/LoginModal'
 import BugReportButton from './components/BugReportButton'
@@ -69,6 +72,18 @@ function AppContent() {
 
   const handleNavigateToPricing = () => {
     setCurrentView('pricing')
+  }
+
+  const handleNavigateToSubscriptionManagement = () => {
+    setCurrentView('subscription-management')
+  }
+
+  const handleNavigateToFAQ = () => {
+    setCurrentView('faq')
+  }
+
+  const handleNavigateToPrivacyTerms = () => {
+    setCurrentView('privacy-terms')
   }
 
   // Se ainda está a carregar, mostrar loading
@@ -263,7 +278,29 @@ function AppContent() {
 
             {/* Footer Info */}
             <div className="text-center text-gray-500 text-sm mt-8 sm:mt-12">
-              <p>{t('home.footer')}</p>
+              <p className="mb-4">{t('home.footer')}</p>
+              
+              {/* Footer Links */}
+              <div className="flex flex-wrap justify-center gap-6 text-sm">
+                <button
+                  onClick={handleNavigateToFAQ}
+                  className="text-gray-400 hover:text-gray-300 transition-colors"
+                >
+                  FAQ
+                </button>
+                <button
+                  onClick={handleNavigateToPrivacyTerms}
+                  className="text-gray-400 hover:text-gray-300 transition-colors"
+                >
+                  Termos & Privacidade
+                </button>
+                <button
+                  onClick={() => setShowLoginModal(true)}
+                  className="text-gray-400 hover:text-gray-300 transition-colors"
+                >
+                  Suporte
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -302,6 +339,25 @@ function AppContent() {
 
       {currentView === 'pricing' && (
         <PricingPage 
+          onBack={handleBackToHome}
+          onNavigateToSubscriptionManagement={handleNavigateToSubscriptionManagement}
+        />
+      )}
+
+      {currentView === 'subscription-management' && (
+        <SubscriptionManagementPage 
+          onBack={handleBackToHome}
+        />
+      )}
+
+      {currentView === 'faq' && (
+        <FAQPage 
+          onBack={handleBackToHome}
+        />
+      )}
+
+      {currentView === 'privacy-terms' && (
+        <PrivacyTermsPage 
           onBack={handleBackToHome}
         />
       )}

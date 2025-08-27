@@ -4,7 +4,7 @@ import { STRIPE_CONFIG, useStripeCheckout } from '../../config/stripe'
 import LoginModal from '../auth/LoginModal'
 import { useI18n } from '../../context/I18nContext'
 
-const PricingPage = ({ onBack }) => {
+const PricingPage = ({ onBack, onNavigateToSubscriptionManagement }) => {
   const { user, isPro, subscription } = useAuth()
   const { redirectToCheckout } = useStripeCheckout()
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -35,13 +35,12 @@ const PricingPage = ({ onBack }) => {
   }
 
   const handleManageSubscription = async () => {
-    if (subscription?.customer_id) {
-      try {
-        // Implementar redirecionamento para portal do Stripe
-        window.open(`/api/create-portal-session?customer_id=${subscription.customer_id}`, '_blank')
-      } catch (error) {
-        console.error('Error opening portal:', error)
-      }
+    // Redirecionar para a página de gestão de subscrição
+    if (onNavigateToSubscriptionManagement) {
+      onNavigateToSubscriptionManagement()
+    } else {
+      // Fallback para navegação direta
+      window.location.href = '/subscription-management'
     }
   }
 

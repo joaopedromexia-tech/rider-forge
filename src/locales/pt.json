@@ -760,7 +760,42 @@
   "pro.faq.q3": "Que métodos de pagamento aceitam?",
   "pro.faq.a3": "Aceitamos todos os principais cartões de crédito e débito, incluindo Visa, Mastercard, American Express e outros métodos de pagamento seguros através do Stripe.",
   "pro.faq.q4": "Posso cancelar a qualquer momento?",
-  "pro.faq.a4": "Sim, pode cancelar a sua subscrição a qualquer momento através do portal de gestão. Continuará a ter acesso às funcionalidades Pro até ao final do período de faturação."
+  "pro.faq.a4": "Sim, pode cancelar a sua subscrição a qualquer momento através do portal de gestão. Continuará a ter acesso às funcionalidades Pro até ao final do período de faturação.",
+
+  "subscription.title": "Gestão de Subscrição",
+  "subscription.description": "Gerencie a sua subscrição Pro e configure as suas preferências de pagamento",
+  "subscription.status": "Estado da Subscrição",
+  "subscription.plan": "Plano",
+  "subscription.price": "Preço",
+  "subscription.nextPayment": "Próximo Pagamento",
+  "subscription.startDate": "Data de Início",
+  "subscription.id": "ID da Subscrição",
+  "subscription.paymentMethod": "Método de Pagamento",
+  "subscription.portal": "Portal de Gestão",
+  "subscription.portalDesc": "Aceda ao portal do Stripe para alterar método de pagamento, ver faturas e mais",
+  "subscription.openPortal": "Abrir Portal",
+  "subscription.cancel": "Cancelar Subscrição",
+  "subscription.cancelDesc": "Cancele a sua subscrição Pro. Continuará a ter acesso até ao final do período atual",
+  "subscription.confirmCancel": "Confirmar Cancelamento",
+  "subscription.cancelWarning": "Tem a certeza que quer cancelar a sua subscrição Pro? Continuará a ter acesso a todas as funcionalidades Pro até ao final do período atual.",
+  "subscription.portalRedirect": "Após o cancelamento, será redirecionado para o portal do Stripe",
+  "subscription.reactivate": "Pode reativar a subscrição a qualquer momento",
+
+  "faq.title": "Perguntas Frequentes",
+  "faq.description": "Encontre respostas para as perguntas mais comuns sobre o Rider Forge",
+  "faq.search": "Pesquisar perguntas...",
+  "faq.contactTitle": "Não encontrou a resposta que procurava?",
+  "faq.contactDesc": "A nossa equipa está aqui para ajudar. Contacte-nos e responderemos em 24-48 horas.",
+  "faq.sendEmail": "Enviar Email",
+  "faq.reportBug": "Reportar Bug",
+
+  "legal.title": "Termos de Privacidade e Utilização",
+  "legal.description": "Informações importantes sobre como utilizamos os seus dados e os termos de utilização da plataforma",
+  "legal.privacy": "Política de Privacidade",
+  "legal.terms": "Termos de Utilização",
+  "legal.contactTitle": "Tem questões sobre os nossos termos?",
+  "legal.contactDesc": "A nossa equipa jurídica está disponível para esclarecer qualquer dúvida sobre estes documentos.",
+  "legal.contactSupport": "Contactar Suporte Legal"
 }
 
 
