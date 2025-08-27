@@ -21,9 +21,9 @@
 
   "bugReport.title": "Report Bug",
   "bugReport.titleLabel": "Title",
-  "bugReport.titlePlaceholder": "Briefly describe the problem...",
+  "bugReport.titlePlaceholder": "Ex: Button not working, page not loading, save error...",
   "bugReport.descriptionLabel": "Description",
-  "bugReport.descriptionPlaceholder": "Describe in detail what happened, steps to reproduce the issue and expected behavior...",
+  "bugReport.descriptionPlaceholder": "1. What were you trying to do?\n2. What happened instead?\n3. Steps to reproduce:\n   - Step 1\n   - Step 2\n   - Step 3\n4. Expected behavior:",
   "bugReport.severityLabel": "Severity",
   "bugReport.severityLow": "Low - Minor issue",
   "bugReport.severityMedium": "Medium - Moderate issue",

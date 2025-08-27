@@ -21,9 +21,9 @@
 
   "bugReport.title": "Reportar Bug",
   "bugReport.titleLabel": "Título",
-  "bugReport.titlePlaceholder": "Descreva brevemente o problema...",
+  "bugReport.titlePlaceholder": "Ex: Botão não funciona, página não carrega, erro ao guardar...",
   "bugReport.descriptionLabel": "Descrição",
-  "bugReport.descriptionPlaceholder": "Descreva detalhadamente o que aconteceu, os passos para reproduzir o problema e o comportamento esperado...",
+  "bugReport.descriptionPlaceholder": "1. O que estava a tentar fazer?\n2. O que aconteceu em vez disso?\n3. Passos para reproduzir:\n   - Passo 1\n   - Passo 2\n   - Passo 3\n4. Comportamento esperado:",
   "bugReport.severityLabel": "Severidade",
   "bugReport.severityLow": "Baixa - Problema menor",
   "bugReport.severityMedium": "Média - Problema moderado",
