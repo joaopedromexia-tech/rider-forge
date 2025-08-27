@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://rider-forge.vercel.app/sitemap.xml
+Sitemap: https://riderforge.app/sitemap.xml
 
 # Allow all pages
 Allow: /index.html
