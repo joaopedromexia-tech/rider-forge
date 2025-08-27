@@ -269,7 +269,7 @@ export function RiderProvider({ children }) {
         if (error) throw error
 
         const updatedRider = {
-          id: data.id,
+          id: data.id || id, // Fallback para o id original se data.id vier undefined
           name: data.title || riderName, // Fallback para riderName se title vier undefined
           data: data.data,
           createdAt: data.created_at,
@@ -278,6 +278,7 @@ export function RiderProvider({ children }) {
         }
 
         console.log('✅ Rider atualizado na base de dados:', updatedRider.name)
+        console.log('🔍 Debug - data.id:', data.id, 'id original:', id)
         console.log('🔍 Debug - data.title:', data.title, 'riderName:', riderName)
         
         setSavedRiders(prev => {
