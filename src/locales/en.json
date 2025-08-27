@@ -511,8 +511,7 @@
   "common.limitReached": "Limit reached",
   "common.cancel": "Cancel",
   "common.saving": "Saving...",
-  "common.replacing": "Replacing..."
-  ,
+  "common.replacing": "Replacing...",
   "common.back": "Back",
   "common.edit": "Edit",
   "common.export": "Export",
@@ -554,11 +553,9 @@
   "riders.delete.description": "Are you sure you want to delete this rider? This action cannot be undone.",
   "riders.import.title": "Import Rider",
   "riders.import.selectJson": "Select JSON file",
-  "riders.progress.saved": "Progress saved successfully!"
-  ,
+  "riders.progress.saved": "Progress saved successfully!",
   "validation.errorsTitle": "Validation Errors ({count})",
-  "validation.warningsTitle": "Warnings ({count})"
-  ,
+  "validation.warningsTitle": "Warnings ({count})",
   "pdf.error.generate": "Error generating PDF: please check all fields are filled correctly.",
   "pdf.preview.title": "PDF Preview",
   "pdf.preview.fallbackName": "Technical Rider",
@@ -578,7 +575,7 @@
   "saveProgress.warningTitle": "Attention",
   "saveProgress.warningText": "If you don't save, you may lose unsaved changes.",
   "saveProgress.saveAndContinue": "Save and Continue",
-  "saveProgress.continueWithoutSaving": "Continue without Saving"
+  "saveProgress.continueWithoutSaving": "Continue without Saving",
   "tab.monitor.title": "Monitor Mixes",
   "tab.monitor.subtitle": "Specific monitor configurations for each artist",
   "tab.monitor.progress.title": "Mixes Progress",
