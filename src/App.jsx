@@ -11,6 +11,7 @@ import PDFPreview from './components/PDFPreview'
 import ProSubscriptionPage from './components/ProSubscriptionPage'
 import DemoButton from './components/DemoButton'
 import LoginModal from './components/auth/LoginModal'
+import BugReportButton from './components/BugReportButton'
 
 // Componente interno que usa o contexto de autenticação
 function AppContent() {
@@ -253,6 +254,12 @@ function AppContent() {
       <LoginModal 
         isOpen={showLoginModal} 
         onClose={() => setShowLoginModal(false)} 
+      />
+      
+      {/* Bug Report Button - Floating */}
+      <BugReportButton 
+        position="bottom-right"
+        showLabel={false}
       />
       
       {/* Vercel Analytics */}

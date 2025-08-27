@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://rider-forge.vercel.app/sitemap.xml
+
+# Allow all pages
+Allow: /index.html
+Allow: /simple.html
+Allow: /test.html
+
+# Disallow API routes
+Disallow: /api/
+Disallow: /src/
+Disallow: /node_modules/

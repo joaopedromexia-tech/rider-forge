@@ -3,7 +3,7 @@ import React from 'react'
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { hasError: false, error: null, errorInfo: null }
+    this.state = { hasError: false, error: null, errorInfo: null, reportSubmitted: false }
   }
 
   static getDerivedStateFromError(error) {
@@ -16,6 +16,57 @@ class ErrorBoundary extends React.Component {
       error: error,
       errorInfo: errorInfo
     })
+
+    // Tentar enviar reporte automático do erro
+    this.submitErrorReport(error, errorInfo)
+  }
+
+  submitErrorReport = async (error, errorInfo) => {
+    try {
+      // Importar dinamicamente para evitar problemas de SSR
+      const { supabase } = await import('../config/supabase.js')
+      
+      const bugReport = {
+        title: `Erro automático: ${error.message || 'Erro desconhecido'}`,
+        description: `
+Erro capturado automaticamente pelo ErrorBoundary:
+
+**Erro:** ${error.message || 'Erro desconhecido'}
+**Stack:** ${error.stack || 'N/A'}
+**Component Stack:** ${errorInfo.componentStack || 'N/A'}
+**URL:** ${window.location.href}
+**Timestamp:** ${new Date().toISOString()}
+**User Agent:** ${navigator.userAgent}
+
+Este erro foi capturado automaticamente pelo sistema de reporte de bugs.
+        `.trim(),
+        severity: 'high',
+        user_id: null, // Será preenchido se o user estiver logado
+        browser_info: {
+          userAgent: navigator.userAgent,
+          language: navigator.language,
+          platform: navigator.platform,
+          cookieEnabled: navigator.cookieEnabled,
+          onLine: navigator.onLine,
+          screenResolution: `${screen.width}x${screen.height}`,
+          windowSize: `${window.innerWidth}x${window.innerHeight}`,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        },
+        app_version: '1.0.0',
+        page_url: window.location.href,
+        user_agent: navigator.userAgent
+      }
+
+      const { error: supabaseError } = await supabase
+        .from('bug_reports')
+        .insert([bugReport])
+
+      if (!supabaseError) {
+        this.setState({ reportSubmitted: true })
+      }
+    } catch (reportError) {
+      console.error('Erro ao enviar reporte automático:', reportError)
+    }
   }
 
   render() {
@@ -35,6 +86,15 @@ class ErrorBoundary extends React.Component {
               <p className="text-gray-600 mb-4">
                 Ocorreu um erro inesperado. Por favor, recarregue a página.
               </p>
+              
+              {this.state.reportSubmitted && (
+                <div className="bg-green-50 border border-green-200 rounded-md p-3 mb-4">
+                  <p className="text-sm text-green-800">
+                    ✅ Erro reportado automaticamente. Obrigado!
+                  </p>
+                </div>
+              )}
+              
               <button
                 onClick={() => window.location.reload()}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"

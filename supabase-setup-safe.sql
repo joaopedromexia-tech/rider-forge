@@ -1,5 +1,6 @@
--- Configuração da base de dados RiderForge
+-- Configuração da base de dados RiderForge - VERSÃO SEGURA
 -- Execute este script no SQL Editor do Supabase
+-- Esta versão não contém operações destrutivas
 
 -- 1. Criar tabela de perfis de utilizador
 CREATE TABLE IF NOT EXISTS profiles (
@@ -90,18 +91,27 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
--- 10. Criar triggers para atualizar updated_at
-DROP TRIGGER IF EXISTS update_profiles_updated_at ON profiles;
-CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON profiles
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-
-DROP TRIGGER IF EXISTS update_riders_updated_at ON riders;
-CREATE TRIGGER update_riders_updated_at BEFORE UPDATE ON riders
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-
-DROP TRIGGER IF EXISTS update_subscriptions_updated_at ON subscriptions;
-CREATE TRIGGER update_subscriptions_updated_at BEFORE UPDATE ON subscriptions
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+-- 10. Criar triggers para atualizar updated_at (versão segura)
+DO $$
+BEGIN
+  -- Trigger para profiles
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_profiles_updated_at') THEN
+    CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON profiles
+      FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+  END IF;
+  
+  -- Trigger para riders
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_riders_updated_at') THEN
+    CREATE TRIGGER update_riders_updated_at BEFORE UPDATE ON riders
+      FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+  END IF;
+  
+  -- Trigger para subscriptions
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_subscriptions_updated_at') THEN
+    CREATE TRIGGER update_subscriptions_updated_at BEFORE UPDATE ON subscriptions
+      FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+  END IF;
+END $$;
 
 -- 11. Criar função para criar perfil automaticamente após signup
 CREATE OR REPLACE FUNCTION public.handle_new_user()
@@ -118,11 +128,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- 12. Criar trigger para criar perfil automaticamente
-DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
-CREATE TRIGGER on_auth_user_created
-  AFTER INSERT ON auth.users
-  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+-- 12. Criar trigger para criar perfil automaticamente (versão segura)
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'on_auth_user_created') THEN
+    CREATE TRIGGER on_auth_user_created
+      AFTER INSERT ON auth.users
+      FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+  END IF;
+END $$;
 
 -- 13. Configurar storage para PDFs
 INSERT INTO storage.buckets (id, name, public) 
@@ -192,7 +206,11 @@ CREATE POLICY IF NOT EXISTS "Users can view own bug reports" ON bug_reports
 CREATE POLICY IF NOT EXISTS "Users can update own bug reports" ON bug_reports
   FOR UPDATE USING (auth.uid() = user_id);
 
--- 19. Criar trigger para atualizar updated_at em bug reports
-DROP TRIGGER IF EXISTS update_bug_reports_updated_at ON bug_reports;
-CREATE TRIGGER update_bug_reports_updated_at BEFORE UPDATE ON bug_reports
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+-- 19. Criar trigger para atualizar updated_at em bug reports (versão segura)
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_bug_reports_updated_at') THEN
+    CREATE TRIGGER update_bug_reports_updated_at BEFORE UPDATE ON bug_reports
+      FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+  END IF;
+END $$;

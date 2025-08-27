@@ -29,6 +29,18 @@
       }
     },
     {
+      "src": "/robots.txt",
+      "headers": {
+        "Content-Type": "text/plain"
+      }
+    },
+    {
+      "src": "/sitemap.xml",
+      "headers": {
+        "Content-Type": "application/xml"
+      }
+    },
+    {
       "src": "/assets/(.*\\.js)",
       "headers": {
         "Content-Type": "application/javascript"
