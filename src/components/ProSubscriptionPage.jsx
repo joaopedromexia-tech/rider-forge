@@ -106,11 +106,39 @@ const ProSubscriptionPage = ({ onBack }) => {
   const handleManageSubscription = async () => {
     if (hasSubscription && subscription?.customer_id) {
       try {
-        window.open(`/api/create-portal-session?customer_id=${subscription.customer_id}`, '_blank')
+        console.log('Opening subscription portal for customer:', subscription.customer_id)
+        
+        // Fazer POST request para criar a sessão do portal
+        const response = await fetch('/api/create-portal-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            customerId: subscription.customer_id,
+            returnUrl: window.location.origin + '/dashboard'
+          })
+        })
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
+        const data = await response.json()
+        
+        if (data.id) {
+          // Abrir o portal do Stripe em nova aba
+          window.open(data.id, '_blank')
+        } else {
+          throw new Error('No portal URL received')
+        }
       } catch (error) {
         console.error('Error opening portal:', error)
         showError(t('pro.errors.portal'))
       }
+    } else {
+      console.log('No subscription or customer_id found:', { hasSubscription, subscription })
+      showError('No active subscription found')
     }
   }
 
