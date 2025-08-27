@@ -386,13 +386,13 @@ function DadosGerais({ data, onChange }) {
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">{t('tab.general.basicInfo.tourYear')} *</label>
             <input
-              type="number"
-              value={formData.anoTour}
+              type="text"
+              value={formData.anoTour || ''}
               onChange={(e) => handleChange('anoTour', e.target.value)}
-              className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
+              className={`w-full px-4 py-3 bg-dark-700 border rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200 ${
+                formData.anoTour?.trim() ? 'border-green-500/50' : 'border-red-500/50'
+              }`}
               placeholder={t('tab.general.basicInfo.tourYear.placeholder')}
-              min="2000"
-              max="2030"
             />
           </div>
         </div>
