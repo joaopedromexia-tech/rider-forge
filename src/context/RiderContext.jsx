@@ -253,6 +253,8 @@ export function RiderProvider({ children }) {
   const updateRider = useCallback(async (id, riderData, name) => {
     const thumbnail = generateThumbnail(riderData)
     const riderName = name || thumbnail.cardName
+    
+    console.log('🔄 updateRider chamado para:', id, riderName)
 
     // Se o utilizador está autenticado, atualizar na base de dados
     if (user && hasAccount) {
@@ -275,9 +277,14 @@ export function RiderProvider({ children }) {
           thumbnail: thumbnail
         }
 
-        setSavedRiders(prev => prev.map(rider => 
-          rider.id === id ? updatedRider : rider
-        ))
+        console.log('✅ Rider atualizado na base de dados:', updatedRider.name)
+        
+        setSavedRiders(prev => {
+          const newRiders = prev.map(rider => rider.id === id ? updatedRider : rider)
+          console.log('📊 Estado atualizado, total riders:', newRiders.length)
+          return newRiders
+        })
+        
         // Salvar versão (não bloqueante) - também para utilizadores autenticados
         saveRiderVersion(data.id, riderData).catch(error => {
           console.warn('Error saving version for updated rider:', error)
@@ -296,16 +303,23 @@ export function RiderProvider({ children }) {
         thumbnail: thumbnail
       }
       
-      setSavedRiders(prev => prev.map(rider => 
-        rider.id === id 
-          ? {
-              ...rider,
-              ...updatedRider
-            }
-          : rider
-      ))
+      console.log('💾 Atualizando rider localmente:', updatedRider.name)
       
-      // Garantir que o localStorage seja atualizado imediatamente
+      // Atualizar estado React primeiro
+      setSavedRiders(prev => {
+        const newRiders = prev.map(rider => 
+          rider.id === id 
+            ? {
+                ...rider,
+                ...updatedRider
+              }
+            : rider
+        )
+        console.log('📊 Estado local atualizado, total riders:', newRiders.length)
+        return newRiders
+      })
+      
+      // Garantir que o localStorage seja atualizado imediatamente de forma síncrona
       try {
         const currentRiders = JSON.parse(localStorage.getItem('riderForge_riders') || '[]')
         const updatedRiders = currentRiders.map(rider => 
@@ -317,6 +331,13 @@ export function RiderProvider({ children }) {
             : rider
         )
         localStorage.setItem('riderForge_riders', JSON.stringify(updatedRiders))
+        console.log('💾 localStorage atualizado com sucesso')
+        
+        // Verificar se foi realmente salvo
+        const verification = JSON.parse(localStorage.getItem('riderForge_riders') || '[]')
+        const verifyRider = verification.find(r => r.id === id)
+        console.log('🔍 Verificação localStorage - rider encontrado:', verifyRider ? verifyRider.name : 'NÃO ENCONTRADO')
+        
       } catch (error) {
         console.warn('Erro ao atualizar localStorage:', error)
       }

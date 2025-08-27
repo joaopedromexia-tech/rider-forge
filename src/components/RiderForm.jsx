@@ -311,11 +311,22 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     // Para overwrite, não precisamos de verificação Pro
     if (payload?.mode === 'overwrite' && payload?.riderId) {
       try {
+        console.log('🔄 Salvando rider (overwrite):', payload.riderId)
         await updateRider(payload.riderId, formData)
         showSuccess('Rider substituído com sucesso!')
         try { await kvSet(draftKeyRef.current, null) } catch (_) {}
-        // Forçar sincronização antes de voltar
-        forceSyncState()
+        
+        // Aguardar sincronização antes de voltar
+        console.log('⏳ Aguardando sincronização...')
+        await new Promise(resolve => {
+          forceSyncState()
+          // Aguardar 100ms para garantir que o estado foi atualizado
+          setTimeout(() => {
+            console.log('✅ Sincronização completa, navegando de volta')
+            resolve()
+          }, 100)
+        })
+        
         onBack()
         return
       } catch (error) {
@@ -333,6 +344,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
           showSuccess('Rider salvo com sucesso!')
         } else if (editingRider) {
           // Atualizar rider existente (modo de edição)
+          console.log('🔄 Salvando rider (edição):', editingRider.id)
           await updateRider(editingRider.id, formData, editingRider.name)
           showSuccess('Rider atualizado com sucesso!')
         } else {
@@ -340,8 +352,18 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
           return false
         }
         try { await kvSet(draftKeyRef.current, null) } catch (_) {}
-        // Forçar sincronização antes de voltar
-        forceSyncState()
+        
+        // Aguardar sincronização antes de voltar
+        console.log('⏳ Aguardando sincronização...')
+        await new Promise(resolve => {
+          forceSyncState()
+          // Aguardar 100ms para garantir que o estado foi atualizado
+          setTimeout(() => {
+            console.log('✅ Sincronização completa, navegando de volta')
+            resolve()
+          }, 100)
+        })
+        
         onBack()
         return true
       } catch (error) {
