@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { supabase } from '../config/supabase.js'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useI18n } from '../context/I18nContext'
+import Modal from './Modal'
 
 const BugReportModal = ({ isOpen, onClose }) => {
   const { t } = useI18n()
@@ -86,7 +87,7 @@ const BugReportModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <Modal isOpen={isOpen} onClose={onClose}>
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
@@ -217,7 +218,7 @@ const BugReportModal = ({ isOpen, onClose }) => {
           </div>
         </form>
       </div>
-    </div>
+    </Modal>
   )
 }
 

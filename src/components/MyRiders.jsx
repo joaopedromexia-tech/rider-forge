@@ -9,6 +9,7 @@ import SaveProgressModal from './SaveProgressModal'
 import ProStatusBadge from './ProStatusBadge'
 import NewPDFExport from './NewPDFExport'
 import LoginModal from './auth/LoginModal'
+import Modal from './Modal'
 import { encodeObjectToBase64 } from '../utils/base64'
 import { PRO_CONFIG } from '../config/proConfig'
 
@@ -444,88 +445,91 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
       </div>
 
       {/* Delete Confirmation Modal */}
-      {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-dark-800 rounded-lg shadow-xl max-w-md w-full border border-dark-700">
-            <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-100 mb-4">
-                {t('riders.delete.title')}
-              </h3>
-              <p className="text-gray-400 mb-6">
-                {t('riders.delete.description')}
-              </p>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => handleDelete(showDeleteConfirm)}
-                  className="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-red-700 transition-colors"
-                >
-                  {t('common.delete')}
-                </button>
-                <button
-                  onClick={() => setShowDeleteConfirm(null)}
-                  className="flex-1 btn-secondary"
-                >
-                  {t('common.cancel')}
-                </button>
-              </div>
+      <Modal isOpen={!!showDeleteConfirm} onClose={() => setShowDeleteConfirm(null)}>
+        <div className="bg-dark-800 rounded-lg shadow-xl max-w-md w-full border border-dark-700">
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-gray-100 mb-4">
+              {t('riders.delete.title')}
+            </h3>
+            <p className="text-gray-400 mb-6">
+              {t('riders.delete.description')}
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => handleDelete(showDeleteConfirm)}
+                className="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-red-700 transition-colors"
+              >
+                {t('common.delete')}
+              </button>
+              <button
+                onClick={() => setShowDeleteConfirm(null)}
+                className="flex-1 btn-secondary"
+              >
+                {t('common.cancel')}
+              </button>
             </div>
           </div>
         </div>
-      )}
+      </Modal>
 
       {/* Import Modal */}
-      {showImportModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-dark-800 rounded-lg shadow-xl max-w-md w-full border border-dark-700">
-            <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-100 mb-4">
-                {t('riders.import.title')}
-              </h3>
-              
-              {importError && (
-                <div className="mb-4 p-3 bg-red-900/50 border border-red-700 rounded-lg text-red-300 text-sm">
-                  {importError}
-                </div>
-              )}
-              
-              {importSuccess && (
-                <div className="mb-4 p-3 bg-green-900/50 border border-green-700 rounded-lg text-green-300 text-sm">
-                  {importSuccess}
-                </div>
-              )}
-              
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  {t('riders.import.selectJson')}
-                </label>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".json"
-                  onChange={handleImport}
-                  className="w-full p-3 border border-dark-600 rounded-lg bg-dark-700 text-gray-100 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-accent-blue file:text-white hover:file:bg-accent-blue/80"
-                />
+      <Modal isOpen={showImportModal} onClose={() => {
+        setShowImportModal(false)
+        setImportError('')
+        setImportSuccess('')
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ''
+        }
+      }}>
+        <div className="bg-dark-800 rounded-lg shadow-xl max-w-md w-full border border-dark-700">
+          <div className="p-6">
+            <h3 className="text-lg font-semibold text-gray-100 mb-4">
+              {t('riders.import.title')}
+            </h3>
+            
+            {importError && (
+              <div className="mb-4 p-3 bg-red-900/50 border border-red-700 rounded-lg text-red-300 text-sm">
+                {importError}
               </div>
-              
-              <div className="flex gap-3">
-                <button
-                  onClick={() => {
-                    setShowImportModal(false)
-                    setImportError('')
-                    setImportSuccess('')
-                    if (fileInputRef.current) {
-                      fileInputRef.current.value = ''
-                    }
-                  }}
-                  className="flex-1 btn-secondary"
-                >
-                  {t('common.cancel')}
-                </button>
+            )}
+            
+            {importSuccess && (
+              <div className="mb-4 p-3 bg-green-900/50 border border-green-700 rounded-lg text-green-300 text-sm">
+                {importSuccess}
               </div>
+            )}
+            
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                {t('riders.import.selectJson')}
+              </label>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".json"
+                onChange={handleImport}
+                className="w-full p-3 border border-dark-600 rounded-lg bg-dark-700 text-gray-100 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-accent-blue file:text-white hover:file:bg-accent-blue/80"
+              />
+            </div>
+            
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowImportModal(false)
+                  setImportError('')
+                  setImportSuccess('')
+                  if (fileInputRef.current) {
+                    fileInputRef.current.value = ''
+                  }
+                }}
+                className="flex-1 btn-secondary"
+              >
+                {t('common.cancel')}
+              </button>
             </div>
           </div>
         </div>
-      )}
+      </Modal>
 
       {/* Pro Upgrade Modal */}
       <ProUpgradeModal 

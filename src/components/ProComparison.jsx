@@ -1,5 +1,6 @@
 import { useRider } from '../context/RiderContext'
 import { PRO_CONFIG } from '../config/proConfig'
+import Modal from './Modal'
 
 function ProComparison({ isOpen, onClose }) {
   const { isPro } = useRider()
@@ -9,7 +10,7 @@ function ProComparison({ isOpen, onClose }) {
   const { FREE_LIMITS, PRO_FEATURES } = PRO_CONFIG
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <Modal isOpen={isOpen} onClose={onClose}>
       <div className="card max-w-4xl w-full relative overflow-hidden max-h-[90vh] overflow-y-auto">
         {/* Background Pattern */}
         <div className="absolute inset-0 overflow-hidden">
@@ -182,7 +183,7 @@ function ProComparison({ isOpen, onClose }) {
           </div>
         </div>
       </div>
-    </div>
+    </Modal>
   )
 }
 

@@ -162,12 +162,7 @@ function AppContent() {
                     </div>
                   )}
                   
-                  {/* Mensagem de incentivo */}
-                  {(!hasUser || !hasUserAccount) && (
-                    <div className="mt-4 p-3 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-lg">
-                      <p className="text-sm text-yellow-200 font-medium">{t('home.free.perks')}</p>
-                    </div>
-                  )}
+
                 </div>
               </div>
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
+import Modal from './Modal'
 
 // Editor simples com SVG: grelha, paleta básica e arrastar/soltar
 // Guarda layout JSON e exporta PNG (dataURL) para inclusão no PDF
@@ -114,7 +115,7 @@ function StagePlotEditor({ initialLayout = null, onClose, onSave }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+    <Modal isOpen={true} onClose={onClose}>
       <div className="bg-dark-800 border border-dark-700 rounded-lg w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
         <div className="p-4 border-b border-dark-700 flex items-center justify-between">
           <h3 className="text-gray-100 font-semibold">Stage Plot (beta)</h3>
@@ -166,7 +167,7 @@ function StagePlotEditor({ initialLayout = null, onClose, onSave }) {
           Dica: clique num item para selecionar. Use ↺/↻ para rodar. Arraste para mover. Guardar exporta PNG e layout JSON.
         </div>
       </div>
-    </div>
+    </Modal>
   )
 }
 

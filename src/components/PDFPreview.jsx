@@ -4,6 +4,7 @@ import RiderPDF from '../pdf/RiderPDF'
 import { useProFeatures } from '../hooks/useProFeatures'
 import ProUpgradeModal from './ProUpgradeModal'
 import { useI18n } from '../context/I18nContext'
+import Modal from './Modal'
 
 function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onExport }) {
   const { t, locale } = useI18n()
@@ -117,7 +118,7 @@ function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onEx
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <Modal isOpen={isOpen} onClose={onClose}>
         <div className="bg-dark-800 rounded-lg w-full max-w-6xl h-[90vh] flex flex-col border border-dark-700">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-dark-700">
@@ -229,7 +230,7 @@ function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onEx
             )}
           </div>
         </div>
-      </div>
+      </Modal>
 
       {/* Pro Upgrade Modal */}
       <ProUpgradeModal

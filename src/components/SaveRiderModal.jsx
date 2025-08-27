@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useRider } from '../context/RiderContext'
 import { useI18n } from '../context/I18nContext'
+import Modal from './Modal'
 
 function SaveRiderModal({ isOpen, riderData, onSave, onClose }) {
   const { saveRider, updateRider, savedRiders, canSaveMoreRiders, canSaveBySize, FREE_LIMITS } = useRider()
@@ -70,7 +71,7 @@ function SaveRiderModal({ isOpen, riderData, onSave, onClose }) {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <Modal isOpen={isOpen} onClose={onClose}>
       <div className="bg-dark-800 rounded-lg shadow-xl max-w-md w-full border border-dark-700">
         {/* Header */}
         <div className="p-6 border-b border-dark-700">
@@ -229,7 +230,7 @@ function SaveRiderModal({ isOpen, riderData, onSave, onClose }) {
           </button>
         </div>
       </div>
-    </div>
+    </Modal>
   )
 }
 

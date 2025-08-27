@@ -1,9 +1,11 @@
+import Modal from './Modal'
+
 function ProUpgradeModal({ isOpen, onClose, feature, onNavigateToSubscription }) {
 
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <Modal isOpen={isOpen} onClose={onClose}>
       <div className="card max-w-md w-full relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 overflow-hidden">
@@ -102,7 +104,7 @@ function ProUpgradeModal({ isOpen, onClose, feature, onNavigateToSubscription })
           </div>
         </div>
       </div>
-    </div>
+    </Modal>
   )
 }
 

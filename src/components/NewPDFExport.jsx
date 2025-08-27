@@ -3,6 +3,7 @@ import { pdf } from '@react-pdf/renderer'
 import RiderPDF from '../pdf/RiderPDF'
 import PDFPreview from './PDFPreview'
 import { useI18n } from '../context/I18nContext'
+import Modal from './Modal'
 
 function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
   const { t, locale } = useI18n()
@@ -87,7 +88,7 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <Modal isOpen={isOpen} onClose={onClose}>
         <div className="bg-dark-800 rounded-lg p-6 max-w-lg w-full mx-4 border border-dark-700 max-h-[90vh] overflow-y-auto">
           <div className="text-center mb-6">
             <h3 className="text-xl font-bold text-gray-100 mb-2">{t('pdf.export.title')}</h3>
@@ -152,7 +153,7 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
             </button>
           </div>
         </div>
-      </div>
+      </Modal>
 
       {/* PDF Preview Modal */}
       <PDFPreview isOpen={showPreview} onClose={() => setShowPreview(false)} riderData={riderData} riderName={riderName} exportOptions={exportOptions} onExport={handleGenerateAndDownload} />

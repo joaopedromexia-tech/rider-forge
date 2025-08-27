@@ -38,6 +38,14 @@ const PricingPage = () => {
     }
   }
 
+  const handleProCardClick = () => {
+    if (isPro) {
+      handleManageSubscription()
+    } else {
+      handleUpgrade()
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -54,7 +62,10 @@ const PricingPage = () => {
         {/* Pricing Cards */}
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {/* Free Plan */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200">
+          <div 
+            className="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:shadow-xl hover:scale-105 transition-all duration-200 cursor-pointer"
+            onClick={() => window.location.href = '/dashboard'}
+          >
             <div className="text-center mb-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('pricing.free.title')}</h3>
               <div className="text-4xl font-bold text-gray-900 mb-2">{t('pricing.free.price')}</div>
@@ -88,16 +99,16 @@ const PricingPage = () => {
               </li>
             </ul>
 
-            <button
-              onClick={() => window.location.href = '/dashboard'}
-              className="w-full bg-gray-100 text-gray-900 py-3 px-6 rounded-lg font-semibold hover:bg-gray-200 transition-colors"
-            >
+            <div className="w-full bg-gray-100 text-gray-900 py-3 px-6 rounded-lg font-semibold text-center">
               {t('pricing.free.cta')}
-            </button>
+            </div>
           </div>
 
           {/* Pro Plan */}
-          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl shadow-xl p-8 text-white relative">
+          <div 
+            className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl shadow-xl p-8 text-white relative hover:shadow-2xl hover:scale-105 transition-all duration-200 cursor-pointer"
+            onClick={handleProCardClick}
+          >
             {isPro && (
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                 <span className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold">
@@ -152,22 +163,9 @@ const PricingPage = () => {
               </li>
             </ul>
 
-            {isPro ? (
-              <button
-                onClick={handleManageSubscription}
-                className="w-full bg-white text-blue-600 py-3 px-6 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
-              >
-                {t('pricing.pro.manage')}
-              </button>
-            ) : (
-              <button
-                onClick={handleUpgrade}
-                disabled={loading}
-                className="w-full bg-white text-blue-600 py-3 px-6 rounded-lg font-semibold hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? t('pricing.pro.processing') : t('pricing.pro.upgrade')}
-              </button>
-            )}
+            <div className="w-full bg-white text-blue-600 py-3 px-6 rounded-lg font-semibold text-center">
+              {isPro ? t('pricing.pro.manage') : (loading ? t('pricing.pro.processing') : t('pricing.pro.upgrade'))}
+            </div>
           </div>
         </div>
 
