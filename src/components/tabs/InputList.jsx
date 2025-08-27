@@ -129,7 +129,7 @@ function InputList({ data, onChange }) {
     modelo: "Cabo XLR",
     categoria: "xlr",
     phantom: null,
-    notas: "Cabo XLR para conexão"
+    notas: t('equipment.xlr.cable')
   }]
 
   // Validação de capacidade da consola
@@ -289,9 +289,9 @@ function InputList({ data, onChange }) {
                   <strong>{t('tab.input.complete')}</strong> {formData.inputs.filter(input => (input?.fonte || '').trim() && (input?.microDi || '').trim()).length}/{formData.inputs.length}
                 </p>
                 <div className="flex gap-1">
-                  <div className="w-3 h-3 rounded-full bg-blue-500" title="Canais"></div>
-                  <div className="w-3 h-3 rounded-full bg-blue-500" title="Fonte"></div>
-                  <div className="w-3 h-3 rounded-full bg-blue-500" title="Micro/DI"></div>
+                  <div className="w-3 h-3 rounded-full bg-blue-500" title={t('tab.input.progress.channels')}></div>
+                  <div className="w-3 h-3 rounded-full bg-blue-500" title={t('tab.input.progress.source')}></div>
+                  <div className="w-3 h-3 rounded-full bg-blue-500" title={t('tab.input.progress.micdi')}></div>
                 </div>
               </div>
             </div>
@@ -308,10 +308,10 @@ function InputList({ data, onChange }) {
           <div className="flex-1">
             <h4 className="text-blue-400 font-semibold mb-2">{t('tab.input.instructions')}</h4>
             <div className="text-gray-300 text-sm space-y-1">
-              <p>• <strong>Fonte</strong> = O que está conectado (ex: vocal, guitarra, teclado)</p>
-              <p>• <strong>Microfone/DI</strong> = Equipamento específico usado</p>
-              <p>• <strong>Stand</strong> = Tipo de suporte (se aplicável)</p>
-              <p>• <strong>Phantom</strong> = Alimentação phantom power (apenas para mics condensador)</p>
+              <p>• <strong>{t('tab.input.instructions.source')}</strong></p>
+              <p>• <strong>{t('tab.input.instructions.micdi')}</strong></p>
+              <p>• <strong>{t('tab.input.instructions.stand')}</strong></p>
+              <p>• <strong>{t('tab.input.instructions.phantom')}</strong></p>
             </div>
           </div>
         </div>
@@ -370,7 +370,7 @@ function InputList({ data, onChange }) {
             <svg className={`w-4 h-4 transition-transform ${showQuickAdd ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
-            Adição Rápida {showQuickAdd ? '(Esconder)' : '(Mostrar)'}
+            {t('tab.input.quick.add')} {showQuickAdd ? `(${t('tab.input.quick.add.hide')})` : `(${t('tab.input.quick.add.show')})`}
           </button>
           
           {showQuickAdd && (
@@ -382,7 +382,7 @@ function InputList({ data, onChange }) {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
-                +4 Inputs
+                {t('tab.input.quick.add4')}
               </button>
               
               <button
@@ -392,7 +392,7 @@ function InputList({ data, onChange }) {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
-                +8 Inputs
+                {t('tab.input.quick.add8')}
               </button>
               
               <button
@@ -402,7 +402,7 @@ function InputList({ data, onChange }) {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
-                +16 Inputs
+                {t('tab.input.quick.add16')}
               </button>
             </>
           )}
@@ -443,13 +443,13 @@ function InputList({ data, onChange }) {
             <thead className="bg-dark-900/30">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 border-b border-dark-700">
-                  Canal
+                  {t('tab.input.table.channel')}
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 border-b border-dark-700">
-                  Fonte
+                  {t('tab.input.table.source')}
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 border-b border-dark-700">
-                  Micro/DI
+                  {t('tab.input.table.micDi')}
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 border-b border-dark-700">
                   Stand
@@ -459,7 +459,7 @@ function InputList({ data, onChange }) {
                   {t('tab.input.table.bandSupplies')}
                 </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 border-b border-dark-700">
-                  Ações
+                  {t('tab.input.table.actions')}
                 </th>
               </tr>
             </thead>
@@ -584,7 +584,7 @@ function InputList({ data, onChange }) {
                         onChange={(e) => updateInput(input.id, 'phantom', e.target.checked)}
                         className="w-4 h-4 text-accent-blue bg-dark-700 border-dark-600 rounded focus:ring-accent-blue focus:ring-2"
                       />
-                      <span className="ml-2 text-sm text-gray-300">48V</span>
+                      <span className="ml-2 text-sm text-gray-300">{t('tab.input.phantom.voltage')}</span>
                     </label>
                   </td>
                   <td className="px-4 py-3">

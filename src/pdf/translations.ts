@@ -15,15 +15,15 @@ export const PDF_TRANSLATIONS = {
     },
     
     // Cabeçalhos de tabelas
-    tableHeaders: {
-      inputList: {
-        channel: 'Canal',
-        source: 'Fonte',
-        micDi: 'Micro/DI',
-        stand: 'Stand',
-        phantom: 'Phantom',
-        notes: 'Notas'
-      },
+          tableHeaders: {
+        inputList: {
+          channel: 'Canal',
+          source: 'Fonte',
+          micDi: 'Micro/DI',
+          stand: 'Stand',
+          phantom: '48V',
+          notes: 'Notas'
+        },
       outputList: {
         mix: 'Mix',
         instrumentMusician: 'Instrumento/Músico',
@@ -142,15 +142,15 @@ export const PDF_TRANSLATIONS = {
     },
     
     // Cabeçalhos de tabelas
-    tableHeaders: {
-      inputList: {
-        channel: 'Channel',
-        source: 'Source',
-        micDi: 'Mic/DI',
-        stand: 'Stand',
-        phantom: 'Phantom',
-        notes: 'Notes'
-      },
+          tableHeaders: {
+        inputList: {
+          channel: 'Channel',
+          source: 'Source',
+          micDi: 'Mic/DI',
+          stand: 'Stand',
+          phantom: '48V',
+          notes: 'Notes'
+        },
       outputList: {
         mix: 'Mix',
         instrumentMusician: 'Instrument/Musician',

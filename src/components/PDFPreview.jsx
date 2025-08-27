@@ -22,7 +22,7 @@ function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onEx
     PRO_FEATURES
   } = useProFeatures()
 
-  // Gerar preview do PDF quando o modal abrir
+  // Generate PDF preview when modal opens
   useEffect(() => {
     if (isOpen && riderData) {
       generatePreview()
@@ -60,7 +60,7 @@ function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onEx
       const url = URL.createObjectURL(blob)
       setPdfUrl(url)
       
-      // Calcular informações do PDF
+      // Calculate PDF information
       const sizeInMB = (blob.size / (1024 * 1024)).toFixed(2)
       const estimated = locale === 'en' ? 'Estimated: 1–3 pages' : 'Estimado: 1–3 páginas'
       setPdfInfo({
@@ -85,13 +85,13 @@ function PDFPreview({ isOpen, onClose, riderData, riderName, exportOptions, onEx
     setError(null)
     
     try {
-      // Verificar se o tema selecionado requer Pro
+      // Check if selected theme requires Pro
       const colorThemes = [
-        { value: 'default', label: 'Padrão', description: 'Tema clássico preto e branco' },
-        { value: 'professional', label: 'Profissional', description: 'Azul e cinza elegante', pro: true },
-        { value: 'modern', label: 'Moderno', description: 'Azul ciano contemporâneo', pro: true },
-        { value: 'elegant', label: 'Elegante', description: 'Roxo e cinza sofisticado', pro: true },
-        { value: 'dark', label: 'Escuro', description: 'Tema escuro para ecrãs', pro: true }
+        { value: 'default', label: t('pdf.themes.default.label'), description: t('pdf.themes.default.description') },
+        { value: 'professional', label: t('pdf.themes.professional.label'), description: t('pdf.themes.professional.description'), pro: true },
+        { value: 'modern', label: t('pdf.themes.modern.label'), description: t('pdf.themes.modern.description'), pro: true },
+        { value: 'elegant', label: t('pdf.themes.elegant.label'), description: t('pdf.themes.elegant.description'), pro: true },
+        { value: 'dark', label: t('pdf.themes.dark.label'), description: t('pdf.themes.dark.description'), pro: true }
       ]
       
       const selectedTheme = colorThemes.find(theme => theme.value === exportOptions?.colorTheme)

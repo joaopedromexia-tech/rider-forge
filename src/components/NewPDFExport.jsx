@@ -25,20 +25,20 @@ function NewPDFExport({ isOpen, onClose, riderData, riderName }) {
     try { localStorage.setItem('riderForge_exportOptions_new', JSON.stringify(exportOptions)) } catch {}
   }, [exportOptions])
 
-  // Apenas o tema padrão
+  // Only default theme
   const colorThemes = [
     { value: 'default', label: t('pdf.export.theme.default.label'), description: t('pdf.export.theme.default.desc') }
   ]
   const themesToShow = colorThemes
 
-  // Garantir que o tema selecionado é sempre "default"
+  // Ensure selected theme is always "default"
   useEffect(() => {
     if (exportOptions.colorTheme !== 'default') {
       setExportOptions(o => ({ ...o, colorTheme: 'default' }))
     }
   }, [exportOptions.colorTheme])
 
-  // Garantir ordem consistente de hooks: só agora podemos retornar
+  // Ensure consistent hook order: only now can we return
   if (!isOpen) return null
 
   const filenameBase = (riderName || (locale === 'en' ? 'technical_rider' : 'rider_tecnico'))

@@ -481,7 +481,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
                 </button>
               )}
               
-              {/* Botão Exportar PDF */}
+              {/* PDF Export Button */}
               <button
                 onClick={() => setShowNewPDFModal(true)}
                 className="btn-secondary flex items-center gap-2 px-3 py-2 text-sm"

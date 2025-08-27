@@ -9,8 +9,8 @@ function SearchableDropdown({
   options = [],
   value = '',
   onChange,
-  placeholder = 'Selecionar opção...',
-  searchPlaceholder = 'Pesquisar...',
+  placeholder,
+  searchPlaceholder,
   disabled = false,
   className = '',
   maxHeight = '200px'
