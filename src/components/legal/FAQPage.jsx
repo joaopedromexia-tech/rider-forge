@@ -18,64 +18,64 @@ const FAQPage = ({ onBack }) => {
 
   const faqData = [
     {
-      question: "O que é o Rider Forge?",
-      answer: "O Rider Forge é uma ferramenta profissional para criação de riders técnicos. Permite aos músicos, técnicos de som e produtores criarem riders técnicos detalhados e profissionais de forma fácil e intuitiva."
+      question: t('faq.questions.q1'),
+      answer: t('faq.answers.a1')
     },
     {
-      question: "O que é um rider técnico?",
-      answer: "Um rider técnico é um documento que especifica todos os requisitos técnicos para uma performance musical, incluindo equipamento de som, iluminação, requisitos de palco, e outras especificações técnicas necessárias para o evento."
+      question: t('faq.questions.q2'),
+      answer: t('faq.answers.a2')
     },
     {
-      question: "Posso usar o Rider Forge gratuitamente?",
-      answer: "Sim! O Rider Forge oferece um plano gratuito que permite criar até 2 riders com funcionalidades básicas. Para funcionalidades avançadas como riders ilimitados, biblioteca Pro de equipamentos e histórico de versões, recomendamos o upgrade para o plano Pro."
+      question: t('faq.questions.q3'),
+      answer: t('faq.answers.a3')
     },
     {
-      question: "Quais são as diferenças entre o plano Free e Pro?",
-      answer: "O plano Free inclui: até 2 riders, biblioteca básica de equipamentos, exportação PDF básica e 5MB de armazenamento. O plano Pro inclui: riders ilimitados, biblioteca Pro de equipamentos, PDF customizável, histórico de versões e armazenamento ilimitado."
+      question: t('faq.questions.q4'),
+      answer: t('faq.answers.a4')
     },
     {
-      question: "Como posso exportar os meus riders?",
-      answer: "Pode exportar os seus riders em formato PDF. No plano Free, a exportação é básica. No plano Pro, pode customizar completamente o layout e design do PDF exportado."
+      question: t('faq.questions.q5'),
+      answer: t('faq.answers.a5')
     },
     {
-      question: "Os meus dados estão seguros?",
-      answer: "Sim, a segurança dos seus dados é uma prioridade. Utilizamos encriptação de ponta a ponta e seguimos as melhores práticas de segurança. Os seus riders são armazenados de forma segura e privada."
+      question: t('faq.questions.q6'),
+      answer: t('faq.answers.a6')
     },
     {
-      question: "Posso partilhar os meus riders?",
-      answer: "Sim! Pode partilhar os seus riders através de links gerados automaticamente. Estes links permitem que outros vejam o rider sem precisarem de uma conta no Rider Forge."
+      question: t('faq.questions.q7'),
+      answer: t('faq.answers.a7')
     },
     {
-      question: "Como funciona o histórico de versões?",
-      answer: "O histórico de versões (disponível no plano Pro) guarda automaticamente todas as alterações feitas aos seus riders. Pode ver e restaurar versões anteriores a qualquer momento."
+      question: t('faq.questions.q8'),
+      answer: t('faq.answers.a8')
     },
     {
-      question: "Posso importar riders existentes?",
-      answer: "Atualmente, o Rider Forge não suporta importação direta de riders existentes. No entanto, pode criar novos riders baseados em templates ou copiar informações de riders existentes."
+      question: t('faq.questions.q9'),
+      answer: t('faq.answers.a9')
     },
     {
-      question: "Como posso cancelar a minha subscrição Pro?",
-      answer: "Pode cancelar a sua subscrição Pro a qualquer momento através da página de gestão de subscrição. Após o cancelamento, continuará a ter acesso às funcionalidades Pro até ao final do período atual."
+      question: t('faq.questions.q10'),
+      answer: t('faq.answers.a10')
     },
     {
-      question: "O Rider Forge funciona em dispositivos móveis?",
-      answer: "Sim! O Rider Forge é uma aplicação web responsiva que funciona em computadores, tablets e smartphones. A interface adapta-se automaticamente ao tamanho do ecrã."
+      question: t('faq.questions.q11'),
+      answer: t('faq.answers.a11')
     },
     {
-      question: "Preciso de uma conta para usar o Rider Forge?",
-      answer: "Pode criar riders sem conta, mas para guardar e gerir os seus riders, precisará de criar uma conta gratuita. A conta também permite sincronizar os seus riders entre dispositivos."
+      question: t('faq.questions.q12'),
+      answer: t('faq.answers.a12')
     },
     {
-      question: "Que tipos de equipamento estão incluídos na biblioteca?",
-      answer: "A biblioteca inclui equipamentos de som profissionais como consolas, microfones, monitores, sistemas de PA, equipamento de iluminação e muito mais. A biblioteca Pro inclui equipamentos mais avançados e especializados."
+      question: t('faq.questions.q13'),
+      answer: t('faq.answers.a13')
     },
     {
-      question: "Posso adicionar equipamentos personalizados?",
-      answer: "Sim! Pode adicionar equipamentos personalizados que não estão na biblioteca. Estes equipamentos ficam guardados na sua conta e podem ser reutilizados em outros riders."
+      question: t('faq.questions.q14'),
+      answer: t('faq.answers.a14')
     },
     {
-      question: "Como posso obter suporte técnico?",
-      answer: "Pode contactar-nos através do botão de reporte de bugs na aplicação ou enviar um email para o nosso suporte. Respondemos a todas as questões em 24-48 horas."
+      question: t('faq.questions.q15'),
+      answer: t('faq.answers.a15')
     }
   ]
 

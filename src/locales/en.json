@@ -788,6 +788,9 @@
   "faq.sendEmail": "Send Email",
   "faq.reportBug": "Report Bug",
 
+  "faq.questions.q15": "How can I get technical support?",
+  "faq.answers.a15": "You can contact us through the bug report button in the application or send an email to our support. We respond to all questions within 24-48 hours.",
+
   "legal.title": "Privacy Policy and Terms of Use",
   "legal.description": "Important information about how we use your data and the terms of use of the platform",
   "legal.privacy": "Privacy Policy",
