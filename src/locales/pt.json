@@ -819,7 +819,7 @@
   "faq.questions.q9": "Posso importar riders existentes?",
   "faq.answers.a9": "Atualmente, o Rider Forge não suporta importação direta de riders existentes. No entanto, pode criar novos riders baseados em templates ou copiar informações de riders existentes.",
   "faq.questions.q10": "Como posso cancelar a minha subscrição Pro?",
-  "faq.answers.a10": "Pode cancelar a sua subscrição Pro a qualquer momento através da página de gestão de subscrição. Após o cancelamento, continuará a ter acesso às funcionalidades Pro até ao final do período atual.",
+  "faq.answers.a10": "Vá diretamente ao Stripe e cancele no seu portal de cliente. Após o cancelamento, continuará a ter acesso às funcionalidades Pro até ao final do período de faturação em curso.",
   "faq.questions.q11": "O Rider Forge funciona em dispositivos móveis?",
   "faq.answers.a11": "Sim! O Rider Forge é uma aplicação web responsiva que funciona em computadores, tablets e smartphones. A interface adapta-se automaticamente ao tamanho do ecrã.",
   "faq.questions.q12": "Preciso de uma conta para usar o Rider Forge?",
