@@ -190,26 +190,26 @@ const FAQPage = ({ onBack }) => {
           {/* Quick Links */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="card text-center p-4">
-              <h4 className="font-semibold text-gray-100 mb-2">Planos e Preços</h4>
-              <p className="text-sm text-gray-400 mb-3">Compare os planos Free e Pro</p>
+              <h4 className="font-semibold text-gray-100 mb-2">{t('faq.quick.pricing.title')}</h4>
+              <p className="text-sm text-gray-400 mb-3">{t('faq.quick.pricing.desc')}</p>
               <button className="text-accent-blue hover:text-accent-blue/80 text-sm font-medium">
-                Ver Preços →
+                {t('faq.quick.pricing.cta')} →
               </button>
             </div>
             
             <div className="card text-center p-4">
-              <h4 className="font-semibold text-gray-100 mb-2">Termos de Utilização</h4>
-              <p className="text-sm text-gray-400 mb-3">Leia os nossos termos legais</p>
+              <h4 className="font-semibold text-gray-100 mb-2">{t('faq.quick.terms.title')}</h4>
+              <p className="text-sm text-gray-400 mb-3">{t('faq.quick.terms.desc')}</p>
               <button className="text-accent-blue hover:text-accent-blue/80 text-sm font-medium">
-                Ler Termos →
+                {t('faq.quick.terms.cta')} →
               </button>
             </div>
             
             <div className="card text-center p-4">
-              <h4 className="font-semibold text-gray-100 mb-2">Política de Privacidade</h4>
-              <p className="text-sm text-gray-400 mb-3">Como protegemos os seus dados</p>
+              <h4 className="font-semibold text-gray-100 mb-2">{t('faq.quick.privacy.title')}</h4>
+              <p className="text-sm text-gray-400 mb-3">{t('faq.quick.privacy.desc')}</p>
               <button className="text-accent-blue hover:text-accent-blue/80 text-sm font-medium">
-                Ler Política →
+                {t('faq.quick.privacy.cta')} →
               </button>
             </div>
           </div>
