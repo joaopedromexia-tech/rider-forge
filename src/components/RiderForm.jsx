@@ -557,6 +557,7 @@ function RiderForm() {
               </button>
               
               {/* User Menu - visível apenas em mobile */}
+              {/* IMPORTANTE: UserMenu deve aparecer para TODOS os usuários autenticados (free e pro) */}
               <div className="lg:hidden">
                 <UserMenu />
               </div>
@@ -588,6 +589,7 @@ function RiderForm() {
             {/* Botões de Ação */}
             <div className="flex items-center gap-2 lg:gap-3">
               {/* User Menu - visível apenas em desktop */}
+              {/* IMPORTANTE: UserMenu deve aparecer para TODOS os usuários autenticados (free e pro) */}
               <div className="hidden lg:block">
                 <UserMenu />
               </div>

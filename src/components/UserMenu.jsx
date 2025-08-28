@@ -5,8 +5,15 @@ import { useFeedback } from '../hooks/useFeedback'
 import ProStatusBadge from './ProStatusBadge'
 import { redirectToSubscriptionPortal } from '../utils/subscription'
 
+/**
+ * UserMenu - Menu do usuário
+ * 
+ * IMPORTANTE: Este componente deve aparecer para TODOS os usuários autenticados,
+ * independentemente de serem free ou pro. Apenas usuários não autenticados
+ * verão o badge "FREE" simples.
+ */
 function UserMenu({ className = '' }) {
-  const { user, isPro, signOut, subscription } = useAuth()
+  const { user, isPro, signOut, subscription, hasAccount, loading } = useAuth()
   const { t } = useI18n()
   const { showSuccess, showError } = useFeedback()
   const [isOpen, setIsOpen] = useState(false)
@@ -17,7 +24,16 @@ function UserMenu({ className = '' }) {
   const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'
   const userEmail = user?.email || ''
 
-
+  // Debug: Log para verificar o estado do usuário
+  useEffect(() => {
+    console.log('UserMenu Debug:', {
+      user: !!user,
+      hasAccount,
+      isPro,
+      loading,
+      userEmail: user?.email
+    })
+  }, [user, hasAccount, isPro, loading])
 
   // Fechar menu quando clicar fora
   useEffect(() => {
@@ -87,6 +103,17 @@ function UserMenu({ className = '' }) {
     setIsOpen(!isOpen)
   }
 
+  // Mostrar loading enquanto carrega dados do usuário
+  if (loading) {
+    return (
+      <div className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-dark-700/50 border border-dark-600/50 ${className}`}>
+        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-accent-blue"></div>
+        <span className="text-sm text-gray-400">Carregando...</span>
+      </div>
+    )
+  }
+
+  // Se não há usuário autenticado, mostrar badge FREE
   if (!user) {
     return (
       <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium shadow-sm bg-gray-100 text-gray-700 border border-gray-300 ${className}`}>

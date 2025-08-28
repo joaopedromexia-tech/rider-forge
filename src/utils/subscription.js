@@ -20,14 +20,16 @@ export const openSubscriptionPortal = async (customerId, returnUrl = window.loca
     })
 
     if (!response.ok) {
-      throw new Error('Failed to create portal session')
+      const errorData = await response.json().catch(() => ({}))
+      console.error('Portal session API error:', errorData)
+      throw new Error(errorData.error || 'Failed to create portal session')
     }
 
     const { id: portalUrl } = await response.json()
     return portalUrl
   } catch (error) {
     console.error('Error creating portal session:', error)
-    throw new Error('Erro ao abrir portal de subscrição')
+    throw new Error(error.message || 'Erro ao abrir portal de subscrição')
   }
 }
 
