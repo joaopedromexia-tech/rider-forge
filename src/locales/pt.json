@@ -795,7 +795,33 @@
   "legal.terms": "Termos de Utilização",
   "legal.contactTitle": "Tem questões sobre os nossos termos?",
   "legal.contactDesc": "A nossa equipa jurídica está disponível para esclarecer qualquer dúvida sobre estes documentos.",
-  "legal.contactSupport": "Contactar Suporte Legal"
+  "legal.contactSupport": "Contactar Suporte Legal",
+
+  "support.title": "Suporte",
+  "support.description": "Estamos aqui para ajudar! Escolha a opção que melhor se adapta às suas necessidades.",
+  "support.faq.title": "Perguntas Frequentes",
+  "support.faq.description": "Encontre respostas para as perguntas mais comuns",
+  "support.bug.title": "Reportar Bug",
+  "support.bug.description": "Encontrou um problema? Ajude-nos a melhorar",
+  "support.contact.title": "Contactar Suporte",
+  "support.contact.description": "Envie-nos um email para assistência personalizada",
+  "support.docs.title": "Documentação",
+  "support.docs.description": "Guias e tutoriais para usar o Rider Forge",
+  "support.quickHelp.title": "Ajuda Rápida",
+  "support.quickHelp.q1": "Como criar o meu primeiro rider?",
+  "support.quickHelp.a1": "Clique em 'Criar Novo Rider' na página inicial e comece a preencher as informações básicas. O sistema irá guiá-lo através de todas as secções necessárias.",
+  "support.quickHelp.q2": "Como exportar um rider para PDF?",
+  "support.quickHelp.a2": "No editor do rider, clique no botão 'PDF' no canto superior direito. Pode personalizar as opções de exportação antes de gerar o documento.",
+  "support.quickHelp.q3": "Posso partilhar os meus riders?",
+  "support.quickHelp.a3": "Sim! Após exportar um rider, receberá um link de partilha que pode enviar para outros utilizadores. Eles poderão visualizar o rider sem precisar de uma conta.",
+  "support.quickHelp.q4": "Como funciona o upgrade para Pro?",
+  "support.quickHelp.a4": "O plano Pro oferece riders ilimitados, biblioteca de equipamentos premium, PDF customizável e histórico de versões. Custa apenas €3.99 por ano.",
+  "support.contactInfo.title": "Ainda precisa de ajuda?",
+  "support.contactInfo.description": "A nossa equipa de suporte está disponível para ajudar com questões específicas. Respondemos a todos os contactos em 24-48 horas.",
+  "support.contactInfo.sendEmail": "Enviar Email",
+  "support.contactInfo.reportBug": "Reportar Bug",
+  "support.responseTime": "Tempo de resposta: 24-48 horas",
+  "support.email": "Email: support@riderforge.app"
 }
 
 

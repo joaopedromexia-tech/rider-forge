@@ -14,6 +14,7 @@ import PricingPage from './components/pricing/PricingPage'
 import SubscriptionManagementPage from './components/subscription/SubscriptionManagementPage'
 import FAQPage from './components/legal/FAQPage'
 import PrivacyTermsPage from './components/legal/PrivacyTermsPage'
+import SupportPage from './components/legal/SupportPage'
 import DemoButton from './components/DemoButton'
 import LoginModal from './components/auth/LoginModal'
 import BugReportButton from './components/BugReportButton'
@@ -84,6 +85,10 @@ function AppContent() {
 
   const handleNavigateToPrivacyTerms = () => {
     setCurrentView('privacy-terms')
+  }
+
+  const handleNavigateToSupport = () => {
+    setCurrentView('support')
   }
 
   // Se ainda está a carregar, mostrar loading
@@ -284,7 +289,7 @@ function AppContent() {
                   Termos & Privacidade
                 </button>
                 <button
-                  onClick={() => setShowLoginModal(true)}
+                  onClick={handleNavigateToSupport}
                   className="text-gray-400 hover:text-gray-300 transition-colors"
                 >
                   Suporte
@@ -347,6 +352,12 @@ function AppContent() {
 
       {currentView === 'privacy-terms' && (
         <PrivacyTermsPage 
+          onBack={handleBackToHome}
+        />
+      )}
+
+      {currentView === 'support' && (
+        <SupportPage 
           onBack={handleBackToHome}
         />
       )}
