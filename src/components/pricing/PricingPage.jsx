@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { STRIPE_CONFIG, useStripeCheckout } from '../../config/stripe'
+import { usePageSEO, SEO_CONFIGS } from '../../hooks/useSEO'
 import LoginModal from '../auth/LoginModal'
 import { useI18n } from '../../context/I18nContext'
 
@@ -10,6 +11,9 @@ const PricingPage = ({ onBack, onNavigateToSubscriptionManagement }) => {
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [loading, setLoading] = useState(false)
   const { t } = useI18n()
+
+  // SEO para página de preços
+  usePageSEO(SEO_CONFIGS.pricing)
 
   // Redirecionar usuários Pro de volta para a página inicial
   useEffect(() => {

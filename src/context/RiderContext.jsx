@@ -127,8 +127,10 @@ export function RiderProvider({ children }) {
   // Verificar se pode salvar mais riders (versão Free)
   const canSaveMoreRiders = useCallback(() => {
     if (isPro) return true
+    // Se não tem conta, não pode salvar
+    if (!hasAccount) return false
     return savedRiders.length < FREE_LIMITS.maxRiders
-  }, [savedRiders.length, isPro])
+  }, [savedRiders.length, isPro, hasAccount])
 
   // Calcular tamanho aproximado dos dados
   const calculateStorageSize = useCallback((data) => {
@@ -177,7 +179,7 @@ export function RiderProvider({ children }) {
   // Salvar um novo rider
   const saveRider = useCallback(async (riderData, name) => {
     if (!canSaveMoreRiders()) {
-      throw new Error(`Limite da versão Free atingido. Máximo ${FREE_LIMITS.maxRiders} riders.`)
+      throw new Error(`Limite da versão Free atingido. Máximo ${FREE_LIMITS.maxRiders} riders para contas gratuitas.`)
     }
 
     if (!canSaveBySize(riderData)) {
@@ -368,9 +370,9 @@ export function RiderProvider({ children }) {
     const originalRider = savedRiders.find(rider => rider.id === id)
     if (!originalRider) return null
 
-    if (!canSaveMoreRiders()) {
-      throw new Error(`Limite da versão Free atingido. Máximo ${FREE_LIMITS.maxRiders} riders.`)
-    }
+          if (!canSaveMoreRiders()) {
+        throw new Error(`Limite da versão Free atingido. Máximo ${FREE_LIMITS.maxRiders} riders para contas gratuitas.`)
+      }
 
     const duplicatedRider = {
       ...originalRider,

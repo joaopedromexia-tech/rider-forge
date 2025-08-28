@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useEquipment } from '../context/EquipmentContext'
 import { useRider } from '../context/RiderContext'
 import { useAuth } from '../context/AuthContext'
@@ -21,17 +22,54 @@ import ValidationAlerts from './ValidationAlerts'
 import ProStatusBadge from './ProStatusBadge'
 import LoginModal from './auth/LoginModal'
 import VersionHistoryModal from './VersionHistoryModal'
+import Breadcrumbs from './Breadcrumbs'
+import { 
+  ClipboardDocumentListIcon,
+  SpeakerWaveIcon,
+  AdjustmentsVerticalIcon,
+  SignalIcon,
+  WrenchScrewdriverIcon,
+  ListBulletIcon,
+  AdjustmentsHorizontalIcon,
+  PencilSquareIcon
+} from '@heroicons/react/24/outline'
 import { kvGet, kvSet } from '../utils/storage'
 import { useI18n } from '../context/I18nContext'
 
 
 
-function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription }) {
+function RiderForm() {
+  const navigate = useNavigate()
+  const { riderId, tab } = useParams()
   const { t } = useI18n()
-  const { isPro, setIsPro } = useRider()
+  const { isPro, setIsPro, savedRiders } = useRider()
   const { saveRider, updateRider, getRiderById, getRiderByIdWithSync, forceSyncState } = useRider()
   const { showSuccess, showError } = useFeedback()
   const { user, hasAccount } = useAuth()
+  
+  // Usar riderId dos parâmetros da URL, ou 'new' para novo rider
+  const editingRiderId = riderId === 'new' ? null : riderId
+  
+  // Função para obter o último tab visitado do localStorage
+  const getLastVisitedTab = (riderId) => {
+    if (!riderId) return 'dados-gerais'
+    try {
+      const lastTab = localStorage.getItem(`riderForge_lastTab_${riderId}`)
+      return lastTab || 'dados-gerais'
+    } catch {
+      return 'dados-gerais'
+    }
+  }
+
+  // Função para salvar o último tab visitado
+  const saveLastVisitedTab = (riderId, tabId) => {
+    if (!riderId) return
+    try {
+      localStorage.setItem(`riderForge_lastTab_${riderId}`, tabId)
+    } catch {
+      // Ignorar erros de localStorage
+    }
+  }
   
   const {
     showUpgradeModal,
@@ -44,7 +82,13 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     useProFeatureWithSave,
     PRO_FEATURES
   } = useProFeatures()
-  const [activeTab, setActiveTab] = useState('dados-gerais')
+  
+  // Inicializar activeTab baseado na URL ou último tab visitado
+  const [activeTab, setActiveTab] = useState(() => {
+    if (tab) return tab
+    if (editingRiderId) return getLastVisitedTab(editingRiderId)
+    return 'dados-gerais'
+  })
   const [formData, setFormData] = useState({
     'dados-gerais': {},
     'pa': {},
@@ -71,9 +115,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
       id: 'dados-gerais',
       title: t('rider.tabs.general'),
       icon: (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-        </svg>
+        <ClipboardDocumentListIcon className="w-4 h-4" aria-hidden="true" />
       ),
       component: DadosGerais
     },
@@ -81,9 +123,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
       id: 'pa',
       title: t('rider.tabs.pa'),
       icon: (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-        </svg>
+        <SpeakerWaveIcon className="w-4 h-4" aria-hidden="true" />
       ),
       component: PA
     },
@@ -91,59 +131,47 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
       id: 'consolas',
       title: t('rider.tabs.consoles'),
       icon: (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-        </svg>
+        <AdjustmentsVerticalIcon className="w-4 h-4" aria-hidden="true" />
       ),
       component: Consolas
-    },
-    {
-      id: 'sistemas-escuta',
-      title: t('rider.tabs.listenSystems'),
-      icon: (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 18v-6a9 9 0 0118 0v6m-9-3h9m-9 0H6" />
-        </svg>
-      ),
-      component: SistemasEscuta
-    },
-    {
-      id: 'equipamento-auxiliar',
-      title: t('rider.tabs.auxEquip'),
-      icon: (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-      ),
-      component: EquipamentoAuxiliar
     },
     {
       id: 'input-list',
       title: t('rider.tabs.inputList'),
       icon: (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-        </svg>
+        <ListBulletIcon className="w-4 h-4" aria-hidden="true" />
       ),
       component: InputList
+    },
+    {
+      id: 'sistemas-escuta',
+      title: t('rider.tabs.listenSystems'),
+      icon: (
+        <SignalIcon className="w-4 h-4" aria-hidden="true" />
+      ),
+      component: SistemasEscuta
     },
     {
       id: 'monitor-mixes',
       title: t('rider.tabs.monitorMixes'),
       icon: (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-        </svg>
+        <AdjustmentsHorizontalIcon className="w-4 h-4" aria-hidden="true" />
       ),
       component: MonitorMixes
+    },
+    {
+      id: 'equipamento-auxiliar',
+      title: t('rider.tabs.auxEquip'),
+      icon: (
+        <WrenchScrewdriverIcon className="w-4 h-4" aria-hidden="true" />
+      ),
+      component: EquipamentoAuxiliar
     },
     {
       id: 'observacoes-finais',
       title: t('rider.tabs.finalNotes'),
       icon: (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-        </svg>
+        <PencilSquareIcon className="w-4 h-4" aria-hidden="true" />
       ),
       component: ObservacoesFinais
     }
@@ -296,8 +324,39 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     return () => clearTimeout(t)
   }, [formData])
 
+  // Fazer scroll para o topo quando o tab ativo muda
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [activeTab])
+
+  // Fazer scroll para o topo quando o componente é montado
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const handleTabChange = (tabId) => {
     setActiveTab(tabId)
+    // Salvar o último tab visitado
+    if (editingRiderId) {
+      saveLastVisitedTab(editingRiderId, tabId)
+    }
+    // Atualizar a URL quando mudar de tab
+    if (editingRiderId) {
+      navigate(`/riders/${editingRiderId}/${tabId}`)
+    } else {
+      navigate(`/riders/new/${tabId}`)
+    }
+    
+    // Fazer scroll para o topo quando mudar de tab
+    window.scrollTo(0, 0)
+  }
+
+  const handleBackToHome = () => {
+    navigate('/')
+  }
+
+  const handleNavigateToProSubscription = () => {
+    navigate('/pro-subscription')
   }
 
   const handleFormDataChange = (section, data) => {
@@ -327,7 +386,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
           }, 100)
         })
         
-        onBack()
+        navigate('/riders')
         return
       } catch (error) {
         showError('Erro ao salvar rider: ' + error.message)
@@ -364,7 +423,7 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
           }, 100)
         })
         
-        onBack()
+        navigate('/riders')
         return true
       } catch (error) {
         showError('Erro ao salvar rider: ' + error.message)
@@ -382,6 +441,13 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     // Verificar se o utilizador tem conta para gravar
     if (!user || !hasAccount) {
       setShowLoginModal(true)
+      return
+    }
+    
+    // Verificar se o usuário gratuito atingiu o limite de riders (apenas para novos riders)
+    if (!isPro && savedRiders.length >= 2 && !editingRiderId) {
+      // Mostrar alerta de limite atingido
+      showError(t('riders.limit.description', { max: 2 }))
       return
     }
     
@@ -472,12 +538,15 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
     <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800">
       {/* Header */}
       <div className="sticky top-0 z-40 bg-dark-950/95 backdrop-blur-md border-b border-dark-800/50">
+        <div className="max-w-7xl mx-auto px-4 py-2">
+          <Breadcrumbs />
+        </div>
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             {/* Botão Voltar */}
             <div className="flex items-center justify-between lg:justify-start">
               <button
-                onClick={onBack}
+                onClick={handleBackToHome}
                 className="btn-secondary flex items-center gap-2 px-4 py-2 text-sm"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -523,9 +592,9 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
               </div>
               
               {/* Botão de Upgrade para Pro */}
-              {!isPro && onNavigateToProSubscription && (
+              {!isPro && (
                 <button
-                  onClick={onNavigateToProSubscription}
+                  onClick={handleNavigateToProSubscription}
                   className="btn-primary flex items-center gap-2 px-3 py-2 text-sm"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -534,17 +603,6 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
                   <span className="hidden sm:inline">{t('common.upgradePro')}</span>
                 </button>
               )}
-              
-              {/* PDF Export Button */}
-              <button
-                onClick={() => setShowNewPDFModal(true)}
-                className="btn-secondary flex items-center gap-2 px-3 py-2 text-sm"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v4m0 8v4m4-12h4m-8 0H4m12 8h4M4 16h8" />
-                </svg>
-                <span className="hidden sm:inline">{t('common.pdf')}</span>
-              </button>
               
               {/* Version History Button - Only for Pro users and when editing */}
               {isPro && editingRiderId && (
@@ -563,20 +621,34 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
               {!user || !hasAccount ? (
                 <button
                   onClick={handleCreateAccountClick}
-                  className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold px-4 py-2 rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all duration-200 text-sm"
+                  className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold px-4 py-2 rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50"
+                  aria-label={t('common.createAccount')}
                 >
                   <span className="hidden sm:inline">🔐 {t('common.createAccount')}</span>
-                  <span className="sm:hidden">🔐</span>
+                  <span className="sm:hidden" aria-hidden="true">🔐</span>
                 </button>
               ) : !editingRider?.isDemo ? (
                 <button
                   onClick={handleSaveClick}
-                  className="btn-primary px-4 py-2 text-sm"
+                  className="btn-primary px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                  aria-label={editingRider ? t('common.update') : t('common.save')}
                 >
                   <span className="hidden sm:inline">{editingRider ? t('common.update') : t('common.save')}</span>
-                  <span className="sm:hidden">💾</span>
+                  <span className="sm:hidden" aria-hidden="true">💾</span>
                 </button>
               ) : null}
+              
+              {/* PDF Export Button */}
+              <button
+                onClick={() => setShowNewPDFModal(true)}
+                className="btn-secondary flex items-center gap-2 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                aria-label={t('common.pdf')}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v4m0 8v4m4-12h4m-8 0H4m12 8h4M4 16h8" />
+                </svg>
+                <span className="hidden sm:inline">{t('common.pdf')}</span>
+              </button>
             </div>
           </div>
         </div>
@@ -585,16 +657,24 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
       {/* Tabs Navigation */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="bg-dark-900/80 backdrop-blur-sm rounded-xl p-2 border border-dark-800/50 shadow-xl overflow-x-auto">
-          <div className="flex gap-1 min-w-max">
+          <div 
+            className="flex gap-1 min-w-max justify-center"
+            role="tablist"
+            aria-label={t('rider.tabs.navigation')}
+          >
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => handleTabChange(tab.id)}
-                className={`tab-button flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 text-xs font-medium whitespace-nowrap ${
+                className={`tab-button flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 text-xs font-medium whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${
                   activeTab === tab.id ? 'active' : ''
                 }`}
+                role="tab"
+                aria-selected={activeTab === tab.id}
+                aria-controls={`tab-panel-${tab.id}`}
+                id={`tab-${tab.id}`}
               >
-                <div className="w-4 h-4 flex-shrink-0">{tab.icon}</div>
+                <div className="w-4 h-4 flex-shrink-0" aria-hidden="true">{tab.icon}</div>
                 <span className="hidden sm:inline">{tab.title}</span>
               </button>
             ))}
@@ -606,11 +686,17 @@ function RiderForm({ onBack, editingRiderId = null, onNavigateToProSubscription 
       <div className="max-w-7xl mx-auto px-4 pb-8">
         <div className="card min-h-[600px] animate-fade-in">
           {ActiveComponent && (
-            <ActiveComponent
-              data={formData[activeTab] || {}}
-              onChange={(data) => handleFormDataChange(activeTab, data)}
-              allData={formData}
-            />
+            <div
+              role="tabpanel"
+              id={`tab-panel-${activeTab}`}
+              aria-labelledby={`tab-${activeTab}`}
+            >
+              <ActiveComponent
+                data={formData[activeTab] || {}}
+                onChange={(data) => handleFormDataChange(activeTab, data)}
+                allData={formData}
+              />
+            </div>
           )}
         </div>
       </div>

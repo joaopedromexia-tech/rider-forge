@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { useRider } from '../context/RiderContext'
 import { useAuth } from '../context/AuthContext'
 import { useProFeatures } from '../hooks/useProFeatures'
 import { useFeedback } from '../hooks/useFeedback'
 import { useI18n } from '../context/I18nContext'
+import { usePageSEO, SEO_CONFIGS } from '../hooks/useSEO'
+import { useScrollToTop } from '../hooks/useScrollToTop'
 import ProUpgradeModal from './ProUpgradeModal'
 import SaveProgressModal from './SaveProgressModal'
 import ProStatusBadge from './ProStatusBadge'
@@ -12,10 +15,12 @@ import NewPDFExport from './NewPDFExport'
 import LoginModal from './auth/LoginModal'
 import Modal from './Modal'
 import VersionHistoryModal from './VersionHistoryModal'
+import Breadcrumbs from './Breadcrumbs'
 import { encodeObjectToBase64 } from '../utils/base64'
 import { PRO_CONFIG } from '../config/proConfig'
 
-function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
+function MyRiders() {
+  const navigate = useNavigate()
   const { 
     savedRiders, 
     deleteRider, 
@@ -29,6 +34,10 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
     isPro,
     setIsPro
   } = useRider()
+  const scrollToTop = useScrollToTop()
+
+  // SEO para página de dashboard
+  usePageSEO(SEO_CONFIGS.dashboard)
   
   const { user, hasAccount, loading: authLoading } = useAuth()
   const { showSuccess, showError } = useFeedback()
@@ -98,12 +107,9 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
         return
       }
 
-      // Gerar link de partilha
-      const riderData = encodeObjectToBase64(rider.data)
-      const shareUrl = `${window.location.origin}/rider/${rider.id}?data=${riderData}`
-      setShareLink(shareUrl)
-      setExportRiderPayload({ name: rider.name, data: rider.data })
-      setShowNewPDFModal(true)
+      // Navegar para a página de PDF
+      scrollToTop()
+      navigate(`/riders/${id}/pdf`)
     } catch (error) {
       showError(t('riders.export.error', { message: error.message }))
     }
@@ -149,6 +155,21 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
       setShowLoginModal(true)
       return
     }
+  }
+
+  const handleBackToHome = () => {
+    scrollToTop()
+    navigate('/')
+  }
+
+  const handleEditRider = (riderId) => {
+    scrollToTop()
+    navigate(`/riders/${riderId}/dados-gerais`)
+  }
+
+  const handleNavigateToProSubscription = () => {
+    scrollToTop()
+    navigate('/pro-subscription')
   }
 
   // Se ainda está a carregar, mostrar loading
@@ -243,9 +264,10 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
       <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800 p-4">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-6">
+        <Breadcrumbs />
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <button
-            onClick={onBack}
+            onClick={handleBackToHome}
             className="btn-secondary flex items-center gap-2 w-full sm:w-auto justify-center"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -265,9 +287,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
               <button
                 onClick={() => {
                   // Navegar para página de subscrição usando a função do App
-                  if (onNavigateToProSubscription) {
-                    onNavigateToProSubscription()
-                  }
+                  handleNavigateToProSubscription()
                 }}
                 className="btn-primary flex items-center gap-2"
               >
@@ -341,7 +361,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                   {t('riders.limit.description', { max: FREE_LIMITS.maxRiders })}
                 </p>
                 <button
-                  onClick={onNavigateToProSubscription}
+                  onClick={handleNavigateToProSubscription}
                   className="bg-gradient-to-r from-accent-green to-accent-blue text-white font-semibold px-6 py-2 rounded-lg hover:from-accent-green/90 hover:to-accent-blue/90 transition-all duration-200"
                 >
                   <svg className="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -367,7 +387,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
             <h3 className="text-xl font-semibold text-gray-100 mb-2">{t('riders.empty.title')}</h3>
             <p className="text-gray-400 mb-6">{t('riders.empty.subtitle')}</p>
             <button
-              onClick={onBack}
+              onClick={handleBackToHome}
               className="btn-primary"
             >
               {t('riders.empty.cta')}
@@ -426,7 +446,7 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
                     key={`edit-${rider.id}`}
                     onClick={() => {
                       console.log('🔘 Botão editar clicado para rider:', rider.id, 'Nome:', rider.name)
-                      onEditRider(rider.id)
+                      handleEditRider(rider.id)
                     }}
                     className="btn-action text-sm py-3 flex items-center justify-center gap-2"
                   >

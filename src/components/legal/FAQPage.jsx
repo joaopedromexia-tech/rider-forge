@@ -1,10 +1,25 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { useI18n } from '../../context/I18nContext'
+import { usePageSEO, SEO_CONFIGS } from '../../hooks/useSEO'
 
 const FAQPage = ({ onBack }) => {
   const { t } = useI18n()
   const [openItems, setOpenItems] = useState(new Set())
+  const navigate = useNavigate()
+
+  const handleBack = onBack || (() => {
+    try {
+      if (window.history.length > 1) navigate(-1)
+      else navigate('/')
+    } catch (_) {
+      navigate('/')
+    }
+  })
+
+  // SEO para página FAQ
+  usePageSEO(SEO_CONFIGS.faq)
 
   const toggleItem = (index) => {
     const newOpenItems = new Set(openItems)
@@ -87,7 +102,7 @@ const FAQPage = ({ onBack }) => {
           {/* Header */}
           <div className="mb-8">
             <button
-              onClick={onBack}
+              onClick={handleBack}
               className="btn-secondary flex items-center gap-2 mb-6"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

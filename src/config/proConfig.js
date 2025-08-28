@@ -33,7 +33,7 @@ export const PRO_CONFIG = {
 
   // Mensagens do sistema
   MESSAGES: {
-    FREE_LIMIT_REACHED: 'Limite da versão Free atingido. Máximo {limit} riders.',
+    FREE_LIMIT_REACHED: 'Limite da versão Free atingido. Máximo {limit} riders para contas gratuitas.',
     STORAGE_LIMIT_REACHED: 'Limite de armazenamento da versão Free atingido. Máximo {limit}MB.',
     PRO_FEATURE_LOCKED: 'Esta função está disponível no Rider Forge Pro',
     UPGRADE_TO_PRO: 'Upgrade para Pro',

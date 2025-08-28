@@ -1,24 +1,51 @@
+# Rider Forge - Robots.txt
+# Configuração para crawlers e indexação
+
 User-agent: *
 Allow: /
 
-# Sitemap
+# Sitemap principal
 Sitemap: https://www.riderforge.app/sitemap.xml
 
 # Crawl-delay para ser respeitoso com o servidor
 Crawl-delay: 1
 
-# Permitir indexação de todas as páginas públicas
+# Páginas públicas - permitir indexação
+Allow: /
 Allow: /pricing
+Allow: /pro-subscription
+Allow: /support
+Allow: /faq
+Allow: /terms-privacy
+
+# Páginas de dashboard - permitir indexação (conteúdo público)
 Allow: /dashboard
 
-# Bloquear páginas de administração ou sensíveis (se existirem)
+# Bloquear páginas de administração ou sensíveis
 Disallow: /admin/
 Disallow: /api/
 Disallow: /private/
+Disallow: /_next/
+Disallow: /vercel/
+
+# Bloquear páginas de autenticação e gestão de conta
+Disallow: /login
+Disallow: /signup
+Disallow: /reset-password
+Disallow: /subscription-management
+
+# Bloquear páginas de riders específicos (conteúdo privado)
+Disallow: /riders/
+Disallow: /rider/
+
+# Bloquear páginas de preview e edição
+Disallow: /pdf
+Disallow: /preview
 
 # Permitir recursos estáticos
 Allow: /images/
 Allow: /assets/
+Allow: /static/
 Allow: /*.css
 Allow: /*.js
 Allow: /*.png
@@ -27,3 +54,51 @@ Allow: /*.jpeg
 Allow: /*.gif
 Allow: /*.svg
 Allow: /*.ico
+Allow: /*.webp
+Allow: /*.woff
+Allow: /*.woff2
+Allow: /*.ttf
+Allow: /*.eot
+
+# Configurações específicas para Googlebot
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Configurações específicas para Bingbot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Configurações para bots de redes sociais
+User-agent: Twitterbot
+Allow: /
+Crawl-delay: 2
+
+User-agent: facebookexternalhit
+Allow: /
+Crawl-delay: 2
+
+User-agent: LinkedInBot
+Allow: /
+Crawl-delay: 2
+
+# Bloquear bots maliciosos conhecidos
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+# Configurações para bots de arquivo
+User-agent: ia_archiver
+Disallow: /
+
+User-agent: archive.org_bot
+Disallow: /

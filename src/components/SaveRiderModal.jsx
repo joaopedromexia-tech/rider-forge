@@ -180,6 +180,12 @@ function SaveRiderModal({ isOpen, riderData, onSave, onClose }) {
                   </span>
                 </div>
                 <div className="flex justify-between">
+                  <span>{t('saveModal.storage.currentRiders')}:</span>
+                  <span className="text-gray-300">
+                    {savedRiders.length} / {FREE_LIMITS.maxRiders}
+                  </span>
+                </div>
+                <div className="flex justify-between">
                   <span>{t('saveModal.storage.storageLimit')}:</span>
                   <span className={canSaveBySize(riderData) ? 'text-green-400' : 'text-red-400'}>
                     {canSaveBySize(riderData) ? t('common.available') : t('common.limitReached')}

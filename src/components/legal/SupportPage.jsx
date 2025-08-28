@@ -1,11 +1,27 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { useI18n } from '../../context/I18nContext'
+import { usePageSEO, SEO_CONFIGS } from '../../hooks/useSEO'
 import BugReportModal from '../BugReportModal'
 
 const SupportPage = ({ onBack }) => {
   const { t } = useI18n()
   const [showBugReportModal, setShowBugReportModal] = useState(false)
+  const navigate = useNavigate()
+
+  const handleBack = onBack || (() => {
+    try {
+      if (window.history.length > 1) navigate(-1)
+      else navigate('/')
+    } catch (_) {
+      navigate('/')
+    }
+  })
+
+  // SEO para página de suporte
+  console.log('🔍 SupportPage: Renderizando componente')
+  usePageSEO(SEO_CONFIGS.support)
 
   const supportOptions = [
     {
@@ -70,7 +86,7 @@ const SupportPage = ({ onBack }) => {
           {/* Header */}
           <div className="mb-8">
             <button
-              onClick={onBack}
+              onClick={handleBack}
               className="btn-secondary flex items-center gap-2 mb-6"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,7 +147,8 @@ const SupportPage = ({ onBack }) => {
             </div>
           </div>
 
-          {/* Contact Information */}
+          {/* Contact Information - Temporarily Hidden */}
+          {/* 
           <div className="card bg-gradient-to-r from-blue-600/10 to-indigo-600/10 border border-blue-500/30">
             <div className="text-center p-8">
               <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -167,6 +184,7 @@ const SupportPage = ({ onBack }) => {
               </div>
             </div>
           </div>
+          */}
         </div>
       </div>
 

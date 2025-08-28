@@ -1,21 +1,80 @@
 {
-  "name": "Rider Forge",
+  "name": "Rider Forge - Criador de Riders Técnicos",
   "short_name": "RiderForge",
-  "description": "Criador de riders técnicos profissionais",
+  "description": "Crie riders técnicos profissionais com facilidade. Software completo para músicos, técnicos de som e produtores.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0b1020",
   "theme_color": "#1e90ff",
   "lang": "pt-BR",
   "dir": "ltr",
-  "categories": ["productivity", "music", "utilities"],
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["productivity", "music", "utilities", "business"],
   "icons": [
     {
       "src": "/vite.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "shortcuts": [
+    {
+      "name": "Criar Novo Rider",
+      "short_name": "Novo Rider",
+      "description": "Criar um novo rider técnico",
+      "url": "/riders/new/dados-gerais",
+      "icons": [
+        {
+          "src": "/vite.svg",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Meus Riders",
+      "short_name": "Riders",
+      "description": "Ver todos os riders criados",
+      "url": "/riders",
+      "icons": [
+        {
+          "src": "/vite.svg",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Interface principal do Rider Forge"
+    },
+    {
+      "src": "/images/screenshot-narrow.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Interface mobile do Rider Forge"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }
 
 
