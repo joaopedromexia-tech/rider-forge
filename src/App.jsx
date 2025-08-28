@@ -280,19 +280,19 @@ function AppContent() {
                   onClick={handleNavigateToFAQ}
                   className="text-gray-400 hover:text-gray-300 transition-colors"
                 >
-                  FAQ
+                  {t('footer.links.faq')}
                 </button>
                 <button
                   onClick={handleNavigateToPrivacyTerms}
                   className="text-gray-400 hover:text-gray-300 transition-colors"
                 >
-                  Termos & Privacidade
+                  {t('footer.links.terms')}
                 </button>
                 <button
                   onClick={handleNavigateToSupport}
                   className="text-gray-400 hover:text-gray-300 transition-colors"
                 >
-                  Suporte
+                  {t('footer.links.support')}
                 </button>
               </div>
             </div>

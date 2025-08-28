@@ -888,7 +888,10 @@
   "support.contactInfo.sendEmail": "Send Email",
   "support.contactInfo.reportBug": "Report Bug",
   "support.responseTime": "Response time: 24-48 hours",
-  "support.email": "Email: support@riderforge.app"
+  "support.email": "Email: support@riderforge.app",
+  "footer.links.faq": "FAQ",
+  "footer.links.terms": "Terms & Privacy",
+  "footer.links.support": "Support"
 }
 
 

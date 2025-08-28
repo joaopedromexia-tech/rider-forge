@@ -890,7 +890,10 @@
   "support.contactInfo.sendEmail": "Enviar Email",
   "support.contactInfo.reportBug": "Reportar Bug",
   "support.responseTime": "Tempo de resposta: 24-48 horas",
-  "support.email": "Email: support@riderforge.app"
+  "support.email": "Email: support@riderforge.app",
+  "footer.links.faq": "FAQ",
+  "footer.links.terms": "Termos & Privacidade",
+  "footer.links.support": "Suporte"
 }
 
 
