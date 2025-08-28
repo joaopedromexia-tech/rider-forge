@@ -21,7 +21,9 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Missing STRIPE_SECRET_KEY environment variable' })
     }
 
-    const { customerId, returnUrl } = req.body
+    const body = req.body || {}
+    const customerId = body.customerId || body.customer_id
+    const returnUrl = body.returnUrl || body.return_url
 
     if (!customerId) {
       return res.status(400).json({ error: 'Missing customer ID' })
