@@ -99,17 +99,6 @@ function AppContent() {
     <div className="App">
       {currentView === 'home' && (
         <>
-          <Helmet>
-            <title>{t('app.title')} - {t('app.subtitle')}</title>
-            <meta name="description" content={t('app.subtitle')} />
-            <meta name="keywords" content={t('home.seo.keywords')} />
-            <meta property="og:title" content={`${t('app.title')} - ${t('app.subtitle')}`} />
-            <meta property="og:description" content={t('app.subtitle')} />
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content="https://www.riderforge.app" />
-            <meta name="twitter:title" content={`${t('app.title')} - ${t('app.subtitle')}`} />
-            <meta name="twitter:description" content={t('app.subtitle')} />
-          </Helmet>
           <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
             {/* Header */}
