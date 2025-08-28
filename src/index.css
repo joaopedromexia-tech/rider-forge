@@ -381,6 +381,10 @@
   animation: dropdownFadeIn 0.25s ease-out;
 }
 
+.animate-fade-in {
+  animation: dropdownFadeIn 0.25s ease-out;
+}
+
 /* Estilos para o preview do PDF */
 .pdf-page {
   width: 210mm;

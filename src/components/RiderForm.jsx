@@ -20,6 +20,7 @@ import SaveProgressModal from './SaveProgressModal'
 import NewPDFExport from './NewPDFExport'
 import ValidationAlerts from './ValidationAlerts'
 import ProStatusBadge from './ProStatusBadge'
+import UserMenu from './UserMenu'
 import LoginModal from './auth/LoginModal'
 import VersionHistoryModal from './VersionHistoryModal'
 import Breadcrumbs from './Breadcrumbs'
@@ -555,9 +556,9 @@ function RiderForm() {
                 <span className="hidden sm:inline">{t('common.back')}</span>
               </button>
               
-              {/* Badge de Status - visível apenas em mobile */}
+              {/* User Menu - visível apenas em mobile */}
               <div className="lg:hidden">
-                <ProStatusBadge />
+                <UserMenu />
               </div>
             </div>
             
@@ -586,9 +587,9 @@ function RiderForm() {
             
             {/* Botões de Ação */}
             <div className="flex items-center gap-2 lg:gap-3">
-              {/* Badge de Status - visível apenas em desktop */}
+              {/* User Menu - visível apenas em desktop */}
               <div className="hidden lg:block">
-                <ProStatusBadge />
+                <UserMenu />
               </div>
               
               {/* Botão de Upgrade para Pro */}
@@ -622,9 +623,9 @@ function RiderForm() {
                 <button
                   onClick={handleCreateAccountClick}
                   className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-semibold px-4 py-2 rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all duration-200 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-50"
-                  aria-label={t('common.createAccount')}
+                  aria-label={t('common.loginOrSignup')}
                 >
-                  <span className="hidden sm:inline">🔐 {t('common.createAccount')}</span>
+                  <span className="hidden sm:inline">🔐 {t('common.loginOrSignup')}</span>
                   <span className="sm:hidden" aria-hidden="true">🔐</span>
                 </button>
               ) : !editingRider?.isDemo ? (
