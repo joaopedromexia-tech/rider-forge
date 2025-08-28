@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { STRIPE_CONFIG, useStripeCheckout } from '../../config/stripe'
 import { usePageSEO, SEO_CONFIGS } from '../../hooks/useSEO'
@@ -6,6 +7,7 @@ import LoginModal from '../auth/LoginModal'
 import { useI18n } from '../../context/I18nContext'
 
 const PricingPage = ({ onBack, onNavigateToSubscriptionManagement }) => {
+  const navigate = useNavigate()
   const { user, isPro, subscription } = useAuth()
   const { redirectToCheckout } = useStripeCheckout()
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -19,8 +21,10 @@ const PricingPage = ({ onBack, onNavigateToSubscriptionManagement }) => {
   useEffect(() => {
     if (isPro && onBack) {
       onBack()
+    } else if (isPro) {
+      navigate('/')
     }
-  }, [isPro, onBack])
+  }, [isPro, onBack, navigate])
 
   const handleUpgrade = async () => {
     if (!user) {
@@ -60,19 +64,17 @@ const PricingPage = ({ onBack, onNavigateToSubscriptionManagement }) => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Back Button */}
-        {onBack && (
-          <div className="mb-8">
-            <button
-              onClick={onBack}
-              className="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 font-medium"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              {t('common.back')}
-            </button>
-          </div>
-        )}
+        <div className="mb-8">
+          <button
+            onClick={onBack || (() => navigate('/'))}
+            className="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 font-medium"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            {t('common.back')}
+          </button>
+        </div>
         
         {/* Header */}
         <div className="text-center mb-12">
