@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Helmet } from 'react-helmet-async'
+
 import { useRider } from '../context/RiderContext'
 import { useAuth } from '../context/AuthContext'
 import { useProFeatures } from '../hooks/useProFeatures'
@@ -240,17 +240,6 @@ function MyRiders({ onBack, onEditRider, onNavigateToProSubscription }) {
 
   return (
     <>
-      <Helmet>
-        <title>{t('riders.header.dashboard')} - Rider Forge</title>
-        <meta name="description" content={t('riders.seo.description')} />
-        <meta name="keywords" content={t('riders.seo.keywords')} />
-        <meta property="og:title" content={`${t('riders.header.dashboard')} - Rider Forge`} />
-        <meta property="og:description" content={t('riders.seo.description')} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.riderforge.app/riders" />
-        <meta name="twitter:title" content={`${t('riders.header.dashboard')} - Rider Forge`} />
-        <meta name="twitter:description" content={t('riders.seo.description')} />
-      </Helmet>
       <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800 p-4">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-6">

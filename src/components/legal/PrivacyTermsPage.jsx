@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Helmet } from 'react-helmet-async'
+
 import { useI18n } from '../../context/I18nContext'
 
 const PrivacyTermsPage = ({ onBack }) => {
@@ -293,10 +293,6 @@ const PrivacyTermsPage = ({ onBack }) => {
 
   return (
     <>
-      <Helmet>
-        <title>Termos de Privacidade e Utilização - Rider Forge</title>
-        <meta name="description" content="Termos de utilização e política de privacidade do Rider Forge. Saiba como protegemos os seus dados e os termos de utilização da plataforma." />
-      </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800 p-4">
         <div className="max-w-4xl mx-auto">

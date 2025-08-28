@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Helmet } from 'react-helmet-async'
+
 import { useI18n } from '../../context/I18nContext'
 
 const FAQPage = ({ onBack }) => {
@@ -81,11 +81,6 @@ const FAQPage = ({ onBack }) => {
 
   return (
     <>
-      <Helmet>
-        <title>FAQ - Perguntas Frequentes - Rider Forge</title>
-        <meta name="description" content="Perguntas frequentes sobre o Rider Forge. Encontre respostas sobre funcionalidades, planos, segurança e muito mais." />
-        <meta name="keywords" content="rider forge faq, perguntas frequentes, rider técnico, suporte, ajuda" />
-      </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800 p-4">
         <div className="max-w-4xl mx-auto">

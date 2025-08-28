@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Helmet } from 'react-helmet-async'
+
 import { useAuth } from '../../context/AuthContext'
 import { useI18n } from '../../context/I18nContext'
 import { useFeedback } from '../../hooks/useFeedback'
@@ -88,10 +88,6 @@ const SubscriptionManagementPage = ({ onBack }) => {
 
   return (
     <>
-      <Helmet>
-        <title>Gestão de Subscrição - Rider Forge</title>
-        <meta name="description" content="Gerencie a sua subscrição Pro do Rider Forge" />
-      </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800 p-4">
         <div className="max-w-4xl mx-auto">

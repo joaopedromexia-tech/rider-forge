@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async'
+
 import { useI18n } from '../context/I18nContext'
 
 const SEO = ({ 

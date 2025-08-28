@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
-import { HelmetProvider } from 'react-helmet-async'
+
 import { I18nProvider, useI18n } from './context/I18nContext'
 import { EquipmentProvider } from './context/EquipmentContext'
 import { UnitsProvider } from './context/UnitsContext'
@@ -18,7 +18,7 @@ import DemoButton from './components/DemoButton'
 import LoginModal from './components/auth/LoginModal'
 import BugReportButton from './components/BugReportButton'
 import ProStatusBadge from './components/ProStatusBadge'
-import SEO from './components/SEO'
+
 
 // Componente interno que usa o contexto de autenticação
 function AppContent() {
@@ -388,10 +388,7 @@ function App() {
         <EquipmentProvider>
           <UnitsProvider>
             <RiderProvider>
-              <HelmetProvider>
-                <SEO />
-                <AppContent />
-              </HelmetProvider>
+              <AppContent />
             </RiderProvider>
           </UnitsProvider>
         </EquipmentProvider>
