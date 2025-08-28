@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 
 import { I18nProvider, useI18n } from './context/I18nContext'
@@ -90,6 +90,19 @@ function AppContent() {
   const handleNavigateToSupport = () => {
     setCurrentView('support')
   }
+
+  // Escutar evento customizado para navegar para FAQ
+  React.useEffect(() => {
+    const handleNavigateToFAQ = () => {
+      setCurrentView('faq')
+    }
+
+    window.addEventListener('navigateToFAQ', handleNavigateToFAQ)
+    
+    return () => {
+      window.removeEventListener('navigateToFAQ', handleNavigateToFAQ)
+    }
+  }, [])
 
   // Se ainda está a carregar, mostrar loading
   if (authLoading) {

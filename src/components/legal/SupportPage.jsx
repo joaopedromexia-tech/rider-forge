@@ -17,12 +17,15 @@ const SupportPage = ({ onBack }) => {
         </svg>
       ),
       action: () => {
-        // Navegar para FAQ
+        // Navegar para FAQ usando a função onBack para voltar à página inicial
+        // e depois navegar para FAQ
         if (onBack) {
           onBack()
-          // Simular navegação para FAQ
+          // Simular navegação para FAQ após voltar à página inicial
           setTimeout(() => {
-            window.location.href = '/faq'
+            // Disparar um evento customizado para navegar para FAQ
+            const event = new CustomEvent('navigateToFAQ')
+            window.dispatchEvent(event)
           }, 100)
         }
       },
@@ -38,33 +41,6 @@ const SupportPage = ({ onBack }) => {
       ),
       action: () => setShowBugReportModal(true),
       color: "from-yellow-500 to-orange-500"
-    },
-    {
-      title: t('support.contact.title'),
-      description: t('support.contact.description'),
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-        </svg>
-      ),
-      action: () => {
-        window.location.href = 'mailto:support@riderforge.app?subject=Suporte Rider Forge'
-      },
-      color: "from-green-500 to-green-600"
-    },
-    {
-      title: t('support.docs.title'),
-      description: t('support.docs.description'),
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-      ),
-      action: () => {
-        // Abrir documentação (pode ser um link externo ou página interna)
-        window.open('https://docs.riderforge.app', '_blank')
-      },
-      color: "from-purple-500 to-purple-600"
     }
   ]
 
@@ -190,12 +166,6 @@ const SupportPage = ({ onBack }) => {
                 </button>
               </div>
             </div>
-          </div>
-
-          {/* Response Time Info */}
-          <div className="text-center text-gray-400 text-sm mt-8">
-            <p>⏱️ {t('support.responseTime')}</p>
-            <p>📧 {t('support.email')}</p>
           </div>
         </div>
       </div>
