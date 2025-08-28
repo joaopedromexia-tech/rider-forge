@@ -310,10 +310,10 @@ const PrivacyTermsPage = ({ onBack }) => {
             
             <div className="text-center">
               <h1 className="text-3xl sm:text-4xl font-bold text-gradient mb-4">
-                {t('legal.title')}
+                {t('legal.title') || 'Termos de Privacidade e Utilização'}
               </h1>
               <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                {t('legal.description')}
+                {t('legal.description') || 'Informações importantes sobre como utilizamos os seus dados e os termos de utilização da plataforma'}
               </p>
             </div>
           </div>
@@ -332,7 +332,7 @@ const PrivacyTermsPage = ({ onBack }) => {
                 <svg className="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
-                                 {t('legal.privacy')}
+                                 {t('legal.privacy') || 'Política de Privacidade'}
                </button>
                <button
                  onClick={() => setActiveTab('terms')}
@@ -345,7 +345,7 @@ const PrivacyTermsPage = ({ onBack }) => {
                  <svg className="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                  </svg>
-                 {t('legal.terms')}
+                 {t('legal.terms') || 'Termos de Utilização'}
                </button>
             </div>
           </div>
@@ -364,16 +364,16 @@ const PrivacyTermsPage = ({ onBack }) => {
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-gray-100 mb-3">
-                {t('legal.contactTitle')}
+                {t('legal.contactTitle') || 'Tem questões sobre os nossos termos?'}
               </h3>
               <p className="text-gray-300 mb-6">
-                {t('legal.contactDesc')}
+                {t('legal.contactDesc') || 'A nossa equipa jurídica está disponível para esclarecer qualquer dúvida sobre estes documentos.'}
               </p>
               <button className="btn-primary">
                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                {t('legal.contactSupport')}
+                {t('legal.contactSupport') || 'Contactar Suporte Legal'}
               </button>
             </div>
           </div>
