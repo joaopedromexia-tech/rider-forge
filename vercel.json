@@ -15,10 +15,6 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
       "src": "/simple.html",
       "dest": "/simple.html"
     },
