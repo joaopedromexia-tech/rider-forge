@@ -56,10 +56,19 @@ function generateSitemap() {
 
   // Escrever sitemap na pasta public
   const publicDir = path.join(process.cwd(), 'public')
-  const sitemapPath = path.join(publicDir, 'sitemap.xml')
+  const sitemapPublicPath = path.join(publicDir, 'sitemap.xml')
+  fs.writeFileSync(sitemapPublicPath, sitemap)
+  console.log('✅ Sitemap gerado em:', sitemapPublicPath)
   
-  fs.writeFileSync(sitemapPath, sitemap)
-  console.log('✅ Sitemap gerado com sucesso em:', sitemapPath)
+  // Escrever sitemap diretamente na pasta dist também
+  const distDir = path.join(process.cwd(), 'dist')
+  if (fs.existsSync(distDir)) {
+    const sitemapDistPath = path.join(distDir, 'sitemap.xml')
+    fs.writeFileSync(sitemapDistPath, sitemap)
+    console.log('✅ Sitemap copiado para:', sitemapDistPath)
+  } else {
+    console.log('⚠️  Pasta dist não encontrada, será criada durante o build')
+  }
 }
 
 generateSitemap()

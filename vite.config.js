@@ -41,5 +41,6 @@ export default defineConfig({
     assetsInlineLimit: 0,
     cssCodeSplit: true
   },
-  assetsInclude: ['**/*.webmanifest']
+  assetsInclude: ['**/*.webmanifest'],
+  publicDir: 'public'
 })
