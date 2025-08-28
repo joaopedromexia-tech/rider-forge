@@ -17,6 +17,10 @@ export default async function handler(req, res) {
   }
 
   try {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return res.status(500).json({ error: 'Missing STRIPE_SECRET_KEY environment variable' })
+    }
+
     const { customerId, returnUrl } = req.body
 
     if (!customerId) {
@@ -26,7 +30,13 @@ export default async function handler(req, res) {
     // Criar portal session
     const session = await stripe.billingPortal.sessions.create({
       customer: customerId,
-      return_url: returnUrl || process.env.VERCEL_URL + '/dashboard',
+      return_url: (() => {
+        if (returnUrl && typeof returnUrl === 'string') return returnUrl
+        const proto = req.headers['x-forwarded-proto'] || 'https'
+        const host = req.headers.host || process.env.VERCEL_URL || ''
+        const origin = host.startsWith('http') ? host : `${proto}://${host}`
+        return `${origin}`
+      })(),
     })
 
     res.status(200).json({ id: session.url })
@@ -50,7 +60,7 @@ export default async function handler(req, res) {
     
     res.status(500).json({ 
       error: 'Failed to create portal session',
-      details: error.message 
+      details: error && (error.message || String(error))
     })
   }
 }

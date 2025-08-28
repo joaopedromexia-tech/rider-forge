@@ -20,9 +20,22 @@ export const openSubscriptionPortal = async (customerId, returnUrl = window.loca
     })
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
-      console.error('Portal session API error:', errorData)
-      throw new Error(errorData.error || 'Failed to create portal session')
+      const contentType = response.headers.get('content-type') || ''
+      let errorBody = null
+      let rawText = ''
+      if (contentType.includes('application/json')) {
+        errorBody = await response.json().catch(() => ({}))
+      } else {
+        rawText = await response.text().catch(() => '')
+      }
+      console.error('Portal session API error:', {
+        status: response.status,
+        statusText: response.statusText,
+        contentType,
+        body: errorBody || rawText
+      })
+      const message = (errorBody && (errorBody.error || errorBody.message)) || rawText || 'Failed to create portal session'
+      throw new Error(message)
     }
 
     const { id: portalUrl } = await response.json()
