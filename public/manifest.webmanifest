@@ -13,13 +13,13 @@
   "categories": ["productivity", "music", "utilities", "business"],
   "icons": [
     {
-      "src": "/logo.svg",
+      "src": "/logo-mark.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/logo.svg",
+      "src": "/logo-mark.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "maskable"
@@ -33,7 +33,7 @@
       "url": "/riders/new/dados-gerais",
       "icons": [
         {
-          "src": "/logo.svg",
+          "src": "/logo-mark.svg",
           "sizes": "96x96"
         }
       ]
@@ -45,7 +45,7 @@
       "url": "/riders",
       "icons": [
         {
-          "src": "/logo.svg",
+          "src": "/logo-mark.svg",
           "sizes": "96x96"
         }
       ]
