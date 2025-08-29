@@ -136,7 +136,7 @@ const SubscriptionManagementPage = ({ onBack }) => {
                 </div>
                 <div>
                   <label className="text-sm font-medium text-gray-400">{t('subscription.price')}</label>
-                  <p className="text-lg font-semibold text-gray-100">€3.99/ano</p>
+                  <p className="text-lg font-semibold text-gray-100">$9.99/ano</p>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-gray-400">{t('subscription.nextPayment')}</label>

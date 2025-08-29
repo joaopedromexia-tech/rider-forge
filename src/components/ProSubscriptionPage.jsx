@@ -26,10 +26,10 @@ const ProSubscriptionPage = ({ onBack }) => {
     annual: {
       id: 'annual',
       name: t('pro.plans.annual.name'),
-      price: '€3.99',
+      price: '$9.99',
       period: t('pro.plans.annual.period'),
-      originalPrice: '€47.88',
-      savings: '€43.89',
+      originalPrice: '$47.88',
+      savings: '$37.89',
       popular: true,
       features: [
         t('pro.plans.annual.features.unlimited'),

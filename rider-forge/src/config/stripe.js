@@ -11,7 +11,7 @@ export const STRIPE_CONFIG = {
       id: 'pro_annual',
       priceId: import.meta.env.VITE_STRIPE_PRO_ANNUAL_PRICE_ID,
       name: 'Rider Forge Pro',
-      price: '€3.99/ano',
+      price: '$9.99/ano',
       features: [
         'Riders Ilimitados',
         'Biblioteca Pro de Equipamentos',

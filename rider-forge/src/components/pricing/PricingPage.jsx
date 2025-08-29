@@ -106,7 +106,7 @@ const PricingPage = () => {
             
             <div className="text-center mb-8">
               <h3 className="text-2xl font-bold mb-2">Pro</h3>
-              <div className="text-4xl font-bold mb-2">€3.99</div>
+              <div className="text-4xl font-bold mb-2">$9.99</div>
               <p className="text-blue-100">por ano</p>
               <div className="text-sm text-blue-200 mt-2">
                 Apenas €0.33 por mês!
