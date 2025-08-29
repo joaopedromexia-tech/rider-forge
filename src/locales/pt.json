@@ -950,7 +950,12 @@
   "breadcrumbs.tabs.monitorMixes": "Monitor Mixes",
   "breadcrumbs.tabs.finalNotes": "Observações Finais",
   "breadcrumbs.navigation": "Navegação por breadcrumbs",
-  "rider.tabs.navigation": "Navegação por abas do rider"
+  "rider.tabs.navigation": "Navegação por abas do rider",
+  "subscription.status.active": "Ativa",
+  "subscription.status.canceled": "Cancelada",
+  "subscription.status.pastDue": "Pagamento em atraso",
+  "subscription.status.unknown": "Desconhecido",
+  "subscription.notAvailable": "Não disponível"
 }
 
 

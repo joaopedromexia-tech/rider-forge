@@ -16,7 +16,7 @@ export function I18nProvider({ children, defaultLocale = 'en' }) {
   })
 
   const t = useMemo(() => {
-    const dict = MESSAGES[locale] || MESSAGES.pt
+    const dict = MESSAGES[locale] || MESSAGES.en
     return (key, params) => {
       let str = dict[key] ?? key
       if (params && typeof params === 'object') {

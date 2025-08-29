@@ -160,24 +160,6 @@ function HomePage() {
               </div>
               <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">{t('app.subtitle')}</p>
               <div className="mt-4 flex items-center justify-center gap-4">
-                <select 
-                  value={locale} 
-                  onChange={(e) => {
-                    const newLocale = e.target.value
-                    console.log('🔍 HomePage: Language changed to:', newLocale)
-                    setLocale(newLocale)
-                    // Navegar para a URL correta baseada no idioma
-                    if (newLocale === 'en') {
-                      navigate('/en')
-                    } else {
-                      navigate('/')
-                    }
-                  }} 
-                  className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200"
-                >
-                  <option value="pt">PT</option>
-                  <option value="en">EN</option>
-                </select>
                 {/* Auth-dependent content */}
                 {!isProUser && (
                   <button 

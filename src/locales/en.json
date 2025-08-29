@@ -781,6 +781,11 @@
   "subscription.cancelWarning": "Are you sure you want to cancel your Pro subscription? You will continue to have access to all Pro features until the end of the current period.",
   "subscription.portalRedirect": "After cancellation, you will be redirected to the Stripe portal",
   "subscription.reactivate": "You can reactivate the subscription at any time",
+  "subscription.status.active": "Active",
+  "subscription.status.canceled": "Canceled",
+  "subscription.status.pastDue": "Payment overdue",
+  "subscription.status.unknown": "Unknown",
+  "subscription.notAvailable": "Not available",
 
   "faq.title": "Frequently Asked Questions",
   "faq.description": "Find answers to the most common questions about Rider Forge",

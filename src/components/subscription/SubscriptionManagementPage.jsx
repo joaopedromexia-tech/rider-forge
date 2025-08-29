@@ -54,7 +54,8 @@ const SubscriptionManagementPage = ({ onBack }) => {
   }
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('pt-PT', {
+    const dateLocale = locale === 'pt' ? 'pt-PT' : 'en-US'
+    return new Date(dateString).toLocaleDateString(dateLocale, {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric'
@@ -77,13 +78,13 @@ const SubscriptionManagementPage = ({ onBack }) => {
   const getStatusText = (status) => {
     switch (status) {
       case 'active':
-        return 'Ativa'
+        return t('subscription.status.active')
       case 'canceled':
-        return 'Cancelada'
+        return t('subscription.status.canceled')
       case 'past_due':
-        return 'Pagamento em atraso'
+        return t('subscription.status.pastDue')
       default:
-        return 'Desconhecido'
+        return t('subscription.status.unknown')
     }
   }
 
@@ -143,7 +144,7 @@ const SubscriptionManagementPage = ({ onBack }) => {
                   <p className="text-lg font-semibold text-gray-100">
                     {subscription?.current_period_end 
                       ? formatDate(subscription.current_period_end)
-                      : 'Não disponível'
+                      : t('subscription.notAvailable')
                     }
                   </p>
                 </div>

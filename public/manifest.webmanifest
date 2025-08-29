@@ -1,12 +1,12 @@
 {
-  "name": "Rider Forge - Criador de Riders Técnicos",
+  "name": "Rider Forge - Technical Rider Creator",
   "short_name": "RiderForge",
-  "description": "Crie riders técnicos profissionais com facilidade. Software completo para músicos, técnicos de som e produtores.",
+  "description": "Create professional technical riders with ease. Complete software for musicians, sound technicians and producers.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0b1020",
   "theme_color": "#1e90ff",
-  "lang": "pt-BR",
+  "lang": "en",
   "dir": "ltr",
   "orientation": "portrait-primary",
   "scope": "/",
@@ -27,9 +27,9 @@
   ],
   "shortcuts": [
     {
-      "name": "Criar Novo Rider",
-      "short_name": "Novo Rider",
-      "description": "Criar um novo rider técnico",
+      "name": "Create New Rider",
+      "short_name": "New Rider",
+      "description": "Create a new technical rider",
       "url": "/riders/new/dados-gerais",
       "icons": [
         {
@@ -39,9 +39,9 @@
       ]
     },
     {
-      "name": "Meus Riders",
+      "name": "My Riders",
       "short_name": "Riders",
-      "description": "Ver todos os riders criados",
+      "description": "View all created riders",
       "url": "/riders",
       "icons": [
         {

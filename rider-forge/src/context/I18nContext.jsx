@@ -11,7 +11,7 @@ const MESSAGES = {
   }
 }
 
-export function I18nProvider({ children, defaultLocale = 'pt' }) {
+export function I18nProvider({ children, defaultLocale = 'en' }) {
   const [locale, setLocale] = useState(defaultLocale)
 
   const t = useMemo(() => {

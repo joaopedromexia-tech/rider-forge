@@ -27,7 +27,7 @@ const SEO = ({
     }
   }
 
-  const currentMeta = defaultMeta[locale] || defaultMeta.pt
+  const currentMeta = defaultMeta[locale] || defaultMeta.en
   const finalTitle = title || currentMeta.title
   const finalDescription = description || currentMeta.description
   const finalKeywords = keywords || currentMeta.keywords

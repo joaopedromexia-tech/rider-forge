@@ -396,7 +396,7 @@ function Consolas({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
           </svg>
-          FOH (Front of House)
+          {t('tab.consoles.foh.title')}
                       <span className="text-gray-400 text-sm font-normal">{t('tab.consoles.foh.subtitle')}</span>
         </h3>
 
@@ -459,13 +459,13 @@ function Consolas({ data, onChange }) {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Notas</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.notes')}</label>
               <input
                 type="text"
                 value={formData.foh.consolaPreferida.observacoes}
                 onChange={(e) => handleFOHConsolaPreferidaChange('observacoes', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                placeholder="ex: Versão, configuração de cartões"
+                placeholder={t('common.placeholder.versionConfig')}
               />
             </div>
           </div>
@@ -479,7 +479,7 @@ function Consolas({ data, onChange }) {
           <div className="bg-dark-700 rounded-lg p-4 mb-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="md:col-span-1">
-                <label className="block text-sm font-medium text-gray-300 mb-2">Consola</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.console')}</label>
                 <SearchableDropdown
                   options={consoleEquipment}
                   value={formData.foh.novaConsola.marca && formData.foh.novaConsola.modelo ? 
@@ -522,13 +522,13 @@ function Consolas({ data, onChange }) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Notas</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.notes')}</label>
                 <input
                   type="text"
                   value={formData.foh.novaConsola.observacoes}
                   onChange={(e) => handleFOHNovaConsolaChange('observacoes', e.target.value)}
                   className="w-full px-3 py-2 bg-dark-600 border border-dark-500 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-                  placeholder="ex: Versão, configuração"
+                  placeholder={t('common.placeholder.version')}
                 />
               </div>
               <div className="flex items-end">
@@ -580,7 +580,7 @@ function Consolas({ data, onChange }) {
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          MON (Monitor)
+          {t('tab.consoles.mon.title')}
           <span className="text-gray-400 text-sm font-normal">{t('tab.consoles.mon.subtitle')}</span>
         </h3>
 
@@ -589,7 +589,7 @@ function Consolas({ data, onChange }) {
           <h4 className="text-lg font-medium text-gray-200 mb-4">{t('tab.consoles.preferred')}</h4>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-300 mb-2">Consola</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.console')}</label>
               <SearchableDropdown
                 options={consoleEquipment}
                 value={formData.mon.consolaPreferida.marca && formData.mon.consolaPreferida.modelo ? 
@@ -632,7 +632,7 @@ function Consolas({ data, onChange }) {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Fornecedor</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('supplier.label')}</label>
               <select
                 value={formData.mon.consolaPreferida.supplier}
                 onChange={(e) => handleMONConsolaPreferidaChange('supplier', e.target.value)}
@@ -643,13 +643,13 @@ function Consolas({ data, onChange }) {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Notas</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.notes')}</label>
               <input
                 type="text"
                 value={formData.mon.consolaPreferida.observacoes}
                 onChange={(e) => handleMONConsolaPreferidaChange('observacoes', e.target.value)}
                 className="w-full px-3 py-2 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-green focus:border-transparent transition-all duration-200"
-                placeholder="ex: Versão, configuração de cartões"
+                placeholder={t('common.placeholder.versionConfig')}
               />
             </div>
           </div>
@@ -663,7 +663,7 @@ function Consolas({ data, onChange }) {
           <div className="bg-dark-700 rounded-lg p-4 mb-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="md:col-span-1">
-                <label className="block text-sm font-medium text-gray-300 mb-2">Consola</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.console')}</label>
                 <SearchableDropdown
                   options={consoleEquipment}
                   value={formData.mon.novaConsola.marca && formData.mon.novaConsola.modelo ? 
@@ -706,13 +706,13 @@ function Consolas({ data, onChange }) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Notas</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t('common.notes')}</label>
                 <input
                   type="text"
                   value={formData.mon.novaConsola.observacoes}
                   onChange={(e) => handleMONNovaConsolaChange('observacoes', e.target.value)}
                   className="w-full px-3 py-2 bg-dark-600 border border-dark-500 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-green focus:border-transparent transition-all duration-200"
-                  placeholder="ex: Versão, configuração"
+                  placeholder={t('common.placeholder.version')}
                 />
               </div>
               <div className="flex items-end">

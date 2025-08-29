@@ -1,46 +1,46 @@
-// Configurações do sistema Free vs Pro
+// Free vs Pro system configuration
 export const PRO_CONFIG = {
-  // Limites da versão Free
+  // Free version limits
   FREE_LIMITS: {
     maxRiders: 2,
     maxStorageMB: 10
   },
 
-  // Funcionalidades Pro
+  // Pro features
   PRO_FEATURES: {
     UNLIMITED_RIDERS: {
       id: 'unlimited_riders',
-      title: 'Riders Ilimitados',
-      description: 'Salve quantos riders quiser sem limitações'
+      title: 'Unlimited Riders',
+      description: 'Save as many riders as you want without limitations'
     },
     PRO_EQUIPMENT: {
       id: 'pro_equipments',
-      title: 'Biblioteca Pro',
-      description: 'Acesso a equipamentos profissionais premium'
+      title: 'Pro Library',
+      description: 'Access to premium professional equipment'
     },
     CUSTOM_PDF: {
       id: 'custom_pdf',
-      title: 'PDF Customizável',
-      description: 'Personalize cores, logo e rodapé dos PDFs'
+      title: 'Customizable PDF',
+      description: 'Customize colors, logo and footer of PDFs'
     },
     VERSION_HISTORY: {
       id: 'version_history',
-      title: 'Histórico de Versões',
-      description: 'Controle de versões e histórico de alterações'
+      title: 'Version History',
+      description: 'Version control and change history'
     },
 
   },
 
-  // Mensagens do sistema
+  // System messages
   MESSAGES: {
-    FREE_LIMIT_REACHED: 'Limite da versão Free atingido. Máximo {limit} riders para contas gratuitas.',
-    STORAGE_LIMIT_REACHED: 'Limite de armazenamento da versão Free atingido. Máximo {limit}MB.',
-    PRO_FEATURE_LOCKED: 'Esta função está disponível no Rider Forge Pro',
-    UPGRADE_TO_PRO: 'Upgrade para Pro',
-    CONTINUE_FREE: 'Continuar Free'
+    FREE_LIMIT_REACHED: 'Free version limit reached. Maximum {limit} riders for free accounts.',
+    STORAGE_LIMIT_REACHED: 'Free storage limit reached. Maximum {limit}MB.',
+    PRO_FEATURE_LOCKED: 'This feature is available in Rider Forge Pro',
+    UPGRADE_TO_PRO: 'Upgrade to Pro',
+    CONTINUE_FREE: 'Continue Free'
   },
 
-  // Configurações de UI
+  // UI configuration
   UI: {
     PRO_BADGE_COLORS: {
       background: 'bg-gradient-to-r from-accent-green to-accent-blue',
@@ -51,7 +51,7 @@ export const PRO_CONFIG = {
   }
 }
 
-// Função para verificar se uma funcionalidade está disponível
+// Function to check if a feature is available
 export const isFeatureAvailable = (featureId, isPro) => {
   if (isPro) return true
   
@@ -59,7 +59,7 @@ export const isFeatureAvailable = (featureId, isPro) => {
   return !proFeatures.includes(featureId)
 }
 
-// Função para obter mensagem de limite
+// Function to get limit message
 export const getLimitMessage = (type, limit) => {
   const messages = {
     riders: PRO_CONFIG.MESSAGES.FREE_LIMIT_REACHED.replace('{limit}', limit),

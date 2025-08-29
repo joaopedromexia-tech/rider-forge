@@ -49,7 +49,8 @@ const VersionHistoryModal = ({ isOpen, onClose, riderId, onRestoreVersion, curre
   }
 
   const formatDate = (timestamp) => {
-    return new Date(timestamp).toLocaleString('pt-PT', {
+    const dateLocale = locale === 'pt' ? 'pt-PT' : 'en-US'
+    return new Date(timestamp).toLocaleString(dateLocale, {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
