@@ -6,6 +6,7 @@ import { useFeedback } from '../../hooks/useFeedback'
 import { useStripeCheckout } from '../../config/stripe'
 import LoadingButton from '../LoadingButton'
 import Modal from '../Modal'
+import UserMenu from '../UserMenu'
 
 const SubscriptionManagementPage = ({ onBack }) => {
   const { user, isPro, subscription } = useAuth()
@@ -93,15 +94,20 @@ const SubscriptionManagementPage = ({ onBack }) => {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <button
-              onClick={onBack}
-              className="btn-secondary flex items-center gap-2 mb-6"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              {t('common.back')}
-            </button>
+            <div className="flex justify-between items-center mb-6">
+              <button
+                onClick={onBack}
+                className="btn-secondary flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                {t('common.back')}
+              </button>
+              
+              {/* User Menu */}
+              <UserMenu />
+            </div>
             
             <div className="text-center">
               <h1 className="text-3xl sm:text-4xl font-bold text-gradient mb-4">

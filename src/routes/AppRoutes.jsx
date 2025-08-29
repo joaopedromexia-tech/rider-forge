@@ -17,6 +17,7 @@ import ProgressiveLoadingTest from '../components/ProgressiveLoadingTest'
 import BugReportButton from '../components/BugReportButton'
 import KeyboardNavigation from '../components/KeyboardNavigation'
 import ScrollToTop from '../components/ScrollToTop'
+import SharedRiderViewer from '../components/SharedRiderViewer'
 
 // Componente para redirecionar /riders/:id para o último tab visitado
 function RiderRedirect() {
@@ -162,6 +163,9 @@ function AppRoutes() {
         
         {/* Progressive Loading Test */}
         <Route path="/progressive-test" element={<ProgressiveLoadingTest />} />
+        
+        {/* Short Links - Links curtos para partilha */}
+        <Route path="/s/:shortId" element={<SharedRiderViewer />} />
         
         {/* 404 - redirecionar para home */}
         <Route path="*" element={<Navigate to="/" replace />} />

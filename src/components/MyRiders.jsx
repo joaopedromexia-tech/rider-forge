@@ -16,7 +16,9 @@ import LoginModal from './auth/LoginModal'
 import Modal from './Modal'
 import VersionHistoryModal from './VersionHistoryModal'
 import Breadcrumbs from './Breadcrumbs'
+import UserMenu from './UserMenu'
 import { encodeObjectToBase64 } from '../utils/base64'
+import { saveShortLink, generateShortUrl } from '../utils/shortLinks'
 import { PRO_CONFIG } from '../config/proConfig'
 
 function MyRiders() {
@@ -115,6 +117,35 @@ function MyRiders() {
     }
   }
 
+  const handleShare = (id) => {
+    try {
+      const rider = getRiderByIdWithSync(id)
+      if (!rider) {
+        showError(t('share.riderNotFound'))
+        return
+      }
+      
+      // Usar sistema de links curtos
+      const shortId = saveShortLink({ name: rider.name, data: rider.data })
+      if (!shortId) {
+        showError(t('share.error') + ': Erro ao gerar link curto')
+        return
+      }
+      
+      const url = generateShortUrl(shortId)
+      setShareLink(url)
+      
+      // Copiar para clipboard
+      navigator.clipboard?.writeText(url).then(() => {
+        showSuccess(t('share.success'))
+      }).catch(() => {
+        showSuccess(t('share.success'))
+      })
+    } catch (error) {
+      showError(t('share.error') + ': ' + error.message)
+    }
+  }
+
   const handleVersionHistory = (id) => {
     const rider = getRiderByIdWithSync(id)
     if (!rider) {
@@ -160,6 +191,11 @@ function MyRiders() {
   const handleBackToHome = () => {
     scrollToTop()
     navigate('/')
+  }
+
+  const handleCreateNewRider = () => {
+    scrollToTop()
+    navigate('/riders/new/dados-gerais')
   }
 
   const handleEditRider = (riderId) => {
@@ -279,6 +315,9 @@ function MyRiders() {
           <h1 className="text-2xl sm:text-3xl font-bold text-gradient text-center">{t('riders.header.dashboard')}</h1>
           
           <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto justify-center">
+            {/* User Menu */}
+            <UserMenu />
+            
             {/* Badge de Status */}
             <ProStatusBadge />
             
@@ -387,7 +426,7 @@ function MyRiders() {
             <h3 className="text-xl font-semibold text-gray-100 mb-2">{t('riders.empty.title')}</h3>
             <p className="text-gray-400 mb-6">{t('riders.empty.subtitle')}</p>
             <button
-              onClick={handleBackToHome}
+              onClick={handleCreateNewRider}
               className="btn-primary"
             >
               {t('riders.empty.cta')}
@@ -465,6 +504,17 @@ function MyRiders() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     <span className="hidden sm:inline">{t('common.export')}</span>
+                  </button>
+
+                  <button
+                    key={`share-${rider.id}`}
+                    onClick={() => handleShare(rider.id)}
+                    className="btn-action text-sm py-3 flex items-center justify-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                    </svg>
+                    <span className="hidden sm:inline">{t('share.title')}</span>
                   </button>
 
                   {/* Version History Button - Only for Pro users */}
@@ -651,6 +701,31 @@ function MyRiders() {
           }
         }}
       />
+
+      {/* Share Link Modal */}
+      {shareLink && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-dark-800 rounded-lg shadow-xl max-w-lg w-full border border-dark-700">
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-gray-100 mb-3">Link Curto Gerado</h3>
+              <p className="text-gray-400 text-sm mb-4">
+                O link curto foi copiado para a área de transferência. Qualquer pessoa com este link pode visualizar o rider em modo "só leitura". O link expira em 30 dias.
+              </p>
+              <div className="bg-dark-700 border border-dark-600 rounded p-3 text-sm text-gray-300 break-all mb-4">
+                {shareLink}
+              </div>
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={() => setShareLink('')}
+                  className="btn-secondary"
+                >
+                  {t('share.modal.close')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
     </>
   )

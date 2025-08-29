@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { STRIPE_CONFIG, useStripeCheckout } from '../../config/stripe'
 import { usePageSEO, SEO_CONFIGS } from '../../hooks/useSEO'
 import LoginModal from '../auth/LoginModal'
+import UserMenu from '../UserMenu'
 import { useI18n } from '../../context/I18nContext'
 
 const PricingPage = ({ onBack, onNavigateToSubscriptionManagement }) => {
@@ -63,8 +64,8 @@ const PricingPage = ({ onBack, onNavigateToSubscriptionManagement }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Back Button */}
-        <div className="mb-8">
+        {/* Header with User Menu */}
+        <div className="flex justify-between items-center mb-8">
           <button
             onClick={onBack || (() => navigate('/'))}
             className="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 font-medium"
@@ -74,6 +75,11 @@ const PricingPage = ({ onBack, onNavigateToSubscriptionManagement }) => {
             </svg>
             {t('common.back')}
           </button>
+          
+          {/* User Menu - visível apenas quando autenticado */}
+          {user && (
+            <UserMenu />
+          )}
         </div>
         
         {/* Header */}

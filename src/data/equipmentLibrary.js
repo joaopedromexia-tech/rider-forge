@@ -162,6 +162,44 @@ export const EQUIPMENT_LIBRARY = {
       isPro: false
     },
 
+    // Adições (FREE) – Microfones dinâmicos e condensadores populares
+    {
+      categoria: "mic",
+      marca: "Sennheiser",
+      modelo: "e835",
+      tags: ["vocal", "dinamico", "live"],
+      phantom: false,
+      notas: "Dinâmico cardioide para vocais",
+      isPro: false
+    },
+    {
+      categoria: "mic",
+      marca: "Sennheiser",
+      modelo: "e914",
+      tags: ["overhead", "hi-hat", "condenser"],
+      phantom: true,
+      notas: "Condenser pequeno diafragma para OH/hi-hat",
+      isPro: false
+    },
+    {
+      categoria: "mic",
+      marca: "AKG",
+      modelo: "C451 B",
+      tags: ["overhead", "acustica", "condenser"],
+      phantom: true,
+      notas: "Condenser clássico para pratos e acústicas",
+      isPro: false
+    },
+    {
+      categoria: "mic",
+      marca: "Audio-Technica",
+      modelo: "AT4040",
+      tags: ["vocal", "instrumentos", "condenser"],
+      phantom: true,
+      notas: "Condenser multiuso",
+      isPro: false
+    },
+
     // DI / CAIXAS DE INJEÇÃO (FREE)
     {
       categoria: "di",
@@ -207,6 +245,62 @@ export const EQUIPMENT_LIBRARY = {
       tags: ["instrumentos"],
       phantom: true,
       notas: "DI ativo Rupert Neve",
+      isPro: false
+    },
+
+    // Adições (FREE) – DI Boxes comuns
+    {
+      categoria: "di",
+      marca: "Radial",
+      modelo: "ProDI",
+      tags: ["instrumentos", "passive"],
+      phantom: false,
+      notas: "DI passivo Radial ProDI",
+      isPro: false
+    },
+    {
+      categoria: "di",
+      marca: "Radial",
+      modelo: "Pro48",
+      tags: ["instrumentos", "active"],
+      phantom: true,
+      notas: "DI ativo Radial Pro48",
+      isPro: false
+    },
+    {
+      categoria: "di",
+      marca: "Behringer",
+      modelo: "DI100",
+      tags: ["instrumentos", "active"],
+      phantom: true,
+      notas: "DI ativo Behringer DI100",
+      isPro: false
+    },
+    {
+      categoria: "di",
+      marca: "ART",
+      modelo: "DTI",
+      tags: ["isolador", "transformer", "passive"],
+      phantom: false,
+      notas: "Caixa de isolamento passiva ART DTI",
+      isPro: false
+    },
+    {
+      categoria: "di",
+      marca: "Whirlwind",
+      modelo: "IMP 2",
+      tags: ["instrumentos", "passive"],
+      phantom: false,
+      notas: "DI passivo Whirlwind IMP 2",
+      isPro: false
+    },
+    {
+      categoria: "di",
+      marca: "Pro Co",
+      modelo: "DB-1",
+      tags: ["instrumentos", "passive"],
+      phantom: false,
+      notas: "DI passivo Pro Co DB-1",
       isPro: false
     },
 
@@ -1316,6 +1410,53 @@ export const EQUIPMENT_LIBRARY = {
       isPro: true
     },
 
+    // Adições (PRO) – Microfones vocais/instrumentos premium
+    {
+      categoria: "mic",
+      marca: "Neumann",
+      modelo: "U87 Ai",
+      tags: ["vocal", "studio", "condenser"],
+      phantom: true,
+      notas: "Condenser de grande diafragma clássico",
+      isPro: true
+    },
+    {
+      categoria: "mic",
+      marca: "Schoeps",
+      modelo: "CMC6 + MK4",
+      tags: ["overhead", "acustica", "condenser"],
+      phantom: true,
+      notas: "Condenser modular cardioide de referência",
+      isPro: true
+    },
+    {
+      categoria: "mic",
+      marca: "Royer",
+      modelo: "R-121",
+      tags: ["guitarra", "sopros", "ribbon"],
+      phantom: false,
+      notas: "Ribbon passivo para guitarras e metais",
+      isPro: true
+    },
+    {
+      categoria: "mic",
+      marca: "Beyerdynamic",
+      modelo: "M88 TG",
+      tags: ["kick", "vocal", "dinamico"],
+      phantom: false,
+      notas: "Dinâmico hiper-cardioide, comum em kick e vocais",
+      isPro: true
+    },
+    {
+      categoria: "mic",
+      marca: "Sennheiser",
+      modelo: "MD 441-U",
+      tags: ["snare", "vocal", "dinamico"],
+      phantom: false,
+      notas: "Dinâmico super-cardioide de referência",
+      isPro: true
+    },
+
     // MICROFONES (PRO) - Dinâmicos clássicos
     {
       categoria: "mic",
@@ -1371,6 +1512,165 @@ export const EQUIPMENT_LIBRARY = {
       tags: ["instrumentos", "profissional"],
       phantom: true,
       notas: "DI ativo profissional",
+      isPro: true
+    },
+
+    // Adições (PRO) – DI Boxes premium
+    {
+      categoria: "di",
+      marca: "Countryman",
+      modelo: "Type 10",
+      tags: ["instrumentos", "active", "profissional"],
+      phantom: true,
+      notas: "DI ativo com headroom elevado",
+      isPro: true
+    },
+    {
+      categoria: "di",
+      marca: "Radial",
+      modelo: "J48 Stereo",
+      tags: ["instrumentos", "active", "stereo", "profissional"],
+      phantom: true,
+      notas: "DI ativo estéreo a phantom",
+      isPro: true
+    },
+    {
+      categoria: "di",
+      marca: "Rupert Neve",
+      modelo: "RNDI-S",
+      tags: ["instrumentos", "active", "stereo", "profissional"],
+      phantom: true,
+      notas: "DI ativo estéreo a phantom",
+      isPro: true
+    },
+    {
+      categoria: "di",
+      marca: "Avalon",
+      modelo: "U5",
+      tags: ["instrumentos", "active", "rack", "profissional"],
+      phantom: false,
+      notas: "DI ativo alimentado por AC (não requer 48V)",
+      isPro: true
+    },
+
+    // Adições (PRO) – Consolas e PA
+    {
+      categoria: "console",
+      marca: "Solid State Logic",
+      modelo: "Live L500",
+      tags: ["foh", "console", "digital", "profissional"],
+      phantom: null,
+      notas: "Consola SSL Live L500",
+      isPro: true
+    },
+    {
+      categoria: "console",
+      marca: "Solid State Logic",
+      modelo: "Live L300",
+      tags: ["foh", "console", "digital", "profissional"],
+      phantom: null,
+      notas: "Consola SSL Live L300",
+      isPro: true
+    },
+    {
+      categoria: "console",
+      marca: "DiGiCo",
+      modelo: "Quantum 7",
+      tags: ["foh", "console", "digital", "profissional"],
+      phantom: null,
+      notas: "Consola DiGiCo Quantum 7",
+      isPro: true
+    },
+    {
+      categoria: "console",
+      marca: "Yamaha",
+      modelo: "Rivage PM10",
+      tags: ["foh", "console", "digital", "profissional"],
+      phantom: null,
+      notas: "Consola Yamaha Rivage PM10",
+      isPro: true
+    },
+    {
+      categoria: "console",
+      marca: "Allen & Heath",
+      modelo: "Avantis",
+      tags: ["foh", "console", "digital", "profissional"],
+      phantom: null,
+      notas: "Consola Allen & Heath Avantis",
+      isPro: true
+    },
+    {
+      categoria: "pa",
+      marca: "RCF",
+      modelo: "HDL 50-A 4K",
+      tags: ["pa", "linearray", "touring"],
+      phantom: null,
+      notas: "Line Array RCF HDL 50-A 4K",
+      isPro: true
+    },
+    {
+      categoria: "pa",
+      marca: "d&b audiotechnik",
+      modelo: "V8",
+      tags: ["pa", "linearray", "touring"],
+      phantom: null,
+      notas: "Módulo de line array d&b V8",
+      isPro: true
+    },
+    {
+      categoria: "pa",
+      marca: "Outline",
+      modelo: "GTO C-12",
+      tags: ["pa", "linearray", "touring"],
+      phantom: null,
+      notas: "Line Array Outline GTO C-12",
+      isPro: true
+    },
+
+    // Adições (PRO) – Wedges e Side Fill
+    {
+      categoria: "wedge",
+      marca: "Meyer Sound",
+      modelo: "MJF-210",
+      tags: ["wedge", "monitor", "palco", "profissional"],
+      phantom: null,
+      notas: "Wedge Meyer Sound MJF-210",
+      isPro: true
+    },
+    {
+      categoria: "wedge",
+      marca: "Meyer Sound",
+      modelo: "MJF-212A",
+      tags: ["wedge", "monitor", "palco", "profissional"],
+      phantom: null,
+      notas: "Wedge Meyer Sound MJF-212A",
+      isPro: true
+    },
+    {
+      categoria: "sidefill",
+      marca: "L-Acoustics",
+      modelo: "ARCS Focus",
+      tags: ["side", "fill", "monitor", "palco", "profissional"],
+      phantom: null,
+      notas: "Side Fill L-Acoustics ARCS Focus",
+      isPro: true
+    },
+    {
+      categoria: "sidefill",
+      marca: "L-Acoustics",
+      modelo: "ARCS Wide",
+      tags: ["side", "fill", "monitor", "palco", "profissional"],
+      phantom: null,
+      notas: "Side Fill L-Acoustics ARCS Wide",
+      isPro: true
+    },
+    {
+      categoria: "sidefill",
+      marca: "Meyer Sound",
+      modelo: "UPQ-D1",
+      tags: ["side", "fill", "monitor", "palco", "profissional"],
+      phantom: null,
+      notas: "Side Fill Meyer Sound UPQ-D1",
       isPro: true
     },
 
@@ -2461,18 +2761,28 @@ export const EQUIPMENT_LIBRARY = {
 }
 
 // Funções utilitárias
+// Remover duplicados por (categoria, marca, modelo). Mantém o último item (priorizando PRO quando presente no final).
+const dedupeEquipment = (items) => {
+  const map = new Map()
+  items.forEach((item) => {
+    const key = `${item.categoria}::${item.marca}::${item.modelo}`
+    map.set(key, item)
+  })
+  return Array.from(map.values())
+}
+
 export const getEquipmentByCategory = (category, isPro = false) => {
   const freeItems = EQUIPMENT_LIBRARY.FREE.filter(item => item.categoria === category)
   const additionalFreeItems = EQUIPMENT_LIBRARY.ADDITIONAL_FREE.filter(item => item.categoria === category)
   const proItems = isPro ? EQUIPMENT_LIBRARY.PRO.filter(item => item.categoria === category) : []
-  return [...freeItems, ...additionalFreeItems, ...proItems]
+  return dedupeEquipment([...freeItems, ...additionalFreeItems, ...proItems])
 }
 
 export const getAllEquipment = (isPro = false) => {
   const freeItems = EQUIPMENT_LIBRARY.FREE
   const additionalFreeItems = EQUIPMENT_LIBRARY.ADDITIONAL_FREE
   const proItems = isPro ? EQUIPMENT_LIBRARY.PRO : []
-  return [...freeItems, ...additionalFreeItems, ...proItems]
+  return dedupeEquipment([...freeItems, ...additionalFreeItems, ...proItems])
 }
 
 export const getBrands = (isPro = false) => {

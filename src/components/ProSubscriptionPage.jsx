@@ -5,6 +5,7 @@ import { useFeedback } from '../hooks/useFeedback'
 import { useI18n } from '../context/I18nContext'
 import LoginModal from './auth/LoginModal'
 import ProStatusBadge from './ProStatusBadge'
+import UserMenu from './UserMenu'
 
 const ProSubscriptionPage = ({ onBack }) => {
   const { user, isPro, subscription, loading: authLoading } = useAuth()
@@ -167,9 +168,16 @@ const ProSubscriptionPage = ({ onBack }) => {
               <span className="hidden sm:inline">{t('common.back')}</span>
             </button>
             
-            {isProUser && (
-              <ProStatusBadge />
-            )}
+            <div className="flex items-center gap-4">
+              {/* User Menu - visível apenas quando autenticado */}
+              {user && (
+                <UserMenu />
+              )}
+              
+              {isProUser && (
+                <ProStatusBadge />
+              )}
+            </div>
           </div>
         </div>
       </div>

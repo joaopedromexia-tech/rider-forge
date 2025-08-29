@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useI18n } from '../../context/I18nContext'
 import { usePageSEO, SEO_CONFIGS } from '../../hooks/useSEO'
 import BugReportModal from '../BugReportModal'
+import UserMenu from '../UserMenu'
 
 const SupportPage = ({ onBack }) => {
   const { t } = useI18n()
@@ -85,15 +86,20 @@ const SupportPage = ({ onBack }) => {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <button
-              onClick={handleBack}
-              className="btn-secondary flex items-center gap-2 mb-6"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              {t('common.back')}
-            </button>
+            <div className="flex justify-between items-center mb-6">
+              <button
+                onClick={handleBack}
+                className="btn-secondary flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                {t('common.back')}
+              </button>
+              
+              {/* User Menu */}
+              <UserMenu />
+            </div>
             
             <div className="text-center">
               <h1 className="text-3xl sm:text-4xl font-bold text-gradient mb-4">
