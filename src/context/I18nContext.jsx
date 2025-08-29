@@ -31,6 +31,7 @@ export function I18nProvider({ children, defaultLocale = 'en' }) {
   const value = {
     locale,
     setLocale: (l) => {
+      console.log('🔍 I18nContext: Setting locale to:', l, 'Current:', locale)
       try { localStorage.setItem('riderForge_locale', l) } catch {}
       setLocale(l)
     },

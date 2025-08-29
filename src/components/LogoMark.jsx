@@ -10,7 +10,7 @@ function LogoMark() {
     >
       <div className="flex items-center gap-2 bg-dark-900/50 border border-dark-800/60 rounded-xl px-2.5 py-1.5 shadow-glow-blue">
         <img src="/logo.svg" alt="Rider Forge" className="h-6 w-6" loading="lazy" />
-        <span className="hidden sm:inline text-sm font-semibold text-gray-200">Rider Forge</span>
+        <span className="hidden sm:inline text-sm font-semibold text-gray-200 leading-none">Rider Forge</span>
       </div>
     </a>
   )

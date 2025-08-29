@@ -25,16 +25,24 @@ function HomePage() {
 
   // Detectar idioma baseado na URL
   useEffect(() => {
+    console.log('🔍 HomePage: Pathname changed to:', location.pathname, 'Current locale:', locale)
     if (location.pathname === '/en' || location.pathname === '/en/') {
+      console.log('🔍 HomePage: Setting locale to EN')
       setLocale('en')
       // Forçar reload em desenvolvimento para garantir que funcione
       if (import.meta.env.DEV && locale !== 'en') {
         window.location.reload()
       }
     } else if (location.pathname === '/' || location.pathname === '/pt' || location.pathname === '/pt/') {
+      console.log('🔍 HomePage: Setting locale to PT')
       setLocale('pt')
     }
   }, [location.pathname, setLocale, locale])
+
+  // Log quando locale muda
+  useEffect(() => {
+    console.log('🔍 HomePage: Locale changed to:', locale)
+  }, [locale])
 
   // SEO para página inicial
   usePageSEO(SEO_CONFIGS.home)
@@ -99,13 +107,27 @@ function HomePage() {
       <ProgressiveContentWrapper>
         <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800">
           <header className="sticky top-0 z-40 bg-dark-950/60 backdrop-blur-md border-b border-dark-800/60">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
               <a href="/" className="flex items-center gap-3 group" aria-label="Rider Forge">
                 <img src="/logo.svg" alt="Rider Forge" className="h-8 w-8 drop-shadow" />
-                <span className="text-lg font-semibold text-gray-100 group-hover:text-white transition-colors">Rider Forge</span>
+                <span className="text-lg font-semibold text-gray-100 group-hover:text-white transition-colors leading-tight">Rider Forge</span>
               </a>
               <div className="flex items-center gap-3">
-                <select value={locale} onChange={(e) => setLocale(e.target.value)} className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200">
+                <select 
+                  value={locale} 
+                  onChange={(e) => {
+                    const newLocale = e.target.value
+                    console.log('🔍 HomePage: Language changed to:', newLocale)
+                    setLocale(newLocale)
+                    // Navegar para a URL correta baseada no idioma
+                    if (newLocale === 'en') {
+                      navigate('/en')
+                    } else {
+                      navigate('/')
+                    }
+                  }} 
+                  className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200"
+                >
                   <option value="pt">PT</option>
                   <option value="en">EN</option>
                 </select>
@@ -132,13 +154,27 @@ function HomePage() {
                     opacity: 1
                   }}
                 />
-                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gradient leading-[1.1]">
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gradient leading-normal pb-2 sm:pb-3">
                   {t('app.title')}
                 </h1>
               </div>
               <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">{t('app.subtitle')}</p>
               <div className="mt-4 flex items-center justify-center gap-4">
-                <select value={locale} onChange={(e) => setLocale(e.target.value)} className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200">
+                <select 
+                  value={locale} 
+                  onChange={(e) => {
+                    const newLocale = e.target.value
+                    console.log('🔍 HomePage: Language changed to:', newLocale)
+                    setLocale(newLocale)
+                    // Navegar para a URL correta baseada no idioma
+                    if (newLocale === 'en') {
+                      navigate('/en')
+                    } else {
+                      navigate('/')
+                    }
+                  }} 
+                  className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200"
+                >
                   <option value="pt">PT</option>
                   <option value="en">EN</option>
                 </select>
