@@ -40,6 +40,21 @@ function SearchableDropdown({
     })
   }, [options, searchTerm])
 
+  // Lista filtrada e ordenada por marca > modelo
+  const sortedOptions = useMemo(() => {
+    const list = [...filteredOptions]
+    list.sort((a, b) => {
+      const brandA = (a.marca || '').toLowerCase()
+      const brandB = (b.marca || '').toLowerCase()
+      const byBrand = brandA.localeCompare(brandB)
+      if (byBrand !== 0) return byBrand
+      const modelA = (a.modelo || '').toLowerCase()
+      const modelB = (b.modelo || '').toLowerCase()
+      return modelA.localeCompare(modelB)
+    })
+    return list
+  }, [filteredOptions])
+
   // Calcular posição do dropdown com detecção de bordas
   const updateDropdownPosition = () => {
     if (buttonRef.current) {
@@ -48,7 +63,7 @@ function SearchableDropdown({
       const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft
       
       // Calcular dimensões estimadas do dropdown
-      const dropdownHeight = Math.min(filteredOptions.length * 48 + 60, 240) // altura estimada
+      const dropdownHeight = Math.min(sortedOptions.length * 48 + 60, 240) // altura estimada
       const dropdownWidth = Math.max(rect.width, 320)
       
       // Verificar se há espaço suficiente abaixo
@@ -105,7 +120,7 @@ function SearchableDropdown({
         window.removeEventListener('resize', handleScroll)
       }
     }
-  }, [isOpen, filteredOptions.length])
+  }, [isOpen, sortedOptions.length])
 
   // Fechar dropdown quando clicar fora
   useEffect(() => {
@@ -130,19 +145,19 @@ function SearchableDropdown({
       case 'ArrowDown':
         e.preventDefault()
         setHighlightedIndex(prev => 
-          prev < filteredOptions.length - 1 ? prev + 1 : 0
+          prev < sortedOptions.length - 1 ? prev + 1 : 0
         )
         break
       case 'ArrowUp':
         e.preventDefault()
         setHighlightedIndex(prev => 
-          prev > 0 ? prev - 1 : filteredOptions.length - 1
+          prev > 0 ? prev - 1 : sortedOptions.length - 1
         )
         break
       case 'Enter':
         e.preventDefault()
-        if (highlightedIndex >= 0 && filteredOptions[highlightedIndex]) {
-          const option = filteredOptions[highlightedIndex]
+        if (highlightedIndex >= 0 && sortedOptions[highlightedIndex]) {
+          const option = sortedOptions[highlightedIndex]
           // Só permitir seleção se for Pro ou se a opção não for Pro
           if (isPro || !option.isPro) {
             handleSelect(option)
@@ -162,7 +177,7 @@ function SearchableDropdown({
       document.addEventListener('keydown', handleKeyDown)
       return () => document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen, highlightedIndex, filteredOptions, isPro])
+  }, [isOpen, highlightedIndex, sortedOptions, isPro])
 
   const handleSelect = (option) => {
     // Só permitir seleção se for Pro ou se a opção não for Pro
@@ -241,10 +256,10 @@ function SearchableDropdown({
 
         {/* Lista de Opções */}
         <div className="max-h-48 overflow-y-auto">
-          {filteredOptions.length === 0 ? (
+          {sortedOptions.length === 0 ? (
             <div className="px-3 py-2 text-gray-400 text-sm">{t('common.noResults')}</div>
           ) : (
-            filteredOptions.map((option, index) => {
+            sortedOptions.map((option, index) => {
               const isHighlighted = index === highlightedIndex
               const isSelected = selectedOption && 
                 option === selectedOption
