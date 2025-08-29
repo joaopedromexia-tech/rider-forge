@@ -27,10 +27,14 @@ function HomePage() {
   useEffect(() => {
     if (location.pathname === '/en' || location.pathname === '/en/') {
       setLocale('en')
+      // Forçar reload em desenvolvimento para garantir que funcione
+      if (import.meta.env.DEV && locale !== 'en') {
+        window.location.reload()
+      }
     } else if (location.pathname === '/' || location.pathname === '/pt' || location.pathname === '/pt/') {
       setLocale('pt')
     }
-  }, [location.pathname, setLocale])
+  }, [location.pathname, setLocale, locale])
 
   // SEO para página inicial
   usePageSEO(SEO_CONFIGS.home)

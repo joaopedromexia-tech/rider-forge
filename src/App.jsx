@@ -30,7 +30,7 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <I18nProvider>
+        <I18nProvider defaultLocale="pt">
           <EquipmentProvider>
             <UnitsProvider>
               <RiderProvider>
