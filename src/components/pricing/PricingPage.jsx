@@ -9,7 +9,7 @@ import { useI18n } from '../../context/I18nContext'
 
 const PricingPage = ({ onBack, onNavigateToSubscriptionManagement }) => {
   const navigate = useNavigate()
-  const { user, isPro, subscription } = useAuth()
+  const { user, isPro } = useAuth()
   const { redirectToCheckout } = useStripeCheckout()
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [loading, setLoading] = useState(false)

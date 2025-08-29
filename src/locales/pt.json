@@ -603,15 +603,9 @@
   "saveModal.error.freeLimitStorage": "Limite de armazenamento da versão Free atingido. Máximo {max}MB.",
   "common.available": "Disponível",
   "common.limitReached": "Limite atingido",
-  "common.cancel": "Cancelar",
   "common.saving": "A guardar...",
   "common.replacing": "A substituir..."
   ,
-  "common.back": "Voltar",
-  "common.edit": "Editar",
-  "common.export": "Exportar",
-  "common.duplicate": "Duplicar",
-  "common.delete": "Eliminar",
   "common.import": "Importar",
   "common.comingSoon": "Em breve",
   "common.soon.unavailableTooltip": "Funcionalidade temporariamente indisponível",
@@ -653,7 +647,6 @@
   "validation.errorsTitle": "Erros de Validação ({count})",
   "validation.warningsTitle": "Avisos ({count})"
   ,
-  "pdf.error.generate": "Erro ao gerar PDF: verifique se todos os dados estão preenchidos corretamente.",
   "pdf.preview.title": "Preview do PDF",
   "pdf.preview.fallbackName": "Rider Técnico",
   "pdf.preview.subtitle": "Visualização antes da exportação",

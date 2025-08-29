@@ -17,7 +17,6 @@ import Modal from './Modal'
 import VersionHistoryModal from './VersionHistoryModal'
 import Breadcrumbs from './Breadcrumbs'
 import UserMenu from './UserMenu'
-import { encodeObjectToBase64 } from '../utils/base64'
 import { saveShortLink, generateShortUrl } from '../utils/shortLinks'
 import { PRO_CONFIG } from '../config/proConfig'
 
@@ -27,14 +26,11 @@ function MyRiders() {
     savedRiders, 
     deleteRider, 
     duplicateRider, 
-    exportRider, 
     importRider,
     getStats,
-    getRiderById,
     getRiderByIdWithSync,
     forceSyncState,
     isPro,
-    setIsPro
   } = useRider()
   const scrollToTop = useScrollToTop()
 
@@ -53,7 +49,6 @@ function MyRiders() {
     closeSaveProgressModal,
     executePendingProAction,
     useProFeature,
-    useProFeatureWithSave,
     PRO_FEATURES
   } = useProFeatures()
   
@@ -176,18 +171,6 @@ function MyRiders() {
     }
   }
 
-  const handleNavigateToMyRiders = () => {
-    if (!user) {
-      setShowLoginModal(true)
-      return
-    }
-    
-    if (!hasAccount) {
-      setShowLoginModal(true)
-      return
-    }
-  }
-
   const handleBackToHome = () => {
     scrollToTop()
     navigate('/')
@@ -279,20 +262,6 @@ function MyRiders() {
       hour: '2-digit',
       minute: '2-digit'
     })
-  }
-
-  const getEquipmentIcon = (category) => {
-    const icons = {
-      'dados-gerais': '📋',
-      'pa': '🔊',
-          'consolas': '🎛️',
-      'sistemas-escuta': '🎧',
-      'equipamento-auxiliar': '🔧',
-      'input-list': '📝',
-      'monitor-mixes': '🎚️',
-      'observacoes-finais': '📝'
-    }
-    return icons[category] || '📄'
   }
 
   return (

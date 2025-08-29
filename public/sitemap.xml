@@ -10,6 +10,12 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://www.riderforge.app/en/</loc>
+    <lastmod>2025-08-28T01:30:17.105Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
   
   <!-- Página de preços e planos do Rider Forge -->
   <url>

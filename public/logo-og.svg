@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#020617;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#10b981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Logo container -->
+  <g transform="translate(600, 315)">
+    <!-- Background circle with gradient -->
+    <circle cx="0" cy="0" r="120" fill="url(#logoGradient)" filter="url(#glow)"/>
+    
+    <!-- Anvil icon (white) -->
+    <g transform="translate(-40, -20)" fill="white">
+      <!-- Anvil base -->
+      <rect x="-25" y="25" width="50" height="15" rx="3"/>
+      <!-- Anvil body -->
+      <rect x="-15" y="5" width="30" height="20"/>
+      <!-- Anvil horn -->
+      <path d="M-15 5 L-25 -5 L-5 -5 L-15 5 Z"/>
+    </g>
+    
+    <!-- Flame (green) -->
+    <g transform="translate(20, -30)" fill="#10b981">
+      <path d="M0 -20 Q-8 -15 -8 -5 Q-8 5 0 10 Q8 5 8 -5 Q8 -15 0 -20 Z"/>
+      <path d="M0 -15 Q-5 -10 -5 -2 Q-5 3 0 5 Q5 3 5 -2 Q5 -10 0 -15 Z" fill="#34d399"/>
+    </g>
+  </g>
+  
+  <!-- Text "Rider Forge" -->
+  <text x="600" y="450" font-family="Inter, system-ui, sans-serif" font-size="48" font-weight="700" text-anchor="middle" fill="white">
+    Rider Forge
+  </text>
+  <text x="600" y="500" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#cbd5e1">
+    Criador Profissional de Riders Técnicos
+  </text>
+</svg>
