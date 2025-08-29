@@ -11,6 +11,7 @@ import ProStatusBadge from './ProStatusBadge'
 import LoginModal from './auth/LoginModal'
 import ProgressiveContentWrapper from './ProgressiveContentWrapper'
 import UserMenu from './UserMenu'
+// Header com logo discreto
 
 function HomePage() {
   const navigate = useNavigate()
@@ -83,17 +84,44 @@ function HomePage() {
     <>
       <ProgressiveContentWrapper>
         <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800">
+          <header className="sticky top-0 z-40 bg-dark-950/60 backdrop-blur-md border-b border-dark-800/60">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+              <a href="/" className="flex items-center gap-3 group" aria-label="Rider Forge">
+                <img src="/logo.svg" alt="Rider Forge" className="h-8 w-8 drop-shadow" />
+                <span className="text-lg font-semibold text-gray-100 group-hover:text-white transition-colors">Rider Forge</span>
+              </a>
+              <div className="flex items-center gap-3">
+                <select value={locale} onChange={(e) => setLocale(e.target.value)} className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200">
+                  <option value="pt">PT</option>
+                  <option value="en">EN</option>
+                </select>
+                {hasUser && hasUserAccount && (
+                  <UserMenu />
+                )}
+              </div>
+            </div>
+          </header>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
             {/* Header */}
-            <div className="text-center mb-12 sm:mb-16 lg:mb-20">
-              {/* User Menu - visível apenas quando autenticado */}
-              {hasUser && hasUserAccount && (
-                <div className="flex justify-end mb-4">
-                  <UserMenu />
-                </div>
-              )}
+            <div className="text-center mb-12 sm:mb-16 lg:mb-20 flex flex-col items-center">
+              {/* Espaço do header cuida do menu e idioma */}
               
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gradient mb-4 sm:mb-6 leading-[1.1] pb-2">{t('app.title')}</h1>
+              {/* Marca (logo + texto) */}
+              <div className="mb-6 sm:mb-8 flex items-center justify-center gap-4 sm:gap-6">
+                <img 
+                  src="/logo-mark.svg" 
+                  alt="Rider Forge Logo" 
+                  className="h-16 sm:h-20 lg:h-24 w-auto drop-shadow-xl filter brightness-110 object-contain"
+                  style={{ 
+                    display: 'block',
+                    visibility: 'visible',
+                    opacity: 1
+                  }}
+                />
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gradient leading-[1.1]">
+                  {t('app.title')}
+                </h1>
+              </div>
               <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">{t('app.subtitle')}</p>
               <div className="mt-4 flex items-center justify-center gap-4">
                 <select value={locale} onChange={(e) => setLocale(e.target.value)} className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200">

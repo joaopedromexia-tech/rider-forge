@@ -13,22 +13,16 @@
   "categories": ["productivity", "music", "utilities", "business"],
   "icons": [
     {
-      "src": "/vite.svg",
+      "src": "/logo.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/images/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/images/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
@@ -39,7 +33,7 @@
       "url": "/riders/new/dados-gerais",
       "icons": [
         {
-          "src": "/vite.svg",
+          "src": "/logo.svg",
           "sizes": "96x96"
         }
       ]
@@ -51,28 +45,13 @@
       "url": "/riders",
       "icons": [
         {
-          "src": "/vite.svg",
+          "src": "/logo.svg",
           "sizes": "96x96"
         }
       ]
     }
   ],
-  "screenshots": [
-    {
-      "src": "/images/screenshot-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Interface principal do Rider Forge"
-    },
-    {
-      "src": "/images/screenshot-narrow.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Interface mobile do Rider Forge"
-    }
-  ],
+  "screenshots": [],
   "related_applications": [],
   "prefer_related_applications": false
 }

@@ -23,6 +23,13 @@
   ::-moz-selection {
     @apply bg-accent-blue/30 text-white;
   }
+
+  /* Garantir que imagens sejam visíveis */
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 @layer components {
