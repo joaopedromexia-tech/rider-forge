@@ -169,7 +169,7 @@ export const AuthProvider = ({ children }) => {
       }
     )
 
-    // Check current user on mount
+    // Check current user on mount with progressive loading
     const checkCurrentUser = async () => {
       try {
         const { user: currentUser } = await auth.getCurrentUser()
@@ -190,12 +190,13 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
+    // Start auth check immediately
     checkCurrentUser()
 
-    // Timeout de segurança para garantir que o loading não fica preso
+    // Progressive loading: show content faster, reduce timeout
     const safetyTimeout = setTimeout(() => {
       setLoading(false)
-    }, 2000) // Reduzido para 2 segundos para melhor UX
+    }, 1000) // Reduced to 1 second for better UX
 
     return () => {
       clearTimeout(safetyTimeout)

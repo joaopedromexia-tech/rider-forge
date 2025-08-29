@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEquipment } from '../context/EquipmentContext'
 import { useRider } from '../context/RiderContext'
@@ -177,6 +177,46 @@ function RiderForm() {
       component: ObservacoesFinais
     }
   ]
+
+  // Tab loading component
+  const TabLoadingSpinner = () => (
+    <div className="flex items-center justify-center p-8">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
+        <p className="text-gray-500 text-xs">Carregando...</p>
+      </div>
+    </div>
+  )
+
+  // Tab component wrapper with lazy loading
+  const LazyTab = ({ component: TabComponent, ...props }) => (
+    <Suspense fallback={<TabLoadingSpinner />}>
+      <TabComponent {...props} />
+    </Suspense>
+  )
+
+  // Preload first tab immediately, others progressively
+  const PreloadFirstTab = ({ component: TabComponent, ...props }) => {
+    const [isLoaded, setIsLoaded] = useState(false)
+    
+    useEffect(() => {
+      // Preload the first tab immediately
+      if (TabComponent && TabComponent._init) {
+        TabComponent._init()
+      }
+      setIsLoaded(true)
+    }, [TabComponent])
+
+    if (!isLoaded) {
+      return <TabLoadingSpinner />
+    }
+
+    return (
+      <Suspense fallback={<TabLoadingSpinner />}>
+        <TabComponent {...props} />
+      </Suspense>
+    )
+  }
 
   // Carregar dados do rider se estiver editando
   useEffect(() => {

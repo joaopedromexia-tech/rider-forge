@@ -1,9 +1,8 @@
 import React from 'react'
 import { Routes, Route, Navigate, useParams } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import { useI18n } from '../context/I18nContext'
+import { useProgressiveLoading } from '../hooks/useProgressiveLoading'
 
-// Importar componentes existentes
+// Importar componentes diretamente para performance máxima
 import HomePage from '../components/HomePage'
 import MyRiders from '../components/MyRiders'
 import RiderForm from '../components/RiderForm'
@@ -14,6 +13,7 @@ import SubscriptionManagementPage from '../components/subscription/SubscriptionM
 import FAQPage from '../components/legal/FAQPage'
 import PrivacyTermsPage from '../components/legal/PrivacyTermsPage'
 import SupportPage from '../components/legal/SupportPage'
+import ProgressiveLoadingTest from '../components/ProgressiveLoadingTest'
 import BugReportButton from '../components/BugReportButton'
 import KeyboardNavigation from '../components/KeyboardNavigation'
 import ScrollToTop from '../components/ScrollToTop'
@@ -35,11 +35,17 @@ function NewRiderRedirect() {
   return <Navigate to="/riders/new/dados-gerais" replace />
 }
 
-// Componente para verificar autenticação
+// Componente para verificar autenticação com progressive loading
 function ProtectedRoute({ children, requireAuth = false }) {
-  const { user, hasAccount, loading } = useAuth()
+  const { canShowContent, canShowAuthUI, user, hasAccount } = useProgressiveLoading()
   
-  if (loading) {
+  // Show content immediately if not requiring auth
+  if (!requireAuth) {
+    return children
+  }
+  
+  // Show loading only if we can't show content yet
+  if (!canShowContent) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -47,6 +53,19 @@ function ProtectedRoute({ children, requireAuth = false }) {
     )
   }
   
+  // If auth UI is not ready yet, show a minimal loading state
+  if (!canShowAuthUI) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-400 text-sm">Verificando autenticação...</p>
+        </div>
+      </div>
+    )
+  }
+  
+  // Check authentication requirements
   if (requireAuth && (!user || !hasAccount)) {
     // Redirecionar para home se não autenticado
     return <Navigate to="/" replace />
@@ -140,6 +159,9 @@ function AppRoutes() {
         
         {/* FAQ */}
         <Route path="/faq" element={<FAQPage />} />
+        
+        {/* Progressive Loading Test */}
+        <Route path="/progressive-test" element={<ProgressiveLoadingTest />} />
         
         {/* 404 - redirecionar para home */}
         <Route path="*" element={<Navigate to="/" replace />} />

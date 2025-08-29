@@ -3,16 +3,19 @@ import { useNavigate } from 'react-router-dom'
 import { useI18n } from '../context/I18nContext'
 import { useAuth } from '../context/AuthContext'
 import { useRider } from '../context/RiderContext'
+import { useProgressiveLoading } from '../hooks/useProgressiveLoading'
 import { usePageSEO, SEO_CONFIGS } from '../hooks/useSEO'
 import { useScrollToTop } from '../hooks/useScrollToTop'
 import DemoButton from './DemoButton'
 import ProStatusBadge from './ProStatusBadge'
 import LoginModal from './auth/LoginModal'
+import ProgressiveContentWrapper from './ProgressiveContentWrapper'
 
 function HomePage() {
   const navigate = useNavigate()
   const { t, locale, setLocale } = useI18n()
-  const { user, hasAccount, isPro, loading: authLoading } = useAuth()
+  const { user, hasAccount, isPro } = useAuth()
+  const { canShowAuthUI, isAuthenticated, needsAccount, isProUser: progressiveIsPro } = useProgressiveLoading()
   const { isPro: riderIsPro } = useRider()
   const [showLoginModal, setShowLoginModal] = useState(false)
   const scrollToTop = useScrollToTop()
@@ -20,9 +23,10 @@ function HomePage() {
   // SEO para página inicial
   usePageSEO(SEO_CONFIGS.home)
 
-  const isProUser = Boolean(isPro || riderIsPro)
-  const hasUser = Boolean(user)
-  const hasUserAccount = Boolean(hasAccount)
+  // Use progressive loading state when available, fallback to direct auth state
+  const isProUser = canShowAuthUI ? progressiveIsPro : Boolean(isPro || riderIsPro)
+  const hasUser = canShowAuthUI ? isAuthenticated : Boolean(user)
+  const hasUserAccount = canShowAuthUI ? !needsAccount : Boolean(hasAccount)
 
   const handleNavigateToForm = (riderId = null) => {
     scrollToTop()
@@ -76,32 +80,34 @@ function HomePage() {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-          {/* Header */}
-          <div className="text-center mb-12 sm:mb-16 lg:mb-20">
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gradient mb-4 sm:mb-6 leading-[1.1] pb-2">{t('app.title')}</h1>
-            <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">{t('app.subtitle')}</p>
-            <div className="mt-4 flex items-center justify-center gap-4">
-              <select value={locale} onChange={(e) => setLocale(e.target.value)} className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200">
-                <option value="pt">PT</option>
-                <option value="en">EN</option>
-              </select>
-              {!isProUser && (
-                <button 
-                  onClick={handleNavigateToPricing}
-                  className="transition-transform hover:scale-105"
-                >
-                  <ProStatusBadge />
-                </button>
-              )}
-              {isProUser && (
-                <div className="transition-transform hover:scale-105">
-                  <ProStatusBadge />
-                </div>
-              )}
+      <ProgressiveContentWrapper>
+        <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+            {/* Header */}
+            <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gradient mb-4 sm:mb-6 leading-[1.1] pb-2">{t('app.title')}</h1>
+              <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">{t('app.subtitle')}</p>
+              <div className="mt-4 flex items-center justify-center gap-4">
+                <select value={locale} onChange={(e) => setLocale(e.target.value)} className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200">
+                  <option value="pt">PT</option>
+                  <option value="en">EN</option>
+                </select>
+                {/* Auth-dependent content */}
+                {!isProUser && (
+                  <button 
+                    onClick={handleNavigateToPricing}
+                    className="transition-transform hover:scale-105"
+                  >
+                    <ProStatusBadge />
+                  </button>
+                )}
+                {isProUser && (
+                  <div className="transition-transform hover:scale-105">
+                    <ProStatusBadge />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
           
           {/* Main Action Buttons */}
           <div className={`grid grid-cols-1 ${import.meta.env.VITE_SHOW_DEMO === 'true' ? 'lg:grid-cols-3' : 'lg:grid-cols-2'} gap-6 sm:gap-8 max-w-6xl mx-auto mb-12 sm:mb-16`}>
@@ -262,6 +268,7 @@ function HomePage() {
           </div>
         </div>
       </div>
+      </ProgressiveContentWrapper>
 
       {/* Login Modal */}
       <LoginModal 

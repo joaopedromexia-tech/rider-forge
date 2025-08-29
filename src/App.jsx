@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 import { I18nProvider } from './context/I18nContext'
 import { EquipmentProvider } from './context/EquipmentContext'
@@ -8,7 +9,6 @@ import { UnitsProvider } from './context/UnitsContext'
 import { RiderProvider } from './context/RiderContext'
 import { AuthProvider } from './context/AuthContext'
 import AppRoutes from './routes/AppRoutes'
-
 
 // Componente principal que usa o router
 function AppContent() {
@@ -18,6 +18,9 @@ function AppContent() {
       
       {/* Vercel Analytics */}
       <Analytics />
+      
+      {/* Vercel Speed Insights */}
+      <SpeedInsights />
     </div>
   )
 }

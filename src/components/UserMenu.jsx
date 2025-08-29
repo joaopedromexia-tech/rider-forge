@@ -2,7 +2,9 @@ import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useI18n } from '../context/I18nContext'
 import { useFeedback } from '../hooks/useFeedback'
+import { useProgressiveLoading } from '../hooks/useProgressiveLoading'
 import ProStatusBadge from './ProStatusBadge'
+import ProgressiveLoadingIndicator from './ProgressiveLoadingIndicator'
 
 /**
  * UserMenu - Menu do usuário
@@ -13,6 +15,7 @@ import ProStatusBadge from './ProStatusBadge'
  */
 function UserMenu({ className = '' }) {
   const { user, isPro, signOut, subscription, hasAccount, loading } = useAuth()
+  const { canShowAuthUI } = useProgressiveLoading()
   const { t } = useI18n()
   const { showSuccess } = useFeedback()
   const [isOpen, setIsOpen] = useState(false)
@@ -74,12 +77,11 @@ function UserMenu({ className = '' }) {
     setIsOpen(!isOpen)
   }
 
-  // Mostrar loading enquanto carrega dados do usuário
-  if (loading) {
+  // Progressive loading: show minimal loading state if auth UI is not ready
+  if (!canShowAuthUI) {
     return (
       <div className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-dark-700/50 border border-dark-600/50 ${className}`}>
-        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-accent-blue"></div>
-        <span className="text-sm text-gray-400">Carregando...</span>
+        <ProgressiveLoadingIndicator size="sm" variant="default" />
       </div>
     )
   }

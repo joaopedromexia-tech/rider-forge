@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, lazy, Suspense } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useRider } from '../context/RiderContext'
 import { useI18n } from '../context/I18nContext'
@@ -9,9 +9,17 @@ import NewPDFExport from './NewPDFExport'
 import ProStatusBadge from './ProStatusBadge'
 import LoginModal from './auth/LoginModal'
 import Breadcrumbs from './Breadcrumbs'
-import { pdf } from '@react-pdf/renderer'
-import RiderPDF from '../pdf/RiderPDF'
 import Modal from './Modal'
+
+// Loading component for PDF generation
+const PDFLoadingSpinner = () => (
+  <div className="flex items-center justify-center p-8">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+      <p className="text-gray-600 text-sm">Gerando PDF...</p>
+    </div>
+  </div>
+)
 
 function PDFPage() {
   const navigate = useNavigate()
@@ -75,16 +83,9 @@ function PDFPage() {
         throw new Error(t('pdf.error.noData'))
       }
       
-      const instance = pdf(
-        <RiderPDF 
-          rider={sanitizedRiderData} 
-          language={locale} 
-          proBranding={{}} 
-          options={{}} 
-        />
-      )
-      
-      const blob = await instance.toBlob()
+      // Use the lazy-loaded PDF generator
+      const { generatePDFBlob } = await import('../utils/pdfGenerator')
+      const blob = await generatePDFBlob(sanitizedRiderData, locale)
       const url = URL.createObjectURL(blob)
       setPdfUrl(url)
       

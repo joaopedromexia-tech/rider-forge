@@ -34,12 +34,20 @@ export default defineConfig({
       external: [],
       output: {
         manualChunks: {
-          pdfjs: ['pdfjs-dist']
+          // Vendor chunks - separar bibliotecas pesadas
+          'react-vendor': ['react', 'react-dom'],
+          'router-vendor': ['react-router-dom'],
+          'pdf-vendor': ['pdfjs-dist', '@react-pdf/renderer', 'jspdf', 'html2canvas'],
+          'stripe-vendor': ['@stripe/stripe-js', 'stripe'],
+          'supabase-vendor': ['@supabase/supabase-js'],
+          'analytics-vendor': ['@vercel/analytics', '@vercel/speed-insights'],
+          'utils-vendor': ['buffer', 'process', 'util']
         }
       }
     },
     assetsInlineLimit: 0,
-    cssCodeSplit: true
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 1000
   },
   assetsInclude: ['**/*.webmanifest'],
   publicDir: 'public'
