@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useI18n } from '../context/I18nContext'
 import { useAuth } from '../context/AuthContext'
 import { useRider } from '../context/RiderContext'
@@ -15,12 +15,22 @@ import UserMenu from './UserMenu'
 
 function HomePage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { t, locale, setLocale } = useI18n()
   const { user, hasAccount, isPro } = useAuth()
   const { canShowAuthUI, isAuthenticated, needsAccount, isProUser: progressiveIsPro } = useProgressiveLoading()
   const { isPro: riderIsPro } = useRider()
   const [showLoginModal, setShowLoginModal] = useState(false)
   const scrollToTop = useScrollToTop()
+
+  // Detectar idioma baseado na URL
+  useEffect(() => {
+    if (location.pathname === '/en' || location.pathname === '/en/') {
+      setLocale('en')
+    } else if (location.pathname === '/' || location.pathname === '/pt' || location.pathname === '/pt/') {
+      setLocale('pt')
+    }
+  }, [location.pathname, setLocale])
 
   // SEO para página inicial
   usePageSEO(SEO_CONFIGS.home)

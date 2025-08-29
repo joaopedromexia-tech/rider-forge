@@ -84,6 +84,8 @@ function AppRoutes() {
       <Routes>
         {/* Home */}
         <Route path="/" element={<HomePage />} />
+        <Route path="/en" element={<HomePage />} />
+        <Route path="/en/" element={<HomePage />} />
         
         {/* Riders Dashboard - requer autenticação */}
         <Route 
