@@ -26,16 +26,16 @@ function HomePage() {
   // Detectar idioma baseado na URL
   useEffect(() => {
     console.log('🔍 HomePage: Pathname changed to:', location.pathname, 'Current locale:', locale)
-    if (location.pathname === '/en' || location.pathname === '/en/') {
-      console.log('🔍 HomePage: Setting locale to EN')
-      setLocale('en')
+    if (location.pathname === '/pt' || location.pathname === '/pt/') {
+      console.log('🔍 HomePage: Setting locale to PT')
+      if (locale !== 'pt') setLocale('pt')
+    } else {
+      console.log('🔍 HomePage: Setting locale to EN (default)')
+      if (locale !== 'en') setLocale('en')
       // Forçar reload em desenvolvimento para garantir que funcione
       if (import.meta.env.DEV && locale !== 'en') {
         window.location.reload()
       }
-    } else if (location.pathname === '/' || location.pathname === '/pt' || location.pathname === '/pt/') {
-      console.log('🔍 HomePage: Setting locale to PT')
-      setLocale('pt')
     }
   }, [location.pathname, setLocale, locale])
 
@@ -121,9 +121,9 @@ function HomePage() {
                     setLocale(newLocale)
                     // Navegar para a URL correta baseada no idioma
                     if (newLocale === 'en') {
-                      navigate('/en')
-                    } else {
                       navigate('/')
+                    } else {
+                      navigate('/pt')
                     }
                   }} 
                   className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200"
