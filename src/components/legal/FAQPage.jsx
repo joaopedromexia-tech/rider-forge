@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useI18n } from '../../context/I18nContext'
@@ -94,6 +94,37 @@ const FAQPage = ({ onBack }) => {
       answer: t('faq.answers.a15')
     }
   ]
+
+  // Structured data (FAQPage) without Helmet
+  const faqSchema = useMemo(() => ({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqData.map((item) => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer
+      }
+    }))
+  }), [faqData])
+
+  useEffect(() => {
+    const scriptId = 'faq-structured-data'
+    let scriptTag = document.getElementById(scriptId)
+    if (!scriptTag) {
+      scriptTag = document.createElement('script')
+      scriptTag.type = 'application/ld+json'
+      scriptTag.id = scriptId
+      document.head.appendChild(scriptTag)
+    }
+    scriptTag.textContent = JSON.stringify(faqSchema)
+    return () => {
+      if (scriptTag && scriptTag.parentNode) {
+        scriptTag.parentNode.removeChild(scriptTag)
+      }
+    }
+  }, [faqSchema])
 
   return (
     <>

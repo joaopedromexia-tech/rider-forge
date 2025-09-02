@@ -18,6 +18,8 @@ import BugReportButton from '../components/BugReportButton'
 import KeyboardNavigation from '../components/KeyboardNavigation'
 import ScrollToTop from '../components/ScrollToTop'
 import SharedRiderViewer from '../components/SharedRiderViewer'
+import TechnicalRiderEN from '../components/landing/TechnicalRiderEN'
+import TechnicalRiderPT from '../components/landing/TechnicalRiderPT'
 
 // Componente para redirecionar /riders/:id para o último tab visitado
 function RiderRedirect() {
@@ -140,6 +142,10 @@ function AppRoutes() {
         
         {/* Pricing */}
         <Route path="/pricing" element={<PricingPage />} />
+
+        {/* Landing Pages - Technical Rider */}
+        <Route path="/technical-rider" element={<TechnicalRiderEN />} />
+        <Route path="/pt/rider-tecnico" element={<TechnicalRiderPT />} />
         
         {/* Pro Subscription */}
         <Route path="/pro-subscription" element={<ProSubscriptionPage />} />

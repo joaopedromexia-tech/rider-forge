@@ -22,8 +22,15 @@ const routes = [
     path: '/',
     priority: '1.0',
     changefreq: 'weekly',
+    title: 'Rider Forge - Professional Technical Rider Creator',
+    description: 'Home page (EN)'
+  },
+  {
+    path: '/pt',
+    priority: '0.9',
+    changefreq: 'weekly',
     title: 'Rider Forge - Criador Profissional de Riders Técnicos',
-    description: 'Página inicial do Rider Forge'
+    description: 'Página inicial (PT)'
   },
   {
     path: '/pricing',
@@ -32,13 +39,7 @@ const routes = [
     title: 'Preços e Planos',
     description: 'Página de preços e planos do Rider Forge'
   },
-  {
-    path: '/dashboard',
-    priority: '0.8',
-    changefreq: 'weekly',
-    title: 'Dashboard - Meus Riders',
-    description: 'Dashboard para gerenciar riders'
-  },
+  // Dashboard removido do sitemap (área de usuário)
   {
     path: '/pro-subscription',
     priority: '0.7',
@@ -52,6 +53,20 @@ const routes = [
     changefreq: 'monthly',
     title: 'Suporte e Ajuda',
     description: 'Página de suporte'
+  },
+  {
+    path: '/technical-rider',
+    priority: '0.8',
+    changefreq: 'monthly',
+    title: 'What is a Technical Rider?',
+    description: 'Landing page EN'
+  },
+  {
+    path: '/pt/rider-tecnico',
+    priority: '0.8',
+    changefreq: 'monthly',
+    title: 'O que é um Rider Técnico?',
+    description: 'Landing page PT'
   },
   {
     path: '/faq',

@@ -12,7 +12,8 @@ export const useSEO = ({
   url,
   type = 'website',
   noIndex = false,
-  canonical
+  canonical,
+  alternates
 }) => {
   useEffect(() => {
     console.log('🔍 SEO Hook: Atualizando meta tags para:', { title, description, url })
@@ -53,6 +54,22 @@ export const useSEO = ({
       }
       
       canonicalLink.setAttribute('href', canonicalUrl)
+    }
+
+    // Função para atualizar alternates (hreflang)
+    const updateAlternates = (altList) => {
+      // Remover alternates previamente gerados por este hook
+      document.querySelectorAll('link[rel="alternate"][data-generated="seo-hook"]').forEach((el) => el.parentNode.removeChild(el))
+      if (!Array.isArray(altList)) return
+      altList.forEach((alt) => {
+        if (!alt?.href || !alt?.hreflang) return
+        const link = document.createElement('link')
+        link.setAttribute('rel', 'alternate')
+        link.setAttribute('hreflang', alt.hreflang)
+        link.setAttribute('href', alt.href)
+        link.setAttribute('data-generated', 'seo-hook')
+        document.head.appendChild(link)
+      })
     }
 
     // Atualizar título
@@ -114,29 +131,34 @@ export const useSEO = ({
       updateCanonical(canonical)
     }
 
+    // Atualizar alternates hreflang
+    if (alternates) {
+      updateAlternates(alternates)
+    }
+
     // Cleanup function - restaurar valores padrão quando o componente desmontar
     return () => {
-      // Restaurar título padrão
-      document.title = 'Rider Forge - Criador Profissional de Riders Técnicos | Software para Músicos'
+      // Restaurar título padrão (EN para consistência com index.html)
+      document.title = 'Rider Forge - Professional Technical Rider Creator | Software for Musicians'
       
       // Restaurar meta tags padrão
-      updateMetaTag('description', 'Crie riders técnicos profissionais com facilidade. Software completo para músicos, técnicos de som e produtores. Templates profissionais, exportação PDF e colaboração em tempo real.')
+      updateMetaTag('description', 'Create professional technical riders with ease. Complete software for musicians, sound technicians and producers. Professional templates, PDF export and real-time collaboration.')
       updateMetaTag('robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')
       
       // Restaurar Open Graph padrão
-      updateMetaTag('og:title', 'Rider Forge - Criador Profissional de Riders Técnicos', true)
-      updateMetaTag('og:description', 'Crie riders técnicos profissionais com facilidade. Software completo para músicos, técnicos de som e produtores. Templates profissionais, exportação PDF e colaboração em tempo real.', true)
+      updateMetaTag('og:title', 'Rider Forge - Professional Technical Rider Creator', true)
+      updateMetaTag('og:description', 'Create professional technical riders with ease. Complete software for musicians, sound technicians and producers. Professional templates, PDF export and real-time collaboration.', true)
       updateMetaTag('og:url', 'https://www.riderforge.app/', true)
       updateMetaTag('og:type', 'website', true)
       
       // Restaurar Twitter Cards padrão
-      updateMetaTag('twitter:title', 'Rider Forge - Criador Profissional de Riders Técnicos')
-      updateMetaTag('twitter:description', 'Crie riders técnicos profissionais com facilidade. Software completo para músicos, técnicos de som e produtores.')
+      updateMetaTag('twitter:title', 'Rider Forge - Professional Technical Rider Creator')
+      updateMetaTag('twitter:description', 'Create professional technical riders with ease. Complete software for musicians, sound technicians and producers.')
       
       // Restaurar canonical padrão
       updateCanonical('https://www.riderforge.app/')
     }
-  }, [title, description, keywords, image, url, type, noIndex, canonical])
+  }, [title, description, keywords, image, url, type, noIndex, canonical, JSON.stringify(alternates)])
 }
 
 /**
@@ -151,7 +173,8 @@ export const usePageSEO = (pageConfig) => {
     url,
     type = 'website',
     noIndex = false,
-    canonical
+    canonical,
+    alternates
   } = pageConfig
 
   useSEO({
@@ -162,7 +185,8 @@ export const usePageSEO = (pageConfig) => {
     url,
     type,
     noIndex,
-    canonical
+    canonical: canonical || url,
+    alternates
   })
 }
 
@@ -171,9 +195,9 @@ export const usePageSEO = (pageConfig) => {
  */
 export const SEO_CONFIGS = {
   home: {
-    title: 'Rider Forge - Criador Profissional de Riders Técnicos',
-    description: 'Crie riders técnicos profissionais com facilidade. Software completo para músicos, técnicos de som e produtores. Templates profissionais, exportação PDF e colaboração em tempo real.',
-    keywords: 'rider técnico, rider musical, técnico de som, produção musical, equipamento de som, PA system, monitor mixes, input list, rider profissional',
+    title: 'Rider Forge - Professional Technical Rider Creator',
+    description: 'Create professional technical riders with ease. Complete software for musicians, sound technicians and producers. Professional templates, PDF export and real-time collaboration.',
+    keywords: 'technical rider, band rider, input list, backline, hospitality rider, stage requirements, soundcheck, audio engineer, musician tools, rider template, rider generator, equipment list',
     image: 'https://www.riderforge.app/images/og-image.png',
     url: 'https://www.riderforge.app/',
     type: 'website'

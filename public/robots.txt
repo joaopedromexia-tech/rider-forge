@@ -18,8 +18,8 @@ Allow: /support
 Allow: /faq
 Allow: /terms-privacy
 
-# Páginas de dashboard - permitir indexação (conteúdo público)
-Allow: /dashboard
+# Dashboard - não indexar (área de usuário)
+Disallow: /dashboard
 
 # Bloquear páginas de administração ou sensíveis
 Disallow: /admin/
@@ -37,6 +37,7 @@ Disallow: /subscription-management
 # Bloquear páginas de riders específicos (conteúdo privado)
 Disallow: /riders/
 Disallow: /rider/
+Disallow: /s/
 
 # Bloquear páginas de preview e edição
 Disallow: /pdf

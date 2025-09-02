@@ -3,40 +3,34 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">  
-  <!-- Página inicial do Rider Forge -->
+  <!-- Home page (EN) -->
   <url>
     <loc>https://www.riderforge.app/</loc>
-    <lastmod>2025-08-28T01:30:17.105Z</lastmod>
+    <lastmod>2025-09-02T02:10:21.399Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  
+  <!-- Página inicial (PT) -->
   <url>
-    <loc>https://www.riderforge.app/en/</loc>
-    <lastmod>2025-08-28T01:30:17.105Z</lastmod>
+    <loc>https://www.riderforge.app/pt</loc>
+    <lastmod>2025-09-02T02:10:21.399Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <priority>0.9</priority>
   </url>
   
   <!-- Página de preços e planos do Rider Forge -->
   <url>
     <loc>https://www.riderforge.app/pricing</loc>
-    <lastmod>2025-08-28T01:30:17.105Z</lastmod>
+    <lastmod>2025-09-02T02:10:21.399Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-  </url>
-  
-  <!-- Dashboard para gerenciar riders -->
-  <url>
-    <loc>https://www.riderforge.app/dashboard</loc>
-    <lastmod>2025-08-28T01:30:17.105Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
   
   <!-- Página de assinatura Pro -->
   <url>
     <loc>https://www.riderforge.app/pro-subscription</loc>
-    <lastmod>2025-08-28T01:30:17.105Z</lastmod>
+    <lastmod>2025-09-02T02:10:21.399Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -44,15 +38,31 @@
   <!-- Página de suporte -->
   <url>
     <loc>https://www.riderforge.app/support</loc>
-    <lastmod>2025-08-28T01:30:17.105Z</lastmod>
+    <lastmod>2025-09-02T02:10:21.399Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  
+  <!-- Landing page EN -->
+  <url>
+    <loc>https://www.riderforge.app/technical-rider</loc>
+    <lastmod>2025-09-02T02:10:21.399Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Landing page PT -->
+  <url>
+    <loc>https://www.riderforge.app/pt/rider-tecnico</loc>
+    <lastmod>2025-09-02T02:10:21.399Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   
   <!-- FAQ do Rider Forge -->
   <url>
     <loc>https://www.riderforge.app/faq</loc>
-    <lastmod>2025-08-28T01:30:17.105Z</lastmod>
+    <lastmod>2025-09-02T02:10:21.399Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -60,7 +70,7 @@
   <!-- Termos e política de privacidade -->
   <url>
     <loc>https://www.riderforge.app/terms-privacy</loc>
-    <lastmod>2025-08-28T01:30:17.105Z</lastmod>
+    <lastmod>2025-09-02T02:10:21.399Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
