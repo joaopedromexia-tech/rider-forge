@@ -277,7 +277,7 @@ function DadosGerais({ data, onChange }) {
 
       <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-gray-100 mb-2">Dados Gerais</h2>
-        <p className="text-gray-400">Informações básicas do evento e contactos principais</p>
+        <p className="text-gray-400">Informações da banda/artista e equipa técnica</p>
       </div>
 
       {/* Progresso e Validação */}
@@ -303,7 +303,7 @@ function DadosGerais({ data, onChange }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-gray-300 mb-1">
-                  <strong>Campos Obrigatórios:</strong> {validationStatus.required.completed}/{validationStatus.required.total}
+                  <strong>Info da Banda:</strong> {validationStatus.required.completed}/{validationStatus.required.total}
                 </p>
                 <div className="flex gap-1">
                   {['artista', 'versaoRider', 'anoTour'].map(field => (
@@ -318,7 +318,7 @@ function DadosGerais({ data, onChange }) {
               
               <div>
                 <p className="text-gray-300 mb-1">
-                  <strong>Contactos:</strong> {validationStatus.optional.completed}/{validationStatus.optional.total}
+                  <strong>Equipa Técnica:</strong> {validationStatus.optional.completed}/{validationStatus.optional.total}
                 </p>
                 <div className="flex gap-1">
                   {['roadManager', 'foh', 'mon'].map(contact => (
@@ -335,20 +335,20 @@ function DadosGerais({ data, onChange }) {
         </div>
       </div>
 
-      {/* Informações Básicas */}
+      {/* Informações da Banda/Artista */}
       <div className="bg-dark-800 rounded-lg p-6 border border-dark-700">
         <h3 className="text-xl font-semibold text-accent-blue mb-6 flex items-center gap-2">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
           </svg>
-          Informações Básicas
+          Informações da Banda/Artista
           <span className="text-red-400 text-sm">*</span>
         </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              Artista/Banda *
+              Nome da Banda/Artista *
             </label>
             <div className="relative">
               <input
@@ -358,7 +358,7 @@ function DadosGerais({ data, onChange }) {
                 className={`w-full px-4 py-3 bg-dark-700 border rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200 ${
                   formData.artista.trim() ? 'border-green-500/50' : 'border-red-500/50'
                 }`}
-                placeholder="Nome do artista ou banda"
+                placeholder="Ex: The Rolling Stones, Ed Sheeran, etc."
               />
               {formData.artista.trim() && (
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -372,20 +372,20 @@ function DadosGerais({ data, onChange }) {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              Versão do Rider *
+              Versão do Technical Rider *
             </label>
             <input
               type="text"
               value={formData.versaoRider}
               onChange={(e) => handleChange('versaoRider', e.target.value)}
               className="w-full px-4 py-3 bg-dark-700 border border-dark-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:border-transparent transition-all duration-200"
-              placeholder="Ex: 1.0, 2.1, etc."
+              placeholder="Ex: 2024.1, Tour Europe, etc."
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              Ano da Tour *
+              Ano da Tour/Época *
             </label>
             <input
               type="number"
@@ -462,7 +462,8 @@ function DadosGerais({ data, onChange }) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
                   <p className="text-gray-300 font-medium">Carregar Imagem de Capa</p>
-                  <p className="text-gray-500 text-sm mt-1">PNG ou JPG, máximo 5MB</p>
+                  <p className="text-gray-500 text-sm mt-1">Logo da banda, foto promocional, etc.</p>
+                  <p className="text-gray-500 text-xs mt-1">PNG ou JPG, máximo 2MB</p>
                 </label>
               </div>
             )}
@@ -528,7 +529,8 @@ function DadosGerais({ data, onChange }) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                   </svg>
                   <p className="text-gray-300 font-medium">Carregar Stage Plot</p>
-                  <p className="text-gray-500 text-sm mt-1">PNG ou JPG, máximo 2MB</p>
+                  <p className="text-gray-500 text-sm mt-1">Layout do palco, posicionamento dos instrumentos</p>
+                  <p className="text-gray-500 text-xs mt-1">PNG ou JPG, máximo 2MB</p>
                   <p className="text-gray-500 text-xs mt-1">Editor visual disponível em breve</p>
                 </label>
                 <div className="mt-3">
@@ -568,13 +570,13 @@ function DadosGerais({ data, onChange }) {
         />
       )} */}
 
-      {/* Contactos */}
+      {/* Equipa Técnica */}
       <div className="bg-dark-800 rounded-lg p-6 border border-dark-700">
         <h3 className="text-xl font-semibold text-purple-400 mb-6 flex items-center gap-2">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
-          Contactos
+          Equipa Técnica
           <span className="text-gray-400 text-sm">(Recomendado)</span>
         </h3>
 
@@ -584,7 +586,7 @@ function DadosGerais({ data, onChange }) {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
-            Road Manager
+            Road Manager / Tour Manager
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
@@ -626,7 +628,7 @@ function DadosGerais({ data, onChange }) {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
             </svg>
-            FOH (Front of House)
+            FOH Engineer (Front of House)
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
@@ -668,7 +670,7 @@ function DadosGerais({ data, onChange }) {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
             </svg>
-            MON (Monitor)
+            Monitor Engineer
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
