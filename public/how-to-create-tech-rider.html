@@ -71,6 +71,15 @@
 <body class="bg-gray-50">
     <!-- Header -->
     <header class="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
+        <!-- Language Toggle -->
+        <div class="max-w-4xl mx-auto px-4 mb-8">
+            <div class="flex justify-end">
+                <select id="languageToggle" class="px-3 py-2 bg-white/20 border border-white/30 rounded-lg text-white backdrop-blur-sm hover:bg-white/30 transition-colors">
+                    <option value="en">EN</option>
+                    <option value="pt">PT</option>
+                </select>
+            </div>
+        </div>
         <div class="max-w-4xl mx-auto px-4 text-center">
             <h1 class="text-4xl md:text-5xl font-bold mb-6">
                 How to Create Tech Rider Documents
@@ -220,5 +229,39 @@
             </div>
         </div>
     </footer>
+
+    <!-- Language Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageToggle = document.getElementById('languageToggle');
+            
+            // Set current language based on URL or default to EN
+            const currentPath = window.location.pathname;
+            const currentLang = currentPath.includes('/pt') ? 'pt' : 'en';
+            languageToggle.value = currentLang;
+            
+            // Handle language change
+            languageToggle.addEventListener('change', function() {
+                const selectedLang = this.value;
+                const currentUrl = window.location.href;
+                
+                if (selectedLang === 'pt') {
+                    // Redirect to Portuguese version
+                    if (currentPath.includes('/how-to-create-tech-rider')) {
+                        window.location.href = currentUrl.replace('/how-to-create-tech-rider', '/pt/how-to-create-tech-rider');
+                    } else {
+                        window.location.href = '/pt/how-to-create-tech-rider';
+                    }
+                } else {
+                    // Redirect to English version
+                    if (currentPath.includes('/pt/how-to-create-tech-rider')) {
+                        window.location.href = currentUrl.replace('/pt/how-to-create-tech-rider', '/how-to-create-tech-rider');
+                    } else {
+                        window.location.href = '/how-to-create-tech-rider';
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

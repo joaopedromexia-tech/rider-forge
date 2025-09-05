@@ -42,7 +42,7 @@ import { useI18n } from '../context/I18nContext'
 function RiderForm() {
   const navigate = useNavigate()
   const { riderId, tab } = useParams()
-  const { t } = useI18n()
+  const { t, locale, setLocale } = useI18n()
   const { isPro, setIsPro, savedRiders } = useRider()
   const { saveRider, updateRider, getRiderById, getRiderByIdWithSync, forceSyncState } = useRider()
   const { showSuccess, showError } = useFeedback()
@@ -628,6 +628,33 @@ function RiderForm() {
             
             {/* Botões de Ação */}
             <div className="flex items-center gap-2 lg:gap-3">
+              {/* Language Toggle */}
+              <select 
+                value={locale} 
+                onChange={(e) => {
+                  const newLocale = e.target.value
+                  setLocale(newLocale)
+                  // Navigate to the correct URL based on language
+                  if (newLocale === 'en') {
+                    if (editingRiderId) {
+                      navigate(`/riders/${editingRiderId}/${activeTab}`)
+                    } else {
+                      navigate(`/riders/new/${activeTab}`)
+                    }
+                  } else {
+                    if (editingRiderId) {
+                      navigate(`/pt/riders/${editingRiderId}/${activeTab}`)
+                    } else {
+                      navigate(`/pt/riders/new/${activeTab}`)
+                    }
+                  }
+                }} 
+                className="px-3 py-2 bg-dark-800 border border-dark-700 rounded-lg text-gray-200 hover:bg-dark-700 transition-colors text-sm"
+              >
+                <option value="pt">PT</option>
+                <option value="en">EN</option>
+              </select>
+              
               {/* User Menu - visível apenas em desktop */}
               {/* IMPORTANTE: UserMenu deve aparecer para TODOS os usuários autenticados (free e pro) */}
               <div className="hidden lg:block">

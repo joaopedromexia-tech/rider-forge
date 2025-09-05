@@ -794,214 +794,7 @@ export const EQUIPMENT_LIBRARY = {
     },
 
     // WEDGES (FREE)
-    {
-      categoria: "wedge",
-      marca: "JBL",
-      modelo: "SRX835P",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge JBL SRX835P",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "Electro-Voice",
-      modelo: "QRX212",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge EV QRX212",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "Meyer Sound",
-      modelo: "UPQ-1P",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge Meyer UPQ-1P",
-      isPro: true
-    },
-    {
-      categoria: "wedge",
-      marca: "QSC",
-      modelo: "K12.2",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge QSC K12.2",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "QSC",
-      modelo: "K10.2",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge QSC K10.2",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "QSC",
-      modelo: "K8.2",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge QSC K8.2",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "Yamaha",
-      modelo: "DXR12",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge Yamaha DXR12",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "Yamaha",
-      modelo: "DXR10",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge Yamaha DXR10",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "Yamaha",
-      modelo: "DXR8",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge Yamaha DXR8",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "Electro-Voice",
-      modelo: "ELX200-12P",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge EV ELX200-12P",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "Electro-Voice",
-      modelo: "ELX200-10P",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge EV ELX200-10P",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "Electro-Voice",
-      modelo: "ELX200-8P",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge EV ELX200-8P",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "JBL",
-      modelo: "EON712",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge JBL EON712",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "JBL",
-      modelo: "EON710",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge JBL EON710",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "JBL",
-      modelo: "EON708",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge JBL EON708",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "dB Technologies",
-      modelo: "DVA T4",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge dB Technologies DVA T4",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "dB Technologies",
-      modelo: "DVA T8",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge dB Technologies DVA T8",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "Alto Professional",
-      modelo: "TS312",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge Alto Professional TS312",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "Alto Professional",
-      modelo: "TS310",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge Alto Professional TS310",
-      isPro: false
-    },
     // Adicionando equipamentos Free para marcas que estavam faltando
-    {
-      categoria: "wedge",
-      marca: "L-Acoustics",
-      modelo: "X12",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge L-Acoustics X12",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "d&b audiotechnik",
-      modelo: "M4",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge d&b M4",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "Martin Audio",
-      modelo: "W8LM",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge Martin Audio W8LM",
-      isPro: false
-    },
-    {
-      categoria: "wedge",
-      marca: "Nexo",
-      modelo: "M6",
-      tags: ["wedge", "monitor", "palco"],
-      phantom: null,
-      notas: "Wedge Nexo M6",
-      isPro: false
-    },
     {
       categoria: "wedge",
       marca: "EAW",
@@ -1009,6 +802,123 @@ export const EQUIPMENT_LIBRARY = {
       tags: ["wedge", "monitor", "palco"],
       phantom: null,
       notas: "Wedge EAW JF60",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "L-Acoustics",
+      modelo: "X15 HiQ",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge L-Acoustics X15 HiQ",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "d&b audiotechnik",
+      modelo: "M6",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge d&b audiotechnik M6",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "Martin Audio",
+      modelo: "LE200",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge Martin Audio LE200",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "JBL",
+      modelo: "VTX-M22",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge JBL VTX-M22",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "Meyer Sound",
+      modelo: "UM-1P",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge Meyer Sound UM-1P",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "Adamson",
+      modelo: "M12",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge Adamson M12",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "Nexo",
+      modelo: "PS15",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge Nexo PS15",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "KV2 Audio",
+      modelo: "EX12",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge KV2 Audio EX12",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "Funktion-One",
+      modelo: "F101",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge Funktion-One F101",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "Turbosound",
+      modelo: "TCS-42",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge Turbosound TCS-42",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "RCF",
+      modelo: "NX 12-A",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge RCF NX 12-A",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "Bose",
+      modelo: "F1 Model 812",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge Bose F1 Model 812",
+      isPro: false
+    },
+    {
+      categoria: "wedge",
+      marca: "HK Audio",
+      modelo: "PR:O 12",
+      tags: ["wedge", "monitor", "palco"],
+      phantom: null,
+      notas: "Wedge HK Audio PR:O 12",
       isPro: false
     },
     {
@@ -1767,15 +1677,6 @@ export const EQUIPMENT_LIBRARY = {
     },
     {
       categoria: "console",
-      marca: "Soundcraft",
-      modelo: "Vi Series",
-      tags: ["foh", "console", "digital", "profissional"],
-      phantom: null,
-      notas: "Consola digital profissional",
-      isPro: true
-    },
-    {
-      categoria: "console",
       marca: "Behringer",
       modelo: "X32",
       tags: ["foh", "console", "digital"],
@@ -2116,42 +2017,6 @@ export const EQUIPMENT_LIBRARY = {
     // WEDGES (PRO)
     {
       categoria: "wedge",
-      marca: "L-Acoustics",
-      modelo: "X12",
-      tags: ["wedge", "monitor", "palco", "profissional"],
-      phantom: null,
-      notas: "Wedge profissional L-Acoustics X12",
-      isPro: true
-    },
-    {
-      categoria: "wedge",
-      marca: "L-Acoustics",
-      modelo: "X15",
-      tags: ["wedge", "monitor", "palco", "profissional"],
-      phantom: null,
-      notas: "Wedge profissional L-Acoustics X15",
-      isPro: true
-    },
-    {
-      categoria: "wedge",
-      marca: "d&b audiotechnik",
-      modelo: "M4",
-      tags: ["wedge", "monitor", "palco", "profissional"],
-      phantom: null,
-      notas: "Wedge profissional d&b M4",
-      isPro: true
-    },
-    {
-      categoria: "wedge",
-      marca: "d&b audiotechnik",
-      modelo: "M6",
-      tags: ["wedge", "monitor", "palco", "profissional"],
-      phantom: null,
-      notas: "Wedge profissional d&b M6",
-      isPro: true
-    },
-    {
-      categoria: "wedge",
       marca: "d&b audiotechnik",
       modelo: "M2",
       tags: ["wedge", "monitor", "palco", "profissional"],
@@ -2161,74 +2026,74 @@ export const EQUIPMENT_LIBRARY = {
     },
     {
       categoria: "wedge",
-      marca: "Meyer Sound",
-      modelo: "UPJ-1P",
-      tags: ["wedge", "monitor", "palco", "profissional"],
-      phantom: null,
-      notas: "Wedge profissional Meyer UPJ-1P",
-      isPro: true
-    },
-    {
-      categoria: "wedge",
-      marca: "Meyer Sound",
-      modelo: "UPJunior",
-      tags: ["wedge", "monitor", "palco", "profissional"],
-      phantom: null,
-      notas: "Wedge profissional Meyer UPJunior",
-      isPro: true
-    },
-    {
-      categoria: "wedge",
-      marca: "Martin Audio",
-      modelo: "W8LM",
-      tags: ["wedge", "monitor", "palco", "profissional"],
-      phantom: null,
-      notas: "Wedge profissional Martin Audio W8LM",
-      isPro: true
-    },
-    {
-      categoria: "wedge",
-      marca: "Martin Audio",
-      modelo: "W8LC",
-      tags: ["wedge", "monitor", "palco", "profissional"],
-      phantom: null,
-      notas: "Wedge profissional Martin Audio W8LC",
-      isPro: true
-    },
-    {
-      categoria: "wedge",
-      marca: "Nexo",
-      modelo: "M6",
-      tags: ["wedge", "monitor", "palco", "profissional"],
-      phantom: null,
-      notas: "Wedge profissional Nexo M6",
-      isPro: true
-    },
-    {
-      categoria: "wedge",
-      marca: "Nexo",
-      modelo: "M8",
-      tags: ["wedge", "monitor", "palco", "profissional"],
-      phantom: null,
-      notas: "Wedge profissional Nexo M8",
-      isPro: true
-    },
-    {
-      categoria: "wedge",
-      marca: "EAW",
-      modelo: "JF60",
-      tags: ["wedge", "monitor", "palco", "profissional"],
-      phantom: null,
-      notas: "Wedge profissional EAW JF60",
-      isPro: true
-    },
-    {
-      categoria: "wedge",
       marca: "EAW",
       modelo: "JF80",
       tags: ["wedge", "monitor", "palco", "profissional"],
       phantom: null,
       notas: "Wedge profissional EAW JF80",
+      isPro: true
+    },
+    {
+      categoria: "wedge",
+      marca: "Adamson",
+      modelo: "M15",
+      tags: ["wedge", "monitor", "palco", "profissional"],
+      phantom: null,
+      notas: "Wedge profissional Adamson M15",
+      isPro: true
+    },
+    {
+      categoria: "wedge",
+      marca: "Nexo",
+      modelo: "PS10",
+      tags: ["wedge", "monitor", "palco", "profissional"],
+      phantom: null,
+      notas: "Wedge profissional Nexo PS10",
+      isPro: true
+    },
+    {
+      categoria: "wedge",
+      marca: "KV2 Audio",
+      modelo: "EX10",
+      tags: ["wedge", "monitor", "palco", "profissional"],
+      phantom: null,
+      notas: "Wedge profissional KV2 Audio EX10",
+      isPro: true
+    },
+    {
+      categoria: "wedge",
+      marca: "Funktion-One",
+      modelo: "F121",
+      tags: ["wedge", "monitor", "palco", "profissional"],
+      phantom: null,
+      notas: "Wedge profissional Funktion-One F121",
+      isPro: true
+    },
+    {
+      categoria: "wedge",
+      marca: "Turbosound",
+      modelo: "TCS-52",
+      tags: ["wedge", "monitor", "palco", "profissional"],
+      phantom: null,
+      notas: "Wedge profissional Turbosound TCS-52",
+      isPro: true
+    },
+    {
+      categoria: "wedge",
+      marca: "RCF",
+      modelo: "NX 10-A",
+      tags: ["wedge", "monitor", "palco", "profissional"],
+      phantom: null,
+      notas: "Wedge profissional RCF NX 10-A",
+      isPro: true
+    },
+    {
+      categoria: "wedge",
+      marca: "HK Audio",
+      modelo: "PR:O 15",
+      tags: ["wedge", "monitor", "palco", "profissional"],
+      phantom: null,
+      notas: "Wedge profissional HK Audio PR:O 15",
       isPro: true
     },
 

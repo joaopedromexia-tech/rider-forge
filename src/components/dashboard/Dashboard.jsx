@@ -14,7 +14,7 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [sharedRider, setSharedRider] = useState(null)
   const [showSharedRiderModal, setShowSharedRiderModal] = useState(false)
-  const { t, locale } = useI18n()
+  const { t, locale, setLocale } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
   const dateLocale = locale === 'pt' ? 'pt-PT' : 'en-US'
@@ -92,6 +92,25 @@ const Dashboard = () => {
           <div className="flex justify-between items-center py-6">
             <h1 className="text-3xl font-bold">{t('app.title')}</h1>
             <div className="flex items-center space-x-4">
+              {/* Language Toggle */}
+              <select 
+                value={locale} 
+                onChange={(e) => {
+                  const newLocale = e.target.value
+                  setLocale(newLocale)
+                  // Navigate to the correct URL based on language
+                  if (newLocale === 'en') {
+                    navigate('/riders')
+                  } else {
+                    navigate('/pt/riders')
+                  }
+                }} 
+                className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 hover:bg-gray-600 transition-colors"
+              >
+                <option value="pt">PT</option>
+                <option value="en">EN</option>
+              </select>
+              
               {user ? (
                 <div className="flex items-center space-x-2">
                   <span className="text-sm text-gray-300">{t('dashboard.greeting', { name: displayName })}</span>

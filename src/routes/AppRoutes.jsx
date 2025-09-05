@@ -88,10 +88,20 @@ function AppRoutes() {
         <Route path="/" element={<HomePage />} />
         <Route path="/en" element={<HomePage />} />
         <Route path="/en/" element={<HomePage />} />
+        <Route path="/pt" element={<HomePage />} />
+        <Route path="/pt/" element={<HomePage />} />
         
         {/* Riders Dashboard - requer autenticação */}
         <Route 
           path="/riders" 
+          element={
+            <ProtectedRoute requireAuth={true}>
+              <MyRiders />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/pt/riders" 
           element={
             <ProtectedRoute requireAuth={true}>
               <MyRiders />
@@ -108,10 +118,22 @@ function AppRoutes() {
             </ProtectedRoute>
           } 
         />
+        <Route 
+          path="/pt/riders/:riderId" 
+          element={
+            <ProtectedRoute requireAuth={true}>
+              <RiderRedirect />
+            </ProtectedRoute>
+          } 
+        />
         
         {/* New Rider - público (sem autenticação) */}
         <Route 
           path="/riders/new" 
+          element={<NewRiderRedirect />} 
+        />
+        <Route 
+          path="/pt/riders/new" 
           element={<NewRiderRedirect />} 
         />
         {/* New Rider com tab específico - público (sem autenticação) */}
@@ -119,10 +141,22 @@ function AppRoutes() {
           path="/riders/new/:tab" 
           element={<RiderForm />} 
         />
+        <Route 
+          path="/pt/riders/new/:tab" 
+          element={<RiderForm />} 
+        />
         
         {/* Rider Editor com tab específico - requer autenticação */}
         <Route 
           path="/riders/:riderId/:tab" 
+          element={
+            <ProtectedRoute requireAuth={true}>
+              <RiderForm />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/pt/riders/:riderId/:tab" 
           element={
             <ProtectedRoute requireAuth={true}>
               <RiderForm />
@@ -139,9 +173,18 @@ function AppRoutes() {
             </ProtectedRoute>
           } 
         />
+        <Route 
+          path="/pt/riders/:riderId/pdf" 
+          element={
+            <ProtectedRoute requireAuth={true}>
+              <PDFPage />
+            </ProtectedRoute>
+          } 
+        />
         
         {/* Pricing */}
         <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/pt/pricing" element={<PricingPage />} />
 
         {/* Landing Pages - Technical Rider */}
         <Route path="/technical-rider" element={<TechnicalRiderEN />} />
@@ -149,6 +192,7 @@ function AppRoutes() {
         
         {/* Pro Subscription */}
         <Route path="/pro-subscription" element={<ProSubscriptionPage />} />
+        <Route path="/pt/pro-subscription" element={<ProSubscriptionPage />} />
         
         {/* Subscription Management - requer autenticação */}
         <Route 
@@ -159,15 +203,26 @@ function AppRoutes() {
             </ProtectedRoute>
           } 
         />
+        <Route 
+          path="/pt/subscription-management" 
+          element={
+            <ProtectedRoute requireAuth={true}>
+              <SubscriptionManagementPage />
+            </ProtectedRoute>
+          } 
+        />
         
         {/* Support */}
         <Route path="/support" element={<SupportPage />} />
+        <Route path="/pt/support" element={<SupportPage />} />
         
         {/* Terms & Privacy */}
         <Route path="/terms-privacy" element={<PrivacyTermsPage />} />
+        <Route path="/pt/terms-privacy" element={<PrivacyTermsPage />} />
         
         {/* FAQ */}
         <Route path="/faq" element={<FAQPage />} />
+        <Route path="/pt/faq" element={<FAQPage />} />
         
         {/* Progressive Loading Test */}
         <Route path="/progressive-test" element={<ProgressiveLoadingTest />} />

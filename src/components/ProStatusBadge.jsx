@@ -3,8 +3,8 @@ import { useAuth } from '../context/AuthContext'
 function ProStatusBadge({ className = '', variant = 'status' }) {
   const { isPro, user } = useAuth()
 
-  // Se não há utilizador, mostrar badge FREE
-  if (!user) {
+  // Se não há utilizador, mostrar badge FREE apenas para a variante padrão
+  if (!user && variant === 'status') {
     return (
       <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium shadow-sm bg-gray-100 text-gray-700 border border-gray-300 ${className}`}>
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
