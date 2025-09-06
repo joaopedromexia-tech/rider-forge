@@ -407,7 +407,7 @@ function PA({ data, onChange }) {
                     <span className="text-green-400 text-xs font-semibold bg-green-500/20 px-2 py-1 rounded">{t('tab.pa.badge.levels')}</span>
                     <span className="text-gray-100 font-medium">{t('tab.pa.performance.levelSpecs')}</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-1">{t('tab.pa.performance.splAtFOH')}</label>
                       <div className="flex gap-2">
@@ -415,13 +415,13 @@ function PA({ data, onChange }) {
                           type="number"
                           value={formData.generalRequirements.performance.splAtFOH}
                           onChange={(e) => handleNestedChange('generalRequirements', 'performance', 'splAtFOH', e.target.value)}
-                          className="flex-1 px-3 py-2 bg-dark-700 border border-green-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          className="flex-1 min-w-0 px-3 py-2 bg-dark-700 border border-green-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                           placeholder="110"
                         />
                         <select
                           value={formData.generalRequirements.performance.splUnit}
                           onChange={(e) => handleNestedChange('generalRequirements', 'performance', 'splUnit', e.target.value)}
-                          className="px-3 py-2 bg-dark-700 border border-green-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          className="w-20 flex-shrink-0 px-2 py-2 bg-dark-700 border border-green-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         >
                           <option value="dB(A)">dB(A)</option>
                           <option value="dB(C)">dB(C)</option>
@@ -437,13 +437,13 @@ function PA({ data, onChange }) {
                           type="text"
                           value={formData.generalRequirements.performance.uniformity}
                           onChange={(e) => handleNestedChange('generalRequirements', 'performance', 'uniformity', e.target.value)}
-                          className="flex-1 px-3 py-2 bg-dark-700 border border-green-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          className="flex-1 min-w-0 px-3 py-2 bg-dark-700 border border-green-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                           placeholder="±3"
                         />
                         <select
                           value={formData.generalRequirements.performance.uniformityUnit}
                           onChange={(e) => handleNestedChange('generalRequirements', 'performance', 'uniformityUnit', e.target.value)}
-                          className="px-3 py-2 bg-dark-700 border border-green-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          className="w-16 flex-shrink-0 px-2 py-2 bg-dark-700 border border-green-500/30 rounded-lg text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         >
                           <option value="dB">dB</option>
                         </select>
