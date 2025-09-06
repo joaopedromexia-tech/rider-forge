@@ -917,6 +917,17 @@ function StagePlotCreator() {
   const [stageWidth, setStageWidth] = useState(DEFAULT_STAGE_W)
   const [stageHeight, setStageHeight] = useState(DEFAULT_STAGE_H)
   const [notes, setNotes] = useState('')
+  const [showRiserCustomization, setShowRiserCustomization] = useState(false)
+  const [riserWidth, setRiserWidth] = useState(1)
+  const [riserDepth, setRiserDepth] = useState(2)
+  const [riserHeight, setRiserHeight] = useState(0.20)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [zoom, setZoom] = useState(1)
+  const [editingLabel, setEditingLabel] = useState(null)
+  const [editingText, setEditingText] = useState('')
+  const [showOnboarding, setShowOnboarding] = useState(true)
+  const [showHelpDropdown, setShowHelpDropdown] = useState(false)
+  const svgRef = useRef(null)
 
   // Load existing layout data when editing
   useEffect(() => {
@@ -952,16 +963,18 @@ function StagePlotCreator() {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-  const [showRiserCustomization, setShowRiserCustomization] = useState(false)
-  const [riserWidth, setRiserWidth] = useState(1)
-  const [riserDepth, setRiserDepth] = useState(2)
-  const [riserHeight, setRiserHeight] = useState(0.20)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [zoom, setZoom] = useState(1)
-  const [editingLabel, setEditingLabel] = useState(null)
-  const [editingText, setEditingText] = useState('')
-  const [showOnboarding, setShowOnboarding] = useState(true)
-  const svgRef = useRef(null)
+
+  // Close help dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showHelpDropdown && !event.target.closest('.help-dropdown')) {
+        setShowHelpDropdown(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [showHelpDropdown])
 
   // Calculate optimal zoom to fit screen
   const calculateOptimalZoom = () => {
@@ -1571,19 +1584,75 @@ function StagePlotCreator() {
             </div>
           </div>
 
-          {/* Instructions - Fixed at bottom */}
+          {/* Help Dropdown - Fixed at bottom */}
           <div className="p-4 border-t border-gray-700">
-            <div className="text-xs text-gray-400 space-y-1">
-              <p>• {t('stageplot.clickToAdd')}</p>
-              <p>• {t('stageplot.dragToMove')}</p>
-              <p>• {t('stageplot.clickToSelect')}</p>
-              <p>• Double-click labels to edit</p>
-              <p>• {t('stageplot.arrowKeys')}</p>
-              <p>• {t('stageplot.deleteKey')}</p>
-              <p>• {t('stageplot.risersShowMeasurements')}</p>
-              <p>• Default zoom is 100%</p>
-              <p>• Use "Fit to Screen" to auto-fit</p>
-              <p>• Use zoom controls for detail work</p>
+            <div className="relative help-dropdown">
+              <button
+                onClick={() => setShowHelpDropdown(!showHelpDropdown)}
+                className="w-full flex items-center justify-between px-3 py-2 bg-gray-700 text-gray-200 rounded hover:bg-gray-600 transition-colors text-sm"
+              >
+                <span className="flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Help
+                </span>
+                <svg 
+                  className={`w-4 h-4 transition-transform ${showHelpDropdown ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {showHelpDropdown && (
+                <div className="absolute bottom-full left-0 right-0 mb-2 bg-gray-800 border border-gray-600 rounded-lg shadow-lg p-4 z-10">
+                  <div className="text-xs text-gray-300 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span>Click equipment to add</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span>Drag to move items</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                      <span>Click to select</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                      <span>Double-click labels to edit</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                      <span>Arrow keys to nudge</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                      <span>Delete key to remove</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                      <span>Risers show real measurements</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
+                      <span>Default zoom is 100%</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
+                      <span>Use "Fit to Screen" to auto-fit</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
+                      <span>Use zoom controls for detail work</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

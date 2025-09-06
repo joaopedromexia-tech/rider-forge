@@ -9,13 +9,18 @@ import { UnitsProvider } from './context/UnitsContext'
 import { RiderProvider } from './context/RiderContext'
 import { StagePlotProvider } from './context/StagePlotContext'
 import { AuthProvider } from './context/AuthContext'
+import { GlobalFeedbackProvider } from './context/GlobalFeedbackContext'
 import AppRoutes from './routes/AppRoutes'
+import UpdateNotice from './components/UpdateNotice'
 
 // Componente principal que usa o router
 function AppContent() {
   return (
     <div className="App">
       <AppRoutes />
+      
+      {/* Update Notice */}
+      <UpdateNotice />
       
       {/* Vercel Analytics */}
       <Analytics />
@@ -32,15 +37,17 @@ function App() {
     <Router>
       <AuthProvider>
         <I18nProvider defaultLocale="en">
-          <EquipmentProvider>
-            <UnitsProvider>
-              <RiderProvider>
-                <StagePlotProvider>
-                  <AppContent />
-                </StagePlotProvider>
-              </RiderProvider>
-            </UnitsProvider>
-          </EquipmentProvider>
+          <GlobalFeedbackProvider>
+            <EquipmentProvider>
+              <UnitsProvider>
+                <RiderProvider>
+                  <StagePlotProvider>
+                    <AppContent />
+                  </StagePlotProvider>
+                </RiderProvider>
+              </UnitsProvider>
+            </EquipmentProvider>
+          </GlobalFeedbackProvider>
         </I18nProvider>
       </AuthProvider>
     </Router>

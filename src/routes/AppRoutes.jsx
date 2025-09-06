@@ -14,6 +14,7 @@ import FAQPage from '../components/legal/FAQPage'
 import PrivacyTermsPage from '../components/legal/PrivacyTermsPage'
 import SupportPage from '../components/legal/SupportPage'
 import ProgressiveLoadingTest from '../components/ProgressiveLoadingTest'
+import UpdateNoticeTest from '../components/UpdateNoticeTest'
 import BugReportButton from '../components/BugReportButton'
 import KeyboardNavigation from '../components/KeyboardNavigation'
 import ScrollToTop from '../components/ScrollToTop'
@@ -231,6 +232,9 @@ function AppRoutes() {
         
         {/* Progressive Loading Test */}
         <Route path="/progressive-test" element={<ProgressiveLoadingTest />} />
+        
+        {/* Update Notice Test */}
+        <Route path="/update-test" element={<UpdateNoticeTest />} />
         
         {/* Short Links - Links curtos para partilha */}
         <Route path="/s/:shortId" element={<SharedRiderViewer />} />
