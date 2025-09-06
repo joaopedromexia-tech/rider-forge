@@ -53,6 +53,28 @@ export const AUTH_CONFIG = {
   }
 }
 
+// Get the correct redirect URL based on environment
+const getRedirectUrl = () => {
+  // Check if we have an environment variable for the redirect URL
+  const envRedirectUrl = import.meta.env.VITE_AUTH_REDIRECT_URL
+  
+  if (envRedirectUrl) {
+    console.log('🔗 Using environment redirect URL:', envRedirectUrl)
+    return envRedirectUrl
+  }
+  
+  // In production, use the actual domain
+  if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    const currentOrigin = window.location.origin
+    console.log('🔗 Using current origin as redirect URL:', currentOrigin)
+    return currentOrigin
+  }
+  
+  // In development, use localhost
+  console.log('🔗 Using localhost redirect URL: http://localhost:5173')
+  return 'http://localhost:5173'
+}
+
 // Funções de autenticação
 export const auth = {
   // Sign up com email/password
@@ -62,7 +84,7 @@ export const auth = {
       password,
       options: {
         data: userData,
-        emailRedirectTo: AUTH_CONFIG.redirectTo
+        emailRedirectTo: getRedirectUrl()
       }
     })
     return { data, error }
@@ -82,7 +104,7 @@ export const auth = {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: AUTH_CONFIG.redirectTo
+        redirectTo: getRedirectUrl()
       }
     })
     return { data, error }
@@ -91,7 +113,7 @@ export const auth = {
   // Reset password
   resetPassword: async (email) => {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: AUTH_CONFIG.redirectTo
+      redirectTo: getRedirectUrl()
     })
     return { data, error }
   },

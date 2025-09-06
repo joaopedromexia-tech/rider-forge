@@ -8,6 +8,7 @@ Adicione estas variáveis no Vercel Dashboard → Settings → Environment Varia
 ```
 VITE_SUPABASE_URL=sua_supabase_project_url
 VITE_SUPABASE_ANON_KEY=sua_supabase_anon_key
+VITE_AUTH_REDIRECT_URL=https://seu-dominio.vercel.app
 ```
 
 ### Stripe

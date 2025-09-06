@@ -20,6 +20,7 @@ import ScrollToTop from '../components/ScrollToTop'
 import SharedRiderViewer from '../components/SharedRiderViewer'
 import TechnicalRiderEN from '../components/landing/TechnicalRiderEN'
 import TechnicalRiderPT from '../components/landing/TechnicalRiderPT'
+import StagePlotCreator from '../components/StagePlotCreator'
 
 // Componente para redirecionar /riders/:id para o último tab visitado
 function RiderRedirect() {
@@ -182,6 +183,10 @@ function AppRoutes() {
           } 
         />
         
+        {/* Stage Plot Creator - público (sem autenticação) */}
+        <Route path="/stage-plot-creator" element={<StagePlotCreator />} />
+        <Route path="/pt/stage-plot-creator" element={<StagePlotCreator />} />
+
         {/* Pricing */}
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/pt/pricing" element={<PricingPage />} />

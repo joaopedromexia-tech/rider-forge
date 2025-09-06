@@ -196,3 +196,42 @@ CREATE POLICY IF NOT EXISTS "Users can update own bug reports" ON bug_reports
 DROP TRIGGER IF EXISTS update_bug_reports_updated_at ON bug_reports;
 CREATE TRIGGER update_bug_reports_updated_at BEFORE UPDATE ON bug_reports
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- 20. Criar tabela de stage plots
+CREATE TABLE IF NOT EXISTS stageplots (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  rider_id UUID REFERENCES riders(id) ON DELETE CASCADE NOT NULL,
+  title TEXT NOT NULL,
+  layout_data JSONB NOT NULL DEFAULT '{}',
+  png_data TEXT, -- Base64 encoded PNG
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(rider_id) -- One stage plot per rider
+);
+
+-- 21. Criar índices para stage plots
+CREATE INDEX IF NOT EXISTS idx_stageplots_user_id ON stageplots(user_id);
+CREATE INDEX IF NOT EXISTS idx_stageplots_rider_id ON stageplots(rider_id);
+CREATE INDEX IF NOT EXISTS idx_stageplots_created_at ON stageplots(created_at DESC);
+
+-- 22. Configurar RLS para stage plots
+ALTER TABLE stageplots ENABLE ROW LEVEL SECURITY;
+
+-- 23. Criar políticas de segurança para stage plots
+CREATE POLICY IF NOT EXISTS "Users can view own stage plots" ON stageplots
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY IF NOT EXISTS "Users can insert own stage plots" ON stageplots
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY IF NOT EXISTS "Users can update own stage plots" ON stageplots
+  FOR UPDATE USING (auth.uid() = user_id);
+
+CREATE POLICY IF NOT EXISTS "Users can delete own stage plots" ON stageplots
+  FOR DELETE USING (auth.uid() = user_id);
+
+-- 24. Criar trigger para atualizar updated_at em stage plots
+DROP TRIGGER IF EXISTS update_stageplots_updated_at ON stageplots;
+CREATE TRIGGER update_stageplots_updated_at BEFORE UPDATE ON stageplots
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

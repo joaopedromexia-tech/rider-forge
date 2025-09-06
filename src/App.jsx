@@ -7,6 +7,7 @@ import { I18nProvider } from './context/I18nContext'
 import { EquipmentProvider } from './context/EquipmentContext'
 import { UnitsProvider } from './context/UnitsContext'
 import { RiderProvider } from './context/RiderContext'
+import { StagePlotProvider } from './context/StagePlotContext'
 import { AuthProvider } from './context/AuthContext'
 import AppRoutes from './routes/AppRoutes'
 
@@ -34,7 +35,9 @@ function App() {
           <EquipmentProvider>
             <UnitsProvider>
               <RiderProvider>
-                <AppContent />
+                <StagePlotProvider>
+                  <AppContent />
+                </StagePlotProvider>
               </RiderProvider>
             </UnitsProvider>
           </EquipmentProvider>

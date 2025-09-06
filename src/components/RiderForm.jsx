@@ -15,6 +15,7 @@ import EquipamentoAuxiliar from './tabs/EquipamentoAuxiliar'
 import InputList from './tabs/InputList'
 import MonitorMixes from './tabs/MonitorMixes'
 import ObservacoesFinais from './tabs/ObservacoesFinais'
+import StagePlot from './tabs/StagePlot'
 import SaveRiderModal from './SaveRiderModal'
 import SaveProgressModal from './SaveProgressModal'
 import NewPDFExport from './NewPDFExport'
@@ -167,6 +168,16 @@ function RiderForm() {
         <WrenchScrewdriverIcon className="w-4 h-4" aria-hidden="true" />
       ),
       component: EquipamentoAuxiliar
+    },
+    {
+      id: 'stage-plot',
+      title: 'Stage Plot',
+      icon: (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v16a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1h4zM9 3v1h6V3H9zm-4 3v14h14V6H5zm2 2h10v2H7V8zm0 4h10v2H7v-2zm0 4h6v2H7v-2z"/>
+        </svg>
+      ),
+      component: StagePlot
     },
     {
       id: 'observacoes-finais',
@@ -325,7 +336,29 @@ function RiderForm() {
     } else {
       console.log('🔄 Limpando dados do formulário (sem editingRiderId)')
       setEditingRider(null)
-      setFormData({})
+      
+      // Check for stage plot data in sessionStorage and preserve it
+      let initialFormData = {}
+      try {
+        const generatedStagePlot = sessionStorage.getItem('riderForge_generatedStagePlot')
+        if (generatedStagePlot) {
+          const stagePlotData = JSON.parse(generatedStagePlot)
+          initialFormData = {
+            stagePlot: {
+              data: stagePlotData.data,
+              name: stagePlotData.bandName || 'Generated Stage Plot',
+              type: 'image/png',
+              isGenerated: stagePlotData.isGenerated || false,
+              layout: stagePlotData.layout || null
+            }
+          }
+          console.log('🔄 Preserving stage plot data in form reset')
+        }
+      } catch (error) {
+        console.error('Error preserving stage plot data:', error)
+      }
+      
+      setFormData(initialFormData)
     }
   }, [editingRiderId, getRiderByIdWithSync, forceSyncState, editingRider])
 
@@ -337,23 +370,44 @@ function RiderForm() {
   // Restaurar rascunho uma única vez por sessão de edição
   useEffect(() => {
     if (draftLoadedRef.current) return
-    // Não restaurar rascunho quando a criação é nova (sem editingRiderId)
-    if (!editingRiderId) return
     draftLoadedRef.current = true
+    
     ;(async () => {
       try {
         const draft = await kvGet(draftKeyRef.current)
         if (draft && typeof draft === 'object') {
-          setFormData(prev => ({ ...prev, ...draft }))
+          // For new riders, only load draft if it contains stage plot data
+          // This prevents loading old form data but preserves stage plots
+          if (!editingRiderId) {
+            if (draft.stagePlot) {
+              console.log('🔄 Loading draft with stage plot for new rider')
+              setFormData(prev => ({ ...prev, stagePlot: draft.stagePlot }))
+            }
+          } else {
+            // For existing riders, load the full draft
+            setFormData(prev => ({ ...prev, ...draft }))
+          }
         }
       } catch (_) {}
     })()
   }, [editingRiderId])
 
-  // Ao abrir um formulário novo, limpar qualquer rascunho antigo de "novo"
+  // Ao abrir um formulário novo, limpar qualquer rascunho antigo de "novo" (exceto stage plot)
   useEffect(() => {
     if (!editingRiderId) {
-      try { kvSet('riderForge_draft_new', null) } catch (_) {}
+      ;(async () => {
+        try {
+          const existingDraft = await kvGet('riderForge_draft_new')
+          if (existingDraft && existingDraft.stagePlot) {
+            // Preserve only the stage plot data
+            await kvSet('riderForge_draft_new', { stagePlot: existingDraft.stagePlot })
+            console.log('🔄 Preserved stage plot in new rider draft')
+          } else {
+            // Clear completely if no stage plot
+            await kvSet('riderForge_draft_new', null)
+          }
+        } catch (_) {}
+      })()
     }
   }, [editingRiderId])
 
@@ -765,6 +819,7 @@ function RiderForm() {
                 data={formData[activeTab] || {}}
                 onChange={(data) => handleFormDataChange(activeTab, data)}
                 allData={formData}
+                riderId={editingRiderId}
               />
             </div>
           )}

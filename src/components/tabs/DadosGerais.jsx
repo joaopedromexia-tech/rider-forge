@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useI18n } from '../../context/I18nContext'
 
-function DadosGerais({ data, onChange }) {
+function DadosGerais({ data, onChange, riderId }) {
   const { t } = useI18n()
+  const navigate = useNavigate()
 
 
   const [formData, setFormData] = useState({
@@ -37,12 +39,63 @@ function DadosGerais({ data, onChange }) {
 
   useEffect(() => {
     if (data) {
+      console.log('DadosGerais: Received data:', data)
+      console.log('DadosGerais: Stage plot in data:', data.stagePlot)
       setFormData(prev => ({ ...prev, ...data }))
     }
   }, [data])
 
+  // Check for generated stage plot from stage plot creator
+  useEffect(() => {
+    try {
+      const generatedStagePlot = sessionStorage.getItem('riderForge_generatedStagePlot')
+      if (generatedStagePlot) {
+        const stagePlotData = JSON.parse(generatedStagePlot)
+        
+        // Update the form data with the generated stage plot
+        const newData = {
+          ...formData,
+          stagePlot: {
+            data: stagePlotData.data,
+            name: stagePlotData.bandName || 'Generated Stage Plot',
+            type: 'image/png',
+            isGenerated: stagePlotData.isGenerated || false,
+            layout: stagePlotData.layout || null
+          }
+        }
+        
+        setFormData(newData)
+        onChange(newData)
+        
+        // Force immediate draft save for stage plot data
+        setTimeout(() => {
+          try {
+            const draftKey = riderId && riderId !== 'new' ? `riderForge_draft_${riderId}` : 'riderForge_draft_new'
+            import('../../utils/storage').then(({ kvSet }) => {
+              kvSet(draftKey, newData)
+              console.log('🔄 Stage plot data saved to draft storage:', draftKey)
+            })
+          } catch (error) {
+            console.error('Error saving stage plot to draft:', error)
+          }
+        }, 50)
+        
+        // Clear the session storage after a short delay to ensure it's processed
+        setTimeout(() => {
+          sessionStorage.removeItem('riderForge_generatedStagePlot')
+        }, 100)
+        
+        console.log('Generated stage plot loaded into form')
+      }
+    } catch (error) {
+      console.error('Error loading generated stage plot:', error)
+    }
+  }, []) // Run only once on mount
+
   const handleChange = (field, value) => {
     const newData = { ...formData, [field]: value }
+    console.log('DadosGerais: handleChange called with field:', field, 'value:', value)
+    console.log('DadosGerais: New data includes stage plot:', newData.stagePlot)
     setFormData(newData)
     onChange(newData)
   }
@@ -208,6 +261,23 @@ function DadosGerais({ data, onChange }) {
       onChange(newData)
     } catch (error) {
       alert(t('general.imageProcessError'))
+    }
+  }
+
+  // Handle clicking on generated stage plot to edit it
+  const handleStagePlotClick = () => {
+    if (formData.stagePlot?.isGenerated && formData.stagePlot?.layout) {
+      // Store the current layout data AND the original PNG data for editing
+      sessionStorage.setItem('riderForge_editStagePlot', JSON.stringify({
+        layout: {
+          ...formData.stagePlot.layout,
+          data: formData.stagePlot.data // Include the original PNG data
+        },
+        riderId: riderId || 'new'
+      }))
+      
+      // Navigate to stage plot creator with edit data
+      navigate(`/stage-plot-creator?riderId=${riderId || 'new'}&edit=true`)
     }
   }
 
@@ -482,14 +552,14 @@ function DadosGerais({ data, onChange }) {
               
               {/* Botão do Stage Plot Creator */}
               <button 
-                disabled
-                className="px-3 py-1.5 bg-gradient-to-r from-blue-600/80 to-purple-600/80 text-white text-sm rounded-md cursor-not-allowed opacity-60 flex items-center gap-1.5 border border-blue-500/30"
+                onClick={() => navigate(`/stage-plot-creator?riderId=${riderId || 'new'}`)}
+                className="px-3 py-1.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm rounded-md hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center gap-1.5 border border-blue-500/30 shadow-lg hover:shadow-xl"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
                 <span className="font-medium">Creator</span>
-                <span className="text-xs opacity-75">Soon</span>
+                <span className="text-xs opacity-75">Alpha</span>
               </button>
             </div>
             
@@ -499,7 +569,13 @@ function DadosGerais({ data, onChange }) {
                   <img
                     src={formData.stagePlot.data}
                     alt={t('tab.general.images.stageplot.alt')}
-                    className="w-full h-48 object-cover rounded-lg border border-dark-600"
+                    className={`w-full h-48 object-cover rounded-lg border border-dark-600 ${
+                      formData.stagePlot?.isGenerated 
+                        ? 'cursor-pointer hover:opacity-80 transition-opacity' 
+                        : ''
+                    }`}
+                    onClick={formData.stagePlot?.isGenerated ? handleStagePlotClick : undefined}
+                    title={formData.stagePlot?.isGenerated ? 'Click to edit stage plot' : ''}
                   />
 
                   <button
@@ -683,6 +759,7 @@ function DadosGerais({ data, onChange }) {
           </div>
         </div>
       </div>
+
       </div>
     </div>
   )
