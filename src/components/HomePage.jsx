@@ -11,6 +11,7 @@ import ProStatusBadge from './ProStatusBadge'
 import LoginModal from './auth/LoginModal'
 import ProgressiveContentWrapper from './ProgressiveContentWrapper'
 import UserMenu from './UserMenu'
+import HeaderBanner from './ads/HeaderBanner'
 // Header com logo discreto
 
 function HomePage() {
@@ -106,6 +107,9 @@ function HomePage() {
     <>
       <ProgressiveContentWrapper>
         <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800">
+          {/* Header Banner - only for free users */}
+          <HeaderBanner />
+          
           <header className="sticky top-0 z-40 bg-dark-950/60 backdrop-blur-md border-b border-dark-800/60">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
               <a href="/" className="flex items-center gap-3 group" aria-label="Rider Forge">

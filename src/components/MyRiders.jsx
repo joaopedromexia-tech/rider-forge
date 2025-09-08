@@ -19,6 +19,7 @@ import Breadcrumbs from './Breadcrumbs'
 import UserMenu from './UserMenu'
 import { saveShortLink, generateShortUrl } from '../utils/shortLinks'
 import { PRO_CONFIG } from '../config/proConfig'
+import SidebarBanner from './ads/SidebarBanner'
 
 function MyRiders() {
   const navigate = useNavigate()
@@ -385,6 +386,9 @@ function MyRiders() {
 
       {/* Riders Grid */}
       <div className="max-w-7xl mx-auto">
+        <div className="flex gap-8">
+          {/* Main content */}
+          <div className="flex-1">
         {savedRiders.length === 0 ? (
           <div className="card text-center py-12">
             <div className="w-16 h-16 bg-dark-800 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -526,6 +530,15 @@ function MyRiders() {
             ))}
           </div>
         )}
+          </div>
+          
+          {/* Sidebar with ad - only for free users */}
+          {!isPro && (
+            <div className="w-80">
+              <SidebarBanner />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Delete Confirmation Modal */}
