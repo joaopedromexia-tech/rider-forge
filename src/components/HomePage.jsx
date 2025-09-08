@@ -290,27 +290,6 @@ function HomePage() {
             </div>
           )}
 
-          {/* Botão de Upgrade para Pro no fundo da página */}
-          {hasUser && hasUserAccount && !isProUser && (
-            <div className="mt-12 sm:mt-16 mb-8">
-              <div className="card bg-gradient-to-r from-accent-green/10 to-accent-blue/10 border-accent-green/30 text-center">
-                <div className="max-w-2xl mx-auto">
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">{t('home.pro.title')}</h2>
-                  <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">{t('home.pro.desc')}</p>
-                  <button
-                    onClick={handleNavigateToProSubscription}
-                    className="btn-primary text-lg px-12 py-4"
-                  >
-                    <svg className="w-6 h-6 inline mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    {t('home.pro.cta')}
-                  </button>
-                  <p className="text-sm text-gray-400 mt-4">{t('home.pro.perks')}</p>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Footer Info */}
           <div className="text-center text-gray-500 text-sm mt-8 sm:mt-12">
