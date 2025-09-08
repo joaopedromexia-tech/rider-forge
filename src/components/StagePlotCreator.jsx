@@ -7,6 +7,8 @@ import { useRider } from '../context/RiderContext'
 // Dedicated Stage Plot Creator Page with Professional MDI Equipment Icons
 const EQUIPMENT_SCALE = 2.5 // Scale factor to make equipment more visible
 
+// Silhouette style removed per request
+
 const getPalette = (t) => [
   { 
     id: 'vocal-mic', 
@@ -122,6 +124,58 @@ const getPalette = (t) => [
     icon: (
       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/>
+      </svg>
+    )
+  },
+  { 
+    id: 'hi-hat', 
+    label: (t('stageplot.equipment.hiHat') !== 'stageplot.equipment.hiHat') ? t('stageplot.equipment.hiHat') : 'Hi-Hat', 
+    color: '#EF4444', 
+    w: 18 * EQUIPMENT_SCALE, 
+    h: 18 * EQUIPMENT_SCALE, 
+    shape: 'circle',
+    icon: (
+      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12,3L6,7H18L12,3M4,9H20V11H4V9M7,13H17V15H7V13M10,17H14V19H10V17Z"/>
+      </svg>
+    )
+  },
+  { 
+    id: 'crash', 
+    label: (t('stageplot.equipment.crashCymbal') !== 'stageplot.equipment.crashCymbal') ? t('stageplot.equipment.crashCymbal') : 'Crash Cymbal', 
+    color: '#EF4444', 
+    w: 18 * EQUIPMENT_SCALE, 
+    h: 18 * EQUIPMENT_SCALE, 
+    shape: 'circle',
+    icon: (
+      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12,2A10,10 0 1,1 2,12A10,10 0 0,1 12,2M7,12A5,5 0 1,0 12,7A5,5 0 0,0 7,12Z"/>
+      </svg>
+    )
+  },
+  { 
+    id: 'ride', 
+    label: (t('stageplot.equipment.rideCymbal') !== 'stageplot.equipment.rideCymbal') ? t('stageplot.equipment.rideCymbal') : 'Ride Cymbal', 
+    color: '#EF4444', 
+    w: 18 * EQUIPMENT_SCALE, 
+    h: 18 * EQUIPMENT_SCALE, 
+    shape: 'circle',
+    icon: (
+      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12,2A10,10 0 1,1 2,12A10,10 0 0,1 12,2M12,8A4,4 0 1,0 16,12A4,4 0 0,0 12,8Z"/>
+      </svg>
+    )
+  },
+  { 
+    id: 'floor-tom', 
+    label: (t('stageplot.equipment.floorTom') !== 'stageplot.equipment.floorTom') ? t('stageplot.equipment.floorTom') : 'Floor Tom', 
+    color: '#EF4444', 
+    w: 18 * EQUIPMENT_SCALE, 
+    h: 18 * EQUIPMENT_SCALE, 
+    shape: 'circle',
+    icon: (
+      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6Z"/>
       </svg>
     )
   },
@@ -343,6 +397,45 @@ const getPalette = (t) => [
     icon: (
       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12,1A11,11 0 0,0 1,12A11,11 0 0,0 12,23A11,11 0 0,0 23,12A11,11 0 0,0 12,1M12,3A9,9 0 0,1 21,12A9,9 0 0,1 12,21A9,9 0 0,1 3,12A9,9 0 0,1 12,3M12,5A7,7 0 0,0 5,12A7,7 0 0,0 12,19A7,7 0 0,0 19,12A7,7 0 0,0 12,5M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9Z"/>
+      </svg>
+    )
+  },
+  { 
+    id: 'table', 
+    label: (t('stageplot.equipment.table') !== 'stageplot.equipment.table') ? t('stageplot.equipment.table') : 'Table', 
+    color: '#6B7280', 
+    w: 80, 
+    h: 40, 
+    shape: 'rect',
+    icon: (
+      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M3,7H21V9H3V7M5,9H7V19H5V9M17,9H19V19H17V9Z"/>
+      </svg>
+    )
+  },
+  { 
+    id: 'cdj', 
+    label: (t('stageplot.equipment.cdj') !== 'stageplot.equipment.cdj') ? t('stageplot.equipment.cdj') : 'CDJ', 
+    color: '#374151', 
+    w: 28, 
+    h: 24, 
+    shape: 'rect',
+    icon: (
+      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M4,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M12,7A5,5 0 1,0 17,12A5,5 0 0,0 12,7M12,9A3,3 0 1,1 9,12A3,3 0 0,1 12,9Z"/>
+      </svg>
+    )
+  },
+  { 
+    id: 'di-stereo', 
+    label: (t('stageplot.equipment.stereoDiBox') !== 'stageplot.equipment.stereoDiBox') ? t('stageplot.equipment.stereoDiBox') : 'Stereo DI', 
+    color: '#10B981', 
+    w: 34, 
+    h: 20, 
+    shape: 'rect',
+    icon: (
+      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M4,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M6,8H10V10H6V8M14,8H18V10H14V8M6,12H10V14H6V12M14,12H18V14H14V12Z"/>
       </svg>
     )
   },
@@ -911,7 +1004,7 @@ function StagePlotCreator() {
   
   // Initialize from URL params or defaults
   const [items, setItems] = useState([])
-  const [selectedId, setSelectedId] = useState(null)
+  const [selectedIds, setSelectedIds] = useState([]) // supports multi-select
   const [bandName, setBandName] = useState('')
   const [gridSize, setGridSize] = useState(GRID_SIZE)
   const [stageWidth, setStageWidth] = useState(DEFAULT_STAGE_W)
@@ -927,7 +1020,20 @@ function StagePlotCreator() {
   const [editingText, setEditingText] = useState('')
   const [showOnboarding, setShowOnboarding] = useState(true)
   const [showHelpDropdown, setShowHelpDropdown] = useState(false)
+  // Visual style fixed to minimal (silhouette removed)
+  const [styleMode] = useState('minimal')
+  // Connector feature removed
+  const [connectors] = useState([])
   const svgRef = useRef(null)
+
+  // Show onboarding only on first use (persist via localStorage)
+  useEffect(() => {
+    try {
+      const seen = localStorage.getItem('stageplot-onboarding-seen') === 'true'
+      const skipped = localStorage.getItem('stageplot-onboarding-skipped') === 'true'
+      if (seen || skipped) setShowOnboarding(false)
+    } catch {}
+  }, [])
 
   // Load existing layout data when editing
   useEffect(() => {
@@ -943,6 +1049,7 @@ function StagePlotCreator() {
             setStageWidth(layout.stageWidthMeters || DEFAULT_STAGE_W)
             setStageHeight(layout.stageHeightMeters || DEFAULT_STAGE_H)
             setNotes(layout.notes || '')
+            // connectors removed
           }
         }
       } catch (error) {
@@ -1002,8 +1109,17 @@ function StagePlotCreator() {
     return Math.max(0.1, Math.min(2, optimalScale))
   }
 
-  // Get translated palette
-  const PALETTE = useMemo(() => getPalette(t), [t])
+  // Palette (silhouette style removed)
+  const PALETTE = useMemo(() => {
+    return getPalette(t)
+  }, [t])
+
+  // Fast lookup to render the correct icon for each item type
+  const PALETTE_BY_ID = useMemo(() => {
+    const map = Object.create(null)
+    for (const p of PALETTE) map[p.id] = p
+    return map
+  }, [PALETTE])
 
   // Filter palette based on search term
   const filteredPalette = useMemo(() => {
@@ -1036,7 +1152,13 @@ function StagePlotCreator() {
       color: paletteItem.color,
       shape: paletteItem.shape,
       label: paletteItem.label,
-      measurements: paletteItem.measurements
+      measurements: paletteItem.measurements,
+      scale: 1,
+      flipX: false,
+      locked: false,
+      hidden: false,
+      channel: null,
+      ioType: 'other'
     }
     setItems(prev => [...prev, newItem])
     
@@ -1045,6 +1167,8 @@ function StagePlotCreator() {
       setSearchTerm('')
     }
   }
+
+  // Presets were removed per user request
 
   const addCustomRiser = () => {
     const pixelWidth = riserWidth * PIXELS_PER_METER   // pixels per meter (width)
@@ -1080,15 +1204,17 @@ function StagePlotCreator() {
 
   const startDrag = (id, e) => {
     e.preventDefault()
-    const startX = e.clientX
-    const startY = e.clientY
-    setSelectedId(id)
+    e.stopPropagation()
     const itemIndex = items.findIndex(i => i.id === id)
     if (itemIndex < 0) return
     const startItem = items[itemIndex]
+    if (startItem.locked) return
+    const startPt = getSvgPoint(e)
+    setSelectedIds([id])
     const onMove = (ev) => {
-      const dx = ev.clientX - startX
-      const dy = ev.clientY - startY
+      const cur = getSvgPoint(ev)
+      const dx = cur.x - startPt.x
+      const dy = cur.y - startPt.y
       setItems(prev => prev.map((it, idx) => idx === itemIndex ? {
         ...it,
         x: snap(startItem.x + dx),
@@ -1105,10 +1231,174 @@ function StagePlotCreator() {
 
   const snap = (v) => Math.max(0, Math.min(Math.round(v / gridSize) * gridSize, 10000))
 
+  // Drag-to-select state
+  const [isSelecting, setIsSelecting] = useState(false)
+  const [selectionStart, setSelectionStart] = useState({ x: 0, y: 0 })
+  const [selectionRect, setSelectionRect] = useState(null)
+
+  const getSvgPoint = (e) => {
+    const svg = svgRef.current
+    if (!svg) return { x: 0, y: 0 }
+    const rect = svg.getBoundingClientRect()
+    const vb = svg.viewBox?.baseVal || { x: 0, y: 0, width: stageWidth * PIXELS_PER_METER, height: stageHeight * PIXELS_PER_METER }
+    const scaleX = vb.width / rect.width
+    const scaleY = vb.height / rect.height
+    return {
+      x: (e.clientX - rect.left) * scaleX,
+      y: (e.clientY - rect.top) * scaleY
+    }
+  }
+
+  const beginSelection = (e) => {
+    // Start selection only when not clicking an equipment element
+    const pt = getSvgPoint(e)
+    // connectors removed
+    setIsSelecting(true)
+    setSelectionStart(pt)
+    setSelectionRect({ x: pt.x, y: pt.y, w: 0, h: 0 })
+    const start = pt
+    let current = { x: pt.x, y: pt.y, w: 0, h: 0 }
+
+    const onMove = (ev) => {
+      const cur = getSvgPoint(ev)
+      const x = Math.min(start.x, cur.x)
+      const y = Math.min(start.y, cur.y)
+      const w = Math.abs(cur.x - start.x)
+      const h = Math.abs(cur.y - start.y)
+      current = { x, y, w, h }
+      setSelectionRect(current)
+    }
+
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseup', onUp)
+      setIsSelecting(false)
+
+      if (current && (current.w > 2 || current.h > 2)) {
+        // Select all items intersecting the selectionRect
+        const sel = items
+          .filter(it => {
+            const ix1 = it.x, iy1 = it.y, ix2 = it.x + it.w, iy2 = it.y + it.h
+            const sx1 = current.x, sy1 = current.y, sx2 = current.x + current.w, sy2 = current.y + current.h
+            return !(ix2 < sx1 || ix1 > sx2 || iy2 < sy1 || iy1 > sy2)
+          })
+          .map(it => it.id)
+        setSelectedIds(sel)
+      } else {
+        // Clicked empty area: clear selection
+        setSelectedIds([])
+      }
+      setSelectionRect(null)
+    }
+
+    document.addEventListener('mousemove', onMove)
+    document.addEventListener('mouseup', onUp)
+  }
+
   const deleteSelected = () => {
-    if (!selectedId) return
-    setItems(prev => prev.filter(it => it.id !== selectedId))
-    setSelectedId(null)
+    if (!selectedIds.length) return
+    const sel = new Set(selectedIds)
+    setItems(prev => prev.filter(it => !sel.has(it.id)))
+    setSelectedIds([])
+  }
+
+  const rotateSelected = (delta) => {
+    if (!selectedIds.length) return
+    const sel = new Set(selectedIds)
+    setItems(prev => prev.map(it => sel.has(it.id) ? {
+      ...it,
+      rotation: ((it.rotation || 0) + delta) % 360
+    } : it))
+  }
+
+  const duplicateSelected = () => {
+    if (!selectedIds.length) return
+    setItems(prev => {
+      const sel = new Set(selectedIds)
+      const copies = prev.filter(it => sel.has(it.id)).map(it => ({
+        ...it,
+        id: Date.now() + '_' + Math.random().toString(36).slice(2),
+        x: snap(it.x + gridSize),
+        y: snap(it.y + gridSize)
+      }))
+      return [...prev, ...copies]
+    })
+  }
+
+  const alignSelected = (mode) => {
+    if (selectedIds.length < 2) return
+    const sel = items.filter(i => selectedIds.includes(i.id))
+    if (!sel.length) return
+    const minX = Math.min(...sel.map(i => i.x))
+    const maxX = Math.max(...sel.map(i => i.x + i.w))
+    const midX = (minX + maxX) / 2
+    const minY = Math.min(...sel.map(i => i.y))
+    const maxY = Math.max(...sel.map(i => i.y + i.h))
+    const midY = (minY + maxY) / 2
+    setItems(prev => prev.map(it => {
+      if (!selectedIds.includes(it.id)) return it
+      switch (mode) {
+        case 'left': return { ...it, x: snap(minX) }
+        case 'right': return { ...it, x: snap(maxX - it.w) }
+        case 'center': return { ...it, x: snap(midX - it.w/2) }
+        case 'top': return { ...it, y: snap(minY) }
+        case 'bottom': return { ...it, y: snap(maxY - it.h) }
+        case 'middle': return { ...it, y: snap(midY - it.h/2) }
+        default: return it
+      }
+    }))
+  }
+
+  const distributeSelected = (orientation) => {
+    if (selectedIds.length < 3) return
+    const sel = items.filter(i => selectedIds.includes(i.id)).sort((a,b)=> (orientation==='horizontal' ? a.x - b.x : a.y - b.y))
+    if (orientation==='horizontal') {
+      const first = sel[0]
+      const last = sel[sel.length-1]
+      const totalSpace = (last.x) - (first.x + first.w)
+      const gaps = sel.length - 2
+      const gap = gaps > 0 ? totalSpace / gaps : 0
+      let cursor = first.x + first.w
+      setItems(prev => prev.map(it => {
+        const idx = sel.findIndex(s => s.id===it.id)
+        if (idx<=0 || idx===sel.length-1) return it
+        cursor = cursor + gap
+        return { ...it, x: snap(cursor) }
+      }))
+    } else {
+      const first = sel[0]
+      const last = sel[sel.length-1]
+      const totalSpace = (last.y) - (first.y + first.h)
+      const gaps = sel.length - 2
+      const gap = gaps > 0 ? totalSpace / gaps : 0
+      let cursor = first.y + first.h
+      setItems(prev => prev.map(it => {
+        const idx = sel.findIndex(s => s.id===it.id)
+        if (idx<=0 || idx===sel.length-1) return it
+        cursor = cursor + gap
+        return { ...it, y: snap(cursor) }
+      }))
+    }
+  }
+
+  const bringToFront = () => {
+    if (!selectedIds.length) return
+    setItems(prev => {
+      const sel = new Set(selectedIds)
+      const others = prev.filter(it => !sel.has(it.id))
+      const selected = prev.filter(it => sel.has(it.id))
+      return [...others, ...selected]
+    })
+  }
+
+  const sendToBack = () => {
+    if (!selectedIds.length) return
+    setItems(prev => {
+      const sel = new Set(selectedIds)
+      const selected = prev.filter(it => sel.has(it.id))
+      const others = prev.filter(it => !sel.has(it.id))
+      return [...selected, ...others]
+    })
   }
 
   const startEditLabel = (itemId, currentLabel) => {
@@ -1136,8 +1426,18 @@ function StagePlotCreator() {
     try {
       const svgEl = svgRef.current
       if (!svgEl) return null
+      // Clone and adjust SVG for export: white bg, no grid overlay
+      const cloned = svgEl.cloneNode(true)
+      try {
+        const bg = cloned.querySelector('rect[data-role="stage-bg"]')
+        if (bg) bg.setAttribute('fill', '#ffffff')
+        const grid = cloned.querySelector('rect[data-role="grid-overlay"]')
+        if (grid && grid.parentNode) grid.parentNode.removeChild(grid)
+      } catch (e) {
+        // If querySelector isn't available on clone, continue without modifications
+      }
       const serializer = new XMLSerializer()
-      const svgString = serializer.serializeToString(svgEl)
+      const svgString = serializer.serializeToString(cloned)
       const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' })
       const url = URL.createObjectURL(svgBlob)
       const img = new Image()
@@ -1148,7 +1448,7 @@ function StagePlotCreator() {
             canvas.width = stageWidth * PIXELS_PER_METER
             canvas.height = stageHeight * PIXELS_PER_METER
             const ctx = canvas.getContext('2d')
-            ctx.fillStyle = '#111827'
+            ctx.fillStyle = '#ffffff'
             ctx.fillRect(0, 0, canvas.width, canvas.height)
             ctx.drawImage(img, 0, 0)
             resolve(canvas.toDataURL('image/png'))
@@ -1182,15 +1482,15 @@ function StagePlotCreator() {
             if (editData) {
               const { layout: originalLayout } = JSON.parse(editData)
               const currentLayout = {
-                items, 
-                bandName,
-                gridSize,
-                stageWidthMeters: stageWidth,
-                stageHeightMeters: stageHeight,
-                canvasW: stageWidth * PIXELS_PER_METER,
-                canvasH: stageHeight * PIXELS_PER_METER,
-                notes,
-                v: 1 
+              items, 
+              bandName,
+              gridSize,
+              stageWidthMeters: stageWidth,
+              stageHeightMeters: stageHeight,
+              canvasW: stageWidth * PIXELS_PER_METER,
+              canvasH: stageHeight * PIXELS_PER_METER,
+              notes,
+              v: 1 
               }
               
               // Compare layouts to see if changes were made
@@ -1302,22 +1602,43 @@ function StagePlotCreator() {
     }
   }
 
+  const handleBack = () => {
+    try {
+      if (isEdit) {
+        const editData = sessionStorage.getItem('riderForge_editStagePlot')
+        if (editData) {
+          const { layout } = JSON.parse(editData)
+          if (layout && layout.data) {
+            sessionStorage.setItem('riderForge_generatedStagePlot', JSON.stringify({
+              data: layout.data,
+              bandName: layout.bandName || bandName || 'Generated Stage Plot',
+              timestamp: Date.now(),
+              isGenerated: true,
+              layout
+            }))
+          }
+        }
+        // Clean up edit flag to avoid stale state
+        sessionStorage.removeItem('riderForge_editStagePlot')
+      }
+    } catch (e) {
+      // Non-blocking; still navigate back
+    }
+    navigate('/riders/new/dados-gerais')
+  }
+
   const clearAll = () => {
     if (window.confirm(t('stageplot.confirmClearAll'))) {
       setItems([])
-      setSelectedId(null)
+      setSelectedIds([])
     }
   }
 
   // Keyboard controls
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (!selectedId) return
-      const selectedItem = items.find(i => i.id === selectedId)
-      if (!selectedItem) return
-
-      let newX = selectedItem.x
-      let newY = selectedItem.y
+      if (!selectedIds.length) return
+      const sel = new Set(selectedIds)
 
       switch (e.key) {
         case 'Delete':
@@ -1327,36 +1648,28 @@ function StagePlotCreator() {
           break
         case 'ArrowLeft':
           e.preventDefault()
-          newX = Math.max(0, selectedItem.x - gridSize)
+          setItems(prev => prev.map(it => sel.has(it.id) ? { ...it, x: Math.max(0, it.x - gridSize) } : it))
           break
         case 'ArrowRight':
           e.preventDefault()
-          newX = Math.min((stageWidth * PIXELS_PER_METER) - selectedItem.w, selectedItem.x + gridSize)
+          setItems(prev => prev.map(it => sel.has(it.id) ? { ...it, x: Math.min((stageWidth * PIXELS_PER_METER) - it.w, it.x + gridSize) } : it))
           break
         case 'ArrowUp':
           e.preventDefault()
-          newY = Math.max(0, selectedItem.y - gridSize)
+          setItems(prev => prev.map(it => sel.has(it.id) ? { ...it, y: Math.max(0, it.y - gridSize) } : it))
           break
         case 'ArrowDown':
           e.preventDefault()
-          newY = Math.min((stageHeight * PIXELS_PER_METER) - selectedItem.h, selectedItem.y + gridSize)
+          setItems(prev => prev.map(it => sel.has(it.id) ? { ...it, y: Math.min((stageHeight * PIXELS_PER_METER) - it.h, it.y + gridSize) } : it))
           break
         default:
           return
-      }
-
-      if (newX !== selectedItem.x || newY !== selectedItem.y) {
-        setItems(prev => prev.map(it => 
-          it.id === selectedId 
-            ? { ...it, x: newX, y: newY }
-            : it
-        ))
       }
     }
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [selectedId, items, gridSize, stageWidth, stageHeight])
+  }, [selectedIds, items, gridSize, stageWidth, stageHeight])
 
   return (
     <div className="min-h-screen bg-dark-900">
@@ -1367,7 +1680,7 @@ function StagePlotCreator() {
             {/* Breadcrumb */}
             <div className="flex items-center space-x-2 text-sm text-gray-400">
               <button 
-                onClick={() => navigate('/riders/new/dados-gerais')}
+                onClick={handleBack}
                 className="hover:text-gray-200 transition-colors"
               >
                 {t('stageplot.riderCreator')}
@@ -1385,7 +1698,7 @@ function StagePlotCreator() {
                 {t('stageplot.clearAll')}
               </button>
               <button
-                onClick={() => navigate('/riders/new/dados-gerais')}
+                onClick={handleBack}
                 className="px-4 py-2 bg-gray-700 text-gray-200 rounded hover:bg-gray-600 transition-colors"
               >
                 {t('stageplot.backToRiderCreator')}
@@ -1507,6 +1820,122 @@ function StagePlotCreator() {
                 Fit to Screen
               </button>
             </div>
+
+            {/* Connector inspector removed */}
+
+            {/* Selected Item Inspector */}
+            {selectedIds.length > 0 && (() => {
+              const it = items.find(i => i.id === selectedIds[0])
+              if (!it) return null
+              return (
+                <div className="border border-gray-700 rounded-lg p-3 bg-gray-800">
+                  <h4 className="text-sm font-medium text-gray-200 mb-2">{selectedIds.length === 1 ? 'Selected Item' : `${selectedIds.length} Selected`}</h4>
+                  <div className="space-y-2 text-sm">
+                    {selectedIds.length === 1 && (
+                    <div>
+                      <label className="block text-xs text-gray-400 mb-1">Label</label>
+                      <input
+                        type="text"
+                        value={editingLabel === it.id ? editingText : it.label}
+                        onChange={(e) => {
+                          if (editingLabel !== it.id) setEditingLabel(it.id)
+                          setEditingText(e.target.value)
+                        }}
+                        onBlur={saveEditLabel}
+                        className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-gray-100"
+                      />
+                    </div>
+                    )}
+                    <div className="grid grid-cols-3 gap-2 items-center">
+                      <div className="col-span-2">
+                        <label className="block text-xs text-gray-400 mb-1">Rotation</label>
+                        <div className="flex gap-2">
+                          <button onClick={() => rotateSelected(-15)} className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">-15°</button>
+                          <button onClick={() => rotateSelected(15)} className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">+15°</button>
+                        </div>
+                      </div>
+                      <div className="text-right text-gray-300">{Math.round((it.rotation || 0) % 360)}°</div>
+                    </div>
+                    {/* Align / Distribute */}
+                    {selectedIds.length > 1 && (
+                      <div className="space-y-2">
+                        <div>
+                          <label className="block text-xs text-gray-400 mb-1">Align</label>
+                          <div className="flex flex-wrap gap-2">
+                            <button onClick={()=>alignSelected('left')} className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">Left</button>
+                            <button onClick={()=>alignSelected('center')} className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">Center</button>
+                            <button onClick={()=>alignSelected('right')} className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">Right</button>
+                            <button onClick={()=>alignSelected('top')} className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">Top</button>
+                            <button onClick={()=>alignSelected('middle')} className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">Middle</button>
+                            <button onClick={()=>alignSelected('bottom')} className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">Bottom</button>
+                          </div>
+                        </div>
+                        {selectedIds.length > 2 && (
+                          <div>
+                            <label className="block text-xs text-gray-400 mb-1">Distribute</label>
+                            <div className="flex gap-2">
+                              <button onClick={()=>distributeSelected('horizontal')} className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">Horiz</button>
+                              <button onClick={()=>distributeSelected('vertical')} className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">Vert</button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {/* Channel + IO type for input list */}
+                    <div className="grid grid-cols-3 gap-2 items-center">
+                      <div>
+                        <label className="block text-xs text-gray-400 mb-1">Channel</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max="64"
+                          value={it.channel ?? ''}
+                          onChange={(e)=>{
+                            const v = e.target.value === '' ? null : Math.max(1, Math.min(64, parseInt(e.target.value)))
+                            setItems(prev => prev.map(x => x.id === it.id ? { ...x, channel: v } : x))
+                          }}
+                          className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-gray-100"
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <label className="block text-xs text-gray-400 mb-1">Type</label>
+                        <select
+                          value={it.ioType || 'other'}
+                          onChange={(e)=>setItems(prev => prev.map(x => x.id === it.id ? { ...x, ioType: e.target.value } : x))}
+                          className="w-full px-2 py-1 bg-gray-700 border border-gray-600 rounded text-gray-100"
+                        >
+                          <option value="mic">Mic</option>
+                          <option value="di">DI</option>
+                          <option value="line">Line</option>
+                          <option value="monitor">Monitor</option>
+                          <option value="other">Other</option>
+                        </select>
+                      </div>
+                    </div>
+                    {/* Silhouette-only controls removed */}
+                    {/* Lock/Hide */}
+                    <div className="grid grid-cols-2 gap-2 items-center">
+                      <label className="inline-flex items-center gap-2 text-xs text-gray-300">
+                        <input type="checkbox" checked={!!it.locked} onChange={(e)=>setItems(prev => prev.map(x=> x.id===it.id ? { ...x, locked: e.target.checked } : x))} />
+                        Lock
+                      </label>
+                      <label className="inline-flex items-center gap-2 text-xs text-gray-300 justify-end">
+                        <input type="checkbox" checked={!!it.hidden} onChange={(e)=>setItems(prev => prev.map(x=> x.id===it.id ? { ...x, hidden: e.target.checked } : x))} />
+                        Hide
+                      </label>
+                    </div>
+                    <div className="flex gap-2">
+                      <button onClick={duplicateSelected} className="flex-1 px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">Duplicate</button>
+                      <button onClick={bringToFront} className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">Front</button>
+                      <button onClick={sendToBack} className="px-2 py-1 bg-gray-700 text-gray-200 rounded hover:bg-gray-600">Back</button>
+                      <button onClick={deleteSelected} className="px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
+                    </div>
+                  </div>
+                </div>
+              )
+            })()}
+
+            {/* Style/tools removed */}
 
             {/* Equipment Palette */}
             <div>
@@ -1682,43 +2111,70 @@ function StagePlotCreator() {
                   <pattern id="grid" width={gridSize} height={gridSize} patternUnits="userSpaceOnUse">
                     <path d={`M ${gridSize} 0 L 0 0 0 ${gridSize}`} fill="none" stroke="#374151" strokeWidth="1" />
                   </pattern>
+                  {/* Arrow markers removed (connectors feature removed) */}
                 </defs>
-                <rect x="0" y="0" width={stageWidth * PIXELS_PER_METER} height={stageHeight * PIXELS_PER_METER} fill="#111827" />
-                <rect x="0" y="0" width={stageWidth * PIXELS_PER_METER} height={stageHeight * PIXELS_PER_METER} fill="url(#grid)" />
+                <rect data-role="stage-bg" x="0" y="0" width={stageWidth * PIXELS_PER_METER} height={stageHeight * PIXELS_PER_METER} fill="#111827" onMouseDown={beginSelection} />
+                <rect data-role="grid-overlay" x="0" y="0" width={stageWidth * PIXELS_PER_METER} height={stageHeight * PIXELS_PER_METER} fill="url(#grid)" pointerEvents="none" />
+
+                {/* Connectors removed */}
 
                 {/* Items */}
                 {items.map((it) => (
                   <g key={it.id} transform={`translate(${it.x}, ${it.y})`}>
-                    {it.shape === 'circle' ? (
-                      <circle 
-                        cx={it.w/2} 
-                        cy={it.h/2} 
-                        r={Math.max(it.w, it.h) / 2} 
-                        fill={it.color} 
-                        stroke={selectedId === it.id ? '#FFFFFF' : '#000000'} 
-                        strokeWidth={selectedId === it.id ? 3 * EQUIPMENT_SCALE : 1 * EQUIPMENT_SCALE} 
-                        onMouseDown={(e) => startDrag(it.id, e)} 
-                        onClick={() => setSelectedId(it.id)}
-                        style={{ cursor: 'move' }}
-                      />
-                    ) : (
-                      <rect 
-                        x="0" 
-                        y="0" 
-                        width={it.w} 
-                        height={it.h} 
-                        rx="4" 
-                        fill={it.color} 
-                        stroke={selectedId === it.id ? '#FFFFFF' : '#000000'} 
-                        strokeWidth={selectedId === it.id ? 3 * EQUIPMENT_SCALE : 1 * EQUIPMENT_SCALE} 
-                        onMouseDown={(e) => startDrag(it.id, e)} 
-                        onClick={() => setSelectedId(it.id)}
-                        style={{ cursor: 'move' }}
-                      />
+                    {it.hidden ? null : (
+                    <g transform={`rotate(${it.rotation || 0}, ${it.w/2}, ${it.h/2})`}>
+                      {(() => {
+                        // Render minimal style (shape only)
+                        return it.shape === 'circle' ? (
+                          <circle
+                            cx={it.w/2}
+                            cy={it.h/2}
+                            r={Math.max(it.w, it.h) / 2}
+                            fill={it.color}
+                            stroke={selectedIds.includes(it.id) ? '#FFFFFF' : '#000000'}
+                            strokeWidth={selectedIds.includes(it.id) ? 3 * EQUIPMENT_SCALE : 1 * EQUIPMENT_SCALE}
+                            onMouseDown={(e) => startDrag(it.id, e)}
+                            onClick={(e) => { e.stopPropagation(); setSelectedIds([it.id]) }}
+                            style={{ cursor: 'move' }}
+                          />
+                        ) : (
+                          <rect
+                            x="0"
+                            y="0"
+                            width={it.w}
+                            height={it.h}
+                            rx="4"
+                            fill={it.color}
+                            stroke={selectedIds.includes(it.id) ? '#FFFFFF' : '#000000'}
+                            strokeWidth={selectedIds.includes(it.id) ? 3 * EQUIPMENT_SCALE : 1 * EQUIPMENT_SCALE}
+                            onMouseDown={(e) => startDrag(it.id, e)}
+                            onClick={(e) => { e.stopPropagation(); setSelectedIds([it.id]) }}
+                            style={{ cursor: 'move' }}
+                          />
+                        )
+                      })()}
+                      {/* Minimal style icon overlay */}
+                      {PALETTE_BY_ID[it.type]?.icon ? (() => {
+                        const size = Math.min(it.w, it.h) * 0.6
+                        const x = (it.w - size) / 2
+                        const y = (it.h - size) / 2
+                        const iconNode = PALETTE_BY_ID[it.type].icon
+                        return React.cloneElement(iconNode, {
+                          width: size,
+                          height: size,
+                          x,
+                          y,
+                          style: { color: '#ffffff' },
+                          pointerEvents: 'none'
+                        })
+                      })() : null}
+                    </g>
                     )}
+                    
+                    {/* Silhouette callout removed */}
                     {editingLabel === it.id ? (
-                      <foreignObject x={it.w/2 - 75} y={it.h + (5 * EQUIPMENT_SCALE)} width="150" height="40">
-                        <div className="flex items-center justify-center w-full h-full">
+                      <foreignObject x={it.w/2 - 75} y={it.h + (5 * EQUIPMENT_SCALE)} width="150" height="40" onMouseDown={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-center w-full h-full" onMouseDown={(e) => e.stopPropagation()}>
                           <input
                             type="text"
                             value={editingText}
@@ -1742,29 +2198,32 @@ function StagePlotCreator() {
                         </div>
                       </foreignObject>
                     ) : (
-                      <text 
-                        x={it.w/2} 
-                        y={it.h + (14 * EQUIPMENT_SCALE)} 
-                        textAnchor="middle" 
-                        fontSize={12 * (EQUIPMENT_SCALE * 0.6)} 
-                        fill="#E5E7EB"
-                        onDoubleClick={() => startEditLabel(it.id, it.label)}
-                        style={{ cursor: 'pointer' }}
-                        title="Double-click to edit label"
-                      >
-                        {it.label}
-                      </text>
+                      !it.hidden ? (
+                        <text 
+                          x={it.w/2} 
+                          y={it.h + (14 * EQUIPMENT_SCALE)} 
+                          textAnchor="middle" 
+                          fontSize={12 * (EQUIPMENT_SCALE * 0.6)} 
+                          fill="#E5E7EB"
+                          onDoubleClick={() => startEditLabel(it.id, it.label)}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          style={{ cursor: 'pointer' }}
+                          title="Double-click to edit label"
+                        >
+                          {it.label}
+                        </text>
+                      ) : null
                     )}
                     
                     {/* Show measurements for risers */}
-                    {it.measurements && (
+                    {it.measurements && !it.hidden && (
                       <text x={it.w/2} y={it.h + (28 * EQUIPMENT_SCALE)} textAnchor="middle" fontSize={10 * (EQUIPMENT_SCALE * 0.6)} fill="#10B981">
                         {it.measurements.width} × {it.measurements.height}
                       </text>
                     )}
                     
                     {/* Selection box */}
-                    {selectedId === it.id && (
+                    {selectedIds.includes(it.id) && !it.hidden && (
                       <rect 
                         x={-2 * EQUIPMENT_SCALE} 
                         y={-2 * EQUIPMENT_SCALE} 
@@ -1780,34 +2239,53 @@ function StagePlotCreator() {
                   </g>
                 ))}
 
-                {/* Notes at bottom */}
-                {notes && (
-                  <g>
-                    <rect 
-                      x="10" 
-                      y={(stageHeight * PIXELS_PER_METER) - 80} 
-                      width={(stageWidth * PIXELS_PER_METER) - 20} 
-                      height="70" 
-                      fill="#1F2937" 
-                      stroke="#374151" 
-                      strokeWidth="1" 
-                      rx="4"
-                    />
-                    <text x="20" y={(stageHeight * PIXELS_PER_METER) - 60} fontSize="12" fill="#D1D5DB" fontWeight="bold">
-                      Notes & Observations:
-                    </text>
-                    {notes.split('\n').slice(0, 3).map((line, index) => (
-                      <text 
-                        key={index}
-                        x="20" 
-                        y={(stageHeight * PIXELS_PER_METER) - 45 + (index * 14)} 
-                        fontSize="10" 
-                        fill="#9CA3AF"
-                      >
-                        {line.slice(0, Math.floor(((stageWidth * PIXELS_PER_METER) - 40) / 6))}
-                      </text>
-                    ))}
-                  </g>
+                {/* Input List + Notes at bottom */}
+                {(() => {
+                  const stagePxW = stageWidth * PIXELS_PER_METER
+                  const stagePxH = stageHeight * PIXELS_PER_METER
+                  const channelItems = items.filter(i => i.channel != null).sort((a,b)=> (a.channel||0)-(b.channel||0))
+                  const sectionH = channelItems.length ? 120 : (notes ? 80 : 0)
+                  if (!sectionH) return null
+                  const yBase = stagePxH - sectionH
+                  return (
+                    <g>
+                      <rect x={10} y={yBase} width={stagePxW-20} height={sectionH-10} fill="#111827" stroke="#374151" strokeWidth="1" rx="6" />
+                      {channelItems.length ? (
+                        <g>
+                          <text x={20} y={yBase+20} fontSize="12" fill="#D1D5DB" fontWeight="bold">Input List</text>
+                          {channelItems.slice(0,28).map((it, idx) => (
+                            <text key={it.id} x={20} y={yBase+40+idx*14} fontSize="11" fill="#9CA3AF">
+                              {`${it.channel}. ${it.label}${it.ioType && it.ioType!=='other' ? ` (${it.ioType.toUpperCase()})` : ''}`}
+                            </text>
+                          ))}
+                        </g>
+                      ) : null}
+                      {notes ? (
+                        <g>
+                          <text x={stagePxW-20} y={yBase+20} fontSize="12" fill="#D1D5DB" fontWeight="bold" textAnchor="end">Notes</text>
+                          {notes.split('\n').slice(0,4).map((line, idx) => (
+                            <text key={idx} x={stagePxW-20} y={yBase+40+idx*14} fontSize="11" fill="#9CA3AF" textAnchor="end">
+                              {line}
+                            </text>
+                          ))}
+                        </g>
+                      ) : null}
+                    </g>
+                  )
+                })()}
+
+                {/* Selection rectangle on top */}
+                {isSelecting && selectionRect && (
+                  <rect 
+                    x={selectionRect.x} 
+                    y={selectionRect.y} 
+                    width={selectionRect.w} 
+                    height={selectionRect.h} 
+                    fill="rgba(59,130,246,0.15)" 
+                    stroke="#3B82F6" 
+                    strokeWidth={1}
+                    pointerEvents="none"
+                  />
                 )}
               </svg>
             </div>
@@ -2047,16 +2525,13 @@ function StagePlotCreator() {
             {/* Action Buttons */}
             <div className="flex gap-3">
               <button
-                onClick={() => setShowOnboarding(false)}
+                onClick={() => { try { localStorage.setItem('stageplot-onboarding-seen', 'true') } catch {}; setShowOnboarding(false) }}
                 className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
               >
                 Start Creating
               </button>
               <button
-                onClick={() => {
-                  localStorage.setItem('stageplot-onboarding-skipped', 'true')
-                  setShowOnboarding(false)
-                }}
+                onClick={() => { try { localStorage.setItem('stageplot-onboarding-skipped', 'true'); localStorage.setItem('stageplot-onboarding-seen', 'true') } catch {}; setShowOnboarding(false) }}
                 className="px-6 py-3 bg-gray-700 text-gray-200 rounded-lg hover:bg-gray-600 transition-colors"
               >
                 Skip Tutorial

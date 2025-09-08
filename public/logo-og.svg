@@ -1,54 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-labelledby="title desc">
+  <title id="title">RiderForge – Open Graph Image</title>
+  <desc id="desc">Blueprint background with stage plot grid mark and RiderForge wordmark</desc>
   <defs>
-    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#0f172a;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#020617;stop-opacity:1" />
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1020"/>
+      <stop offset="100%" stop-color="#050b18"/>
     </linearGradient>
-    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#10b981;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    <linearGradient id="rfGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e90ff"/>
+      <stop offset="100%" stop-color="#00d4aa"/>
     </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-      <feMerge> 
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
   </defs>
-  
+
   <!-- Background -->
-  <rect width="1200" height="630" fill="url(#bgGradient)"/>
-  
-  <!-- Logo container -->
-  <g transform="translate(600, 315)">
-    <!-- Background circle with gradient -->
-    <circle cx="0" cy="0" r="120" fill="url(#logoGradient)" filter="url(#glow)"/>
-    
-    <!-- Anvil icon (white) -->
-    <g transform="translate(-40, -20)" fill="white">
-      <!-- Anvil base -->
-      <rect x="-25" y="25" width="50" height="15" rx="3"/>
-      <!-- Anvil body -->
-      <rect x="-15" y="5" width="30" height="20"/>
-      <!-- Anvil horn -->
-      <path d="M-15 5 L-25 -5 L-5 -5 L-15 5 Z"/>
-    </g>
-    
-    <!-- Flame (green) -->
-    <g transform="translate(20, -30)" fill="#10b981">
-      <path d="M0 -20 Q-8 -15 -8 -5 Q-8 5 0 10 Q8 5 8 -5 Q8 -15 0 -20 Z"/>
-      <path d="M0 -15 Q-5 -10 -5 -2 Q-5 3 0 5 Q5 3 5 -2 Q5 -10 0 -15 Z" fill="#34d399"/>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle blueprint grid -->
+  <g stroke="#1e2a44" stroke-width="1">
+    <g opacity="0.35">
+      <!-- vertical lines every 60px -->
+      <path d="M60 0V630M120 0V630M180 0V630M240 0V630M300 0V630M360 0V630M420 0V630M480 0V630M540 0V630M600 0V630M660 0V630M720 0V630M780 0V630M840 0V630M900 0V630M960 0V630M1020 0V630M1080 0V630M1140 0V630"/>
+      <!-- horizontal lines every 60px -->
+      <path d="M0 60H1200M0 120H1200M0 180H1200M0 240H1200M0 300H1200M0 360H1200M0 420H1200M0 480H1200M0 540H1200"/>
     </g>
   </g>
-  
-  <!-- Text "Rider Forge" -->
-  <text x="600" y="450" font-family="Inter, system-ui, sans-serif" font-size="48" font-weight="700" text-anchor="middle" fill="white">
-    Rider Forge
-  </text>
-  <text x="600" y="500" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="400" text-anchor="middle" fill="#cbd5e1">
-    Criador Profissional de Riders Técnicos
+
+  <!-- Mark (scaled) -->
+  <g transform="translate(340, 230) scale(3.2)">
+    <rect x="-18" y="-18" width="36" height="36" rx="8" fill="url(#rfGradient)"/>
+    <g stroke="white" stroke-opacity="0.6" stroke-width="0.9">
+      <path d="M-6 -10 V10"/>
+      <path d="M6 -10 V10"/>
+      <path d="M-10 -4 H10"/>
+      <path d="M-10 4 H10"/>
+    </g>
+    <circle cx="0" cy="-11" r="1.8" fill="#ffffff"/>
+    <polygon points="-3,9 3,9 0,3" fill="#ffffff" opacity="0.95"/>
+  </g>
+
+  <!-- Wordmark -->
+  <g font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-weight="700">
+    <text x="680" y="300" font-size="88" fill="#e5e7eb">Rider</text>
+    <text x="680" y="380" font-size="88" fill="url(#rfGradient)">Forge</text>
+  </g>
+
+  <text x="680" y="450" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="28" font-weight="500" fill="#cbd5e1">
+    Technical Rider and Stage Plot Creator
   </text>
 </svg>

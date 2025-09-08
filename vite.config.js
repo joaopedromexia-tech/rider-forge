@@ -44,7 +44,7 @@ export default defineConfig({
           'pdf-vendor': ['pdfjs-dist', '@react-pdf/renderer', 'jspdf', 'html2canvas'],
           'stripe-vendor': ['@stripe/stripe-js', 'stripe'],
           'supabase-vendor': ['@supabase/supabase-js'],
-          'analytics-vendor': ['@vercel/analytics', '@vercel/speed-insights'],
+          'analytics-vendor': ['@vercel/analytics/react', '@vercel/speed-insights/react'],
           'utils-vendor': ['buffer', 'process', 'util']
         }
       }

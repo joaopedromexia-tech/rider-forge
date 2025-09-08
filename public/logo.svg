@@ -1,45 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" width="280" height="64" role="img" aria-labelledby="title desc">
+  <title id="title">RiderForge Logo</title>
+  <desc id="desc">Stage plot grid mark and RiderForge wordmark</desc>
   <defs>
-    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#1e90ff;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#00d4aa;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#1e90ff;stop-opacity:1" />
+    <linearGradient id="rfGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e90ff"/>
+      <stop offset="100%" stop-color="#00d4aa"/>
     </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-      <feMerge> 
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
   </defs>
-  
-  <!-- Background circle with gradient -->
-  <circle cx="30" cy="30" r="25" fill="url(#logoGradient)" filter="url(#glow)"/>
-  
-  <!-- Music note icon -->
-  <g transform="translate(20, 15)">
-    <!-- Note head -->
-    <ellipse cx="8" cy="25" rx="3" ry="2.5" fill="white"/>
-    <!-- Note stem -->
-    <rect x="10" y="10" width="2" height="15" fill="white"/>
-    <!-- Flag -->
-    <path d="M12 10 Q18 8 18 12 Q18 16 12 14" stroke="white" stroke-width="2" fill="none"/>
+
+  <!-- Mark (same as logo-mark.svg) -->
+  <g transform="translate(0,0)">
+    <rect x="6" y="6" width="52" height="52" rx="12" fill="url(#rfGradient)"/>
+    <g stroke="white" stroke-opacity="0.45" stroke-width="1.2">
+      <path d="M22 18 V46"/>
+      <path d="M42 18 V46"/>
+      <path d="M16 26 H50"/>
+      <path d="M16 38 H50"/>
+    </g>
+    <circle cx="32" cy="21" r="3.2" fill="#ffffff"/>
+    <polygon points="28,44 36,44 32,36" fill="#ffffff" opacity="0.95"/>
   </g>
-  
-  <!-- Technical diagram lines -->
-  <g stroke="white" stroke-width="1.5" fill="none" opacity="0.8">
-    <line x1="45" y1="15" x2="55" y2="15"/>
-    <line x1="45" y1="25" x2="55" y2="25"/>
-    <line x1="45" y1="35" x2="55" y2="35"/>
-    <line x1="45" y1="45" x2="55" y2="45"/>
+
+  <!-- Wordmark -->
+  <g font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-weight="700">
+    <text x="76" y="30" font-size="20" fill="#e5e7eb">Rider</text>
+    <text x="76" y="50" font-size="20" fill="url(#rfGradient)">Forge</text>
   </g>
-  
-  <!-- Text "Rider Forge" -->
-  <text x="70" y="25" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="white">
-    Rider
-  </text>
-  <text x="70" y="45" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="url(#logoGradient)">
-    Forge
-  </text>
 </svg>

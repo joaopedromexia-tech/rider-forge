@@ -302,7 +302,8 @@ export function RiderProvider({ children }) {
         })
         
         // Salvar versão (não bloqueante) - também para utilizadores autenticados
-        saveRiderVersion(data.id, riderData).catch(error => {
+        // Usa fallback para o id original se a API não devolver o id
+        saveRiderVersion(data?.id || id, riderData).catch(error => {
           console.warn('Error saving version for updated rider:', error)
         })
       } catch (error) {

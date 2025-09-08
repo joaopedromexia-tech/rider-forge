@@ -12,11 +12,14 @@ import { AuthProvider } from './context/AuthContext'
 import { GlobalFeedbackProvider } from './context/GlobalFeedbackContext'
 import AppRoutes from './routes/AppRoutes'
 import UpdateNotice from './components/UpdateNotice'
+import LocaleSync from './components/LocaleSync'
 
 // Componente principal que usa o router
 function AppContent() {
   return (
     <div className="App">
+      {/* Sincroniza o idioma com o path atual */}
+      <LocaleSync />
       <AppRoutes />
       
       {/* Update Notice */}

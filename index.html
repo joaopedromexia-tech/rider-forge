@@ -41,7 +41,7 @@
     <meta property="og:image" content="https://www.riderforge.app/logo-og.svg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Rider Forge - Logo with anvil and flame" />
+    <meta property="og:image:alt" content="RiderForge logo with stage plot grid" />
     <meta property="og:site_name" content="Rider Forge" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="pt_PT" />
@@ -52,7 +52,7 @@
     <meta name="twitter:title" content="RiderForge - Professional Technical Rider & Stage Plot Creator" />
     <meta name="twitter:description" content="Create professional technical riders and stage plots for concerts and events. Free online tool for audio engineers, bands, and music professionals." />
     <meta name="twitter:image" content="https://www.riderforge.app/logo-og.svg" />
-    <meta name="twitter:image:alt" content="Rider Forge - Logo with anvil and flame" />
+    <meta name="twitter:image:alt" content="RiderForge logo with stage plot grid" />
     
     <!-- Additional Meta Tags -->
     <meta name="theme-color" content="#1e90ff" />
@@ -146,22 +146,8 @@
         })(window, document, "clarity", "script", "t4qzti969r");
     </script>
     
-    <!-- Performance Scripts -->
+    <!-- Performance Scripts (SW registration only) -->
     <script>
-      // Preload critical resources
-      const criticalResources = [
-        '/src/main.jsx',
-        '/src/index.css'
-      ];
-      
-      criticalResources.forEach(resource => {
-        const link = document.createElement('link');
-        link.rel = 'preload';
-        link.href = resource;
-        link.as = resource.endsWith('.jsx') ? 'script' : 'style';
-        document.head.appendChild(link);
-      });
-      
       // Service Worker registration
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {

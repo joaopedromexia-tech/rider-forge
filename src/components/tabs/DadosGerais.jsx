@@ -51,14 +51,29 @@ function DadosGerais({ data, onChange, riderId }) {
       const generatedStagePlot = sessionStorage.getItem('riderForge_generatedStagePlot')
       if (generatedStagePlot) {
         const stagePlotData = JSON.parse(generatedStagePlot)
+        // Compute approximate byte size from data URL (base64)
+        const computeDataUrlSize = (dataUrl) => {
+          try {
+            if (!dataUrl || typeof dataUrl !== 'string') return 0
+            const parts = dataUrl.split(',')
+            if (parts.length < 2) return 0
+            const base64 = parts[1]
+            const padding = (base64.match(/=+$/) || [''])[0].length
+            return Math.max(0, Math.floor((base64.length * 3) / 4 - padding))
+          } catch {
+            return 0
+          }
+        }
+        const dataSize = computeDataUrlSize(stagePlotData.data)
         
         // Update the form data with the generated stage plot
         const newData = {
           ...formData,
           stagePlot: {
             data: stagePlotData.data,
-            name: stagePlotData.bandName || 'Generated Stage Plot',
+            name: (stagePlotData.bandName || 'Generated Stage Plot') + '.png',
             type: 'image/png',
+            size: dataSize,
             isGenerated: stagePlotData.isGenerated || false,
             layout: stagePlotData.layout || null
           }
@@ -590,7 +605,7 @@ function DadosGerais({ data, onChange, riderId }) {
                 </div>
                 <div className="text-sm text-gray-400">
                   <p><strong>{t('general.name')}:</strong> {formData.stagePlot.name}</p>
-                  <p><strong>{t('general.size')}:</strong> {formatFileSize(formData.stagePlot.size)}</p>
+                  <p><strong>{t('general.size')}:</strong> {formData.stagePlot.size ? formatFileSize(formData.stagePlot.size) : '—'}</p>
                 </div>
               </div>
             ) : (
