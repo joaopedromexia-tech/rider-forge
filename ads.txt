@@ -1,4 +1,1 @@
-# ads.txt file for riderforge.app
-# This file authorizes Google AdSense to display ads on this domain
-
 google.com, pub-8989918672180030, DIRECT, f08c47fec0942fa0

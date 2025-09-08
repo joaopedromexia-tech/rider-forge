@@ -1,0 +1,4 @@
+# Ensure ads.txt is served with correct content type
+<Files "ads.txt">
+    Header set Content-Type "text/plain; charset=utf-8"
+</Files>
