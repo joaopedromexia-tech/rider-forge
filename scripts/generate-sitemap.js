@@ -22,7 +22,7 @@ const routes = [
     path: '/',
     priority: '1.0',
     changefreq: 'weekly',
-    title: 'Rider Forge - Professional Technical Rider Creator',
+    title: 'RiderForge - Professional Technical Rider & Stage Plot Creator',
     description: 'Home page (EN)'
   },
   {
@@ -36,7 +36,7 @@ const routes = [
     path: '/pricing',
     priority: '0.9',
     changefreq: 'monthly',
-    title: 'Preços e Planos',
+    title: 'Pricing & Plans - Technical Rider Software',
     description: 'Página de preços e planos do Rider Forge'
   },
   // Dashboard removido do sitemap (área de usuário)
@@ -81,6 +81,28 @@ const routes = [
     changefreq: 'yearly',
     title: 'Termos de Uso e Privacidade',
     description: 'Termos e política de privacidade'
+  },
+  // New SEO-optimized pages
+  {
+    path: '/technical-rider-templates.html',
+    priority: '0.9',
+    changefreq: 'monthly',
+    title: 'Free Technical Rider Templates - Professional Audio Equipment Lists',
+    description: 'Free technical rider templates for bands, sound engineers, and music professionals'
+  },
+  {
+    path: '/how-to-create-technical-rider.html',
+    priority: '0.8',
+    changefreq: 'monthly',
+    title: 'How to Create a Technical Rider for a Band - Complete Guide',
+    description: 'Complete step-by-step guide for creating professional technical riders'
+  },
+  {
+    path: '/stage-plot-generator.html',
+    priority: '0.9',
+    changefreq: 'monthly',
+    title: 'Stage Plot Generator - Professional Stage Layout Creator',
+    description: 'Create professional stage plots for concerts and events with free online generator'
   }
 ]
 

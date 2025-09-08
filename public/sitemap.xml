@@ -3,10 +3,10 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">  
-  <!-- Home page (EN) - Optimized for "create tech rider" -->
+  <!-- Home page (EN) -->
   <url>
     <loc>https://www.riderforge.app/</loc>
-    <lastmod>2025-01-27T00:00:00.000Z</lastmod>
+    <lastmod>2025-09-08T00:51:19.579Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -14,39 +14,15 @@
   <!-- Página inicial (PT) -->
   <url>
     <loc>https://www.riderforge.app/pt</loc>
-    <lastmod>2025-01-27T00:00:00.000Z</lastmod>
+    <lastmod>2025-09-08T00:51:19.579Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-  </url>
-  
-  <!-- Tech Rider Creation Guide for Sound Engineers -->
-  <url>
-    <loc>https://www.riderforge.app/create-tech-rider</loc>
-    <lastmod>2025-01-27T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  
-  <!-- Tech Rider Templates for Sound Engineers -->
-  <url>
-    <loc>https://www.riderforge.app/tech-rider-templates</loc>
-    <lastmod>2025-01-27T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- How to Create Tech Rider Guide -->
-  <url>
-    <loc>https://www.riderforge.app/how-to-create-tech-rider</loc>
-    <lastmod>2025-01-27T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
   
   <!-- Página de preços e planos do Rider Forge -->
   <url>
     <loc>https://www.riderforge.app/pricing</loc>
-    <lastmod>2025-01-27T00:00:00.000Z</lastmod>
+    <lastmod>2025-09-08T00:51:19.579Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -54,7 +30,7 @@
   <!-- Página de assinatura Pro -->
   <url>
     <loc>https://www.riderforge.app/pro-subscription</loc>
-    <lastmod>2025-01-27T00:00:00.000Z</lastmod>
+    <lastmod>2025-09-08T00:51:19.579Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -62,7 +38,7 @@
   <!-- Página de suporte -->
   <url>
     <loc>https://www.riderforge.app/support</loc>
-    <lastmod>2025-01-27T00:00:00.000Z</lastmod>
+    <lastmod>2025-09-08T00:51:19.579Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -70,7 +46,7 @@
   <!-- Landing page EN -->
   <url>
     <loc>https://www.riderforge.app/technical-rider</loc>
-    <lastmod>2025-01-27T00:00:00.000Z</lastmod>
+    <lastmod>2025-09-08T00:51:19.579Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -78,7 +54,7 @@
   <!-- Landing page PT -->
   <url>
     <loc>https://www.riderforge.app/pt/rider-tecnico</loc>
-    <lastmod>2025-01-27T00:00:00.000Z</lastmod>
+    <lastmod>2025-09-08T00:51:19.579Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -86,7 +62,7 @@
   <!-- FAQ do Rider Forge -->
   <url>
     <loc>https://www.riderforge.app/faq</loc>
-    <lastmod>2025-01-27T00:00:00.000Z</lastmod>
+    <lastmod>2025-09-08T00:51:19.579Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -94,8 +70,32 @@
   <!-- Termos e política de privacidade -->
   <url>
     <loc>https://www.riderforge.app/terms-privacy</loc>
-    <lastmod>2025-01-27T00:00:00.000Z</lastmod>
+    <lastmod>2025-09-08T00:51:19.579Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
+  </url>
+  
+  <!-- Free technical rider templates for bands, sound engineers, and music professionals -->
+  <url>
+    <loc>https://www.riderforge.app/technical-rider-templates.html</loc>
+    <lastmod>2025-09-08T00:51:19.579Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Complete step-by-step guide for creating professional technical riders -->
+  <url>
+    <loc>https://www.riderforge.app/how-to-create-technical-rider.html</loc>
+    <lastmod>2025-09-08T00:51:19.579Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Create professional stage plots for concerts and events with free online generator -->
+  <url>
+    <loc>https://www.riderforge.app/stage-plot-generator.html</loc>
+    <lastmod>2025-09-08T00:51:19.579Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
 </urlset>

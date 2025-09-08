@@ -195,27 +195,27 @@ export const usePageSEO = (pageConfig) => {
  */
 export const SEO_CONFIGS = {
   home: {
-    title: 'Rider Forge - Professional Technical Rider Creator',
-    description: 'Create professional technical riders with ease. Complete software for musicians, sound technicians and producers. Professional templates, PDF export and real-time collaboration.',
-    keywords: 'technical rider, band rider, input list, backline, hospitality rider, stage requirements, soundcheck, audio engineer, musician tools, rider template, rider generator, equipment list',
+    title: 'RiderForge - Professional Technical Rider & Stage Plot Creator',
+    description: 'Create professional technical riders and stage plots for concerts and events. Free online tool for audio engineers, bands, and music professionals. Technical rider template generator.',
+    keywords: 'technical rider, stage plot, audio equipment list, music rider template, live sound equipment, concert rider, band rider, technical rider template, stage plot generator, audio rider creator, music equipment checklist, live music rider, sound engineer tools, concert equipment list, band stage plot, musician rider template, free technical rider template, professional stage plot software, audio equipment management, sound check list, live audio production',
     image: 'https://www.riderforge.app/images/og-image.png',
     url: 'https://www.riderforge.app/',
     type: 'website'
   },
   
   pricing: {
-    title: 'Preços e Planos',
-    description: 'Compare os planos do Rider Forge. Versão gratuita disponível e planos Pro com recursos avançados para profissionais.',
-    keywords: 'preços rider forge, planos, assinatura, versão gratuita, plano pro',
+    title: 'Pricing & Plans - Technical Rider Software',
+    description: 'Compare Free and Pro plans for RiderForge. Free technical rider templates available. Pro plan with unlimited riders, premium equipment library, and advanced features.',
+    keywords: 'technical rider software pricing, free technical rider template, pro audio software plans, stage plot software pricing, audio equipment software subscription, music production tools pricing, sound engineer software plans, professional rider creator pricing',
     image: 'https://www.riderforge.app/images/pricing-og.png',
     url: 'https://www.riderforge.app/pricing',
     type: 'website'
   },
   
   dashboard: {
-    title: 'Dashboard - Meus Riders',
-    description: 'Gerencie todos os seus riders técnicos em um só lugar. Crie, edite e organize seus riders profissionais.',
-    keywords: 'dashboard, meus riders, gestão riders, organização',
+    title: 'Dashboard - Manage Technical Riders',
+    description: 'Manage all your technical riders in one place. Create, edit, export and organize professional riders with ease. Access your rider library and templates.',
+    keywords: 'technical rider dashboard, manage riders, rider management software, audio equipment management, stage plot management, music rider organization, sound engineer dashboard, professional rider tools',
     image: 'https://www.riderforge.app/images/dashboard-og.png',
     url: 'https://www.riderforge.app/dashboard',
     type: 'website'
