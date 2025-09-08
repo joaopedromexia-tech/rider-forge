@@ -39,7 +39,8 @@ const ProSubscriptionPage = ({ onBack }) => {
         t('pro.plans.annual.features.advancedExport'),
         t('pro.plans.annual.features.unlimitedStorage'),
         t('pro.plans.annual.features.prioritySupport'),
-        t('pro.plans.annual.features.earlyAccess')
+        t('pro.plans.annual.features.earlyAccess'),
+        'Ad-free experience'
       ]
     }
   }

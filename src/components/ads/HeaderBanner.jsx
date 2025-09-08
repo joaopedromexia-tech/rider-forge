@@ -4,15 +4,15 @@ import { getAdSlot } from '../../config/adsense'
 
 function HeaderBanner({ className = '' }) {
   return (
-    <div className={`w-full flex justify-center py-2 ${className}`}>
+    <div className={`w-full flex justify-center py-1 ${className}`}>
       <AdSenseAd 
         adSlot={getAdSlot('HEADER_BANNER')}
         adFormat="auto"
-        className="max-w-4xl w-full"
+        className="max-w-2xl w-full"
         adStyle={{ 
           display: 'block',
-          minHeight: '90px',
-          maxHeight: '90px'
+          minHeight: '60px',
+          maxHeight: '60px'
         }}
       />
     </div>
