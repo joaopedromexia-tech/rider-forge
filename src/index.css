@@ -138,6 +138,13 @@
     @apply text-accent-blue bg-accent-blue/10 border border-accent-blue/20 shadow-lg shadow-accent-blue/10;
   }
 
+  /* Sticky tab bar styles */
+  .sticky-tab-bar {
+    @apply sticky top-0 z-50;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
   /* Inputs com design melhorado */
   .input-field {
     @apply w-full px-4 py-3 bg-dark-800/50 border border-dark-600/50 rounded-xl text-gray-100

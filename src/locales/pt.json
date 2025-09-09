@@ -23,6 +23,44 @@
   "home.footer": "Ferramenta profissional para criação de riders técnicos",
   "home.seo.keywords": "rider técnico, rider musical, equipamento musical, técnico de som, produção musical, rider forge, criar rider, rider profissional",
 
+  "home.articles.title": "Guias e Artigos",
+  "home.articles.subtitle": "Aprenda a criar riders técnicos e stage plots profissionais, com boas práticas relevantes.",
+  "home.articles.read": "Ler artigo",
+  "home.articles.items.howTo.title": "Como criar um Rider Técnico",
+  "home.articles.items.howTo.desc": "Guia passo a passo para construir um rider completo com inputs, backline e notas.",
+  "home.articles.items.stagePlot.title": "Gerador de Stage Plot",
+  "home.articles.items.stagePlot.desc": "Desenhe layouts de palco profissionais e partilhe com a sua equipa.",
+  "home.articles.items.createTool.title": "Criar Rider Técnico (Ferramenta Grátis)",
+  "home.articles.items.createTool.desc": "Use o criador gratuito para gerar e exportar o seu rider em minutos.",
+  "home.articles.items.ptRider.title": "O que é um Rider Técnico? (PT)",
+  "home.articles.items.ptRider.desc": "Artigo em Português com exemplos, input list e dicas práticas para criar riders técnicos.",
+
+  "home.rich.title": "Crie, Documente e Partilhe o seu Rider Técnico",
+  "home.rich.intro": "O rider técnico define requisitos de áudio, listas de entradas, stage plot e notas operacionais para concertos e eventos. Com o RiderForge cria documentação clara que ajuda técnicos, salas e equipas de produção a entregar melhores espetáculos.",
+  "home.rich.whatIs.title": "O que é um rider técnico?",
+  "home.rich.whatIs.p1": "Um rider técnico lista entradas (mics/DI), consolas, layout de palco, mixes de monitor e detalhes de backline. Garante soundchecks eficientes e expectativas alinhadas entre artista e promotor/sala.",
+  "home.rich.whatIs.p2": "Riders típicos incluem uma input list com números de canal, tipos de microfone, DI, pedestais e necessidade de phantom; um stage plot; e notas adicionais para técnicos de FOH e MON.",
+  "home.rich.howHelp.title": "Como o RiderForge ajuda",
+  "home.rich.howHelp.items.builder": "Construtor estruturado para dados gerais, PA, consolas, input list, monitor mixes e observações finais.",
+  "home.rich.howHelp.items.stagePlot": "Gerador de stage plot para visualizar posições de instrumentos, colunas e microfones.",
+  "home.rich.howHelp.items.templates": "Exemplos profissionais e boas práticas que pode aprender para a sua banda ou evento.",
+  "home.rich.howHelp.items.pdf": "Exportação PDF com tipografia clara e layout profissional.",
+  "home.rich.howHelp.items.collab": "Guardar versões e colaborar partilhando riders com a equipa.",
+  "home.rich.useCases.title": "Quando usar um rider",
+  "home.rich.useCases.items.band": "Bandas e artistas a preparar documentação de tour e specs para festivais.",
+  "home.rich.useCases.items.venue": "Salas que recolhem informação normalizada de produções visitantes.",
+  "home.rich.useCases.items.engineer": "Técnicos de FOH/MON a alinhar requisitos com promotores e fornecedores de backline.",
+  "home.rich.useCases.items.education": "Escolas e workshops que ensinam boas práticas de som ao vivo.",
+  "home.rich.faq.title": "FAQ",
+  "home.rich.faq.q1": "Preciso de conta para começar?",
+  "home.rich.faq.a1": "Pode começar um rider novo gratuitamente sem conta. Crie conta para guardar e gerir vários riders.",
+  "home.rich.faq.q2": "O que inclui o Pro?",
+  "home.rich.faq.a2": "O Pro inclui riders ilimitados, biblioteca profissional de equipamentos e histórico de versões; a versão gratuita tem limites ideais para começar.",
+  "home.rich.related.title": "Recursos relacionados",
+  "home.rich.related.links.stagePlot": "Gerador de Stage Plot",
+  "home.rich.related.links.templates": "Modelos de Rider Técnico",
+  "home.rich.related.links.howTo": "Como criar um Rider Técnico",
+
   "riders.seo.description": "Gerencie todos os seus riders técnicos num só lugar. Visualize, edite, exporte e organize riders profissionais com facilidade.",
   "riders.seo.keywords": "dashboard riders, gerir riders, riders técnicos, exportar riders, organizar riders, rider forge dashboard",
 
@@ -1119,5 +1157,3 @@
   "stageplot.equipment.hazer": "Máquina de Neblina",
   "stageplot.equipment.fogMachine": "Máquina de Fumaça"
 }
-
-

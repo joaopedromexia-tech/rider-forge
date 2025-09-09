@@ -82,14 +82,6 @@ const routes = [
     title: 'Termos de Uso e Privacidade',
     description: 'Termos e política de privacidade'
   },
-  // New SEO-optimized pages
-  {
-    path: '/technical-rider-templates.html',
-    priority: '0.9',
-    changefreq: 'monthly',
-    title: 'Free Technical Rider Templates - Professional Audio Equipment Lists',
-    description: 'Free technical rider templates for bands, sound engineers, and music professionals'
-  },
   {
     path: '/how-to-create-technical-rider.html',
     priority: '0.8',

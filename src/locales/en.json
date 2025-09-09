@@ -23,6 +23,44 @@
   "home.footer": "Professional Technical Rider & Stage Plot Creator for Audio Engineers",
   "home.seo.keywords": "technical rider, stage plot, audio equipment list, music rider template, live sound equipment, concert rider, band rider, sound engineer tools, professional audio software, stage plot generator, audio rider creator, music equipment checklist, live music rider, concert equipment list, band stage plot, musician rider template, free technical rider template, professional stage plot software, audio equipment management, sound check list, live audio production",
 
+  "home.articles.title": "Guides and Articles",
+  "home.articles.subtitle": "Learn how to create professional technical riders and stage plots. Practical guides to improve quality and relevance.",
+  "home.articles.read": "Read article",
+  "home.articles.items.howTo.title": "How to Create a Technical Rider",
+  "home.articles.items.howTo.desc": "Step-by-step guide to build a complete technical rider with inputs, backline, and notes.",
+  "home.articles.items.stagePlot.title": "Stage Plot Generator",
+  "home.articles.items.stagePlot.desc": "Design professional stage layouts and share them with your team.",
+  "home.articles.items.createTool.title": "Create a Tech Rider (Free Tool)",
+  "home.articles.items.createTool.desc": "Use the free builder to create and export your rider in minutes.",
+  "home.articles.items.ptRider.title": "O que é um Rider Técnico? (PT)",
+  "home.articles.items.ptRider.desc": "Portuguese article with examples, input lists and practical tips for creating technical riders.",
+
+  "home.rich.title": "Create, Document and Share Your Technical Rider",
+  "home.rich.intro": "A technical rider is the document that defines audio requirements, input lists, stage plots and operational notes for concerts and events. With RiderForge you create clear documentation that helps engineers, venues and production teams deliver better shows.",
+  "home.rich.whatIs.title": "What is a technical rider?",
+  "home.rich.whatIs.p1": "A technical rider lists inputs (mics/DI), consoles, stage layout, monitor mixes and backline details. It ensures that sound checks are efficient and that both the artist and the venue share the same expectations.",
+  "home.rich.whatIs.p2": "Typical riders include an input list with channel numbers, microphone types, DI boxes, stands and phantom power needs; a stage plot diagram; and additional notes for FOH and MON engineers.",
+  "home.rich.howHelp.title": "How RiderForge helps",
+  "home.rich.howHelp.items.builder": "Structured builder for general data, PA, consoles, input list, monitor mixes and final notes.",
+  "home.rich.howHelp.items.stagePlot": "Stage plot generator to visualize positions of instruments, speakers and microphones.",
+  "home.rich.howHelp.items.templates": "Professional examples and best practices you can learn from for your band or event.",
+  "home.rich.howHelp.items.pdf": "One‑click PDF export with clear typography and professional layout.",
+  "home.rich.howHelp.items.collab": "Save versions and collaborate by sharing riders with your team.",
+  "home.rich.useCases.title": "When to use a rider",
+  "home.rich.useCases.items.band": "Bands and solo artists preparing tour documentation and festival specs.",
+  "home.rich.useCases.items.venue": "Venues collecting standardized information from incoming productions.",
+  "home.rich.useCases.items.engineer": "FOH/MON engineers aligning requirements with promoters and backline providers.",
+  "home.rich.useCases.items.education": "Schools and workshops teaching live sound best practices.",
+  "home.rich.faq.title": "FAQ",
+  "home.rich.faq.q1": "Do I need an account to start?",
+  "home.rich.faq.a1": "You can start a new rider for free without an account. Create an account to save and manage multiple riders.",
+  "home.rich.faq.q2": "What features are included in Pro?",
+  "home.rich.faq.a2": "Pro includes unlimited riders, a professional equipment library and version history, while free users have limits that are ideal for getting started.",
+  "home.rich.related.title": "Related resources",
+  "home.rich.related.links.stagePlot": "Stage Plot Creator",
+  "home.rich.related.links.templates": "Technical Rider Examples",
+  "home.rich.related.links.howTo": "How to Create a Technical Rider",
+
   "riders.seo.description": "Manage all your technical riders in one place. View, edit, export and organize professional riders with ease.",
   "riders.seo.keywords": "rider dashboard, manage riders, technical riders, export riders, organize riders, rider forge dashboard",
 
@@ -1110,5 +1148,3 @@
   "stageplot.equipment.hazer": "Hazer",
   "stageplot.equipment.fogMachine": "Fog Machine"
 }
-
-

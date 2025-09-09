@@ -632,7 +632,7 @@ function RiderForm() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-dark-950/95 backdrop-blur-md border-b border-dark-800/50">
+      <div className="bg-dark-950/95 backdrop-blur-md border-b border-dark-800/50">
         <div className="max-w-7xl mx-auto px-4 py-2">
           <Breadcrumbs />
         </div>
@@ -779,8 +779,8 @@ function RiderForm() {
       </div>
 
       {/* Tabs Navigation */}
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="bg-dark-900/80 backdrop-blur-sm rounded-xl p-2 border border-dark-800/50 shadow-xl overflow-x-auto">
+      <div className="sticky top-0 z-[60] max-w-7xl mx-auto px-4 py-4">
+        <div className="bg-dark-900/95 backdrop-blur-md rounded-xl p-2 border border-dark-800/50 shadow-xl overflow-x-auto">
           <div 
             className="flex gap-1 min-w-max justify-center"
             role="tablist"
